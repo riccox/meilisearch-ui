@@ -1,4 +1,4 @@
-import { Autocomplete, Button, TextInput } from '@mantine/core';
+import { Autocomplete, Button, PasswordInput } from '@mantine/core';
 import { Logo } from '@/src/components/Logo';
 import { Footer } from '@/src/components/Footer';
 import { useAppStore } from '@/src/store';
@@ -74,7 +74,7 @@ function Start() {
             data={store.history.host}
             {...form.getInputProps('host')}
           />
-          <TextInput
+          <PasswordInput
             placeholder="Meilisearch Api Key"
             radius="md"
             size={'lg'}
