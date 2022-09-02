@@ -5,17 +5,23 @@ import { useQuery } from 'react-query';
 import { useMeiliClient } from '@/src/hooks/useMeiliClient';
 
 export const useInstanceStats = () => {
-  const store = useAppStore();
+  const host = useAppStore((state) => state.currentInstance?.host);
   const client = useMeiliClient();
 
   const [stats, setStats] = useState<Stats>();
 
   useQuery(
-    ['stats', store.config.host],
+    ['stats', host],
     async () => {
       return await client.getStats();
     },
-    { refetchOnMount: 'always', onSuccess: (res) => setStats(res) }
+    {
+      refetchOnMount: 'always',
+      onSuccess: (res) => setStats(res),
+      onError: (err) => {
+        console.warn('get meilisearch stats error', err);
+      },
+    }
   );
 
   return stats;

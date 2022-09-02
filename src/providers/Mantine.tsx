@@ -4,6 +4,7 @@ import { createEmotionCache, DefaultMantineColor, MantineProvider, Tuple } from 
 import theme from '@/src/style/theme.json';
 import _ from 'lodash';
 import { NotificationsProvider } from '@mantine/notifications';
+import { ModalsProvider } from '@mantine/modals';
 
 type CustomColors = 'brand' | 'success' | 'danger' | 'warning' | 'info';
 type ExtendedCustomColors = CustomColors | DefaultMantineColor;
@@ -30,13 +31,25 @@ export const MantineUIProvider: FC<Props> = ({ children }) => {
         primaryColor: 'brand',
       }}
     >
-      <NotificationsProvider
-        styles={(theme) => ({
-          radius: theme.radius.lg,
-        })}
+      <ModalsProvider
+        modalProps={{
+          centered: true,
+          lockScroll: true,
+          overflow: 'inside',
+          shadow: 'xl',
+          radius: 'lg',
+          padding: 'xl',
+          overlayOpacity: 0.3,
+        }}
       >
-        {children}
-      </NotificationsProvider>
+        <NotificationsProvider
+          styles={(theme) => ({
+            radius: theme.radius.lg,
+          })}
+        >
+          {children}
+        </NotificationsProvider>
+      </ModalsProvider>
     </MantineProvider>
   );
 };

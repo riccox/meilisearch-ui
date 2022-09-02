@@ -5,13 +5,13 @@ import { useQuery } from 'react-query';
 import { useMeiliClient } from '@/src/hooks/useMeiliClient';
 
 export const useIndexes = () => {
-  const store = useAppStore();
+  const host = useAppStore((state) => state.currentInstance?.host);
   const client = useMeiliClient();
 
   const [indexes, setIndexes] = useState<Index[]>();
 
   useQuery(
-    ['indexes', store.config.host],
+    ['indexes', host],
     async () => {
       return (await client.getIndexes()).results;
     },

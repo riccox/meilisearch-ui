@@ -29,14 +29,14 @@ export const Header = () => {
   const [health, setHealth] = useState<boolean>(true);
 
   useQuery(
-    ['version', store.config.host],
+    ['version', store.currentInstance?.host],
     async () => {
       return await client.getVersion();
     },
     { refetchOnMount: 'always', onSuccess: (res) => setVersion(res) }
   );
   useQuery(
-    ['health', store.config.host],
+    ['health', store.currentInstance?.host],
     async () => {
       return (await client.health()).status === 'available';
     },
@@ -44,13 +44,13 @@ export const Header = () => {
   );
 
   const onClickHost = useCallback(() => {
-    clipboard.copy(store.config.host);
+    clipboard.copy(store.currentInstance?.host);
     showNotification({
       color: 'success',
       title: 'Copied',
       message: 'Server Host Copied ✍',
     });
-  }, [store.config.host]);
+  }, [store.currentInstance?.host]);
   return (
     <div
       className={`bg-background-light 
@@ -75,7 +75,7 @@ export const Header = () => {
         variant="dot"
         color={'green'}
       >
-        Host: {store.config.host}
+        Host: {store.currentInstance?.host}
       </Badge>
       <Badge className={``} size="xl" radius="lg">
         Database Size: {stats?.databaseSize} Bytes

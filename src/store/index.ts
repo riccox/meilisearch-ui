@@ -1,41 +1,42 @@
 import create from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
 import produce from 'immer';
-import _ from 'lodash';
+
+export interface Instance {
+  name: string;
+  host: string;
+  apiKey: string;
+  addTime: Date;
+}
 
 interface State {
-  config: {
-    host: string;
-    apiKey: string;
-  };
-  history: {
-    host: string[];
-  };
-  start: (cfg: { host: string; apiKey: string }) => void;
+  currentInstance?: Instance;
+  instances: Instance[];
+  setCurrentInstance: (ins: Instance) => void;
+  addInstance: (cfg: Omit<Instance, 'addTime'>) => void;
 }
 
 export const useAppStore = create<State>()(
   devtools(
     persist(
       (set) => ({
-        config: {
-          host: 'http://127.0.0.1:7700',
-          apiKey: 'masterKey',
-        },
-        history: {
-          host: ['http://127.0.0.1:7700'],
-        },
-        start: (cfg) =>
+        instances: [],
+        setCurrentInstance: (ins) =>
           set(
             produce((state: State) => {
-              state.config = cfg;
-              state.history.host.push(cfg.host);
-              state.history.host = _.uniq(state.history.host);
+              state.currentInstance = ins;
+            })
+          ),
+        addInstance: (cfg) =>
+          set(
+            produce((state: State) => {
+              state.instances.push({ ...cfg, addTime: new Date() });
             })
           ),
       }),
       {
         name: 'meilisearch-ui-store',
+        version: 2,
       }
     )
   )
