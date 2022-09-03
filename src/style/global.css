@@ -35,6 +35,10 @@ body {
     @apply w-full h-full;
 }
 
+.fullscreen {
+    @apply w-screen h-screen;
+}
+
 a {
     @apply hover:underline hover:cursor-pointer;
     font-weight: 500;

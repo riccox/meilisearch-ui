@@ -97,12 +97,12 @@ function Dashboard() {
               </ActionIcon>
             </Tooltip>
             <Tooltip position={'bottom'} label="Tasks">
-              <ActionIcon variant="light" color="info">
+              <ActionIcon variant="light" color="info" onClick={() => onClickInstance(instance, '/task')}>
                 <IconListCheck size={24} />
               </ActionIcon>
             </Tooltip>
             <Tooltip position={'bottom'} label="Keys">
-              <ActionIcon variant="light" color="purple">
+              <ActionIcon variant="light" color="purple" onClick={() => onClickInstance(instance, '/keys')}>
                 <IconKey size={24} />
               </ActionIcon>
             </Tooltip>
@@ -128,7 +128,7 @@ function Dashboard() {
             onClick={() => setIsAddInstanceModalOpen(true)}
             className={`${instanceCardClassName}
             flex justify-center items-center 
-            hover:cursor-pointer hover:opacity-80 hover:border-neutral-200 
+            hover:cursor-pointer hover:opacity-80 hover:border-neutral-200 hover:border-2 
             bg-neutral-500 bg-opacity-30 border border-neutral-500 border-dashed`}
           >
             <IconCirclePlus color={'white'} opacity={0.5} size={48} />

@@ -9,22 +9,25 @@ import {
   IconSettings,
 } from '@tabler/icons';
 import { Link, useNavigate } from 'react-router-dom';
-import { useCallback, useState } from 'react';
+import { FC, useCallback, useState } from 'react';
 import { showNotification } from '@mantine/notifications';
 import { useClipboard } from '@mantine/hooks';
 import { useAppStore } from '@/src/store';
-import { Version } from 'meilisearch';
+import { MeiliSearch, Version } from 'meilisearch';
 import { useQuery } from 'react-query';
-import { useMeiliClient } from '@/src/hooks/useMeiliClient';
 import { useInstanceStats } from '@/src/hooks/useInstanceStats';
+import _ from 'lodash';
 
-export const Header = () => {
+interface Props {
+  client: MeiliSearch;
+}
+
+export const Header: FC<Props> = ({ client }) => {
   const navigate = useNavigate();
   const clipboard = useClipboard({ timeout: 500 });
   const store = useAppStore();
 
-  const client = useMeiliClient();
-  const stats = useInstanceStats();
+  const stats = useInstanceStats(client);
   const [version, setVersion] = useState<Version>();
   const [health, setHealth] = useState<boolean>(true);
 
@@ -53,7 +56,7 @@ export const Header = () => {
   }, [store.currentInstance?.host]);
   return (
     <div
-      className={`bg-background-light 
+      className={`bg-background-light flex-grow-0 flex-shrink
         flex justify-between items-center
         p-5 rounded-3xl drop-shadow-2xl`}
     >
@@ -67,6 +70,7 @@ export const Header = () => {
       >
         Home
       </Button>
+      <p className={`text-2xl underline font-bold`}>{_.truncate(store.currentInstance?.name, { length: 20 })}</p>
       <Badge
         className={`!cursor-pointer hover:border hover:border-brand-4`}
         onClick={onClickHost}
@@ -75,10 +79,10 @@ export const Header = () => {
         variant="dot"
         color={'green'}
       >
-        Host: {store.currentInstance?.host}
+        Host: {_.truncate(store.currentInstance?.host, { length: 40 })}
       </Badge>
       <Badge className={``} size="xl" radius="lg">
-        Database Size: {stats?.databaseSize} Bytes
+        Database Size: {_.ceil((stats?.databaseSize ?? 0) / 1048576, 2)} MB
       </Badge>
       <p className={`font-bold `}>Last Updated: {dayjs(stats?.lastUpdate).format('YYYY-MM-DD HH:mm:ss.SSS')}</p>
       <Badge className={``} size="xl" radius="lg" variant="dot" color={health ? 'green' : 'yellow'}>
@@ -106,11 +110,13 @@ export const Header = () => {
         <Menu.Dropdown>
           <Menu.Label>Instance</Menu.Label>
           <Menu.Item icon={<IconKey size={14} />}>Keys</Menu.Item>
-          <Menu.Item icon={<IconListCheck size={14} />}>Tasks</Menu.Item>
+          <Menu.Item icon={<IconListCheck size={14} />} component={Link} to={'/task'}>
+            Tasks
+          </Menu.Item>
           <Menu.Item icon={<IconDeviceFloppy size={14} />}>Dump</Menu.Item>
           <Menu.Divider />
           <Menu.Label>System</Menu.Label>
-          <Menu.Item color="red" icon={<IconArrowsLeftRight size={14} />} component={Link} to={'/start'}>
+          <Menu.Item color="red" icon={<IconArrowsLeftRight size={14} />} component={Link} to={'/'}>
             Change Instance
           </Menu.Item>
         </Menu.Dropdown>

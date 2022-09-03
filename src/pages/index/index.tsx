@@ -1,14 +1,17 @@
 import { Header } from '@/src/components/Header';
 import { useMemo, useState } from 'react';
-import { Badge, Button } from '@mantine/core';
+import { ActionIcon, Badge, Button } from '@mantine/core';
 import { useIndexes } from '@/src/hooks/useIndexes';
 import { useInstanceStats } from '@/src/hooks/useInstanceStats';
-import { Outlet } from 'react-router-dom';
+import { Link, Outlet } from 'react-router-dom';
 import { Index } from 'meilisearch';
+import { useMeiliClient } from '@/src/hooks/useMeiliClient';
+import { IconSquarePlus } from '@tabler/icons';
 
 function Indexes() {
-  const stats = useInstanceStats();
-  const indexes = useIndexes();
+  const client = useMeiliClient();
+  const stats = useInstanceStats(client);
+  const [indexes, indexesQuery] = useIndexes(client);
   const [currentIndex, setCurrentIndex] = useState<Index>();
 
   const indexList = useMemo(() => {
@@ -26,7 +29,7 @@ function Indexes() {
             <p className={`col-span-4 text-xl font-bold`}>{uid}</p>
             <div className={`col-span-4 flex justify-between items-center`}>
               <Badge size="lg" variant="outline">
-                Count: {indexStat?.numberOfDocuments}
+                Count: {indexStat?.numberOfDocuments ?? 0}
               </Badge>
               <div>{}</div>
               {indexStat?.isIndexing && <div>indexing</div>}
@@ -47,14 +50,19 @@ function Indexes() {
 
   return (
     <div className="bg-mount fill flex flex-col items-stretch p-5 gap-4">
-      <Header />
+      <Header client={client} />
       <div className={`flex-1 flex gap-4`}>
         <div
           className={`flex-1 bg-background-light 
         flex flex-col justify-start items-stretch
         p-6 rounded-3xl gap-y-2`}
         >
-          <div className={`font-extrabold text-3xl`}>🦄 Indexes</div>
+          <div className={`flex justify-between items-center`}>
+            <div className={`font-extrabold text-3xl`}>🦄 Indexes</div>
+            <ActionIcon className={``} variant={'light'} component={Link} to="/index/create">
+              <IconSquarePlus size={64} />
+            </ActionIcon>
+          </div>
           <div
             className={`flex-1
         flex flex-col justify-start items-stretch
@@ -68,7 +76,7 @@ function Indexes() {
         flex 
         p-5 rounded-3xl`}
         >
-          <Outlet context={currentIndex} />
+          <Outlet context={{ currentIndex, refreshIndexes: () => indexesQuery.refetch() }} />
         </div>
       </div>
     </div>

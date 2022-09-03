@@ -1,16 +1,14 @@
-import { Index } from 'meilisearch';
+import { Index, MeiliSearch } from 'meilisearch';
 import { useState } from 'react';
 import { useAppStore } from '@/src/store';
-import { useQuery } from 'react-query';
-import { useMeiliClient } from '@/src/hooks/useMeiliClient';
+import { useQuery, UseQueryResult } from 'react-query';
 
-export const useIndexes = () => {
+export const useIndexes = (client: MeiliSearch): [Index[], UseQueryResult] => {
   const host = useAppStore((state) => state.currentInstance?.host);
-  const client = useMeiliClient();
 
-  const [indexes, setIndexes] = useState<Index[]>();
+  const [indexes, setIndexes] = useState<Index[]>([]);
 
-  useQuery(
+  const query = useQuery(
     ['indexes', host],
     async () => {
       return (await client.getIndexes()).results;
@@ -18,5 +16,5 @@ export const useIndexes = () => {
     { refetchOnMount: 'always', onSuccess: (res) => setIndexes(res) }
   );
 
-  return indexes;
+  return [indexes, query];
 };

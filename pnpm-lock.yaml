@@ -14,6 +14,7 @@ specifiers:
   '@types/node': ^18.7.13
   '@types/react': ^18.0.17
   '@types/react-dom': ^18.0.6
+  '@uiball/loaders': ^1.2.6
   '@vitejs/plugin-react': ^2.0.1
   ahooks: ^3.7.0
   autoprefixer: ^10.4.8
@@ -44,6 +45,7 @@ dependencies:
   '@mantine/notifications': registry.npmmirror.com/@mantine/notifications/5.2.4_pnotznusn57yqwluzmavmqvgti
   '@mantine/nprogress': registry.npmmirror.com/@mantine/nprogress/5.2.4_pnotznusn57yqwluzmavmqvgti
   '@tabler/icons': registry.npmmirror.com/@tabler/icons/1.91.0_biqbaboplfbrettd7655fr4n2y
+  '@uiball/loaders': registry.npmmirror.com/@uiball/loaders/1.2.6_biqbaboplfbrettd7655fr4n2y
   ahooks: registry.npmmirror.com/ahooks/3.7.0_react@18.2.0
   dayjs: registry.npmmirror.com/dayjs/1.11.5
   immer: registry.npmmirror.com/immer/9.0.15
@@ -1158,6 +1160,19 @@ packages:
     resolution: { integrity: sha512-hppQEBDmlwhFAXKJX2KnWLYu5yMfi91yazPb2l+lbJiwW+wdo1gNeRA+3RgNSO39WYX2euey41KEwnqesU2Jew==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/scheduler/-/scheduler-0.16.2.tgz }
     name: '@types/scheduler'
     version: 0.16.2
+
+  registry.npmmirror.com/@uiball/loaders/1.2.6_biqbaboplfbrettd7655fr4n2y:
+    resolution: { integrity: sha512-Db3be5pG9ciZa1Rxr6Iwv8bIwVP+g00m3GYQFsu3j7B9T16MpHhnGXLksuNtKlePdP3FCTFGpFrXbJz4GG/OOg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@uiball/loaders/-/loaders-1.2.6.tgz }
+    id: registry.npmmirror.com/@uiball/loaders/1.2.6
+    name: '@uiball/loaders'
+    version: 1.2.6
+    peerDependencies:
+      react: '>=16.8.0'
+      react-dom: '>=16.8.0'
+    dependencies:
+      react: registry.npmmirror.com/react/18.2.0
+      react-dom: registry.npmmirror.com/react-dom/18.2.0_react@18.2.0
+    dev: false
 
   registry.npmmirror.com/@vitejs/plugin-react/2.0.1_vite@3.0.9:
     resolution: { integrity: sha512-uINzNHmjrbunlFtyVkST6lY1ewSfz/XwLufG0PIqvLGnpk2nOIOa/1CACTDNcKi1/RwaCzJLmsXwm1NsUVV/NA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@vitejs/plugin-react/-/plugin-react-2.0.1.tgz }
