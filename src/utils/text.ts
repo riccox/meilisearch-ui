@@ -1,6 +1,7 @@
 import { EnqueuedTask } from 'meilisearch';
 import { MantineColor } from '@mantine/core';
 import { showNotification } from '@mantine/notifications';
+import dayjs from 'dayjs';
 
 export const getTaskSubmitMessage = (task: EnqueuedTask): string => {
   return `Status ${task.status}, task uid ${task.taskUid} 🚀`;
@@ -13,7 +14,7 @@ const enum TaskStatus {
   TASK_ENQUEUED = 'enqueued',
 }
 
-const TaskColors: Record<TaskStatus, MantineColor> = {
+export const TaskColors: Record<TaskStatus, MantineColor> = {
   [TaskStatus.TASK_SUCCEEDED]: 'success',
   [TaskStatus.TASK_ENQUEUED]: 'info',
   [TaskStatus.TASK_FAILED]: 'warning',
@@ -26,4 +27,12 @@ export const showTaskSubmitNotification = (task: EnqueuedTask): void => {
     title: `Task ${task.status}`,
     message: getTaskSubmitMessage(task),
   });
+};
+
+export const getTimeText = (date: dayjs.ConfigType): string => {
+  return dayjs(date).format('YYYY-MM-DD HH:mm:ss.SSS');
+};
+
+export const stringifyJsonPretty = (json?: string | object) => {
+  return JSON.stringify(json, undefined, 2);
 };

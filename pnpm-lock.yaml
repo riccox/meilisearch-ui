@@ -19,6 +19,7 @@ specifiers:
   ahooks: ^3.7.0
   autoprefixer: ^10.4.8
   dayjs: ^1.11.5
+  fuse.js: ^6.6.2
   immer: ^9.0.15
   lodash: ^4.17.21
   meilisearch: ^0.27.0
@@ -48,6 +49,7 @@ dependencies:
   '@uiball/loaders': registry.npmmirror.com/@uiball/loaders/1.2.6_biqbaboplfbrettd7655fr4n2y
   ahooks: registry.npmmirror.com/ahooks/3.7.0_react@18.2.0
   dayjs: registry.npmmirror.com/dayjs/1.11.5
+  fuse.js: registry.npmmirror.com/fuse.js/6.6.2
   immer: registry.npmmirror.com/immer/9.0.15
   lodash: registry.npmmirror.com/lodash/4.17.21
   meilisearch: registry.npmmirror.com/meilisearch/0.27.0
@@ -1929,6 +1931,13 @@ packages:
     resolution: { integrity: sha512-yIovAzMX49sF8Yl58fSCWJ5svSLuaibPxXQJFLmBObTuCr0Mf1KiPopGM9NiFjiYBCbfaa2Fh6breQ6ANVTI0A==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/function-bind/-/function-bind-1.1.1.tgz }
     name: function-bind
     version: 1.1.1
+
+  registry.npmmirror.com/fuse.js/6.6.2:
+    resolution: { integrity: sha512-cJaJkxCCxC8qIIcPBF9yGxY0W/tVZS3uEISDxhYIdtk8OL93pe+6Zj7LjCqVV4dzbqcriOZ+kQ/NE4RXZHsIGA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/fuse.js/-/fuse.js-6.6.2.tgz }
+    name: fuse.js
+    version: 6.6.2
+    engines: { node: '>=10' }
+    dev: false
 
   registry.npmmirror.com/gensync/1.0.0-beta.2:
     resolution: { integrity: sha512-3hN7NaskYvMDLQY55gnW3NQ+mesEAepTqlg+VEbj7zzqEMBVNhzcGYYeqFo/TlYz6eQiFcp1HcsCZO+nGgS8zg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/gensync/-/gensync-1.0.0-beta.2.tgz }

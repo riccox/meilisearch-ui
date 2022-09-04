@@ -49,7 +49,7 @@ function Indexes() {
   }, [indexes, stats?.indexes]);
 
   return (
-    <div className="bg-mount fill flex flex-col items-stretch p-5 gap-4">
+    <div className="bg-mount full-page items-stretch p-5 gap-4">
       <Header client={client} />
       <div className={`flex-1 flex gap-4`}>
         <div

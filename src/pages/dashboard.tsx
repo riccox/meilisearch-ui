@@ -97,7 +97,7 @@ function Dashboard() {
               </ActionIcon>
             </Tooltip>
             <Tooltip position={'bottom'} label="Tasks">
-              <ActionIcon variant="light" color="info" onClick={() => onClickInstance(instance, '/task')}>
+              <ActionIcon variant="light" color="info" onClick={() => onClickInstance(instance, '/tasks')}>
                 <IconListCheck size={24} />
               </ActionIcon>
             </Tooltip>
@@ -118,7 +118,7 @@ function Dashboard() {
   }, [instances]);
 
   return (
-    <div className="bg-mount fill flex flex-col justify-center items-center gap-y-6">
+    <div className="bg-mount full-page justify-center items-center gap-y-6">
       <div className={`w-1/4 h-2/3 flex flex-col justify-center items-center gap-y-10`}>
         <Logo />
         <h1 className={`text-brand-2 font-bold`}>A Beautiful Meilisearch UI</h1>

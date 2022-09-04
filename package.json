@@ -21,6 +21,7 @@
     "@uiball/loaders": "^1.2.6",
     "ahooks": "^3.7.0",
     "dayjs": "^1.11.5",
+    "fuse.js": "^6.6.2",
     "immer": "^9.0.15",
     "lodash": "^4.17.21",
     "meilisearch": "^0.27.0",

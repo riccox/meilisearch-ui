@@ -56,7 +56,7 @@ export const Header: FC<Props> = ({ client }) => {
   }, [store.currentInstance?.host]);
   return (
     <div
-      className={`bg-background-light flex-grow-0 flex-shrink
+      className={`bg-background-light
         flex justify-between items-center
         p-5 rounded-3xl drop-shadow-2xl`}
     >
@@ -110,7 +110,7 @@ export const Header: FC<Props> = ({ client }) => {
         <Menu.Dropdown>
           <Menu.Label>Instance</Menu.Label>
           <Menu.Item icon={<IconKey size={14} />}>Keys</Menu.Item>
-          <Menu.Item icon={<IconListCheck size={14} />} component={Link} to={'/task'}>
+          <Menu.Item icon={<IconListCheck size={14} />} component={Link} to={'/tasks'}>
             Tasks
           </Menu.Item>
           <Menu.Item icon={<IconDeviceFloppy size={14} />}>Dump</Menu.Item>

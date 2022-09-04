@@ -16,19 +16,23 @@
 }
 
 /* make body fill full page */
-html, body {
-    margin: 0;
-    height: 100%;
+html {
+    @apply w-screen h-screen;
 }
 
 body {
-    @apply w-screen bg-background-brand;
+    @apply h-full w-full m-0 p-0 border-0 align-baseline  !important;
+    @apply transition-colors duration-300 ease-in-out;
+    @apply bg-background-brand;
     min-width: 320px;
     min-height: 100vh;
 }
 
 #root {
-    @apply w-full h-full;
+}
+
+.full-page {
+    @apply flex flex-col w-screen h-screen overflow-hidden !important;
 }
 
 .fill {

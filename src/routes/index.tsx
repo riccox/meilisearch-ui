@@ -12,7 +12,7 @@ export const AppRoutes = () => {
   return (
     <Suspense
       fallback={
-        <div className={`flex fill justify-center items-center`}>
+        <div className={`flex full-page justify-center items-center`}>
           <Loader size={120} />
         </div>
       }
@@ -25,7 +25,7 @@ export const AppRoutes = () => {
             <Route path="create" element={<CreateIndex />} />
           </Route>
         </Route>
-        <Route path="task" element={<Tasks />} />
+        <Route path="tasks" element={<Tasks />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Suspense>
