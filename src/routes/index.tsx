@@ -7,6 +7,7 @@ import { Suspense } from 'react';
 import { Loader } from '@/src/components/Loader';
 import { CreateIndex } from '@/src/pages/index/create';
 import Tasks from '@/src/pages/task';
+import Keys from '@/src/pages/key';
 
 export const AppRoutes = () => {
   return (
@@ -26,6 +27,7 @@ export const AppRoutes = () => {
           </Route>
         </Route>
         <Route path="tasks" element={<Tasks />} />
+        <Route path="keys" element={<Keys />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Suspense>

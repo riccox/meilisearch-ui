@@ -89,7 +89,7 @@ export const Header: FC<Props> = ({ client }) => {
         Status: {health ? 'Available' : 'Unknown'}
       </Badge>
 
-      <HoverCard shadow="lg" radius={'lg'} transition={'fade'}>
+      <HoverCard withinPortal shadow="lg" radius={'lg'} transition={'fade'}>
         <HoverCard.Target>
           <Badge className={``} size="xl" radius="lg">
             Version: {version?.pkgVersion}
@@ -101,7 +101,7 @@ export const Header: FC<Props> = ({ client }) => {
         </HoverCard.Dropdown>
       </HoverCard>
 
-      <Menu shadow="xl" width={180} radius={'lg'} transition={'pop'}>
+      <Menu withinPortal shadow="xl" width={180} radius={'lg'} transition={'pop'}>
         <Menu.Target>
           <ActionIcon color="primary" size="lg" radius="xl" variant="outline">
             <IconSettings size={26} />
@@ -109,11 +109,15 @@ export const Header: FC<Props> = ({ client }) => {
         </Menu.Target>
         <Menu.Dropdown>
           <Menu.Label>Instance</Menu.Label>
-          <Menu.Item icon={<IconKey size={14} />}>Keys</Menu.Item>
+          <Menu.Item icon={<IconKey size={14} />} component={Link} to={'/keys'}>
+            Keys
+          </Menu.Item>
           <Menu.Item icon={<IconListCheck size={14} />} component={Link} to={'/tasks'}>
             Tasks
           </Menu.Item>
-          <Menu.Item icon={<IconDeviceFloppy size={14} />}>Dump</Menu.Item>
+          <Menu.Item icon={<IconDeviceFloppy size={14} />} component={Link} to={'/dumps'}>
+            Dump
+          </Menu.Item>
           <Menu.Divider />
           <Menu.Label>System</Menu.Label>
           <Menu.Item color="red" icon={<IconArrowsLeftRight size={14} />} component={Link} to={'/'}>

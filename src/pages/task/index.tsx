@@ -9,23 +9,37 @@ import { useAppStore } from '@/src/store';
 import { Header } from '@/src/components/Header';
 import { getTimeText, stringifyJsonPretty, TaskColors } from '@/src/utils/text';
 import _ from 'lodash';
+import { TaskTypes } from 'meilisearch/src/types/types';
+import { useDebounceFn } from 'ahooks';
 
 function Tasks() {
   const client = useMeiliClient();
   const host = useAppStore((state) => state.currentInstance?.host);
   const [isTaskDetailModalOpen, setIsTaskDetailModalOpen] = useState<boolean>(false);
   const [taskDetailModalContent, setTaskDetailModalContent] = useState<Task>();
-  const [tasks, setTasks] = useState<TasksResults>();
+  const [tasks, setTasks] = useState<TasksResults['results']>([]);
+  const [fuse] = useState<Fuse<TasksResults['results'][0]>>(
+    new Fuse(tasks ?? [], {
+      keys: ['uid', 'indexUid', 'status', 'type', 'error.code', 'error.code', 'error.message'],
+    })
+  );
+  const [queryParams, setQueryParams] = useState<{
+    from?: number;
+  }>({});
   const [filter, setFilter] = useState<{ query: string; status?: string; type?: string }>({ query: '' });
 
-  useQuery(
+  const tasksQuery = useQuery(
     ['tasks', host],
     async () => {
-      return await client.getTasks();
+      return await client.getTasks(queryParams);
     },
     {
+      keepPreviousData: true,
       refetchOnMount: 'always',
-      onSuccess: (res) => setTasks(res),
+      onSuccess: (res) => {
+        setTasks((prev) => _.unionBy(prev.concat(res.results), 'uid'));
+        setQueryParams({ from: res.next === null ? undefined : res.next });
+      },
       onError: (err) => {
         console.warn('get meilisearch tasks error', err);
       },
@@ -33,21 +47,28 @@ function Tasks() {
   );
 
   const filteredTasks = useMemo(() => {
-    if (tasks?.results && tasks.results.length > 0) {
-      const fuse = new Fuse(tasks.results, {
-        keys: ['uid', 'indexUid', 'status', 'type', 'error.code', 'error.code', 'error.message'],
-      });
-      let res: Task[] = [];
+    if (tasks.length > 0) {
+      console.debug('[filteredTasks tasks exists]', tasks.length);
+      fuse.setCollection(tasks);
+      let res: Task[] = tasks;
       if (!_.isEmpty(filter.query)) {
         res = fuse.search(filter.query).map((e) => e.item);
+        console.debug('[filteredTasks exec search]', res.length);
       }
-      // TODO
+      if (!_.isEmpty(filter.type)) {
+        res = res.filter((v) => v.type === filter.type);
+        console.debug('[filteredTasks exec type]', res.length);
+      }
+      if (!_.isEmpty(filter.status)) {
+        res = res.filter((v) => v.status === filter.status);
+        console.debug('[filteredTasks exec status]', res.length);
+      }
 
       return res;
     } else {
-      return [];
+      return tasks ?? [];
     }
-  }, [tasks?.results, filter]);
+  }, [tasks, filter]);
 
   const onClickDetail = useCallback((task: Task) => {
     setTaskDetailModalContent(task);
@@ -55,13 +76,13 @@ function Tasks() {
   }, []);
 
   const taskList = useMemo(() => {
-    if (tasks?.results && tasks.results.length > 0) {
-      return tasks.results.map((t) => {
+    if (filteredTasks.length > 0) {
+      return filteredTasks.map((t) => {
         const uid = t.uid;
         return (
           <div
             key={t.uid}
-            className={`cursor-pointer p-3 rounded-xl flex flex-col justify-between gap-y-2
+            className={`cursor-pointer overflow-hidden p-3 rounded-xl flex flex-col justify-between gap-y-2
            bg-brand-1 hover:bg-opacity-30 hover:ring ring-brand-4 bg-opacity-20`}
             onClick={() => onClickDetail(t)}
           >
@@ -87,12 +108,23 @@ function Tasks() {
       });
     } else {
       return (
-        <div className={`flex-1`}>
+        <div className={`col-span-full`}>
           <EmptyArea />
         </div>
       );
     }
-  }, [tasks?.results]);
+  }, [filteredTasks]);
+
+  const { run: onScrollEnd } = useDebounceFn(
+    () => {
+      console.debug('[onScrollEnd]');
+      tasksQuery.refetch().then();
+    },
+    {
+      wait: 500,
+      leading: true,
+    }
+  );
 
   return (
     <div className="bg-mount full-page items-stretch p-5 gap-4">
@@ -104,19 +136,26 @@ function Tasks() {
       >
         <div className={`flex justify-between items-center gap-x-6`}>
           <div className={`font-extrabold text-3xl`}>🦄 Tasks</div>
-          <TextInput className={` flex-1`} placeholder={'Search tasks'} radius={'lg'}></TextInput>
+          <TextInput
+            className={` flex-1`}
+            placeholder={'Search tasks'}
+            radius={'lg'}
+            onChange={({ target: { value } }) => value && setFilter((filter) => ({ ...filter, query: value }))}
+          ></TextInput>
 
           <Select
             placeholder="Filter Task Type"
             clearable
             radius={'lg'}
             data={[
-              { value: 'react', label: 'React' },
-              { value: 'ng', label: 'Angular' },
-              { value: 'svelte', label: 'Svelte' },
-              { value: 'vue', label: 'Vue' },
+              { value: TaskTypes.DOCUMENT_DELETION, label: 'DOCUMENT_DELETION' },
+              { value: TaskTypes.DOCUMENTS_ADDITION_OR_UPDATE, label: 'DOCUMENTS_ADDITION_OR_UPDATE' },
+              { value: TaskTypes.INDEX_DELETION, label: 'INDEX_DELETION' },
+              { value: TaskTypes.INDEX_UPDATE, label: 'INDEX_UPDATE' },
+              { value: TaskTypes.INDEX_CREATION, label: 'INDEX_CREATION' },
+              { value: TaskTypes.SETTINGS_UPDATE, label: 'SETTINGS_UPDATE' },
             ]}
-            onChange={(value) => value && setFilter((filter) => ({ ...filter, type: value }))}
+            onChange={(value) => setFilter((filter) => ({ ...filter, type: value ?? undefined }))}
           />
           <Select
             placeholder="Filter Task Status"
@@ -128,12 +167,20 @@ function Tasks() {
               { value: 'failed', label: 'Failed ❌' },
               { value: 'enqueued', label: 'Enqueued 🔀' },
             ]}
-            onChange={(value) => value && setFilter((filter) => ({ ...filter, status: value }))}
+            onChange={(value) => setFilter((filter) => ({ ...filter, status: value ?? undefined }))}
           />
         </div>
         <div
           className={`flex-1 overflow-y-scroll remove-scroll-bar
-        grid grid-cols-3 gap-4 p-2`}
+        grid grid-cols-3 auto-rows-max gap-4 p-2`}
+          onScroll={(element) => {
+            const scrollLength = element.currentTarget.scrollHeight - element.currentTarget.clientHeight;
+            const scrollAt = element.currentTarget.scrollTop;
+            // console.debug('[scroll]', scrollLength, scrollAt);
+            if (scrollLength === scrollAt) {
+              onScrollEnd();
+            }
+          }}
         >
           {taskList}
         </div>
