@@ -1,0 +1,38 @@
+/* Works on Firefox */
+* {
+    scrollbar-width: 0.3rem;
+    scrollbar-color: rgb(150, 150, 150) transparent;
+}
+
+/* Works on Chrome, Edge, and Safari */
+*::-webkit-scrollbar {
+    /* avoid div width shift from scrollbar */
+    width: 0.3rem;
+    height: 0.3rem;
+    background: transparent;
+}
+
+*::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: rgb(150, 150, 150);
+    border: 0.15rem solid transparent;
+    border-radius: 1.4rem;
+    -webkit-border-radius: 1.4rem;
+    -moz-border-radius: 1.4rem;
+    -ms-border-radius: 1.4rem;
+    -o-border-radius: 1.4rem;
+}
+
+
+.remove-scroll-bar::-webkit-scrollbar {
+    /* Hide scrollbar for Chrome, Safari and Opera */
+    display: none !important;
+}
+
+.remove-scroll-bar::-webkit-scrollbar {
+    -ms-overflow-style: none !important; /* IE and Edge */
+    scrollbar-width: none !important; /* Firefox */
+}

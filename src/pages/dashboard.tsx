@@ -122,7 +122,7 @@ function Dashboard() {
       <div className={`w-1/4 h-2/3 flex flex-col justify-center items-center gap-y-10`}>
         <Logo />
         <h1 className={`text-brand-2 font-bold`}>A Beautiful Meilisearch UI</h1>
-        <div className={`grid grid-cols-1 gap-y-3 w-full p-1 remove-scroll-bar overflow-y-scroll`}>
+        <div className={`grid grid-cols-1 gap-y-3 w-full p-1  overflow-y-scroll`}>
           {instancesList}
           <div
             onClick={() => setIsAddInstanceModalOpen(true)}

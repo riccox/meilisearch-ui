@@ -3,7 +3,6 @@ lockfileVersion: 5.4
 specifiers:
   '@emotion/react': ^11.10.0
   '@mantine/core': ^5.2.4
-  '@mantine/dates': ^5.2.4
   '@mantine/form': ^5.2.4
   '@mantine/hooks': ^5.2.4
   '@mantine/modals': ^5.2.4
@@ -39,7 +38,6 @@ specifiers:
 dependencies:
   '@emotion/react': registry.npmmirror.com/@emotion/react/11.10.0_ug65io7jkbhmo4fihdmbrh3ina
   '@mantine/core': registry.npmmirror.com/@mantine/core/5.2.4_mqqlvahrhahrm6opx42tctcjti
-  '@mantine/dates': registry.npmmirror.com/@mantine/dates/5.2.4_gaf5trtpzbfzdsbjfgyog4z2d4
   '@mantine/form': registry.npmmirror.com/@mantine/form/5.2.4_react@18.2.0
   '@mantine/hooks': registry.npmmirror.com/@mantine/hooks/5.2.4_react@18.2.0
   '@mantine/modals': registry.npmmirror.com/@mantine/modals/5.2.4_pnotznusn57yqwluzmavmqvgti
@@ -658,24 +656,6 @@ packages:
     transitivePeerDependencies:
       - '@emotion/react'
       - '@types/react'
-    dev: false
-
-  registry.npmmirror.com/@mantine/dates/5.2.4_gaf5trtpzbfzdsbjfgyog4z2d4:
-    resolution: { integrity: sha512-KlvU5yTT3d2eSeQ4p1hcz+vsh5Od04zw9qHW06y6j15oOP1eDLIyDfUf5QKqNGdF5N+B5kw5yre9q8XwvRV4vA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@mantine/dates/-/dates-5.2.4.tgz }
-    id: registry.npmmirror.com/@mantine/dates/5.2.4
-    name: '@mantine/dates'
-    version: 5.2.4
-    peerDependencies:
-      '@mantine/core': 5.2.4
-      '@mantine/hooks': 5.2.4
-      dayjs: '>=1.0.0'
-      react: '>=16.8.0'
-    dependencies:
-      '@mantine/core': registry.npmmirror.com/@mantine/core/5.2.4_mqqlvahrhahrm6opx42tctcjti
-      '@mantine/hooks': registry.npmmirror.com/@mantine/hooks/5.2.4_react@18.2.0
-      '@mantine/utils': registry.npmmirror.com/@mantine/utils/5.2.4_react@18.2.0
-      dayjs: registry.npmmirror.com/dayjs/1.11.5
-      react: registry.npmmirror.com/react/18.2.0
     dev: false
 
   registry.npmmirror.com/@mantine/form/5.2.4_react@18.2.0:

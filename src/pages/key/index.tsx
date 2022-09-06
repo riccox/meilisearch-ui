@@ -1,51 +1,70 @@
+import './index.css';
 import { useCallback, useMemo, useState } from 'react';
-import { Modal, TextInput } from '@mantine/core';
+import { ActionIcon, Badge, Button, CopyButton, Modal, MultiSelect, Table, TextInput, Tooltip } from '@mantine/core';
 import { useMeiliClient } from '@/src/hooks/useMeiliClient';
 import { Key } from 'meilisearch';
 import { EmptyArea } from '@/src/components/EmptyArea';
-import { useQuery } from 'react-query';
+import { useInfiniteQuery } from 'react-query';
 import Fuse from 'fuse.js';
 import { useAppStore } from '@/src/store';
 import { Header } from '@/src/components/Header';
 import { getTimeText } from '@/src/utils/text';
 import _ from 'lodash';
 import { useDebounceFn } from 'ahooks';
+import { hiddenRequestLoader, showRequestLoader } from '@/src/utils/loader';
+import { IconCheck, IconCopy } from '@tabler/icons';
+import { Footer } from '@/src/components/Footer';
+import { useForm } from '@mantine/form';
+import { showNotification } from '@mantine/notifications';
+import { useIndexes } from '@/src/hooks/useIndexes';
+import dayjs from 'dayjs';
+import { openConfirmModal } from '@mantine/modals';
 
 function Keys() {
   const client = useMeiliClient();
+  // list as many as possible
+  const [indexes] = useIndexes(client, { limit: 1000 });
   const host = useAppStore((state) => state.currentInstance?.host);
   const [isCreateKeyModalOpen, setIsCreateKeyModalOpen] = useState<boolean>(false);
-  const [keys, setKeys] = useState<Key[]>([]);
   const [fuse] = useState<Fuse<Key>>(
-    new Fuse(keys ?? [], {
-      keys: ['uid', 'description', 'name', 'actions', 'indexes'],
+    new Fuse([], {
+      keys: ['uid', 'description', 'name', 'actions', 'indexes', 'createAt', 'updateAt', 'expiresAt'],
     })
   );
-  const [queryParams, setQueryParams] = useState<{
-    offset: number;
-    limit: number;
-  }>({ offset: 0, limit: 20 });
   const [filter, setFilter] = useState<{ query: string; actions?: string[] }>({ query: '' });
 
-  const keysQuery = useQuery(
+  const keysQuery = useInfiniteQuery(
     ['keys', host],
-    async () => {
-      return await client.getKeys(queryParams);
+    async ({ pageParam }) => {
+      showRequestLoader();
+      return await client.getKeys(pageParam);
     },
     {
       keepPreviousData: true,
       refetchOnMount: 'always',
-      onSuccess: (res) => {
-        setKeys((prev) => _.unionBy(prev.concat(res.results), 'uid'));
-        setQueryParams((prev) => ({ ...prev, offset: prev.offset + prev.limit }));
+      getNextPageParam: (lastPage) => {
+        const limit = lastPage.limit ?? 20;
+        const offset = lastPage.offset ?? 0;
+        return {
+          limit,
+          offset: offset + limit > lastPage.total ? 0 : offset + limit,
+        };
       },
       onError: (err) => {
         console.warn('get meilisearch keys error', err);
+      },
+      onSettled: () => {
+        hiddenRequestLoader();
       },
     }
   );
 
   const filteredKeys = useMemo(() => {
+    const keys: Key[] = [];
+    keysQuery.data?.pages.forEach((page) => {
+      keys.push(...page.results);
+    });
+
     if (keys.length > 0) {
       console.debug('[filteredKeys keys exists]', keys.length);
       fuse.setCollection(keys);
@@ -54,62 +73,153 @@ function Keys() {
         res = fuse.search(filter.query).map((e) => e.item);
         console.debug('[filteredKeys exec search]', res.length);
       }
-      // TODO
 
-      return res;
+      return _.unionBy(res, 'uid');
     } else {
       return keys ?? [];
     }
-  }, [keys, filter]);
+  }, [keysQuery.data?.pages, filter]);
 
-  const onClickCreate = useCallback((key: Key) => {
+  const onClickCreate = useCallback(() => {
     setIsCreateKeyModalOpen(true);
   }, []);
 
-  const keyList = useMemo(() => {
-    if (filteredKeys.length > 0) {
-      return filteredKeys.map((t) => {
-        const uid = t.uid;
-        return (
-          <div
-            key={t.uid}
-            className={`cursor-pointer overflow-hidden p-3 rounded-xl flex flex-col justify-between gap-y-2
-           bg-brand-1 hover:bg-opacity-30 hover:ring ring-brand-4 bg-opacity-20`}
-            onClick={() => onClickCreate(t)}
-          >
-            <div className={`flex items-center gap-2`}>
-              <p className={`text-2xl font-extrabold`}>{`#${uid}`}</p>
-            </div>
-            <div className={`grid grid-cols-4 gap-2`}>
-              <p className={`col-span-1 text-neutral-600`}>CreatedAt: </p>
-              <p className={`col-span-3 text-right`}>{getTimeText(t.createdAt)}</p>
-              <p className={`col-span-1 text-neutral-600`}>updateAt: </p>
-              <p className={`col-span-3 text-right`}>{getTimeText(t.updateAt)}</p>
-              <p className={`col-span-1 text-neutral-600`}>ExpiresAt: </p>
-              <p className={`col-span-3 text-right`}>{getTimeText(t.expiresAt)}</p>
-            </div>
-          </div>
-        );
+  const refreshKeys = useCallback(() => {
+    // wait for create key task complete
+    setTimeout(() => {
+      keysQuery.refetch().then();
+    }, 1000);
+  }, []);
+
+  const onClickDelKey = useCallback(
+    (key: Key) => {
+      openConfirmModal({
+        title: 'Delete this key',
+        centered: true,
+        children: <p>Are you sure you want to delete this key?</p>,
+        labels: { confirm: 'Delete key', cancel: "No don't delete it" },
+        confirmProps: { color: 'red' },
+        onConfirm: () => {
+          client.deleteKey(key.uid).finally(() => {
+            refreshKeys();
+          });
+        },
       });
-    } else {
+    },
+    [client]
+  );
+
+  const keyList = useMemo(() => {
+    return filteredKeys.map((t) => {
       return (
-        <div className={`col-span-full`}>
-          <EmptyArea />
-        </div>
+        <tr key={t.uid}>
+          <td>{t.uid}</td>
+          <td>{t.name || '-'}</td>
+          <td>{t.description || '-'}</td>
+          <td>
+            <div className={`flex items-center`}>
+              {/* desensitization */}
+              <p>{t.key.replace(/^(.{8})(?:\S+)(.{6})$/, '$1******$2')}</p>
+              <CopyButton value={t.key} timeout={200}>
+                {({ copied, copy }) => (
+                  <Tooltip label={copied ? 'Copied' : 'Copy'} withArrow position="right">
+                    <ActionIcon color={copied ? 'teal' : 'gray'} onClick={copy}>
+                      {copied ? <IconCheck size={16} /> : <IconCopy size={16} />}
+                    </ActionIcon>
+                  </Tooltip>
+                )}
+              </CopyButton>
+            </div>
+          </td>
+          <td>
+            <div className={`flex gap-1 flex-wrap`}>
+              {t.indexes.map((index) => (
+                <Badge key={index}>{index}</Badge>
+              ))}
+            </div>
+          </td>
+          <td>
+            <div className={`flex gap-1 flex-wrap`}>
+              {t.actions.map((action) => (
+                <Badge key={action}>{action}</Badge>
+              ))}
+            </div>
+          </td>
+          <td>{getTimeText(t.createdAt)}</td>
+          <td>{getTimeText(t.updateAt)}</td>
+          <td>{getTimeText(t.expiresAt, 'Forever')}</td>
+          <td>
+            <div className={`flex gap-1`}>
+              <Button color={'danger'} onClick={() => onClickDelKey(t)}>
+                Del
+              </Button>
+            </div>
+          </td>
+        </tr>
       );
-    }
+    });
   }, [filteredKeys]);
 
   const { run: onScrollEnd } = useDebounceFn(
     () => {
       console.debug('[onScrollEnd]');
-      keysQuery.refetch().then();
+      keysQuery.fetchNextPage().then();
     },
     {
       wait: 500,
       leading: true,
+      trailing: false,
     }
   );
+
+  const [isCreateLoading, setIsCreateLoading] = useState(false);
+
+  const form = useForm({
+    initialValues: {
+      name: undefined,
+      description: undefined,
+      indexes: [],
+      actions: [],
+      expiresAt: null,
+    },
+    validate: {
+      expiresAt: (value: string | null) =>
+        value ? (/^\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}$/.test(value) ? null : 'Invalid Expire Time') : null,
+    },
+  });
+
+  const onCreation = useCallback(async ({ name, description, indexes, actions, expiresAt }: typeof form.values) => {
+    // button loading
+    setIsCreateLoading(true);
+    let res;
+    try {
+      res = await client.createKey({
+        name,
+        description,
+        indexes: _.isEmpty(indexes) ? ['*'] : indexes,
+        actions: _.isEmpty(actions) ? ['*'] : actions,
+        expiresAt: _.isEmpty(expiresAt)
+          ? null
+          : dayjs(expiresAt, 'YYYY-MM-dd HH:mm:ss').format('YYYY-MM-dd HH:mm:ss+00:00'),
+      });
+      console.info(res);
+    } catch (e) {
+      console.warn(e);
+    }
+    // button stop loading
+    setIsCreateLoading(false);
+    if (_.isEmpty(res)) {
+      showNotification({
+        color: 'danger',
+        title: 'Fail',
+        message: `Creation fail, go check tasks! 🤥`,
+      });
+      return;
+    } else {
+      setIsCreateKeyModalOpen(false);
+      refreshKeys();
+    }
+  }, []);
 
   return (
     <div className="bg-mount full-page items-stretch p-5 gap-4">
@@ -125,30 +235,149 @@ function Keys() {
             className={` flex-1`}
             placeholder={'Search keys'}
             radius={'lg'}
-            onChange={({ target: { value } }) => value && setFilter((filter) => ({ ...filter, query: value }))}
+            onChange={({ target: { value } }) => setFilter((filter) => ({ ...filter, query: value }))}
           ></TextInput>
+          <Button radius={'lg'} onClick={() => onClickCreate()}>
+            Create
+          </Button>
         </div>
         <div
-          className={`flex-1 overflow-y-scroll remove-scroll-bar
-        grid grid-cols-3 auto-rows-max gap-4 p-2`}
+          className={`flex-1 p-2 w-full overflow-scroll`}
           onScroll={(element) => {
-            const scrollLength = element.currentTarget.scrollHeight - element.currentTarget.clientHeight;
-            const scrollAt = element.currentTarget.scrollTop;
-            // console.debug('[scroll]', scrollLength, scrollAt);
-            if (scrollLength === scrollAt) {
+            if (
+              //  fix unknown uncalled problem
+              Math.abs(
+                element.currentTarget.scrollHeight -
+                  element.currentTarget.scrollTop -
+                  element.currentTarget.clientHeight
+              ) <= 3.0
+            ) {
               onScrollEnd();
             }
           }}
         >
-          {keyList}
+          {filteredKeys.length > 0 ? (
+            <Table
+              className={`w-full min-h-fit flex-1`}
+              horizontalSpacing="xl"
+              verticalSpacing="sm"
+              striped
+              highlightOnHover
+            >
+              <thead>
+                <tr>
+                  <th>UID</th>
+                  <th>Name</th>
+                  <th>Description</th>
+                  <th>Key</th>
+                  <th>Indexes</th>
+                  <th>Actions</th>
+                  <th>CreateAt</th>
+                  <th>UpdateAt</th>
+                  <th>ExpiresAt</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody className={`py-1`}>{keyList}</tbody>
+            </Table>
+          ) : (
+            <div className={`fill`}>
+              <EmptyArea />
+            </div>
+          )}
         </div>
       </div>
       <Modal
         centered
+        lockScroll
+        size="lg"
+        radius="lg"
+        shadow="xl"
+        overlayOpacity={0.3}
+        padding="xl"
         opened={isCreateKeyModalOpen}
         onClose={() => setIsCreateKeyModalOpen(false)}
-        title="Key Detail"
-      ></Modal>
+      >
+        <p className={`text-center font-semibold text-lg`}>Add New Key</p>
+        <form className={`flex flex-col gap-y-6 w-full `} onSubmit={form.onSubmit(onCreation)}>
+          <TextInput
+            autoFocus
+            radius="md"
+            size={'lg'}
+            label={<p className={'text-brand-5 pb-2 text-lg'}>Name</p>}
+            placeholder="just name your key"
+            {...form.getInputProps('name')}
+          />
+          <TextInput
+            autoFocus
+            radius="md"
+            size={'lg'}
+            label={<p className={'text-brand-5 pb-2 text-lg'}>Description</p>}
+            placeholder="just describe your key"
+            {...form.getInputProps('description')}
+          />{' '}
+          <Tooltip position={'bottom-start'} label="Leave this option empty means all indexes permitted">
+            <MultiSelect
+              radius="md"
+              size={'lg'}
+              label={<p className={'text-brand-5 pb-2 text-lg'}>Indexes</p>}
+              placeholder="select permitted indexes"
+              creatable
+              clearable
+              searchable
+              withinPortal
+              data={indexes.map((i) => i.uid)}
+              {...form.getInputProps('indexes')}
+            />
+          </Tooltip>
+          <Tooltip position={'bottom-start'} label="Leave this option empty means all indexes permitted">
+            <MultiSelect
+              radius="md"
+              size={'lg'}
+              label={<p className={'text-brand-5 pb-2 text-lg'}>Actions</p>}
+              placeholder="select permitted actions"
+              creatable
+              clearable
+              searchable
+              withinPortal
+              data={[
+                { value: 'search', label: 'Search' },
+                { value: 'documents.add', label: 'Add/Update documents' },
+                { value: 'documents.get', label: 'Get document(s)' },
+                { value: 'documents.delete', label: 'Del document(s)' },
+                { value: 'indexes.create', label: 'Create index' },
+                { value: 'indexes.get', label: 'Get index(es) (without Non-authorized indexes)' },
+                { value: 'indexes.update', label: 'Update index(es)' },
+                { value: 'indexes.delete', label: 'Del index(es)' },
+                { value: 'tasks.get', label: 'Get task(s) (without Non-authorized indexes)' },
+                { value: 'settings.get', label: 'Get settings' },
+                { value: 'settings.update', label: 'Update/Reset settings' },
+                { value: 'stats.get', label: 'Get stats (without Non-authorized indexes)' },
+                { value: 'dumps.create', label: 'Create dumps (with Non-authorized indexes)' },
+                { value: 'version', label: 'Get instance version' },
+                { value: 'keys.get', label: 'Get keys' },
+                { value: 'keys.create', label: 'Create keys' },
+                { value: 'keys.update', label: 'Update keys' },
+                { value: 'keys.delete', label: 'Del keys' },
+              ]}
+              {...form.getInputProps('actions')}
+            />
+          </Tooltip>
+          <Tooltip position={'bottom-start'} label="Leave this option empty means this key never expires">
+            <TextInput
+              placeholder="UTC time and format must be YYYY-MM-dd HH:mm:ss"
+              radius="md"
+              size={'lg'}
+              label={<p className={'text-brand-5 pb-2 text-lg'}>Expired at</p>}
+              {...form.getInputProps('expiresAt')}
+            />
+          </Tooltip>
+          <Button type="submit" radius={'xl'} size={'lg'} variant="light" loading={isCreateLoading}>
+            Create this key
+          </Button>
+          <Footer />
+        </form>
+      </Modal>
     </div>
   );
 }

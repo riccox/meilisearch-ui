@@ -1,0 +1,3 @@
+th {
+    @apply sticky -top-1.5 bg-background-light z-10;
+}

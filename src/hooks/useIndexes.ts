@@ -2,8 +2,9 @@ import { Index, MeiliSearch } from 'meilisearch';
 import { useState } from 'react';
 import { useAppStore } from '@/src/store';
 import { useQuery, UseQueryResult } from 'react-query';
+import { IndexesQuery } from 'meilisearch/src/types';
 
-export const useIndexes = (client: MeiliSearch): [Index[], UseQueryResult] => {
+export const useIndexes = (client: MeiliSearch, params?: IndexesQuery): [Index[], UseQueryResult] => {
   const host = useAppStore((state) => state.currentInstance?.host);
 
   const [indexes, setIndexes] = useState<Index[]>([]);
@@ -11,7 +12,7 @@ export const useIndexes = (client: MeiliSearch): [Index[], UseQueryResult] => {
   const query = useQuery(
     ['indexes', host],
     async () => {
-      return (await client.getIndexes()).results;
+      return (await client.getIndexes(params)).results;
     },
     { refetchOnMount: 'always', onSuccess: (res) => setIndexes(res) }
   );

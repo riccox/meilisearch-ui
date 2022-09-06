@@ -3,7 +3,7 @@ import { Badge, Code, Modal, Select, TextInput } from '@mantine/core';
 import { useMeiliClient } from '@/src/hooks/useMeiliClient';
 import { Task, TasksResults } from 'meilisearch';
 import { EmptyArea } from '@/src/components/EmptyArea';
-import { useQuery } from 'react-query';
+import { useInfiniteQuery } from 'react-query';
 import Fuse from 'fuse.js';
 import { useAppStore } from '@/src/store';
 import { Header } from '@/src/components/Header';
@@ -11,42 +11,45 @@ import { getTimeText, stringifyJsonPretty, TaskColors } from '@/src/utils/text';
 import _ from 'lodash';
 import { TaskTypes } from 'meilisearch/src/types/types';
 import { useDebounceFn } from 'ahooks';
+import { hiddenRequestLoader, showRequestLoader } from '@/src/utils/loader';
 
 function Tasks() {
   const client = useMeiliClient();
   const host = useAppStore((state) => state.currentInstance?.host);
   const [isTaskDetailModalOpen, setIsTaskDetailModalOpen] = useState<boolean>(false);
   const [taskDetailModalContent, setTaskDetailModalContent] = useState<Task>();
-  const [tasks, setTasks] = useState<TasksResults['results']>([]);
   const [fuse] = useState<Fuse<TasksResults['results'][0]>>(
-    new Fuse(tasks ?? [], {
+    new Fuse([], {
       keys: ['uid', 'indexUid', 'status', 'type', 'error.code', 'error.code', 'error.message'],
     })
   );
-  const [queryParams, setQueryParams] = useState<{
-    from?: number;
-  }>({});
   const [filter, setFilter] = useState<{ query: string; status?: string; type?: string }>({ query: '' });
 
-  const tasksQuery = useQuery(
+  const tasksQuery = useInfiniteQuery(
     ['tasks', host],
-    async () => {
-      return await client.getTasks(queryParams);
+    async ({ pageParam }) => {
+      showRequestLoader();
+      return await client.getTasks(pageParam);
     },
     {
       keepPreviousData: true,
       refetchOnMount: 'always',
-      onSuccess: (res) => {
-        setTasks((prev) => _.unionBy(prev.concat(res.results), 'uid'));
-        setQueryParams({ from: res.next === null ? undefined : res.next });
-      },
+      getNextPageParam: (lastPage, pages) => ({ from: lastPage.next }),
       onError: (err) => {
         console.warn('get meilisearch tasks error', err);
+      },
+      onSettled: () => {
+        hiddenRequestLoader();
       },
     }
   );
 
   const filteredTasks = useMemo(() => {
+    const tasks: Task[] = [];
+    tasksQuery.data?.pages.forEach((page) => {
+      tasks.push(...page.results);
+    });
+
     if (tasks.length > 0) {
       console.debug('[filteredTasks tasks exists]', tasks.length);
       fuse.setCollection(tasks);
@@ -64,11 +67,11 @@ function Tasks() {
         console.debug('[filteredTasks exec status]', res.length);
       }
 
-      return res;
+      return _.unionBy(res, 'uid');
     } else {
-      return tasks ?? [];
+      return tasks;
     }
-  }, [tasks, filter]);
+  }, [filter, tasksQuery.data?.pages]);
 
   const onClickDetail = useCallback((task: Task) => {
     setTaskDetailModalContent(task);
@@ -118,11 +121,12 @@ function Tasks() {
   const { run: onScrollEnd } = useDebounceFn(
     () => {
       console.debug('[onScrollEnd]');
-      tasksQuery.refetch().then();
+      tasksQuery.fetchNextPage().then();
     },
     {
       wait: 500,
       leading: true,
+      trailing: false,
     }
   );
 
@@ -140,7 +144,7 @@ function Tasks() {
             className={` flex-1`}
             placeholder={'Search tasks'}
             radius={'lg'}
-            onChange={({ target: { value } }) => value && setFilter((filter) => ({ ...filter, query: value }))}
+            onChange={({ target: { value } }) => setFilter((filter) => ({ ...filter, query: value }))}
           ></TextInput>
 
           <Select
@@ -171,13 +175,17 @@ function Tasks() {
           />
         </div>
         <div
-          className={`flex-1 overflow-y-scroll remove-scroll-bar
+          className={`flex-1 overflow-scroll
         grid grid-cols-3 auto-rows-max gap-4 p-2`}
           onScroll={(element) => {
-            const scrollLength = element.currentTarget.scrollHeight - element.currentTarget.clientHeight;
-            const scrollAt = element.currentTarget.scrollTop;
-            // console.debug('[scroll]', scrollLength, scrollAt);
-            if (scrollLength === scrollAt) {
+            if (
+              //  fix unknown uncalled problem
+              Math.abs(
+                element.currentTarget.scrollHeight -
+                  element.currentTarget.scrollTop -
+                  element.currentTarget.clientHeight
+              ) <= 3.0
+            ) {
               onScrollEnd();
             }
           }}

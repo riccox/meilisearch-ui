@@ -29,7 +29,10 @@ export const showTaskSubmitNotification = (task: EnqueuedTask): void => {
   });
 };
 
-export const getTimeText = (date: dayjs.ConfigType): string => {
+export const getTimeText = (date: dayjs.ConfigType, defaultText?: string): string => {
+  if (!date && defaultText) {
+    return defaultText;
+  }
   return dayjs(date).format('YYYY-MM-DD HH:mm:ss.SSS');
 };
 
