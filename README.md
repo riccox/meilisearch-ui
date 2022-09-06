@@ -18,6 +18,7 @@ There is a live demo 👉 [meilisearch-ui](//meilisearch-ui.lrvinye.me), deploy 
 - ReactErrorBoundary
 - ReactQuery
 - Prettier
+- Fuse.js
 
 ## Deploy on Vercel
 
