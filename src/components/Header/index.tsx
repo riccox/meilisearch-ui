@@ -17,6 +17,8 @@ import { MeiliSearch, Version } from 'meilisearch';
 import { useQuery } from 'react-query';
 import { useInstanceStats } from '@/src/hooks/useInstanceStats';
 import _ from 'lodash';
+import { openConfirmModal } from '@mantine/modals';
+import { showTaskSubmitNotification } from '@/src/utils/text';
 
 interface Props {
   client: MeiliSearch;
@@ -54,6 +56,22 @@ export const Header: FC<Props> = ({ client }) => {
       message: 'Server Host Copied ✍',
     });
   }, [store.currentInstance?.host]);
+
+  const onClickDump = useCallback(() => {
+    openConfirmModal({
+      title: 'Create a new dump',
+      centered: true,
+      children: <p>Are you sure you want to start a new dump?</p>,
+      labels: { confirm: 'Start', cancel: 'Cancel' },
+      confirmProps: { color: 'orange' },
+      onConfirm: () => {
+        client.createDump().then((value) => {
+          showTaskSubmitNotification(value);
+        });
+      },
+    });
+  }, [client]);
+
   return (
     <div
       className={`bg-background-light
@@ -115,7 +133,7 @@ export const Header: FC<Props> = ({ client }) => {
           <Menu.Item icon={<IconListCheck size={14} />} component={Link} to={'/tasks'}>
             Tasks
           </Menu.Item>
-          <Menu.Item icon={<IconDeviceFloppy size={14} />} component={Link} to={'/dumps'}>
+          <Menu.Item icon={<IconDeviceFloppy size={14} />} onClick={onClickDump}>
             Dump
           </Menu.Item>
           <Menu.Divider />
