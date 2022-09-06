@@ -8,7 +8,7 @@ import { Index } from 'meilisearch';
 import { useMeiliClient } from '@/src/hooks/useMeiliClient';
 import { IconSquarePlus } from '@tabler/icons';
 
-function Indexes() {
+function IndexesLayout() {
   const client = useMeiliClient();
   const stats = useInstanceStats(client);
   const [indexes, indexesQuery] = useIndexes(client);
@@ -83,4 +83,4 @@ function Indexes() {
   );
 }
 
-export default Indexes;
+export default IndexesLayout;

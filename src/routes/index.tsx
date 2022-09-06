@@ -1,13 +1,14 @@
 import { Route, Routes } from 'react-router-dom';
 import NotFound from '@/src/pages/404';
 import Dashboard from '@/src/pages/dashboard';
-import Indexes from '@/src/pages/index';
+import IndexesLayout from '@/src/pages/index/layout';
 import { Documents } from '@/src/pages/index/documents';
 import { Suspense } from 'react';
 import { Loader } from '@/src/components/Loader';
 import { CreateIndex } from '@/src/pages/index/create';
 import Tasks from '@/src/pages/task';
 import Keys from '@/src/pages/key';
+import Settings from '@/src/pages/index/setting';
 
 export const AppRoutes = () => {
   return (
@@ -21,9 +22,10 @@ export const AppRoutes = () => {
       <Routes>
         <Route path="/">
           <Route index element={<Dashboard />} />
-          <Route path="index" element={<Indexes />}>
+          <Route path="index" element={<IndexesLayout />}>
             <Route index element={<Documents />} />
             <Route path="create" element={<CreateIndex />} />
+            <Route path="settings" element={<Settings />} />
           </Route>
         </Route>
         <Route path="tasks" element={<Tasks />} />

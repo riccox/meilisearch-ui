@@ -8,7 +8,7 @@ import { useForm } from '@mantine/form';
 import { MeiliSearch } from 'meilisearch';
 import _ from 'lodash';
 import { showNotification } from '@mantine/notifications';
-import { IconAdjustments, IconBooks, IconCirclePlus, IconKey, IconListCheck, IconPencilMinus } from '@tabler/icons';
+import { IconBooks, IconCirclePlus, IconKey, IconListCheck, IconPencilMinus } from '@tabler/icons';
 import dayjs from 'dayjs';
 
 const instanceCardClassName = `col-span-1 h-28 rounded-lg`;
@@ -104,11 +104,6 @@ function Dashboard() {
             <Tooltip position={'bottom'} label="Keys">
               <ActionIcon variant="light" color="purple" onClick={() => onClickInstance(instance, '/keys')}>
                 <IconKey size={24} />
-              </ActionIcon>
-            </Tooltip>
-            <Tooltip position={'bottom'} label="Settings">
-              <ActionIcon variant="light" color="danger">
-                <IconAdjustments size={24} />
               </ActionIcon>
             </Tooltip>
           </div>
