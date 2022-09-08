@@ -2,6 +2,9 @@ import { ActionIcon, Badge, Button, HoverCard, Menu } from '@mantine/core';
 import dayjs from 'dayjs';
 import {
   IconArrowsLeftRight,
+  IconBook2,
+  IconBrandGithub,
+  IconBug,
   IconDeviceFloppy,
   IconHomeBolt,
   IconKey,
@@ -141,6 +144,27 @@ export const Header: FC<Props> = ({ client }) => {
             <Menu.Label>System</Menu.Label>
             <Menu.Item color="red" icon={<IconArrowsLeftRight size={14} />} component={Link} to={'/'}>
               Change Instance
+            </Menu.Item>
+            <Menu.Divider />
+            <Menu.Label>Support</Menu.Label>
+            <Menu.Item icon={<IconBook2 size={14} />} component={Link} to={'//docs.meilisearch.com'} target={'_blank'}>
+              Meilisearch Docs
+            </Menu.Item>
+            <Menu.Item
+              icon={<IconBug size={14} />}
+              component={Link}
+              to={'//github.com/lrvinye/meilisearch-ui/issues'}
+              target={'_blank'}
+            >
+              Issues
+            </Menu.Item>
+            <Menu.Item
+              icon={<IconBrandGithub size={14} />}
+              component={Link}
+              to={'//github.com/lrvinye/meilisearch-ui'}
+              target={'_blank'}
+            >
+              Open Source
             </Menu.Item>
           </Menu.Dropdown>
         </Menu>

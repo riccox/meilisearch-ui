@@ -1,18 +1,27 @@
 import { Header } from '@/src/components/Header';
-import { useMemo, useState } from 'react';
-import { ActionIcon, Badge, Button } from '@mantine/core';
+import { MouseEventHandler, useCallback, useMemo, useState } from 'react';
+import { ActionIcon, Badge, Button, Tooltip } from '@mantine/core';
 import { useIndexes } from '@/src/hooks/useIndexes';
 import { useInstanceStats } from '@/src/hooks/useInstanceStats';
-import { Link, Outlet } from 'react-router-dom';
+import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { Index } from 'meilisearch';
 import { useMeiliClient } from '@/src/hooks/useMeiliClient';
-import { IconSquarePlus } from '@tabler/icons';
+import { IconAdjustments, IconSquarePlus } from '@tabler/icons';
 
 function IndexesLayout() {
+  const navigate = useNavigate();
   const client = useMeiliClient();
   const stats = useInstanceStats(client);
   const [indexes, indexesQuery] = useIndexes(client);
   const [currentIndex, setCurrentIndex] = useState<Index>();
+
+  const onClickIndex = useCallback(
+    (index: Index, to?: string) => {
+      setCurrentIndex(index);
+      to && navigate(to);
+    },
+    [navigate]
+  );
 
   const indexList = useMemo(() => {
     if (indexes && indexes.length > 0) {
@@ -23,15 +32,31 @@ function IndexesLayout() {
           <div
             key={index.uid}
             className={`cursor-pointer p-3 rounded-xl grid grid-cols-4 gap-y-2
-           bg-brand-1 hover:bg-opacity-50 bg-opacity-20`}
-            onClick={() => setCurrentIndex(index)}
+           bg-brand-1 hover:bg-opacity-40 bg-opacity-20`}
+            onClick={() => {
+              onClickIndex(index, '/index');
+            }}
           >
             <p className={`col-span-4 text-xl font-bold`}>{uid}</p>
             <div className={`col-span-4 flex justify-between items-center`}>
               <Badge size="lg" variant="outline">
                 Count: {indexStat?.numberOfDocuments ?? 0}
               </Badge>
-              <div>{}</div>
+
+              <Tooltip label="Settings">
+                <ActionIcon
+                  variant="light"
+                  color={'brand'}
+                  onClick={
+                    ((e) => {
+                      e.stopPropagation();
+                      onClickIndex(index, '/index/settings');
+                    }) as MouseEventHandler<HTMLButtonElement>
+                  }
+                >
+                  <IconAdjustments size={24} />
+                </ActionIcon>
+              </Tooltip>
               {indexStat?.isIndexing && <div>indexing</div>}
             </div>
           </div>
@@ -46,7 +71,7 @@ function IndexesLayout() {
         </div>
       );
     }
-  }, [indexes, stats?.indexes]);
+  }, [indexes, onClickIndex, stats?.indexes]);
 
   return useMemo(
     () => (
@@ -72,11 +97,7 @@ function IndexesLayout() {
               {indexList}
             </div>
           </div>
-          <div
-            className={`flex-[3] bg-background-light 
-        flex 
-        p-5 rounded-3xl`}
-          >
+          <div className={`flex-[3] bg-background-light rounded-3xl`}>
             <Outlet context={{ currentIndex, refreshIndexes: () => indexesQuery.refetch() }} />
           </div>
         </div>
