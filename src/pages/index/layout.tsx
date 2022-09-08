@@ -1,24 +1,24 @@
 import { Header } from '@/src/components/Header';
-import { MouseEventHandler, useCallback, useMemo, useState } from 'react';
+import { MouseEventHandler, useCallback, useMemo } from 'react';
 import { ActionIcon, Badge, Button, Tooltip } from '@mantine/core';
 import { useIndexes } from '@/src/hooks/useIndexes';
 import { useInstanceStats } from '@/src/hooks/useInstanceStats';
-import { Link, Outlet, useNavigate } from 'react-router-dom';
+import { Link, Outlet, useNavigate, useSearchParams } from 'react-router-dom';
 import { Index } from 'meilisearch';
 import { useMeiliClient } from '@/src/hooks/useMeiliClient';
 import { IconAdjustments, IconSquarePlus } from '@tabler/icons';
+import qs from 'qs';
 
 function IndexesLayout() {
   const navigate = useNavigate();
   const client = useMeiliClient();
   const stats = useInstanceStats(client);
   const [indexes, indexesQuery] = useIndexes(client);
-  const [currentIndex, setCurrentIndex] = useState<Index>();
+  const [searchParams] = useSearchParams();
 
   const onClickIndex = useCallback(
-    (index: Index, to?: string) => {
-      setCurrentIndex(index);
-      to && navigate(to);
+    (index: Index, to: string) => {
+      to && navigate(to + `?${qs.stringify({ index: index.uid })}`);
     },
     [navigate]
   );
@@ -32,7 +32,8 @@ function IndexesLayout() {
           <div
             key={index.uid}
             className={`cursor-pointer p-3 rounded-xl grid grid-cols-4 gap-y-2
-           bg-brand-1 hover:bg-opacity-40 bg-opacity-20`}
+           bg-brand-1 hover:bg-opacity-40 bg-opacity-20 
+           ${searchParams.get('index') === uid ? 'ring ring-brand-4' : ''}`}
             onClick={() => {
               onClickIndex(index, '/index');
             }}
@@ -71,7 +72,7 @@ function IndexesLayout() {
         </div>
       );
     }
-  }, [indexes, onClickIndex, stats?.indexes]);
+  }, [indexes, onClickIndex, searchParams, stats?.indexes]);
 
   return useMemo(
     () => (
@@ -98,12 +99,12 @@ function IndexesLayout() {
             </div>
           </div>
           <div className={`flex-[3] bg-background-light rounded-3xl`}>
-            <Outlet context={{ currentIndex, refreshIndexes: () => indexesQuery.refetch() }} />
+            <Outlet context={{ refreshIndexes: () => indexesQuery.refetch() }} />
           </div>
         </div>
       </div>
     ),
-    [client, currentIndex, indexList, indexesQuery]
+    [client, indexList, indexesQuery]
   );
 }
 

@@ -1,0 +1,4 @@
+.options-grid div {
+    @apply odd:col-span-4 odd:text-right odd:text-neutral-400 odd:font-light;
+    @apply even:col-span-8 even:px-4;
+}

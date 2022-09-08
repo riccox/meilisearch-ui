@@ -1,0 +1,4 @@
+.task-card-options p {
+    @apply odd:col-span-1 odd:text-neutral-600;
+    @apply even:col-span-3 even:text-right;
+}

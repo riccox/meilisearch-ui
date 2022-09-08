@@ -36,6 +36,6 @@ export const getTimeText = (date: dayjs.ConfigType, defaultText?: string): strin
   return dayjs(date).format('YYYY-MM-DD HH:mm:ss.SSS');
 };
 
-export const stringifyJsonPretty = (json?: string | object) => {
+export const stringifyJsonPretty = (json?: string | object | null) => {
   return JSON.stringify(json, undefined, 2);
 };

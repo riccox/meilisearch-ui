@@ -1,10 +1,11 @@
-import { useOutletContext } from 'react-router-dom';
-import { Index } from 'meilisearch';
+import { useSearchParams } from 'react-router-dom';
 import { EmptyArea } from '@/src/components/EmptyArea';
 
 export const Documents = () => {
-  const context = useOutletContext<{
-    currentIndex?: Index;
-  }>();
-  return <>{context?.currentIndex ? <div></div> : <EmptyArea />}</>;
+  const [searchParams] = useSearchParams();
+  return (
+    <>
+      {searchParams.get('index') ? <div></div> : <EmptyArea text={'Select or Create a index on the left to start'} />}
+    </>
+  );
 };

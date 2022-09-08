@@ -3,6 +3,7 @@ import dayjs from 'dayjs';
 import {
   IconArrowsLeftRight,
   IconBook2,
+  IconBooks,
   IconBrandGithub,
   IconBug,
   IconDeviceFloppy,
@@ -131,6 +132,9 @@ export const Header: FC<Props> = ({ client }) => {
           </Menu.Target>
           <Menu.Dropdown>
             <Menu.Label>Instance</Menu.Label>
+            <Menu.Item icon={<IconBooks size={14} />} component={Link} to={'/index'}>
+              Index
+            </Menu.Item>
             <Menu.Item icon={<IconKey size={14} />} component={Link} to={'/keys'}>
               Keys
             </Menu.Item>

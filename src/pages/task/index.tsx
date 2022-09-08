@@ -1,3 +1,4 @@
+import './index.css';
 import { useCallback, useMemo, useState } from 'react';
 import { Badge, Code, Modal, Select, TextInput } from '@mantine/core';
 import { useMeiliClient } from '@/src/hooks/useMeiliClient';
@@ -96,15 +97,15 @@ function Tasks() {
               </Badge>
               <p className={`ml-auto text-lg`}>{t.type}</p>
             </div>
-            <div className={`grid grid-cols-4 gap-2`}>
-              <p className={`col-span-1 text-neutral-600`}>Duration: </p>
-              <p className={`col-span-3 text-right`}>{t.duration}</p>
-              <p className={`col-span-1 text-neutral-600`}>EnqueuedAt: </p>
-              <p className={`col-span-3 text-right`}>{getTimeText(t.enqueuedAt)}</p>
-              <p className={`col-span-1 text-neutral-600`}>StartedAt: </p>
-              <p className={`col-span-3 text-right`}>{getTimeText(t.startedAt)}</p>
-              <p className={`col-span-1 text-neutral-600`}>FinishedAt: </p>
-              <p className={`col-span-3 text-right`}>{getTimeText(t.finishedAt)}</p>
+            <div className={`grid grid-cols-4 gap-2 task-card-options`}>
+              <p>Duration: </p>
+              <p>{t.duration}</p>
+              <p>EnqueuedAt: </p>
+              <p>{getTimeText(t.enqueuedAt)}</p>
+              <p>StartedAt: </p>
+              <p>{getTimeText(t.startedAt)}</p>
+              <p>FinishedAt: </p>
+              <p>{getTimeText(t.finishedAt)}</p>
             </div>
           </div>
         );
