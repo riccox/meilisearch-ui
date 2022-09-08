@@ -9,7 +9,7 @@ import {
   IconSettings,
 } from '@tabler/icons';
 import { Link, useNavigate } from 'react-router-dom';
-import { FC, useCallback, useState } from 'react';
+import { FC, useCallback, useMemo, useState } from 'react';
 import { showNotification } from '@mantine/notifications';
 import { useClipboard } from '@mantine/hooks';
 import { useAppStore } from '@/src/store';
@@ -55,7 +55,7 @@ export const Header: FC<Props> = ({ client }) => {
       title: 'Copied',
       message: 'Server Host Copied ✍',
     });
-  }, [store.currentInstance?.host]);
+  }, [clipboard, store.currentInstance?.host]);
 
   const onClickDump = useCallback(() => {
     openConfirmModal({
@@ -72,77 +72,92 @@ export const Header: FC<Props> = ({ client }) => {
     });
   }, [client]);
 
-  return (
-    <div
-      className={`bg-background-light
+  return useMemo(
+    () => (
+      <div
+        className={`bg-background-light
         flex justify-between items-center
         p-5 rounded-3xl drop-shadow-2xl`}
-    >
-      <Button
-        leftIcon={<IconHomeBolt size={26} />}
-        color="primary"
-        size="md"
-        radius="xl"
-        variant="gradient"
-        onClick={() => navigate('/')}
       >
-        Home
-      </Button>
-      <p className={`text-2xl underline font-bold`}>{_.truncate(store.currentInstance?.name, { length: 20 })}</p>
-      <Badge
-        className={`!cursor-pointer hover:border hover:border-brand-4`}
-        onClick={onClickHost}
-        size="xl"
-        radius="lg"
-        variant="dot"
-        color={'green'}
-      >
-        Host: {_.truncate(store.currentInstance?.host, { length: 40 })}
-      </Badge>
-      <Badge className={``} size="xl" radius="lg">
-        Database Size: {_.ceil((stats?.databaseSize ?? 0) / 1048576, 2)} MB
-      </Badge>
-      <p className={`font-bold `}>Last Updated: {dayjs(stats?.lastUpdate).format('YYYY-MM-DD HH:mm:ss.SSS')}</p>
-      <Badge className={``} size="xl" radius="lg" variant="dot" color={health ? 'green' : 'yellow'}>
-        Status: {health ? 'Available' : 'Unknown'}
-      </Badge>
+        <Button
+          leftIcon={<IconHomeBolt size={26} />}
+          color="primary"
+          size="md"
+          radius="xl"
+          variant="gradient"
+          onClick={() => navigate('/')}
+        >
+          Home
+        </Button>
+        <p className={`text-2xl underline font-bold`}>{_.truncate(store.currentInstance?.name, { length: 20 })}</p>
+        <Badge
+          className={`!cursor-pointer hover:border hover:border-brand-4`}
+          onClick={onClickHost}
+          size="xl"
+          radius="lg"
+          variant="dot"
+          color={'green'}
+        >
+          Host: {_.truncate(store.currentInstance?.host, { length: 40 })}
+        </Badge>
+        <Badge className={``} size="xl" radius="lg">
+          Database Size: {_.ceil((stats?.databaseSize ?? 0) / 1048576, 2)} MB
+        </Badge>
+        <p className={`font-bold `}>Last Updated: {dayjs(stats?.lastUpdate).format('YYYY-MM-DD HH:mm:ss.SSS')}</p>
+        <Badge className={``} size="xl" radius="lg" variant="dot" color={health ? 'green' : 'yellow'}>
+          Status: {health ? 'Available' : 'Unknown'}
+        </Badge>
 
-      <HoverCard withinPortal shadow="lg" radius={'lg'} transition={'fade'}>
-        <HoverCard.Target>
-          <Badge className={``} size="xl" radius="lg">
-            Version: {version?.pkgVersion}
-          </Badge>
-        </HoverCard.Target>
-        <HoverCard.Dropdown>
-          Commit Date: {version?.commitDate} <br />
-          Commit Sha: {version?.commitSha}
-        </HoverCard.Dropdown>
-      </HoverCard>
+        <HoverCard withinPortal shadow="lg" radius={'lg'} transition={'fade'}>
+          <HoverCard.Target>
+            <Badge className={``} size="xl" radius="lg">
+              Version: {version?.pkgVersion}
+            </Badge>
+          </HoverCard.Target>
+          <HoverCard.Dropdown>
+            Commit Date: {version?.commitDate} <br />
+            Commit Sha: {version?.commitSha}
+          </HoverCard.Dropdown>
+        </HoverCard>
 
-      <Menu withinPortal shadow="xl" width={180} radius={'lg'} transition={'pop'}>
-        <Menu.Target>
-          <ActionIcon color="primary" size="lg" radius="xl" variant="outline">
-            <IconSettings size={26} />
-          </ActionIcon>
-        </Menu.Target>
-        <Menu.Dropdown>
-          <Menu.Label>Instance</Menu.Label>
-          <Menu.Item icon={<IconKey size={14} />} component={Link} to={'/keys'}>
-            Keys
-          </Menu.Item>
-          <Menu.Item icon={<IconListCheck size={14} />} component={Link} to={'/tasks'}>
-            Tasks
-          </Menu.Item>
-          <Menu.Item icon={<IconDeviceFloppy size={14} />} onClick={onClickDump}>
-            Dump
-          </Menu.Item>
-          <Menu.Divider />
-          <Menu.Label>System</Menu.Label>
-          <Menu.Item color="red" icon={<IconArrowsLeftRight size={14} />} component={Link} to={'/'}>
-            Change Instance
-          </Menu.Item>
-        </Menu.Dropdown>
-      </Menu>
-    </div>
+        <Menu withinPortal shadow="xl" width={180} radius={'lg'} transition={'pop'}>
+          <Menu.Target>
+            <ActionIcon color="primary" size="lg" radius="xl" variant="outline">
+              <IconSettings size={26} />
+            </ActionIcon>
+          </Menu.Target>
+          <Menu.Dropdown>
+            <Menu.Label>Instance</Menu.Label>
+            <Menu.Item icon={<IconKey size={14} />} component={Link} to={'/keys'}>
+              Keys
+            </Menu.Item>
+            <Menu.Item icon={<IconListCheck size={14} />} component={Link} to={'/tasks'}>
+              Tasks
+            </Menu.Item>
+            <Menu.Item icon={<IconDeviceFloppy size={14} />} onClick={onClickDump}>
+              Dump
+            </Menu.Item>
+            <Menu.Divider />
+            <Menu.Label>System</Menu.Label>
+            <Menu.Item color="red" icon={<IconArrowsLeftRight size={14} />} component={Link} to={'/'}>
+              Change Instance
+            </Menu.Item>
+          </Menu.Dropdown>
+        </Menu>
+      </div>
+    ),
+    [
+      health,
+      navigate,
+      onClickDump,
+      onClickHost,
+      stats?.databaseSize,
+      stats?.lastUpdate,
+      store.currentInstance?.host,
+      store.currentInstance?.name,
+      version?.commitDate,
+      version?.commitSha,
+      version?.pkgVersion,
+    ]
   );
 };

@@ -52,7 +52,7 @@ export const useMeiliClient = () => {
   useEffect(() => {
     console.debug('useMeilisearchClient', 'rebuilt meili client');
     connect().then();
-  }, [currentInstance]);
+  }, [connect, currentInstance]);
 
   return client;
 };

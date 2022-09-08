@@ -40,7 +40,7 @@ function IndexesLayout() {
     } else {
       return (
         <div className={`flex-1 flex justify-center items-center`}>
-          <Button radius={'xl'} size={'xl'}>
+          <Button radius={'xl'} size={'xl'} component={Link} to="/index/create">
             Create Index
           </Button>
         </div>
@@ -48,38 +48,41 @@ function IndexesLayout() {
     }
   }, [indexes, stats?.indexes]);
 
-  return (
-    <div className="bg-mount full-page items-stretch p-5 gap-4">
-      <Header client={client} />
-      <div className={`flex-1 flex gap-4`}>
-        <div
-          className={`flex-1 bg-background-light 
+  return useMemo(
+    () => (
+      <div className="bg-mount full-page items-stretch p-5 gap-4">
+        <Header client={client} />
+        <div className={`flex-1 flex gap-4`}>
+          <div
+            className={`flex-1 bg-background-light 
         flex flex-col justify-start items-stretch
         p-6 rounded-3xl gap-y-2`}
-        >
-          <div className={`flex justify-between items-center`}>
-            <div className={`font-extrabold text-3xl`}>🦄 Indexes</div>
-            <ActionIcon className={``} variant={'light'} component={Link} to="/index/create">
-              <IconSquarePlus size={64} />
-            </ActionIcon>
-          </div>
-          <div
-            className={`flex-1
+          >
+            <div className={`flex justify-between items-center`}>
+              <div className={`font-extrabold text-3xl`}>🦄 Indexes</div>
+              <ActionIcon className={``} variant={'light'} component={Link} to="/index/create">
+                <IconSquarePlus size={64} />
+              </ActionIcon>
+            </div>
+            <div
+              className={`flex-1
         flex flex-col justify-start items-stretch
         rounded-3xl gap-y-2`}
-          >
-            {indexList}
+            >
+              {indexList}
+            </div>
           </div>
-        </div>
-        <div
-          className={`flex-[3] bg-background-light 
+          <div
+            className={`flex-[3] bg-background-light 
         flex 
         p-5 rounded-3xl`}
-        >
-          <Outlet context={{ currentIndex, refreshIndexes: () => indexesQuery.refetch() }} />
+          >
+            <Outlet context={{ currentIndex, refreshIndexes: () => indexesQuery.refetch() }} />
+          </div>
         </div>
       </div>
-    </div>
+    ),
+    [client, currentIndex, indexList, indexesQuery]
   );
 }
 

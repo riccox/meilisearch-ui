@@ -78,7 +78,7 @@ function Keys() {
     } else {
       return keys ?? [];
     }
-  }, [keysQuery.data?.pages, filter]);
+  }, [keysQuery.data?.pages, fuse, filter.query]);
 
   const onClickCreate = useCallback(() => {
     setIsCreateKeyModalOpen(true);
@@ -89,7 +89,7 @@ function Keys() {
     setTimeout(() => {
       keysQuery.refetch().then();
     }, 1000);
-  }, []);
+  }, [keysQuery]);
 
   const onClickDelKey = useCallback(
     (key: Key) => {
@@ -106,7 +106,7 @@ function Keys() {
         },
       });
     },
-    [client]
+    [client, refreshKeys]
   );
 
   const keyList = useMemo(() => {
@@ -158,7 +158,7 @@ function Keys() {
         </tr>
       );
     });
-  }, [filteredKeys]);
+  }, [filteredKeys, onClickDelKey]);
 
   const { run: onScrollEnd } = useDebounceFn(
     () => {
@@ -188,197 +188,214 @@ function Keys() {
     },
   });
 
-  const onCreation = useCallback(async ({ name, description, indexes, actions, expiresAt }: typeof form.values) => {
-    // button loading
-    setIsCreateLoading(true);
-    let res;
-    try {
-      res = await client.createKey({
-        name,
-        description,
-        indexes: _.isEmpty(indexes) ? ['*'] : indexes,
-        actions: _.isEmpty(actions) ? ['*'] : actions,
-        expiresAt: _.isEmpty(expiresAt)
-          ? null
-          : dayjs(expiresAt, 'YYYY-MM-dd HH:mm:ss').format('YYYY-MM-dd HH:mm:ss+00:00'),
-      });
-      console.info(res);
-    } catch (e) {
-      console.warn(e);
-    }
-    // button stop loading
-    setIsCreateLoading(false);
-    if (_.isEmpty(res)) {
-      showNotification({
-        color: 'danger',
-        title: 'Fail',
-        message: `Creation fail, go check tasks! 🤥`,
-      });
-      return;
-    } else {
-      setIsCreateKeyModalOpen(false);
-      refreshKeys();
-    }
-  }, []);
+  const onCreation = useCallback(
+    async ({ name, description, indexes, actions, expiresAt }: typeof form.values) => {
+      // button loading
+      setIsCreateLoading(true);
+      let res;
+      try {
+        res = await client.createKey({
+          name,
+          description,
+          indexes: _.isEmpty(indexes) ? ['*'] : indexes,
+          actions: _.isEmpty(actions) ? ['*'] : actions,
+          expiresAt: _.isEmpty(expiresAt)
+            ? null
+            : dayjs(expiresAt, 'YYYY-MM-dd HH:mm:ss').format('YYYY-MM-dd HH:mm:ss+00:00'),
+        });
+        console.info(res);
+      } catch (e) {
+        console.warn(e);
+      }
+      // button stop loading
+      setIsCreateLoading(false);
+      if (_.isEmpty(res)) {
+        showNotification({
+          color: 'danger',
+          title: 'Fail',
+          message: `Creation fail, go check tasks! 🤥`,
+        });
+        return;
+      } else {
+        setIsCreateKeyModalOpen(false);
+        refreshKeys();
+      }
+    },
+    [client, form, refreshKeys]
+  );
 
-  return (
-    <div className="bg-mount full-page items-stretch p-5 gap-4">
-      <Header client={client} />
-      <div
-        className={`flex-1 overflow-hidden bg-background-light 
+  return useMemo(
+    () => (
+      <div className="bg-mount full-page items-stretch p-5 gap-4">
+        <Header client={client} />
+        <div
+          className={`flex-1 overflow-hidden bg-background-light 
         flex flex-col justify-start items-stretch
         p-6 rounded-3xl gap-y-2`}
-      >
-        <div className={`flex justify-between items-center gap-x-6`}>
-          <div className={`font-extrabold text-3xl`}>🦄 Keys</div>
-          <TextInput
-            className={` flex-1`}
-            placeholder={'Search keys'}
-            radius={'lg'}
-            onChange={({ target: { value } }) => setFilter((filter) => ({ ...filter, query: value }))}
-          ></TextInput>
-          <Button radius={'lg'} onClick={() => onClickCreate()}>
-            Create
-          </Button>
-        </div>
-        <div
-          className={`flex-1 p-2 w-full overflow-scroll`}
-          onScroll={(element) => {
-            if (
-              //  fix unknown uncalled problem
-              Math.abs(
-                element.currentTarget.scrollHeight -
-                  element.currentTarget.scrollTop -
-                  element.currentTarget.clientHeight
-              ) <= 3.0
-            ) {
-              onScrollEnd();
-            }
-          }}
         >
-          {filteredKeys.length > 0 ? (
-            <Table
-              className={`w-full min-h-fit flex-1`}
-              horizontalSpacing="xl"
-              verticalSpacing="sm"
-              striped
-              highlightOnHover
-            >
-              <thead>
-                <tr>
-                  <th>UID</th>
-                  <th>Name</th>
-                  <th>Description</th>
-                  <th>Key</th>
-                  <th>Indexes</th>
-                  <th>Actions</th>
-                  <th>CreateAt</th>
-                  <th>UpdateAt</th>
-                  <th>ExpiresAt</th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody className={`py-1`}>{keyList}</tbody>
-            </Table>
-          ) : (
-            <div className={`fill`}>
-              <EmptyArea />
-            </div>
-          )}
-        </div>
-      </div>
-      <Modal
-        centered
-        lockScroll
-        size="lg"
-        radius="lg"
-        shadow="xl"
-        overlayOpacity={0.3}
-        padding="xl"
-        opened={isCreateKeyModalOpen}
-        onClose={() => setIsCreateKeyModalOpen(false)}
-      >
-        <p className={`text-center font-semibold text-lg`}>Add New Key</p>
-        <form className={`flex flex-col gap-y-6 w-full `} onSubmit={form.onSubmit(onCreation)}>
-          <TextInput
-            autoFocus
-            radius="md"
-            size={'lg'}
-            label={<p className={'text-brand-5 pb-2 text-lg'}>Name</p>}
-            placeholder="just name your key"
-            {...form.getInputProps('name')}
-          />
-          <TextInput
-            autoFocus
-            radius="md"
-            size={'lg'}
-            label={<p className={'text-brand-5 pb-2 text-lg'}>Description</p>}
-            placeholder="just describe your key"
-            {...form.getInputProps('description')}
-          />{' '}
-          <Tooltip position={'bottom-start'} label="Leave this option empty means all indexes permitted">
-            <MultiSelect
-              radius="md"
-              size={'lg'}
-              label={<p className={'text-brand-5 pb-2 text-lg'}>Indexes</p>}
-              placeholder="select permitted indexes"
-              creatable
-              clearable
-              searchable
-              withinPortal
-              data={indexes.map((i) => i.uid)}
-              {...form.getInputProps('indexes')}
-            />
-          </Tooltip>
-          <Tooltip position={'bottom-start'} label="Leave this option empty means all indexes permitted">
-            <MultiSelect
-              radius="md"
-              size={'lg'}
-              label={<p className={'text-brand-5 pb-2 text-lg'}>Actions</p>}
-              placeholder="select permitted actions"
-              creatable
-              clearable
-              searchable
-              withinPortal
-              data={[
-                { value: 'search', label: 'Search' },
-                { value: 'documents.add', label: 'Add/Update documents' },
-                { value: 'documents.get', label: 'Get document(s)' },
-                { value: 'documents.delete', label: 'Del document(s)' },
-                { value: 'indexes.create', label: 'Create index' },
-                { value: 'indexes.get', label: 'Get index(es) (without Non-authorized indexes)' },
-                { value: 'indexes.update', label: 'Update index(es)' },
-                { value: 'indexes.delete', label: 'Del index(es)' },
-                { value: 'tasks.get', label: 'Get task(s) (without Non-authorized indexes)' },
-                { value: 'settings.get', label: 'Get settings' },
-                { value: 'settings.update', label: 'Update/Reset settings' },
-                { value: 'stats.get', label: 'Get stats (without Non-authorized indexes)' },
-                { value: 'dumps.create', label: 'Create dumps (with Non-authorized indexes)' },
-                { value: 'version', label: 'Get instance version' },
-                { value: 'keys.get', label: 'Get keys' },
-                { value: 'keys.create', label: 'Create keys' },
-                { value: 'keys.update', label: 'Update keys' },
-                { value: 'keys.delete', label: 'Del keys' },
-              ]}
-              {...form.getInputProps('actions')}
-            />
-          </Tooltip>
-          <Tooltip position={'bottom-start'} label="Leave this option empty means this key never expires">
+          <div className={`flex justify-between items-center gap-x-6`}>
+            <div className={`font-extrabold text-3xl`}>🗝️ Keys</div>
             <TextInput
-              placeholder="UTC time and format must be YYYY-MM-dd HH:mm:ss"
+              className={` flex-1`}
+              placeholder={'Search keys'}
+              radius={'lg'}
+              onChange={({ target: { value } }) => setFilter((filter) => ({ ...filter, query: value }))}
+            ></TextInput>
+            <Button radius={'lg'} onClick={() => onClickCreate()}>
+              Create
+            </Button>
+          </div>
+          <div
+            className={`flex-1 p-2 w-full overflow-scroll`}
+            onScroll={(element) => {
+              if (
+                //  fix unknown uncalled problem
+                Math.abs(
+                  element.currentTarget.scrollHeight -
+                    element.currentTarget.scrollTop -
+                    element.currentTarget.clientHeight
+                ) <= 3.0
+              ) {
+                onScrollEnd();
+              }
+            }}
+          >
+            {filteredKeys.length > 0 ? (
+              <Table
+                className={`w-full min-h-fit flex-1`}
+                horizontalSpacing="xl"
+                verticalSpacing="sm"
+                striped
+                highlightOnHover
+              >
+                <thead>
+                  <tr>
+                    <th>UID</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Key</th>
+                    <th>Indexes</th>
+                    <th>Actions</th>
+                    <th>CreateAt</th>
+                    <th>UpdateAt</th>
+                    <th>ExpiresAt</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody className={`py-1`}>{keyList}</tbody>
+              </Table>
+            ) : (
+              <div className={`fill`}>
+                <EmptyArea />
+              </div>
+            )}
+          </div>
+        </div>
+        <Modal
+          centered
+          lockScroll
+          size="lg"
+          radius="lg"
+          shadow="xl"
+          overlayOpacity={0.3}
+          padding="xl"
+          opened={isCreateKeyModalOpen}
+          onClose={() => setIsCreateKeyModalOpen(false)}
+        >
+          <p className={`text-center font-semibold text-lg`}>Add New Key</p>
+          <form className={`flex flex-col gap-y-6 w-full `} onSubmit={form.onSubmit(onCreation)}>
+            <TextInput
+              autoFocus
               radius="md"
               size={'lg'}
-              label={<p className={'text-brand-5 pb-2 text-lg'}>Expired at</p>}
-              {...form.getInputProps('expiresAt')}
+              label={<p className={'text-brand-5 pb-2 text-lg'}>Name</p>}
+              placeholder="just name your key"
+              {...form.getInputProps('name')}
             />
-          </Tooltip>
-          <Button type="submit" radius={'xl'} size={'lg'} variant="light" loading={isCreateLoading}>
-            Create this key
-          </Button>
-          <Footer />
-        </form>
-      </Modal>
-    </div>
+            <TextInput
+              autoFocus
+              radius="md"
+              size={'lg'}
+              label={<p className={'text-brand-5 pb-2 text-lg'}>Description</p>}
+              placeholder="just describe your key"
+              {...form.getInputProps('description')}
+            />{' '}
+            <Tooltip position={'bottom-start'} label="Leave this option empty means all indexes permitted">
+              <MultiSelect
+                radius="md"
+                size={'lg'}
+                label={<p className={'text-brand-5 pb-2 text-lg'}>Indexes</p>}
+                placeholder="select permitted indexes"
+                creatable
+                clearable
+                searchable
+                withinPortal
+                data={indexes.map((i) => i.uid)}
+                {...form.getInputProps('indexes')}
+              />
+            </Tooltip>
+            <Tooltip position={'bottom-start'} label="Leave this option empty means all indexes permitted">
+              <MultiSelect
+                radius="md"
+                size={'lg'}
+                label={<p className={'text-brand-5 pb-2 text-lg'}>Actions</p>}
+                placeholder="select permitted actions"
+                creatable
+                clearable
+                searchable
+                withinPortal
+                data={[
+                  { value: 'search', label: 'Search' },
+                  { value: 'documents.add', label: 'Add/Update documents' },
+                  { value: 'documents.get', label: 'Get document(s)' },
+                  { value: 'documents.delete', label: 'Del document(s)' },
+                  { value: 'indexes.create', label: 'Create index' },
+                  { value: 'indexes.get', label: 'Get index(es) (without Non-authorized indexes)' },
+                  { value: 'indexes.update', label: 'Update index(es)' },
+                  { value: 'indexes.delete', label: 'Del index(es)' },
+                  { value: 'tasks.get', label: 'Get task(s) (without Non-authorized indexes)' },
+                  { value: 'settings.get', label: 'Get settings' },
+                  { value: 'settings.update', label: 'Update/Reset settings' },
+                  { value: 'stats.get', label: 'Get stats (without Non-authorized indexes)' },
+                  { value: 'dumps.create', label: 'Create dumps (with Non-authorized indexes)' },
+                  { value: 'version', label: 'Get instance version' },
+                  { value: 'keys.get', label: 'Get keys' },
+                  { value: 'keys.create', label: 'Create keys' },
+                  { value: 'keys.update', label: 'Update keys' },
+                  { value: 'keys.delete', label: 'Del keys' },
+                ]}
+                {...form.getInputProps('actions')}
+              />
+            </Tooltip>
+            <Tooltip position={'bottom-start'} label="Leave this option empty means this key never expires">
+              <TextInput
+                placeholder="UTC time and format must be YYYY-MM-dd HH:mm:ss"
+                radius="md"
+                size={'lg'}
+                label={<p className={'text-brand-5 pb-2 text-lg'}>Expired at</p>}
+                {...form.getInputProps('expiresAt')}
+              />
+            </Tooltip>
+            <Button type="submit" radius={'xl'} size={'lg'} variant="light" loading={isCreateLoading}>
+              Create this key
+            </Button>
+            <Footer />
+          </form>
+        </Modal>
+      </div>
+    ),
+    [
+      client,
+      filteredKeys.length,
+      form,
+      indexes,
+      isCreateKeyModalOpen,
+      isCreateLoading,
+      keyList,
+      onClickCreate,
+      onCreation,
+      onScrollEnd,
+    ]
   );
 }
 

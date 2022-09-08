@@ -14,3 +14,18 @@ export const showRequestLoader = () => {
 export const hiddenRequestLoader = () => {
   hideNotification(RequestLoaderID);
 };
+
+const ConnectionTestLoaderID = 'conn-test-loader';
+
+export const showConnectionTestLoader = () => {
+  showNotification({
+    id: ConnectionTestLoaderID,
+    disallowClose: true,
+    title: 'Testing',
+    message: 'Connection testing',
+    loading: true,
+  });
+};
+export const hiddenConnectionTestLoader = () => {
+  hideNotification(ConnectionTestLoaderID);
+};

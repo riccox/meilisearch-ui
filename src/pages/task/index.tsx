@@ -71,7 +71,7 @@ function Tasks() {
     } else {
       return tasks;
     }
-  }, [filter, tasksQuery.data?.pages]);
+  }, [filter.query, filter.status, filter.type, fuse, tasksQuery.data?.pages]);
 
   const onClickDetail = useCallback((task: Task) => {
     setTaskDetailModalContent(task);
@@ -109,14 +109,8 @@ function Tasks() {
           </div>
         );
       });
-    } else {
-      return (
-        <div className={`col-span-full`}>
-          <EmptyArea />
-        </div>
-      );
     }
-  }, [filteredTasks]);
+  }, [filteredTasks, onClickDetail]);
 
   const { run: onScrollEnd } = useDebounceFn(
     () => {
@@ -130,78 +124,87 @@ function Tasks() {
     }
   );
 
-  return (
-    <div className="bg-mount full-page items-stretch p-5 gap-4">
-      <Header client={client} />
-      <div
-        className={`flex-1 overflow-hidden bg-background-light 
+  return useMemo(
+    () => (
+      <div className="bg-mount full-page items-stretch p-5 gap-4">
+        <Header client={client} />
+        <div
+          className={`flex-1 overflow-hidden bg-background-light 
         flex flex-col justify-start items-stretch
         p-6 rounded-3xl gap-y-2`}
-      >
-        <div className={`flex justify-between items-center gap-x-6`}>
-          <div className={`font-extrabold text-3xl`}>🦄 Tasks</div>
-          <TextInput
-            className={` flex-1`}
-            placeholder={'Search tasks'}
-            radius={'lg'}
-            onChange={({ target: { value } }) => setFilter((filter) => ({ ...filter, query: value }))}
-          ></TextInput>
-
-          <Select
-            placeholder="Filter Task Type"
-            clearable
-            radius={'lg'}
-            data={[
-              { value: TaskTypes.DOCUMENT_DELETION, label: 'DOCUMENT_DELETION' },
-              { value: TaskTypes.DOCUMENTS_ADDITION_OR_UPDATE, label: 'DOCUMENTS_ADDITION_OR_UPDATE' },
-              { value: TaskTypes.INDEX_DELETION, label: 'INDEX_DELETION' },
-              { value: TaskTypes.INDEX_UPDATE, label: 'INDEX_UPDATE' },
-              { value: TaskTypes.INDEX_CREATION, label: 'INDEX_CREATION' },
-              { value: TaskTypes.SETTINGS_UPDATE, label: 'SETTINGS_UPDATE' },
-            ]}
-            onChange={(value) => setFilter((filter) => ({ ...filter, type: value ?? undefined }))}
-          />
-          <Select
-            placeholder="Filter Task Status"
-            clearable
-            radius={'lg'}
-            data={[
-              { value: 'succeeded', label: 'Succeeded ✅' },
-              { value: 'processing', label: 'Processing ⚡' },
-              { value: 'failed', label: 'Failed ❌' },
-              { value: 'enqueued', label: 'Enqueued 🔀' },
-            ]}
-            onChange={(value) => setFilter((filter) => ({ ...filter, status: value ?? undefined }))}
-          />
-        </div>
-        <div
-          className={`flex-1 overflow-scroll
-        grid grid-cols-3 auto-rows-max gap-4 p-2`}
-          onScroll={(element) => {
-            if (
-              //  fix unknown uncalled problem
-              Math.abs(
-                element.currentTarget.scrollHeight -
-                  element.currentTarget.scrollTop -
-                  element.currentTarget.clientHeight
-              ) <= 3.0
-            ) {
-              onScrollEnd();
-            }
-          }}
         >
-          {taskList}
+          <div className={`flex justify-between items-center gap-x-6`}>
+            <div className={`font-extrabold text-3xl`}>✅ Tasks</div>
+            <TextInput
+              className={`flex-1`}
+              placeholder={'Search tasks'}
+              radius={'lg'}
+              onChange={({ target: { value } }) => setFilter((filter) => ({ ...filter, query: value }))}
+            ></TextInput>
+
+            <Select
+              placeholder="Filter Task Type"
+              clearable
+              radius={'lg'}
+              data={[
+                { value: TaskTypes.DOCUMENT_DELETION, label: 'DOCUMENT_DELETION' },
+                { value: TaskTypes.DOCUMENTS_ADDITION_OR_UPDATE, label: 'DOCUMENTS_ADDITION_OR_UPDATE' },
+                { value: TaskTypes.INDEX_DELETION, label: 'INDEX_DELETION' },
+                { value: TaskTypes.INDEX_UPDATE, label: 'INDEX_UPDATE' },
+                { value: TaskTypes.INDEX_CREATION, label: 'INDEX_CREATION' },
+                { value: TaskTypes.SETTINGS_UPDATE, label: 'SETTINGS_UPDATE' },
+              ]}
+              onChange={(value) => setFilter((filter) => ({ ...filter, type: value ?? undefined }))}
+            />
+            <Select
+              placeholder="Filter Task Status"
+              clearable
+              radius={'lg'}
+              data={[
+                { value: 'succeeded', label: 'Succeeded ✅' },
+                { value: 'processing', label: 'Processing ⚡' },
+                { value: 'failed', label: 'Failed ❌' },
+                { value: 'enqueued', label: 'Enqueued 🔀' },
+              ]}
+              onChange={(value) => setFilter((filter) => ({ ...filter, status: value ?? undefined }))}
+            />
+          </div>
+          {filteredTasks.length > 0 ? (
+            <div
+              className={`flex-1 overflow-scroll
+        grid grid-cols-3 auto-rows-max gap-4 p-2`}
+              onScroll={(element) => {
+                if (
+                  //  fix unknown uncalled problem
+                  Math.abs(
+                    element.currentTarget.scrollHeight -
+                      element.currentTarget.scrollTop -
+                      element.currentTarget.clientHeight
+                  ) <= 3.0
+                ) {
+                  onScrollEnd();
+                }
+              }}
+            >
+              {taskList}
+            </div>
+          ) : (
+            <div className={`col-span-full h-full`}>
+              <EmptyArea />
+            </div>
+          )}
         </div>
+        <Modal
+          centered
+          opened={isTaskDetailModalOpen}
+          onClose={() => setIsTaskDetailModalOpen(false)}
+          title="Task Detail"
+        >
+          <Code block>{stringifyJsonPretty(taskDetailModalContent)}</Code>
+        </Modal>
       </div>
-      <Modal
-        centered
-        opened={isTaskDetailModalOpen}
-        onClose={() => setIsTaskDetailModalOpen(false)}
-        title="Task Detail"
-      >
-        <Code block>{stringifyJsonPretty(taskDetailModalContent)}</Code>
-      </Modal>
-    </div>
+    ),
+    [client, filteredTasks.length, isTaskDetailModalOpen, onScrollEnd, taskDetailModalContent, taskList]
   );
 }
 

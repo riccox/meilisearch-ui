@@ -5,11 +5,10 @@ import { ActionIcon, Autocomplete, Button, Modal, PasswordInput, TextInput, Tool
 import { Footer } from '@/src/components/Footer';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from '@mantine/form';
-import { MeiliSearch } from 'meilisearch';
-import _ from 'lodash';
-import { showNotification } from '@mantine/notifications';
-import { IconBooks, IconCirclePlus, IconKey, IconListCheck, IconPencilMinus } from '@tabler/icons';
+import { IconBooks, IconCirclePlus, IconCircleX, IconKey, IconListCheck, IconPencilMinus } from '@tabler/icons';
 import dayjs from 'dayjs';
+import { testConnection } from '@/src/utils/conn';
+import { openConfirmModal } from '@mantine/modals';
 
 const instanceCardClassName = `col-span-1 h-28 rounded-lg`;
 
@@ -17,19 +16,34 @@ function Dashboard() {
   const navigate = useNavigate();
   const setCurrentInstance = useAppStore((state) => state.setCurrentInstance);
   const addInstance = useAppStore((state) => state.addInstance);
+  const editInstance = useAppStore((state) => state.editInstance);
+  const removeInstance = useAppStore((state) => state.removeInstance);
   const instances = useAppStore((state) => state.instances);
   const currentInstance = useAppStore((state) => state.currentInstance);
-  const [isAddInstanceModalOpen, setIsAddInstanceModalOpen] = useState(false);
+  const [instanceFormType, setInstanceFormType] = useState<'create' | 'edit'>('create');
+  const [instanceEditing, setInstanceEditing] = useState<Instance>();
+  const [isInstanceFormModalOpen, setIsInstanceFormModalOpen] = useState(false);
+  const [isSubmitInstanceLoading, setIsSubmitInstanceLoading] = useState(false);
 
-  const [isAddInstanceLoading, setIsAddInstanceLoading] = useState(false);
-
-  const form = useForm({
+  const instanceForm = useForm({
     initialValues: {
       name: 'default',
       host: currentInstance?.host ?? '',
       apiKey: currentInstance?.apiKey ?? '',
     },
     validate: {
+      name: (value: string) => {
+        let otherNames: string[] = [];
+        switch (instanceFormType) {
+          case 'create':
+            otherNames = instances.map((i) => i.name);
+            break;
+          case 'edit':
+            otherNames = instances.map((i) => i.name).filter((n) => n !== instanceEditing!.name);
+            break;
+        }
+        return otherNames.includes(value) ? 'Name should be different from others' : null;
+      },
       host: (value: string) =>
         /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()!@:%_\+.~#?&\/\/=]*)/.test(
           value
@@ -39,57 +53,89 @@ function Dashboard() {
     },
   });
 
-  const onAddInstance = useCallback(async (values: typeof form.values) => {
-    // button loading
-    setIsAddInstanceLoading(true);
-    // do connection check
-    const client = new MeiliSearch({ ...values });
-    let stats;
-    try {
-      stats = await client.getStats();
-      console.info(stats);
-    } catch (e) {
-      console.warn(e);
-    }
-    // button stop loading
-    setIsAddInstanceLoading(false);
-    if (_.isEmpty(stats)) {
-      showNotification({
-        color: 'danger',
-        title: 'Fail',
-        message: 'Connection fail, go check your config! 🤥',
-      });
-      return;
-    } else {
-      addInstance({ ...values });
-      setIsAddInstanceModalOpen(false);
-    }
-  }, []);
+  const onSubmitInstance = useCallback(
+    async (values: typeof instanceForm.values) => {
+      // button loading
+      setIsSubmitInstanceLoading(true);
+      // do connection check
+      testConnection({ ...values })
+        .finally(() => {
+          setIsSubmitInstanceLoading(false);
+        })
+        .then(() => {
+          switch (instanceFormType) {
+            case 'create':
+              addInstance({ ...values });
+              break;
+            case 'edit':
+              editInstance(instanceEditing!.name, { ...values });
+              break;
+          }
+          setIsInstanceFormModalOpen(false);
+        });
+    },
+    [instanceForm, instanceFormType, addInstance, editInstance, instanceEditing]
+  );
 
-  const onClickInstance = useCallback((ins: Instance, to?: string) => {
-    setCurrentInstance(ins);
-    to && navigate(to);
-  }, []);
+  const onClickInstance = useCallback(
+    (ins: Instance, to?: string) => {
+      // do connection test before next step
+      testConnection({ ...ins }).then(() => {
+        setCurrentInstance(ins);
+        to && navigate(to);
+      });
+    },
+    [navigate, setCurrentInstance]
+  );
+
+  const onClickRemoveInstance = useCallback(
+    (ins: Instance) => {
+      openConfirmModal({
+        title: 'Remove this instance',
+        centered: true,
+        children: <p>Are you sure you want to remove this instance?</p>,
+        labels: { confirm: 'Yes', cancel: 'No' },
+        onConfirm: () => {
+          removeInstance(ins.name);
+        },
+      });
+    },
+    [removeInstance]
+  );
 
   const instancesList = useMemo(() => {
     return instances.map((instance, index) => {
       return (
         <div
           key={index}
-          className={`bg-background-light flex flex-col justify-between py-4 px-6
+          className={`bg-background-light flex flex-col justify-between py-4 px-6 group
       hover:ring-brand-4 hover:ring-2 ${instanceCardClassName}`}
         >
-          <div className={`flex justify-between items-center group`}>
+          <div className={`flex justify-between items-center`}>
             <p className={`text-2xl font-bold group-hover:underline`}>{instance.name}</p>
-            <Tooltip position={'left'} label="Edit">
-              <ActionIcon variant="light" color="yellow">
-                <IconPencilMinus size={24} />
+            <div className={`flex gap-x-3`}>
+              <Tooltip position={'left'} label="Edit">
+                <ActionIcon
+                  variant="light"
+                  color="yellow"
+                  onClick={() => {
+                    setInstanceEditing(() => ({ ...instance }));
+                    instanceForm.setValues(() => ({ ...instance }));
+                    setInstanceFormType(() => 'edit');
+                    setIsInstanceFormModalOpen(() => true);
+                  }}
+                >
+                  <IconPencilMinus size={24} />
+                </ActionIcon>
+              </Tooltip>
+              <ActionIcon variant="light" onClick={() => onClickRemoveInstance(instance)}>
+                <IconCircleX size={24} />
               </ActionIcon>
-            </Tooltip>
+            </div>
           </div>
           <div className={`w-full flex justify-end items-center gap-x-3`}>
             <p className={`mr-auto text-neutral-500 text-sm`}>
-              Added at {dayjs(instance.addTime).format('YYYY-MM-DD HH:mm')}
+              Updated at {dayjs(instance.updatedTime).format('YYYY-MM-DD HH:mm')}
             </p>
             <Tooltip position={'bottom'} label="Indexes">
               <ActionIcon variant="light" color="violet" onClick={() => onClickInstance(instance, '/index')}>
@@ -110,7 +156,7 @@ function Dashboard() {
         </div>
       );
     });
-  }, [instances]);
+  }, [instanceForm, instances, onClickInstance, onClickRemoveInstance]);
 
   return (
     <div className="bg-mount full-page justify-center items-center gap-y-6">
@@ -120,7 +166,10 @@ function Dashboard() {
         <div className={`grid grid-cols-1 gap-y-3 w-full p-1  overflow-y-scroll`}>
           {instancesList}
           <div
-            onClick={() => setIsAddInstanceModalOpen(true)}
+            onClick={() => {
+              setInstanceFormType('create');
+              setIsInstanceFormModalOpen(true);
+            }}
             className={`${instanceCardClassName}
             flex justify-center items-center 
             hover:cursor-pointer hover:opacity-80 hover:border-neutral-200 hover:border-2 
@@ -133,8 +182,8 @@ function Dashboard() {
       <Footer className={`!text-white`} />
 
       <Modal
-        opened={isAddInstanceModalOpen}
-        onClose={() => setIsAddInstanceModalOpen(false)}
+        opened={isInstanceFormModalOpen}
+        onClose={() => setIsInstanceFormModalOpen(false)}
         centered
         lockScroll
         radius="lg"
@@ -143,24 +192,31 @@ function Dashboard() {
         padding="xl"
         withCloseButton={false}
       >
-        <p className={`text-center font-semibold text-lg`}>Add New Instance</p>
-        <form className={`flex flex-col gap-y-6 w-full `} onSubmit={form.onSubmit(onAddInstance)}>
+        <p className={`text-center font-semibold text-lg`}>
+          {instanceFormType === 'edit' ? 'Edit Instance' : 'Add New Instance'}
+        </p>
+        <form className={`flex flex-col gap-y-6 w-full `} onSubmit={instanceForm.onSubmit(onSubmitInstance)}>
           <TextInput
             autoFocus
             radius="md"
             size={'lg'}
             label={<p className={'text-brand-5 pb-2 text-lg'}>Name</p>}
-            placeholder="just describe your instance"
-            {...form.getInputProps('name')}
+            placeholder="name your instance, should be different from others"
+            {...instanceForm.getInputProps('name')}
           />
-          <Autocomplete
-            radius="md"
-            size={'lg'}
-            label={<p className={'text-brand-5 pb-2 text-lg'}>Host</p>}
-            placeholder="http://127.0.0.1:7700"
-            data={instances.map((i) => i.host)}
-            {...form.getInputProps('host')}
-          />
+          <Tooltip
+            position={'bottom-start'}
+            label="Remember enable CORS in your instance server for this ui domain first"
+          >
+            <Autocomplete
+              radius="md"
+              size={'lg'}
+              label={<p className={'text-brand-5 pb-2 text-lg'}>Host</p>}
+              placeholder="http://127.0.0.1:7700"
+              data={instances.map((i) => i.host)}
+              {...instanceForm.getInputProps('host')}
+            />
+          </Tooltip>
           <Tooltip
             position={'bottom-start'}
             label="Don't care! Your instance config will only be store in your local browser"
@@ -170,11 +226,11 @@ function Dashboard() {
               radius="md"
               size={'lg'}
               label={<p className={'text-brand-5 pb-2 text-lg'}>Api Key</p>}
-              {...form.getInputProps('apiKey')}
+              {...instanceForm.getInputProps('apiKey')}
             />
           </Tooltip>
-          <Button type="submit" radius={'xl'} size={'lg'} variant="light" loading={isAddInstanceLoading}>
-            Add this instance
+          <Button type="submit" radius={'xl'} size={'lg'} variant="light" disabled={isSubmitInstanceLoading}>
+            {instanceFormType === 'edit' ? 'Confirm edit' : 'Add this instance'}
           </Button>
           <Footer />
         </form>
