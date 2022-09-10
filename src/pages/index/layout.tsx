@@ -78,7 +78,7 @@ function IndexesLayout() {
     () => (
       <div className="bg-mount full-page items-stretch p-5 gap-4">
         <Header client={client} />
-        <div className={`flex-1 flex gap-4`}>
+        <div className={`flex-1 flex gap-4 overflow-hidden`}>
           <div
             className={`flex-1 bg-background-light 
         flex flex-col justify-start items-stretch
@@ -98,7 +98,7 @@ function IndexesLayout() {
               {indexList}
             </div>
           </div>
-          <div className={`flex-[3] bg-background-light rounded-3xl`}>
+          <div className={`flex-[3] bg-background-light rounded-3xl overflow-hidden`}>
             <Outlet context={{ refreshIndexes: () => indexesQuery.refetch() }} />
           </div>
         </div>
