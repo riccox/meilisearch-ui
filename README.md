@@ -2,6 +2,9 @@
 
 An open-source, pretty, simple and fast meilisearch ui
 
+> [IMPORTANT] The main branch may be unstable or unavailable during development. Please use release instead of main to
+> obtain a stable version
+
 ## online use
 
 There is a live demo 👉 [meilisearch-ui](//meilisearch-ui.lrvinye.me), deploy on Vercel.
