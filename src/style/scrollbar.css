@@ -1,7 +1,11 @@
 /* Works on Firefox */
+*:hover {
+    scrollbar-color: rgb(150, 150, 150) transparent;
+}
+
 * {
     scrollbar-width: 0.3rem;
-    scrollbar-color: rgb(150, 150, 150) transparent;
+    scrollbar-color: transparent;
 }
 
 /* Works on Chrome, Edge, and Safari */
@@ -16,7 +20,7 @@
     background: transparent;
 }
 
-*::-webkit-scrollbar-thumb {
+*:hover::-webkit-scrollbar-thumb {
     background-color: rgb(150, 150, 150);
     border: 0.15rem solid transparent;
     border-radius: 1.4rem;
@@ -24,6 +28,10 @@
     -moz-border-radius: 1.4rem;
     -ms-border-radius: 1.4rem;
     -o-border-radius: 1.4rem;
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: transparent;
 }
 
 

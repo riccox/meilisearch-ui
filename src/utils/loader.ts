@@ -22,7 +22,6 @@ export const showRequestLoader = () => {
     // just show loader for slow request
   }, 2000);
   RequestLoaderTimeoutId.push(tid);
-  console.debug('[showRequestLoader]', tid, RequestLoaderTimeoutId);
 };
 export const hiddenRequestLoader = () => {
   hideNotification(RequestLoaderID);
@@ -30,7 +29,6 @@ export const hiddenRequestLoader = () => {
   const arr = [...RequestLoaderTimeoutId];
   arr.splice(0, 1);
   RequestLoaderTimeoutId = arr;
-  console.debug('[hiddenRequestLoader]', RequestLoaderTimeoutId);
 };
 
 const ConnectionTestLoaderID = 'conn-test-loader';
