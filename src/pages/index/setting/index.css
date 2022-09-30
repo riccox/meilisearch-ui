@@ -1,0 +1,4 @@
+.index-properties .cell {
+    @apply odd:col-span-1 odd:text-neutral-500 odd:text-sm;
+    @apply even:col-span-5 even:text-neutral-800;
+}
