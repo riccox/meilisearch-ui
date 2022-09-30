@@ -6,6 +6,7 @@
     font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
     font-size: 17px;
     font-synthesis: none;
+    @apply selection:bg-brand-2 selection:bg-opacity-50;
 
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
