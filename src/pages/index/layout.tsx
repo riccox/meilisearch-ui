@@ -203,9 +203,9 @@ function IndexesLayout() {
 
   return useMemo(
     () => (
-      <div className="bg-mount full-page items-stretch p-5 gap-4">
+      <div className="bg-mount full-page items-stretch p-5 gap-3">
         <Header client={client} />
-        <div className={`flex-1 flex gap-4 overflow-hidden`}>
+        <div className={`flex-1 flex gap-3 overflow-hidden`}>
           <div
             className={`flex-1 bg-background-light 
         flex flex-col justify-start items-stretch
