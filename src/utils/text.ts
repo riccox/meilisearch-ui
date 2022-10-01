@@ -17,7 +17,7 @@ const enum TaskStatus {
 export const TaskColors: Record<TaskStatus, MantineColor> = {
   [TaskStatus.TASK_SUCCEEDED]: 'success',
   [TaskStatus.TASK_ENQUEUED]: 'info',
-  [TaskStatus.TASK_FAILED]: 'warning',
+  [TaskStatus.TASK_FAILED]: 'yellow',
   [TaskStatus.TASK_PROCESSING]: 'grape',
 };
 
@@ -26,6 +26,14 @@ export const showTaskSubmitNotification = (task: EnqueuedTask): void => {
     color: TaskColors[task.status],
     title: `Task ${task.status}`,
     message: getTaskSubmitMessage(task),
+  });
+};
+
+export const showTaskErrorNotification = (err: any): void => {
+  showNotification({
+    color: TaskColors.failed,
+    title: `Task Fail`,
+    message: err.toString(),
   });
 };
 
