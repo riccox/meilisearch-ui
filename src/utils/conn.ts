@@ -22,11 +22,13 @@ export const testConnection = async (cfg: Config) => {
   // stop loading
   hiddenConnectionTestLoader();
   if (_.isEmpty(stats)) {
+    const msg = 'Connection fail, go check your config! 🤥';
     showNotification({
       color: 'yellow',
       title: 'Fail',
-      message: 'Connection fail, go check your config! 🤥',
+      message: msg,
     });
-    throw new Error(stats);
+    console.error(msg, stats);
+    throw new Error('msg');
   }
 };

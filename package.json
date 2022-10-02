@@ -1,12 +1,19 @@
 {
   "name": "meilisearch-ui",
+  "version": "0.0.1",
   "private": true,
-  "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview"
+  },
+  "repository": "https://github.com/lrvinye/meilisearch-ui",
+  "homepage": "https://github.com/lrvinye/meilisearch-ui#readme",
+  "author": {
+    "email": "me@lrvinye.me",
+    "name": "Kyrie Lrvinye",
+    "url": "https://www.lrvinye.me"
   },
   "dependencies": {
     "@emotion/react": "^11.10.0",
