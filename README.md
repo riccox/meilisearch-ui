@@ -1,7 +1,7 @@
 # Meilisearch-UI
 
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/lrvinye/meilisearch-ui/docker-build-release)
 ![release](https://img.shields.io/github/v/release/lrvinye/meilisearch-ui?display_name=tag)
-![tag](https://img.shields.io/github/v/tag/lrvinye/meilisearch-ui)
 ![stars](https://img.shields.io/github/stars/lrvinye/meilisearch-ui)
 ![issues](https://img.shields.io/github/issues/lrvinye/meilisearch-ui)
 ![last-commit](https://img.shields.io/github/last-commit/lrvinye/meilisearch-ui)
@@ -33,6 +33,16 @@ There is a live demo 👉 [meilisearch-ui](//meilisearch-ui.lrvinye.me), deploy 
 🔒 Data is stored inside your browser
 
 ## Get start
+
+### Docker
+
+```sh
+docker pull lrvinye/meilisearch-ui:latest
+
+docker run -d --restart=always --name="meilisearch-ui" -p <your-port>:24900 lrvinye/meilisearch-ui:latest
+```
+
+## Development
 
 ```sh
 git clone git@github.com:lrvinye/meilisearch-ui.git
