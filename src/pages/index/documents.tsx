@@ -11,6 +11,8 @@ import { showTaskErrorNotification, showTaskSubmitNotification } from '@/src/uti
 import ReactJson, { InteractionProps } from 'react-json-view';
 import { showNotification } from '@mantine/notifications';
 import _ from 'lodash';
+import { Hit } from 'meilisearch';
+import { openConfirmModal } from '@mantine/modals';
 
 export const Documents = () => {
   const host = useAppStore((state) => state.currentInstance?.host);
@@ -57,6 +59,19 @@ export const Documents = () => {
     },
   });
 
+  const indexPrimaryKeyQuery = useQuery(
+    ['indexPrimaryKey', host, indexClient?.uid],
+    async () => {
+      return (await indexClient?.getRawInfo())?.primaryKey;
+    },
+    {
+      enabled: !!currentIndex,
+      keepPreviousData: true,
+      refetchOnMount: 'always',
+      refetchInterval: 30000,
+    }
+  );
+
   const searchDocumentsQuery = useQuery(
     ['searchDocuments', host, indexClient?.uid, searchForm.values],
     async ({ queryKey }) => {
@@ -81,6 +96,8 @@ export const Documents = () => {
     }
   );
   const [isAddDocumentsModalOpen, setIsAddDocumentsModalOpen] = useState(false);
+  const [isEditDocumentsModalOpen, setIsEditDocumentsModalOpen] = useState(false);
+  const [editingDocument, setEditingDocument] = useState<object>();
 
   const addDocumentsMutation = useMutation(
     ['addDocuments', host, indexClient?.uid],
@@ -130,21 +147,110 @@ export const Documents = () => {
     [addDocumentsForm]
   );
 
+  const onEditDocumentJsonEditorUpdate = useCallback(
+    (e: InteractionProps) => setEditingDocument(e.updated_src as object),
+    []
+  );
+
+  const removeDocumentsMutation = useMutation(
+    ['removeDocuments', host, indexClient?.uid],
+    async (docId: string[] | number[]) => {
+      return await indexClient!.deleteDocuments(docId);
+    },
+    {
+      onSuccess: (t) => {
+        showTaskSubmitNotification(t);
+        searchDocumentsQuery.refetch().then();
+      },
+      onError: (error) => {
+        console.error(error);
+        showTaskErrorNotification(error);
+      },
+    }
+  );
+
+  const editDocumentMutation = useMutation(
+    ['editDocument', host, indexClient?.uid],
+    async (docs: object[]) => {
+      return await indexClient!.updateDocuments(docs);
+    },
+    {
+      onSuccess: (t) => {
+        setIsEditDocumentsModalOpen(false);
+        showTaskSubmitNotification(t);
+        searchDocumentsQuery.refetch().then();
+      },
+      onError: (error) => {
+        console.error(error);
+        showTaskErrorNotification(error);
+      },
+    }
+  );
+
+  const onClickDocumentDel = useCallback(
+    (doc: Hit) => {
+      const pk = indexPrimaryKeyQuery.data;
+      console.debug('onClickDocumentDel', 'pk', pk);
+      if (pk) {
+        openConfirmModal({
+          title: 'Delete a document',
+          centered: true,
+          children: (
+            <p>
+              Are you sure you want to delete this{' '}
+              <strong>
+                document ({pk}: {doc[pk]}) in index {currentIndex}
+              </strong>
+              ?
+            </p>
+          ),
+          labels: { confirm: 'Confirm', cancel: 'Cancel' },
+          onConfirm: () => {
+            removeDocumentsMutation.mutate([doc[pk]]);
+          },
+        });
+      } else {
+        showNotification({
+          color: 'danger',
+          message: `Document deletion require the valid primaryKey in index ${indexClient?.uid}`,
+        });
+      }
+    },
+    [currentIndex, indexClient?.uid, indexPrimaryKeyQuery.data, removeDocumentsMutation]
+  );
+
+  const onClickDocumentUpdate = useCallback((doc: Hit) => {
+    setIsEditDocumentsModalOpen(true);
+    setEditingDocument(doc);
+  }, []);
+
+  const onSubmitDocumentUpdate = useCallback(() => {
+    editingDocument && editDocumentMutation.mutate([editingDocument]);
+  }, [editDocumentMutation, editingDocument]);
+
   const docList = useMemo(() => {
     return searchDocumentsQuery.data?.hits.map((d, i) => {
       return (
-        <div className={`border rounded-xl p-4 bg-brand-1 odd:bg-opacity-10 even:bg-opacity-20`} key={i}>
+        <div className={` rounded-xl p-4 bg-brand-1 odd:bg-opacity-20 even:bg-opacity-10 group relative`} key={i}>
           <ReactJson src={d} collapsed={3} collapseStringsAfterLength={50} />
+          <div className={`absolute right-0 bottom-0 invisible group-hover:visible p-2 flex items-center gap-2`}>
+            <Button color={'info'} size={'xs'} variant={'outline'} onClick={() => onClickDocumentUpdate(d)}>
+              Update
+            </Button>
+            <Button color={'danger'} size={'xs'} variant={'outline'} onClick={() => onClickDocumentDel(d)}>
+              Delete
+            </Button>
+          </div>
         </div>
       );
     });
-  }, [searchDocumentsQuery.data?.hits]);
+  }, [onClickDocumentDel, onClickDocumentUpdate, searchDocumentsQuery.data?.hits]);
 
   return useMemo(
     () => (
       <>
         {currentIndex ? (
-          <div className={`h-full flex flex-col p-6 gap-5 overflow-hidden`}>
+          <div className={`h-full flex flex-col p-6 gap-4 overflow-hidden`}>
             {/* Search bar */}
             <div className={`rounded-lg ${searchDocumentsQuery.isFetching ? 'rainbow-ring-rotate' : ''}`}>
               <div className={`rounded-lg p-4 border`}>
@@ -197,6 +303,14 @@ export const Documents = () => {
                 </form>
               </div>
             </div>
+            <div className={`flex gap-x-4 justify-between items-baseline`}>
+              <p className={`font-extrabold text-2xl`}>Results </p>
+              <div className={`flex gap-x-2 px-4 font-thin text-xs text-neutral-500`}>
+                <p>total {searchDocumentsQuery.data?.estimatedTotalHits} hits</p>
+                <p>in {searchDocumentsQuery.data?.processingTimeMs} ms</p>
+              </div>
+            </div>
+
             {/* Doc List */}
             <div className={`flex-1 flex flex-col gap-4 overflow-scroll`}>{docList}</div>
           </div>
@@ -233,19 +347,55 @@ export const Documents = () => {
             </Button>
           </form>
         </Modal>
+        <Modal
+          opened={isEditDocumentsModalOpen}
+          onClose={() => {
+            setIsEditDocumentsModalOpen(false);
+            setEditingDocument(undefined);
+          }}
+          centered
+          lockScroll
+          radius="lg"
+          shadow="xl"
+          overlayOpacity={0.3}
+          padding="xl"
+          withCloseButton={true}
+          overflow={'inside'}
+          title={<p className={`font-bold text-lg`}>Edit Document</p>}
+        >
+          <div className={`flex flex-col gap-y-4 w-full `}>
+            <div className={`border rounded-xl p-4`}>
+              <ReactJson
+                src={editingDocument ?? {}}
+                onAdd={onEditDocumentJsonEditorUpdate}
+                onEdit={onEditDocumentJsonEditorUpdate}
+                onDelete={onEditDocumentJsonEditorUpdate}
+              />
+            </div>
+            <Button onClick={onSubmitDocumentUpdate} radius={'xl'} size={'lg'} variant="light">
+              Submit
+            </Button>
+          </div>
+        </Modal>
       </>
     ),
     [
-      addDocumentsForm,
       currentIndex,
+      searchDocumentsQuery.isFetching,
+      searchDocumentsQuery.data?.estimatedTotalHits,
+      searchDocumentsQuery.data?.processingTimeMs,
+      searchForm,
+      onSearchSubmit,
+      onAddDocumentsClick,
       docList,
       isAddDocumentsModalOpen,
-      onAddDocumentsClick,
-      onAddDocumentsJsonEditorUpdate,
+      addDocumentsForm,
       onAddDocumentsSubmit,
-      onSearchSubmit,
-      searchDocumentsQuery.isFetching,
-      searchForm,
+      onAddDocumentsJsonEditorUpdate,
+      isEditDocumentsModalOpen,
+      editingDocument,
+      onEditDocumentJsonEditorUpdate,
+      onSubmitDocumentUpdate,
     ]
   );
 };
