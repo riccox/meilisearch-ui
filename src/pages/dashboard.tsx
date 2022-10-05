@@ -6,9 +6,9 @@ import { Footer } from '@/src/components/Footer';
 import { useNavigate } from 'react-router-dom';
 import { useForm } from '@mantine/form';
 import { IconBooks, IconCirclePlus, IconCircleX, IconKey, IconListCheck, IconPencilMinus } from '@tabler/icons';
-import dayjs from 'dayjs';
 import { testConnection } from '@/src/utils/conn';
 import { openConfirmModal } from '@mantine/modals';
+import { getTimeText } from '@/src/utils/text';
 
 const instanceCardClassName = `col-span-1 h-28 rounded-lg`;
 
@@ -134,9 +134,7 @@ function Dashboard() {
             </div>
           </div>
           <div className={`w-full flex justify-end items-center gap-x-3`}>
-            <p className={`mr-auto text-neutral-500 text-sm`}>
-              Updated at {dayjs(instance.updatedTime).format('YYYY-MM-DD HH:mm')}
-            </p>
+            <p className={`mr-auto text-neutral-500 text-sm`}>Updated at {getTimeText(instance.updatedTime)}</p>
             <Tooltip position={'bottom'} label="Indexes">
               <ActionIcon variant="light" color="violet" onClick={() => onClickInstance(instance, '/index')}>
                 <IconBooks size={24} />

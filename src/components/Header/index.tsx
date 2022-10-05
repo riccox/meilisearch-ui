@@ -1,5 +1,4 @@
 import { ActionIcon, Badge, Button, HoverCard, Menu } from '@mantine/core';
-import dayjs from 'dayjs';
 import {
   IconArrowsLeftRight,
   IconBook2,
@@ -22,7 +21,7 @@ import { useQuery } from 'react-query';
 import { useInstanceStats } from '@/src/hooks/useInstanceStats';
 import _ from 'lodash';
 import { openConfirmModal } from '@mantine/modals';
-import { showTaskSubmitNotification } from '@/src/utils/text';
+import { getTimeText, showTaskSubmitNotification } from '@/src/utils/text';
 
 interface Props {
   client: MeiliSearch;
@@ -107,7 +106,7 @@ export const Header: FC<Props> = ({ client }) => {
         <Badge className={``} size="xl" radius="lg">
           Database Size: {_.ceil((stats?.databaseSize ?? 0) / 1048576, 2)} MB
         </Badge>
-        <p className={`font-bold `}>Last Updated: {dayjs(stats?.lastUpdate).format('YYYY-MM-DD HH:mm:ss.SSS')}</p>
+        <p className={`font-bold `}>Last Updated: {getTimeText(stats?.lastUpdate)}</p>
         <Badge className={``} size="xl" radius="lg" variant="dot" color={health ? 'green' : 'yellow'}>
           Status: {health ? 'Available' : 'Unknown'}
         </Badge>

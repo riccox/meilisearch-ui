@@ -17,7 +17,6 @@ import { Footer } from '@/src/components/Footer';
 import { useForm } from '@mantine/form';
 import { showNotification } from '@mantine/notifications';
 import { useIndexes } from '@/src/hooks/useIndexes';
-import dayjs from 'dayjs';
 import { openConfirmModal } from '@mantine/modals';
 
 function Keys() {
@@ -147,7 +146,7 @@ function Keys() {
           </td>
           <td>{getTimeText(t.createdAt)}</td>
           <td>{getTimeText(t.updateAt)}</td>
-          <td>{getTimeText(t.expiresAt, 'Forever')}</td>
+          <td>{getTimeText(t.expiresAt, { defaultText: 'Forever' })}</td>
           <td>
             <div className={`flex gap-1`}>
               <Button color={'danger'} onClick={() => onClickDelKey(t)}>
@@ -199,9 +198,7 @@ function Keys() {
           description,
           indexes: _.isEmpty(indexes) ? ['*'] : indexes,
           actions: _.isEmpty(actions) ? ['*'] : actions,
-          expiresAt: _.isEmpty(expiresAt)
-            ? null
-            : dayjs(expiresAt, 'YYYY-MM-dd HH:mm:ss').format('YYYY-MM-dd HH:mm:ss+00:00'),
+          expiresAt: _.isEmpty(expiresAt) ? null : getTimeText(expiresAt, { format: 'YYYY-MM-dd HH:mm:ss+00:00' }),
         });
         console.info(res);
       } catch (e) {

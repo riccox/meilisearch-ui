@@ -37,11 +37,20 @@ export const showTaskErrorNotification = (err: any): void => {
   });
 };
 
-export const getTimeText = (date: dayjs.ConfigType, defaultText?: string): string => {
+export const getTimeText = (
+  date: dayjs.ConfigType,
+  {
+    defaultText = '-',
+    format = 'YYYY-MM-DD HH:mm:ss.SSS',
+  }: {
+    format?: string;
+    defaultText?: string;
+  } = {}
+): string => {
   if (!date && defaultText) {
     return defaultText;
   }
-  return dayjs(date).format('YYYY-MM-DD HH:mm:ss.SSS');
+  return dayjs(date).format(format);
 };
 
 export const stringifyJsonPretty = (json?: string | object | null) => {
