@@ -28,12 +28,5 @@ jobs:
         uses: docker/build-push-action@v3
         with:
           context: .
-          platforms: linux/amd64,linux/arm64,linux/arm/v7
           push: true
           tags: ${{ env.dockerhub_repository }}:${{ env.dockerhub_tag }}
-      - name: Update repo description
-        uses: peter-evans/dockerhub-description@v2
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-          repository: ${{ env.dockerhub_repository }}

@@ -29,3 +29,9 @@ jobs:
           platforms: linux/amd64,linux/arm64,linux/arm/v7
           push: true
           tags: ${{ env.dockerhub_repository }}:${{ github.event.release.tag_name }}, ${{ env.dockerhub_repository }}:latest
+      - name: Update repo description
+        uses: peter-evans/dockerhub-description@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+          repository: ${{ env.dockerhub_repository }}
