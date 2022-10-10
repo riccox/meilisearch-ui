@@ -60,9 +60,9 @@ git clone git@github.com:lrvinye/meilisearch-ui.git
 
 cd meilisearch-ui
 
-npm install
+pnpm install
 
-npm run dev
+pnpm run dev
 ```
 
 ## Built with ♥
