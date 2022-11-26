@@ -9,7 +9,7 @@ export const Footer: FC<Props> = ({ className = '' }) => {
   return (
     <div className={`${className} gap-x-2 flex justify-center w-full text-neutral-400 text-xs`}>
       <Copyright />-
-      <a className={`hover:underline`} href={`//github.com/lrvinye/meilisearch-ui`} target="_blank" rel="noreferrer">
+      <a className={`hover:underline`} href={`//github.com/riccox/meilisearch-ui`} target="_blank" rel="noreferrer">
         Github
       </a>
     </div>

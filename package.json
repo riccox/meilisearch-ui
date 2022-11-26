@@ -8,12 +8,12 @@
     "build": "tsc && vite build",
     "preview": "vite preview"
   },
-  "repository": "https://github.com/lrvinye/meilisearch-ui",
-  "homepage": "https://github.com/lrvinye/meilisearch-ui#readme",
+  "repository": "https://github.com/riccox/meilisearch-ui",
+  "homepage": "https://github.com/riccox/meilisearch-ui#readme",
   "author": {
-    "email": "me@lrvinye.me",
-    "name": "Kyrie Lrvinye",
-    "url": "https://www.lrvinye.me"
+    "email": "ricco@riccox.com",
+    "name": "Ricco Xie",
+    "url": "https://www.riccox.com"
   },
   "dependencies": {
     "@emotion/react": "^11.10.0",

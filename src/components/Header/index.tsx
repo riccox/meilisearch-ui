@@ -156,7 +156,7 @@ export const Header: FC<Props> = ({ client }) => {
             <Menu.Item
               icon={<IconBug size={14} />}
               component={Link}
-              to={'//github.com/lrvinye/meilisearch-ui/issues'}
+              to={'//github.com/riccox/meilisearch-ui/issues'}
               target={'_blank'}
             >
               Issues
@@ -164,7 +164,7 @@ export const Header: FC<Props> = ({ client }) => {
             <Menu.Item
               icon={<IconBrandGithub size={14} />}
               component={Link}
-              to={'//github.com/lrvinye/meilisearch-ui'}
+              to={'//github.com/riccox/meilisearch-ui'}
               target={'_blank'}
             >
               Open Source
