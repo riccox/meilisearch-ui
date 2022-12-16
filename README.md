@@ -1,6 +1,6 @@
 # Meilisearch-UI
 
-![GitHub Workflow Status](https://img.shields.io/github/workflow/status/riccox/meilisearch-ui/docker-build-release)
+![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/riccox/meilisearch-ui/docker-build-latest.yaml?branch=main)
 ![release](https://img.shields.io/github/v/release/riccox/meilisearch-ui?display_name=release)
 ![stars](https://img.shields.io/github/stars/riccox/meilisearch-ui)
 ![issues](https://img.shields.io/github/issues/riccox/meilisearch-ui)
