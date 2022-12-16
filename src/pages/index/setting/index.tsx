@@ -58,6 +58,9 @@ function SettingsPage() {
     }
   );
   const [indexSettingDisplayData, setIndexSettingDisplayData] = useState<Settings>();
+  const [indexSettingInputData, setIndexSettingInputData] = useState<string>(
+    stringifyJsonPretty(indexSettingDisplayData)
+  );
 
   const queryRawInfo = useQuery(
     ['rawInfo', host, indexClient.uid],
@@ -83,7 +86,8 @@ function SettingsPage() {
   const resetSettings = useCallback(() => {
     setIsSettingsEditing(false);
     setIndexSettingDisplayData(querySettings.data);
-  }, [querySettings.data]);
+    !isSettingsEditing && setIndexSettingInputData(stringifyJsonPretty(querySettings.data));
+  }, [isSettingsEditing, querySettings.data]);
 
   const resetRawInfo = useCallback(() => {
     setIsRawInfoEditing(false);
@@ -126,8 +130,8 @@ function SettingsPage() {
 
   const onSaveSettings = useCallback(() => {
     setIsSettingsEditing(false);
-    indexSettingDisplayData && settingsMutation.mutate(indexSettingDisplayData);
-  }, [indexSettingDisplayData, settingsMutation]);
+    indexSettingInputData && settingsMutation.mutate(JSON.parse(indexSettingInputData));
+  }, [indexSettingInputData, settingsMutation]);
 
   const editRawInfoForm = useForm({
     initialValues: {
@@ -298,8 +302,8 @@ function SettingsPage() {
             validationError="Invalid setting object"
             formatOnBlur
             autosize
-            value={stringifyJsonPretty(indexSettingDisplayData)}
-            onChange={(e) => setIndexSettingDisplayData(JSON.parse(e) as Settings)}
+            value={isSettingsEditing ? indexSettingInputData : stringifyJsonPretty(indexSettingDisplayData)}
+            onChange={(e) => setIndexSettingInputData(e)}
             disabled={!isSettingsEditing}
           />
           <Paper radius="md" p="lg" withBorder className={`!bg-opacity-50 !bg-danger-1`}>
@@ -377,6 +381,7 @@ function SettingsPage() {
       indexRawInfoDisplayData?.uid,
       indexRawInfoDisplayData?.updatedAt,
       indexSettingDisplayData,
+      indexSettingInputData,
       isRawInfoEditing,
       isSettingsEditing,
       onClickDeleteAllDocuments,

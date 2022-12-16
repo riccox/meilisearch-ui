@@ -34,6 +34,21 @@ export const Documents = () => {
     validate: {
       limit: (value: number) =>
         value < 500 ? null : 'limit search value allow (<500) in this ui console for performance',
+      filter: (value: string) =>
+        value.length === 0 ||
+        /\s(=|!=|>=|>|<|<=|(IN)|(NOT IN)|(TO)|(EXISTS)|(NOT EXISTS))\s|^_geoRadius\([\s\d,.]+\)$/g.test(value.trim())
+          ? null
+          : 'filter string invalid',
+      sort: (value: string) => {
+        const sorts = value
+          .split(',')
+          .filter((v) => v.trim().length > 0)
+          .map((v) => v.trim());
+        return sorts.length === 0 ||
+          sorts.every((v) => /^([a-zA-Z][\d\w]+|_geoRadius\([\s\d,.]+\)):(asc|desc)$/g.test(v.trim()))
+          ? null
+          : 'sort string invalid';
+      },
     },
   });
 
@@ -76,6 +91,8 @@ export const Documents = () => {
     ['searchDocuments', host, indexClient?.uid, searchForm.values],
     async ({ queryKey }) => {
       const { q, limit, offset, filter, sort } = { ...searchForm.values, ...(queryKey[3] as typeof searchForm.values) };
+      // prevent app error from request param invalid
+      if (searchForm.validate().hasErrors) return;
       return await indexClient!.search(q, {
         limit,
         offset,

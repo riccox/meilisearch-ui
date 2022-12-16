@@ -6,7 +6,7 @@ import { useInstanceStats } from '@/src/hooks/useInstanceStats';
 import { Link, Outlet, useNavigate, useSearchParams } from 'react-router-dom';
 import { Index } from 'meilisearch';
 import { useMeiliClient } from '@/src/hooks/useMeiliClient';
-import { IconAbacus, IconAdjustments, IconSquarePlus } from '@tabler/icons';
+import { IconAbacus, IconAdjustments, IconAlertTriangle, IconSquarePlus } from '@tabler/icons';
 import qs from 'qs';
 
 import ReactECharts from 'echarts-for-react'; // Import the echarts core module, which provides the necessary interfaces for using echarts.
@@ -185,7 +185,19 @@ function IndexesLayout() {
                   <IconAdjustments size={24} />
                 </ActionIcon>
               </Tooltip>
-              {indexStat?.isIndexing && <div>indexing</div>}
+              {indexStat?.isIndexing && (
+                <Tooltip
+                  position={'bottom-start'}
+                  label="This index is indexing documents, setting & search results may be incorrect now!"
+                >
+                  <Badge size="lg" variant="filled">
+                    <div className={`flex flex-nowrap`}>
+                      <IconAlertTriangle />
+                      <div>indexing...</div>
+                    </div>
+                  </Badge>
+                </Tooltip>
+              )}
             </div>
           </div>
         );
