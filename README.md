@@ -36,6 +36,8 @@ There is a live demo 👉 [meilisearch-ui](https://meilisearch-ui.riccox.com), d
 
 ## Get start
 
+> [IMPORTANT] Remember enable CORS in your instance server for this ui domain before using.
+
 ### Docker
 
 ```sh
