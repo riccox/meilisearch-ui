@@ -10,7 +10,9 @@
 ![license](https://img.shields.io/github/license/riccox/meilisearch-ui)
 ![GitHub deployments](https://img.shields.io/github/deployments/riccox/meilisearch-ui/production?label=Vercel&logo=vercel)
 
-#### An open-source, pretty, simple and fast meilisearch UI for managing your meilisearch instances
+<a href="https://www.producthunt.com/posts/meilisearch-ui?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-meilisearch&#0045;ui" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=373175&theme=light" alt="Meilisearch&#0045;UI - Pretty&#0044;&#0032;simple&#0032;and&#0032;fast&#0032;meilisearch&#0032;admin&#0032;dashboard | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" /></a>
+
+#### An open-source, pretty, simple and fast meilisearch admin dashboard UI for managing your meilisearch instances
 
 > [IMPORTANT] The main branch may be unstable or unavailable during development.
 >
