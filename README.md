@@ -1,14 +1,14 @@
 # Meilisearch-UI
 
-![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/riccox/meilisearch-ui/docker-build-latest.yaml?branch=main)
-![release](https://img.shields.io/github/v/release/riccox/meilisearch-ui?display_name=release)
+<a href="https://github.com/riccox/meilisearch-ui/actions">![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/riccox/meilisearch-ui/docker-build-latest.yaml?branch=main)</a>
+<a href="https://github.com/riccox/meilisearch-ui/releases">![release](https://img.shields.io/github/v/release/riccox/meilisearch-ui?display_name=release)</a>
 ![stars](https://img.shields.io/github/stars/riccox/meilisearch-ui)
-![issues](https://img.shields.io/github/issues/riccox/meilisearch-ui)
+<a href="https://github.com/riccox/meilisearch-ui/issues">![issues](https://img.shields.io/github/issues/riccox/meilisearch-ui)</a>
 ![last-commit](https://img.shields.io/github/last-commit/riccox/meilisearch-ui)
-![Docker Image Version (latest semver)](https://img.shields.io/docker/v/riccoxie/meilisearch-ui?label=image%20version&sort=semver)
-![Docker Pulls](https://img.shields.io/docker/pulls/riccoxie/meilisearch-ui)
-![license](https://img.shields.io/github/license/riccox/meilisearch-ui)
-![GitHub deployments](https://img.shields.io/github/deployments/riccox/meilisearch-ui/production?label=Vercel&logo=vercel)
+<a href="https://hub.docker.com/r/riccoxie/meilisearch-ui/tags" target="_blank">![Docker Image Version (latest semver)](https://img.shields.io/docker/v/riccoxie/meilisearch-ui?label=image%20version&sort=semver)</a>
+<a href="https://hub.docker.com/r/riccoxie/meilisearch-ui" target="_blank">![Docker Pulls](https://img.shields.io/docker/pulls/riccoxie/meilisearch-ui)</a>
+<a href="https://github.com/riccox/meilisearch-ui/blob/main/LICENSE">![license](https://img.shields.io/github/license/riccox/meilisearch-ui)</a>
+<a href="https://meilisearch-ui.riccox.com" target="_blank">![GitHub deployments](https://img.shields.io/github/deployments/riccox/meilisearch-ui/production?label=Vercel&logo=vercel)</a>
 
 <a href="https://www.producthunt.com/posts/meilisearch-ui?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-meilisearch&#0045;ui" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=373175&theme=light" alt="Meilisearch&#0045;UI - Pretty&#0044;&#0032;simple&#0032;and&#0032;fast&#0032;meilisearch&#0032;admin&#0032;dashboard | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" /></a>
 
