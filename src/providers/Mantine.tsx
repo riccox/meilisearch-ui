@@ -42,13 +42,7 @@ export const MantineUIProvider: FC<Props> = ({ children }) => {
           overlayOpacity: 0.3,
         }}
       >
-        <NotificationsProvider
-          styles={(theme) => ({
-            radius: theme.radius.lg,
-          })}
-        >
-          {children}
-        </NotificationsProvider>
+        <NotificationsProvider>{children}</NotificationsProvider>
       </ModalsProvider>
     </MantineProvider>
   );

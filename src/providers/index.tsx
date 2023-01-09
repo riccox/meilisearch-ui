@@ -14,9 +14,7 @@ export const AppProvider: FC<Props> = ({ children }) => {
     <ErrorBoundaryProvider>
       <ReactQueryProvider>
         <ReactRouterProvider>
-          <MantineUIProvider>
-            <>{children}</>
-          </MantineUIProvider>
+          <MantineUIProvider>{children}</MantineUIProvider>
         </ReactRouterProvider>
       </ReactQueryProvider>
     </ErrorBoundaryProvider>

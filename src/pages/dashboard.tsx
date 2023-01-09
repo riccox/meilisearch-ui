@@ -45,7 +45,7 @@ function Dashboard() {
         return otherNames.includes(value) ? 'Name should be different from others' : null;
       },
       host: (value: string) =>
-        /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()!@:%_\+.~#?&\/\/=]*)/.test(
+        /(https?:\/\/)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()!@:%_\+.~#?&\/\/=]*)/.test(
           value
         )
           ? null
@@ -57,18 +57,20 @@ function Dashboard() {
     async (values: typeof instanceForm.values) => {
       // button loading
       setIsSubmitInstanceLoading(true);
+      // normalize host string
+      const cfg = { ...values, host: `${/^(https?:\/\/)/.test(values.host) ? '' : 'http://'}${values.host}` };
       // do connection check
-      testConnection({ ...values })
+      testConnection({ ...cfg })
         .finally(() => {
           setIsSubmitInstanceLoading(false);
         })
         .then(() => {
           switch (instanceFormType) {
             case 'create':
-              addInstance({ ...values });
+              addInstance({ ...cfg });
               break;
             case 'edit':
-              editInstance(instanceEditing!.name, { ...values });
+              editInstance(instanceEditing!.name, { ...cfg });
               break;
           }
           setIsInstanceFormModalOpen(false);
@@ -112,7 +114,12 @@ function Dashboard() {
       hover:ring-brand-4 hover:ring-2 ${instanceCardClassName}`}
         >
           <div className={`flex justify-between items-center`}>
-            <p className={`text-2xl font-bold group-hover:underline`}>{instance.name}</p>
+            <p
+              className={`text-2xl font-bold group-hover:underline cursor-pointer`}
+              onClick={() => onClickInstance(instance, '/index')}
+            >
+              {instance.name}
+            </p>
             <div className={`flex gap-x-3`}>
               <Tooltip position={'left'} label="Edit">
                 <ActionIcon
@@ -160,7 +167,7 @@ function Dashboard() {
     <div className="bg-mount full-page justify-center items-center gap-y-6">
       <div className={`w-1/4 h-2/3 flex flex-col justify-center items-center gap-y-10`}>
         <Logo />
-        <h1 className={`text-brand-2 font-bold`}>A Beautiful Meilisearch UI</h1>
+        <p className={`text-brand-2 font-bold xl:text-3xl text-xl w-screen text-center`}>A Beautiful Meilisearch UI</p>
         <div className={`grid grid-cols-1 gap-y-3 w-full p-1  overflow-y-scroll`}>
           {instancesList}
           <div
