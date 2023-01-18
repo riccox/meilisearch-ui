@@ -1,17 +1,11 @@
 import { MeiliSearch } from 'meilisearch';
 import { useCallback, useEffect, useState } from 'react';
-import { useAppStore } from '@/src/store';
+import { defaultInstance, useAppStore } from '@/src/store';
 import _ from 'lodash';
 import { showNotification } from '@mantine/notifications';
 
 export const useMeiliClient = () => {
-  const currentInstance = useAppStore(
-    (state) =>
-      state.currentInstance ?? {
-        host: '',
-        apiKey: '',
-      }
-  );
+  const currentInstance = useAppStore((state) => state.currentInstance ?? defaultInstance);
 
   const [client, setClient] = useState<MeiliSearch>(
     new MeiliSearch({
@@ -21,7 +15,7 @@ export const useMeiliClient = () => {
 
   const connect = useCallback(async () => {
     console.debug('useMeilisearchClient', 'start connection');
-    if (_.isEmpty(currentInstance?.host) || _.isEmpty(currentInstance?.apiKey)) {
+    if (_.isEmpty(currentInstance?.host)) {
       showNotification({
         color: 'warning',
         title: 'Reconnection Required',

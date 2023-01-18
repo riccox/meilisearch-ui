@@ -9,7 +9,7 @@ const handleReload = () => {
 
 export const AppFallback: FC<ErrorFallbackProps> = ({ error }) => {
   return (
-    <div className={`fill flex justify-center items-center w-fit`}>
+    <div className={`full-page justify-center items-center w-fit`}>
       <Alert
         icon={<p className={'text-2xl'}>🚨</p>}
         title={<p className={`text-2xl`}>App Error</p>}

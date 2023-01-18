@@ -249,7 +249,14 @@ export const Documents = () => {
     return searchDocumentsQuery.data?.hits.map((d, i) => {
       return (
         <div className={` rounded-xl p-4 bg-brand-1 odd:bg-opacity-20 even:bg-opacity-10 group relative`} key={i}>
-          <ReactJson src={d} collapsed={3} collapseStringsAfterLength={50} />
+          <ReactJson
+            name={false}
+            displayDataTypes={false}
+            displayObjectSize={false}
+            src={d}
+            collapsed={3}
+            collapseStringsAfterLength={50}
+          />
           <div className={`absolute right-0 bottom-0 invisible group-hover:visible p-2 flex items-center gap-2`}>
             <Button color={'info'} size={'xs'} variant={'outline'} onClick={() => onClickDocumentUpdate(d)}>
               Update

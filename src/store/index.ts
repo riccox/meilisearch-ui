@@ -2,16 +2,28 @@ import create from 'zustand';
 import { devtools, persist } from 'zustand/middleware';
 import produce from 'immer';
 
+export interface WarningPageData {
+  prompt: string;
+}
+
 export interface Instance {
   name: string;
   host: string;
-  apiKey: string;
-  updatedTime: Date;
+  apiKey?: string;
+  updatedTime?: Date;
 }
 
+export const defaultInstance: Instance = {
+  name: 'default',
+  host: 'http://127.0.0.1:7700',
+  apiKey: undefined,
+};
+
 interface State {
+  warningPageData?: WarningPageData;
   currentInstance?: Instance;
   instances: Instance[];
+  setWarningPageData: (data?: WarningPageData) => void;
   setCurrentInstance: (ins: Instance) => void;
   addInstance: (cfg: Omit<Instance, 'updatedTime'>) => void;
   editInstance: (name: string, cfg: Omit<Instance, 'updatedTime'>) => void;
@@ -23,6 +35,12 @@ export const useAppStore = create<State>()(
     persist(
       (set) => ({
         instances: [],
+        setWarningPageData: (data?: WarningPageData) =>
+          set(
+            produce((state: State) => {
+              state.warningPageData = data;
+            })
+          ),
         setCurrentInstance: (ins) =>
           set(
             produce((state: State) => {
@@ -52,7 +70,7 @@ export const useAppStore = create<State>()(
       }),
       {
         name: 'meilisearch-ui-store',
-        version: 3,
+        version: 4,
       }
     )
   )

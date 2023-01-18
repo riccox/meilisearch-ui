@@ -11,7 +11,7 @@ import {
   IconListCheck,
   IconSettings,
 } from '@tabler/icons';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { FC, useCallback, useMemo, useState } from 'react';
 import { showNotification } from '@mantine/notifications';
 import { useClipboard } from '@mantine/hooks';
@@ -22,15 +22,23 @@ import { useInstanceStats } from '@/src/hooks/useInstanceStats';
 import _ from 'lodash';
 import { openConfirmModal } from '@mantine/modals';
 import { getTimeText, showTaskSubmitNotification } from '@/src/utils/text';
+import { validateKeysRouteAvailable } from '@/src/utils/conn';
+import { useNavigatePreCheck } from '@/src/hooks/useRoutePreCheck';
 
 interface Props {
   client: MeiliSearch;
 }
 
 export const Header: FC<Props> = ({ client }) => {
-  const navigate = useNavigate();
-  const clipboard = useClipboard({ timeout: 500 });
+  const navigate = useNavigatePreCheck(([to], opt) => {
+    // check before keys page (no masterKey will cause error)
+    if (to === '/keys') {
+      return validateKeysRouteAvailable(opt?.currentInstance?.apiKey);
+    }
+    return null;
+  });
   const store = useAppStore();
+  const clipboard = useClipboard({ timeout: 500 });
 
   const stats = useInstanceStats(client);
   const [version, setVersion] = useState<Version>();
@@ -80,7 +88,7 @@ export const Header: FC<Props> = ({ client }) => {
       <div
         className={`bg-background-light
         flex justify-between items-center
-        p-5 rounded-3xl drop-shadow-2xl`}
+        p-5 rounded-3xl drop-shadow-xl`}
       >
         <Button
           leftIcon={<IconHomeBolt size={26} />}
@@ -88,7 +96,7 @@ export const Header: FC<Props> = ({ client }) => {
           size="md"
           radius="xl"
           variant="gradient"
-          onClick={() => navigate('/')}
+          onClick={() => navigate(['/'], { currentInstance: store.currentInstance })}
         >
           Home
         </Button>
@@ -134,13 +142,23 @@ export const Header: FC<Props> = ({ client }) => {
             <Menu.Item icon={<IconBooks size={14} />} component={Link} to={'/index'}>
               Index
             </Menu.Item>
-            <Menu.Item icon={<IconKey size={14} />} component={Link} to={'/keys'}>
+            <Menu.Item
+              icon={<IconKey size={14} />}
+              className={'font-semibold hover:underline'}
+              onClick={() => {
+                navigate(['/keys'], { currentInstance: store.currentInstance });
+              }}
+            >
               Keys
             </Menu.Item>
             <Menu.Item icon={<IconListCheck size={14} />} component={Link} to={'/tasks'}>
               Tasks
             </Menu.Item>
-            <Menu.Item icon={<IconDeviceFloppy size={14} />} onClick={onClickDump}>
+            <Menu.Item
+              className={'font-semibold hover:underline'}
+              icon={<IconDeviceFloppy size={14} />}
+              onClick={onClickDump}
+            >
               Dump
             </Menu.Item>
             <Menu.Divider />
@@ -180,8 +198,7 @@ export const Header: FC<Props> = ({ client }) => {
       onClickHost,
       stats?.databaseSize,
       stats?.lastUpdate,
-      store.currentInstance?.host,
-      store.currentInstance?.name,
+      store.currentInstance,
       version?.commitDate,
       version?.commitSha,
       version?.pkgVersion,

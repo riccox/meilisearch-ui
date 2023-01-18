@@ -2,6 +2,7 @@ import { hiddenConnectionTestLoader, showConnectionTestLoader } from '@/src/util
 import { Config, MeiliSearch } from 'meilisearch';
 import _ from 'lodash';
 import { showNotification } from '@mantine/notifications';
+import { WarningPageData } from '@/src/store';
 
 export const testConnection = async (cfg: Config) => {
   showConnectionTestLoader();
@@ -30,5 +31,19 @@ export const testConnection = async (cfg: Config) => {
     });
     console.error(msg, stats);
     throw new Error('msg');
+  }
+};
+
+/**
+ * check before keys page (no masterKey will cause error)
+ */
+export const validateKeysRouteAvailable = (apiKey?: string): null | WarningPageData => {
+  if (_.isEmpty(apiKey)) {
+    return {
+      prompt:
+        'Meilisearch is running without a master key.\nTo access this API endpoint, you must have set a master key at launch.',
+    };
+  } else {
+    return null;
   }
 };

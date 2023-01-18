@@ -1,25 +1,33 @@
 import { Logo } from '@/src/components/Logo';
 import { useCallback, useMemo, useState } from 'react';
-import { Instance, useAppStore } from '@/src/store';
+import { defaultInstance, Instance, useAppStore } from '@/src/store';
 import { ActionIcon, Autocomplete, Button, Modal, PasswordInput, TextInput, Tooltip } from '@mantine/core';
 import { Footer } from '@/src/components/Footer';
-import { useNavigate } from 'react-router-dom';
 import { useForm } from '@mantine/form';
 import { IconBooks, IconCirclePlus, IconCircleX, IconKey, IconListCheck, IconPencilMinus } from '@tabler/icons';
-import { testConnection } from '@/src/utils/conn';
+import { testConnection, validateKeysRouteAvailable } from '@/src/utils/conn';
 import { openConfirmModal } from '@mantine/modals';
 import { getTimeText } from '@/src/utils/text';
+import _ from 'lodash';
+import { useNavigatePreCheck } from '@/src/hooks/useRoutePreCheck';
 
 const instanceCardClassName = `col-span-1 h-28 rounded-lg`;
 
 function Dashboard() {
-  const navigate = useNavigate();
+  const navigate = useNavigatePreCheck(([to], opt) => {
+    console.debug('dashboard', 'navigate', to, opt?.currentInstance?.apiKey);
+    // check before keys page (no masterKey will cause error)
+    if (to === '/keys') {
+      return validateKeysRouteAvailable(opt?.currentInstance?.apiKey);
+    }
+    return null;
+  });
+  const currentInstance = useAppStore((state) => state.currentInstance);
   const setCurrentInstance = useAppStore((state) => state.setCurrentInstance);
   const addInstance = useAppStore((state) => state.addInstance);
   const editInstance = useAppStore((state) => state.editInstance);
   const removeInstance = useAppStore((state) => state.removeInstance);
   const instances = useAppStore((state) => state.instances);
-  const currentInstance = useAppStore((state) => state.currentInstance);
   const [instanceFormType, setInstanceFormType] = useState<'create' | 'edit'>('create');
   const [instanceEditing, setInstanceEditing] = useState<Instance>();
   const [isInstanceFormModalOpen, setIsInstanceFormModalOpen] = useState(false);
@@ -27,9 +35,9 @@ function Dashboard() {
 
   const instanceForm = useForm({
     initialValues: {
-      name: 'default',
-      host: currentInstance?.host ?? '',
-      apiKey: currentInstance?.apiKey ?? '',
+      ...defaultInstance,
+      host: currentInstance?.host ?? defaultInstance.host,
+      apiKey: currentInstance?.apiKey ?? defaultInstance.apiKey,
     },
     validate: {
       name: (value: string) => {
@@ -58,7 +66,12 @@ function Dashboard() {
       // button loading
       setIsSubmitInstanceLoading(true);
       // normalize host string
-      const cfg = { ...values, host: `${/^(https?:\/\/)/.test(values.host) ? '' : 'http://'}${values.host}` };
+      const cfg: typeof instanceForm.values = {
+        ...values,
+        host: `${/^(https?:\/\/)/.test(values.host) ? '' : 'http://'}${values.host}`,
+      };
+      // remove empty apikey
+      cfg.apiKey = _.isEmpty(cfg.apiKey) ? undefined : cfg.apiKey;
       // do connection check
       testConnection({ ...cfg })
         .finally(() => {
@@ -84,7 +97,9 @@ function Dashboard() {
       // do connection test before next step
       testConnection({ ...ins }).then(() => {
         setCurrentInstance(ins);
-        to && navigate(to);
+        if (to) {
+          navigate([to], { currentInstance: ins });
+        }
       });
     },
     [navigate, setCurrentInstance]

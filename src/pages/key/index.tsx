@@ -198,7 +198,9 @@ function Keys() {
           description,
           indexes: _.isEmpty(indexes) ? ['*'] : indexes,
           actions: _.isEmpty(actions) ? ['*'] : actions,
-          expiresAt: _.isEmpty(expiresAt) ? null : getTimeText(expiresAt, { format: 'YYYY-MM-dd HH:mm:ss+00:00' }),
+          // ignore type error for legacy version compatible
+          // @ts-ignore
+          expiresAt: _.isEmpty(expiresAt) ? null : getTimeText(expiresAt, { format: 'YYYY-MM-DD HH:mm:ss+00:00' }),
         });
         console.info(res);
       } catch (e) {
@@ -366,7 +368,7 @@ function Keys() {
             </Tooltip>
             <Tooltip position={'bottom-start'} label="Leave this option empty means this key never expires">
               <TextInput
-                placeholder="UTC time and format must be YYYY-MM-dd HH:mm:ss"
+                placeholder="!!UTC!! time and format must be YYYY-MM-DD HH:mm:ss"
                 radius="md"
                 size={'lg'}
                 label={<p className={'text-brand-5 pb-2 text-lg'}>Expired at</p>}

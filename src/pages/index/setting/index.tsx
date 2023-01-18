@@ -9,7 +9,7 @@ import { hiddenRequestLoader, showRequestLoader } from '@/src/utils/loader';
 import { getTimeText, showTaskSubmitNotification, stringifyJsonPretty } from '@/src/utils/text';
 import { IndexObject, IndexOptions, Settings } from 'meilisearch';
 import { IconPencilMinus } from '@tabler/icons';
-import { useForm } from '@mantine/form';
+import { matches, useForm } from '@mantine/form';
 import { openConfirmModal } from '@mantine/modals';
 
 function SettingsPage() {
@@ -138,7 +138,7 @@ function SettingsPage() {
       primaryKey: indexRawInfoDisplayData?.primaryKey,
     },
     validate: {
-      primaryKey: (value: string) => (/[a-zA-Z\d-_]+/.test(value) ? null : 'Invalid primary key'),
+      primaryKey: matches(/[a-zA-Z\d-_]+/, 'Invalid primary key'),
     },
   });
 

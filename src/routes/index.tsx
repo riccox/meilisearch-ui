@@ -9,6 +9,7 @@ import { CreateIndex } from '@/src/pages/index/create';
 import Tasks from '@/src/pages/task';
 import Keys from '@/src/pages/key';
 import Settings from '@/src/pages/index/setting';
+import Warning from '@/src/pages/warning';
 
 export const AppRoutes = () => {
   return (
@@ -30,6 +31,7 @@ export const AppRoutes = () => {
         </Route>
         <Route path="tasks" element={<Tasks />} />
         <Route path="keys" element={<Keys />} />
+        <Route path="warning" element={<Warning />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Suspense>
