@@ -20,7 +20,7 @@ function Warning() {
         <Button color={'orange'} onClick={() => window.location.assign(window.location.origin)}>
           Reload
         </Button>
-        <Button variant={'gradient'} color={'info'} onClick={() => navigate(-1)}>
+        <Button variant={'gradient'} color={'blue'} onClick={() => navigate(-1)}>
           Back
         </Button>
       </div>

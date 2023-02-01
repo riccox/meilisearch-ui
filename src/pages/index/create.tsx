@@ -36,7 +36,7 @@ export const CreateIndex = () => {
       } catch (e) {
         console.warn(e);
         showNotification({
-          color: 'warning',
+          color: 'orange',
           title: 'Fail',
           message: e as string,
         });

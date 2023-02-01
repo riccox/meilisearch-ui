@@ -10,7 +10,7 @@ function NotFound() {
       <Logo />
       <h1 className={`text-brand-2 font-bold`}>404 Page Not Found</h1>
       <div className="">
-        <Button variant={'gradient'} color={'info'} onClick={() => navigate(-1)}>
+        <Button variant={'gradient'} color={'blue'} onClick={() => navigate(-1)}>
           Back
         </Button>
       </div>

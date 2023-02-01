@@ -6,7 +6,7 @@ import { useInstanceStats } from '@/src/hooks/useInstanceStats';
 import { Link, Outlet, useNavigate, useSearchParams } from 'react-router-dom';
 import { Index } from 'meilisearch';
 import { useMeiliClient } from '@/src/hooks/useMeiliClient';
-import { IconAbacus, IconAdjustments, IconAlertTriangle, IconSquarePlus } from '@tabler/icons';
+import { IconAbacus, IconAdjustments, IconAlertTriangle, IconSquarePlus } from '@tabler/icons-react';
 import qs from 'qs';
 
 import ReactECharts from 'echarts-for-react'; // Import the echarts core module, which provides the necessary interfaces for using echarts.

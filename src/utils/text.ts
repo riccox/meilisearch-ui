@@ -15,8 +15,8 @@ const enum TaskStatus {
 }
 
 export const TaskColors: Record<TaskStatus, MantineColor> = {
-  [TaskStatus.TASK_SUCCEEDED]: 'success',
-  [TaskStatus.TASK_ENQUEUED]: 'info',
+  [TaskStatus.TASK_SUCCEEDED]: 'green',
+  [TaskStatus.TASK_ENQUEUED]: 'blue',
   [TaskStatus.TASK_FAILED]: 'yellow',
   [TaskStatus.TASK_PROCESSING]: 'grape',
 };

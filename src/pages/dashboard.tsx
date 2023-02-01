@@ -4,7 +4,7 @@ import { defaultInstance, Instance, useAppStore } from '@/src/store';
 import { ActionIcon, Autocomplete, Button, Modal, PasswordInput, TextInput, Tooltip } from '@mantine/core';
 import { Footer } from '@/src/components/Footer';
 import { useForm } from '@mantine/form';
-import { IconBooks, IconCirclePlus, IconCircleX, IconKey, IconListCheck, IconPencilMinus } from '@tabler/icons';
+import { IconBooks, IconCirclePlus, IconCircleX, IconKey, IconListCheck, IconPencilMinus } from '@tabler/icons-react';
 import { testConnection, validateKeysRouteAvailable } from '@/src/utils/conn';
 import { openConfirmModal } from '@mantine/modals';
 import { getTimeText } from '@/src/utils/text';
@@ -163,7 +163,7 @@ function Dashboard() {
               </ActionIcon>
             </Tooltip>
             <Tooltip position={'bottom'} label="Tasks">
-              <ActionIcon variant="light" color="info" onClick={() => onClickInstance(instance, '/tasks')}>
+              <ActionIcon variant="light" color="blue" onClick={() => onClickInstance(instance, '/tasks')}>
                 <IconListCheck size={24} />
               </ActionIcon>
             </Tooltip>

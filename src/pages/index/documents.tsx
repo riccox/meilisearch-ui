@@ -6,16 +6,17 @@ import { useAppStore } from '@/src/store';
 import { useMeiliClient } from '@/src/hooks/useMeiliClient';
 import { useForm } from '@mantine/form';
 import { Button, Loader, Modal, NumberInput, TextInput, Tooltip } from '@mantine/core';
-import { IconArrowsSort, IconFilter, IconSearch } from '@tabler/icons';
+import { IconArrowsSort, IconFilter, IconSearch } from '@tabler/icons-react';
 import { showTaskErrorNotification, showTaskSubmitNotification } from '@/src/utils/text';
 import ReactJson, { InteractionProps } from 'react-json-view';
 import { showNotification } from '@mantine/notifications';
 import _ from 'lodash';
-import { Hit } from 'meilisearch';
+import { EnqueuedTask, Hit } from 'meilisearch';
 import { openConfirmModal } from '@mantine/modals';
 
 export const Documents = () => {
   const host = useAppStore((state) => state.currentInstance?.host);
+  const apiKey = useAppStore((state) => state.currentInstance?.apiKey);
   const [searchParams] = useSearchParams();
   const client = useMeiliClient();
   const currentIndex = useMemo(() => searchParams.get('index')?.trim(), [searchParams]);
@@ -45,7 +46,7 @@ export const Documents = () => {
           .filter((v) => v.trim().length > 0)
           .map((v) => v.trim());
         return sorts.length === 0 ||
-          sorts.every((v) => /^([a-zA-Z][\d\w]+|_geoRadius\([\s\d,.]+\)):(asc|desc)$/g.test(v.trim()))
+          sorts.every((v) => /^([a-zA-Z]\w+|_geoRadius\([\s\d,.]+\)):(asc|desc)$/g.test(v.trim()))
           ? null
           : 'sort string invalid';
       },
@@ -53,14 +54,14 @@ export const Documents = () => {
   });
 
   const addDocumentsForm = useForm<{
-    documents: object[];
+    documents: object[] | File;
   }>({
     initialValues: {
       documents: [],
     },
     validate: {
-      documents: (value: object[]) => {
-        if (value.length > 0) {
+      documents: (value: object[] | File) => {
+        if (value instanceof File ? value.size > 0 : value.length > 0) {
           return null;
         } else {
           const msg = 'Added documents should be JSON Array whose length > 0';
@@ -112,19 +113,31 @@ export const Documents = () => {
       onSettled: () => {},
     }
   );
-  const [isAddDocumentsModalOpen, setIsAddDocumentsModalOpen] = useState(false);
+  const [isAddDocumentsByEditorModalOpen, setIsAddDocumentsByEditorModalOpen] = useState(false);
   const [isEditDocumentsModalOpen, setIsEditDocumentsModalOpen] = useState(false);
   const [editingDocument, setEditingDocument] = useState<object>();
 
   const addDocumentsMutation = useMutation(
     ['addDocuments', host, indexClient?.uid],
-    async (variables: object[]) => {
-      return await indexClient!.addDocuments(variables);
+    async (variables: object[] | File) => {
+      const url = new URL(`/indexes/${currentIndex}/documents`, host);
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          Authorization: apiKey ? `Bearer ${apiKey}` : '',
+        },
+        body: variables instanceof File ? (variables as File) : JSON.stringify(variables),
+      });
+      const task = (await response.json()) as EnqueuedTask;
+      console.debug('addDocumentsMutation', 'response', task);
+      return task;
     },
     {
       onSuccess: (t) => {
         showTaskSubmitNotification(t);
-        setIsAddDocumentsModalOpen(false);
+        setIsAddDocumentsByEditorModalOpen(false);
         addDocumentsForm.reset();
       },
       onError: (error) => {
@@ -138,14 +151,14 @@ export const Documents = () => {
     await searchDocumentsQuery.refetch();
   }, [searchDocumentsQuery]);
 
-  const onAddDocumentsClick = useCallback(async () => {
-    setIsAddDocumentsModalOpen(true);
+  const onAddDocumentsByEditorClick = useCallback(async () => {
+    setIsAddDocumentsByEditorModalOpen(true);
     // read clipboard and set default val if clipboard value match rules
     const [firstContent] = await navigator.clipboard.read();
     if (firstContent.types.includes('text/plain')) {
       const json = JSON.parse(await (await firstContent.getType('text/plain')).text());
       const arr = _.isArray(json) ? json : _.isObject(json) ? [json] : [];
-      console.debug('onAddDocumentsClick paste clipboard', arr, json);
+      console.debug('onAddDocumentsByEditorClick paste clipboard', arr, json);
       if (arr.length > 0) {
         await addDocumentsForm.setFieldValue('documents', arr);
       }
@@ -158,6 +171,24 @@ export const Documents = () => {
     },
     [addDocumentsForm, addDocumentsMutation]
   );
+
+  const onAddDocumentsByImportClick = useCallback(async () => {
+    const fileElem = document.getElementById('documents-json-file-selector');
+    if (fileElem) {
+      fileElem.click();
+
+      await fileElem.addEventListener(
+        'change',
+        async (ev) => {
+          // @ts-ignore
+          const jsonFile = ev.target!.files[0] as File;
+          console.debug('onAddDocumentsByImportClick', 'file-change', jsonFile);
+          await onAddDocumentsSubmit({ documents: jsonFile });
+        },
+        false
+      );
+    }
+  }, [onAddDocumentsSubmit]);
 
   const onAddDocumentsJsonEditorUpdate = useCallback(
     (e: InteractionProps) => addDocumentsForm.setFieldValue('documents', e.updated_src as object[]),
@@ -228,7 +259,7 @@ export const Documents = () => {
         });
       } else {
         showNotification({
-          color: 'danger',
+          color: 'red',
           message: `Document deletion require the valid primaryKey in index ${indexClient?.uid}`,
         });
       }
@@ -258,10 +289,10 @@ export const Documents = () => {
             collapseStringsAfterLength={50}
           />
           <div className={`absolute right-0 bottom-0 invisible group-hover:visible p-2 flex items-center gap-2`}>
-            <Button color={'info'} size={'xs'} variant={'outline'} onClick={() => onClickDocumentUpdate(d)}>
+            <Button color={'blue'} size={'xs'} variant={'outline'} onClick={() => onClickDocumentUpdate(d)}>
               Update
             </Button>
-            <Button color={'danger'} size={'xs'} variant={'outline'} onClick={() => onClickDocumentDel(d)}>
+            <Button color={'red'} size={'xs'} variant={'outline'} onClick={() => onClickDocumentDel(d)}>
               Delete
             </Button>
           </div>
@@ -312,16 +343,34 @@ export const Documents = () => {
                     <NumberInput radius="md" label="Offset" {...searchForm.getInputProps('offset')} />
                     <div className={`ml-auto mt-auto flex gap-x-4 items-center`}>
                       {searchDocumentsQuery.isFetching && <Loader color="gray" size="sm" />}
-                      <Button color={'info'} onClick={onAddDocumentsClick}>
-                        Add Documents
-                      </Button>
-                      <Button
+                      <div className="dropdown info">
+                        <label className={`btn sm solid info`} tabIndex={0}>
+                          Add Documents
+                        </label>
+                        <div className="menu left-top w-max font-semibold">
+                          <div
+                            className={'item only-one-line flex-nowrap !flex-row gap-1'}
+                            onClick={onAddDocumentsByEditorClick}
+                          >
+                            <span> Input by editor</span>
+                            <span className={`badge sm light`}>Manually type in</span>
+                          </div>
+                          <div
+                            className={'item only-one-line flex-nowrap !flex-row gap-1'}
+                            onClick={onAddDocumentsByImportClick}
+                          >
+                            <span>Import json file</span>
+                            <span className={`badge sm light`}>For large documents</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <button
                         type={'submit'}
-                        variant={'gradient'}
-                        gradient={{ from: '#c84e89', to: '#F15F79', deg: 165 }}
+                        className={`btn sm solid primary bg-gradient-to-br from-[#c84e89] to-[#F15F79]`}
                       >
                         Search
-                      </Button>
+                      </button>
                     </div>
                   </div>
                 </form>
@@ -334,7 +383,6 @@ export const Documents = () => {
                 <p>in {searchDocumentsQuery.data?.processingTimeMs} ms</p>
               </div>
             </div>
-
             {/* Doc List */}
             <div className={`flex-1 flex flex-col gap-4 overflow-scroll`}>{docList}</div>
           </div>
@@ -342,9 +390,9 @@ export const Documents = () => {
           <EmptyArea text={'Select or Create a index on the left to start'} />
         )}
         <Modal
-          opened={isAddDocumentsModalOpen}
+          opened={isAddDocumentsByEditorModalOpen}
           onClose={() => {
-            setIsAddDocumentsModalOpen(false);
+            setIsAddDocumentsByEditorModalOpen(false);
             addDocumentsForm.reset();
           }}
           centered
@@ -364,6 +412,9 @@ export const Documents = () => {
                 onAdd={onAddDocumentsJsonEditorUpdate}
                 onEdit={onAddDocumentsJsonEditorUpdate}
                 onDelete={onAddDocumentsJsonEditorUpdate}
+                name={false}
+                displayDataTypes={false}
+                displayObjectSize={false}
               />
             </div>
             <Button type="submit" radius={'xl'} size={'lg'} variant="light">
@@ -394,6 +445,9 @@ export const Documents = () => {
                 onAdd={onEditDocumentJsonEditorUpdate}
                 onEdit={onEditDocumentJsonEditorUpdate}
                 onDelete={onEditDocumentJsonEditorUpdate}
+                name={false}
+                displayDataTypes={false}
+                displayObjectSize={false}
               />
             </div>
             <Button onClick={onSubmitDocumentUpdate} radius={'xl'} size={'lg'} variant="light">
@@ -401,6 +455,7 @@ export const Documents = () => {
             </Button>
           </div>
         </Modal>
+        <input type="file" id="documents-json-file-selector" accept=".json" hidden multiple={false} min={1} max={1} />
       </>
     ),
     [
@@ -410,9 +465,10 @@ export const Documents = () => {
       searchDocumentsQuery.data?.processingTimeMs,
       searchForm,
       onSearchSubmit,
-      onAddDocumentsClick,
+      onAddDocumentsByEditorClick,
+      onAddDocumentsByImportClick,
       docList,
-      isAddDocumentsModalOpen,
+      isAddDocumentsByEditorModalOpen,
       addDocumentsForm,
       onAddDocumentsSubmit,
       onAddDocumentsJsonEditorUpdate,

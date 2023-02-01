@@ -8,7 +8,7 @@ import { useMutation, useQuery } from 'react-query';
 import { hiddenRequestLoader, showRequestLoader } from '@/src/utils/loader';
 import { getTimeText, showTaskSubmitNotification, stringifyJsonPretty } from '@/src/utils/text';
 import { IndexObject, IndexOptions, Settings } from 'meilisearch';
-import { IconPencilMinus } from '@tabler/icons';
+import { IconPencilMinus } from '@tabler/icons-react';
 import { matches, useForm } from '@mantine/form';
 import { openConfirmModal } from '@mantine/modals';
 
@@ -198,7 +198,7 @@ function SettingsPage() {
       ),
       labels: { confirm: 'Confirm', cancel: 'Cancel' },
       confirmProps: {
-        color: 'danger',
+        color: 'red',
       },
       onConfirm: () => delIndexMutation.mutate(),
     });
@@ -217,7 +217,7 @@ function SettingsPage() {
       ),
       labels: { confirm: 'Confirm', cancel: 'Cancel' },
       confirmProps: {
-        color: 'danger',
+        color: 'red',
       },
       onConfirm: () => delIndexAllDocumentsMutation.mutate(),
     });
@@ -306,14 +306,14 @@ function SettingsPage() {
             onChange={(e) => setIndexSettingInputData(e)}
             disabled={!isSettingsEditing}
           />
-          <Paper radius="md" p="lg" withBorder className={`!bg-opacity-50 !bg-danger-1`}>
+          <Paper radius="md" p="lg" withBorder className={`!bg-opacity-50 !bg-danger-100`}>
             <div className={`flex flex-col items-start gap-4`}>
-              <p className={`text-danger-7 text-xl font-bold font-sans`}>Danger Zone</p>
+              <p className={`text-danger-700 text-xl font-bold font-sans`}>Danger Zone</p>
               <div className={`flex items-center gap-x-2`}>
-                <Button color={'danger'} onClick={onClickDeleteAllDocuments}>
+                <Button color={'red'} onClick={onClickDeleteAllDocuments}>
                   Delete All Documents
                 </Button>
-                <Button color={'danger'} onClick={onClickDeleteIndex}>
+                <Button color={'red'} onClick={onClickDeleteIndex}>
                   Delete This Index
                 </Button>
               </div>

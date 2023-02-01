@@ -12,7 +12,7 @@ import { getTimeText } from '@/src/utils/text';
 import _ from 'lodash';
 import { useDebounceFn } from 'ahooks';
 import { hiddenRequestLoader, showRequestLoader } from '@/src/utils/loader';
-import { IconCheck, IconCopy } from '@tabler/icons';
+import { IconCheck, IconCopy } from '@tabler/icons-react';
 import { Footer } from '@/src/components/Footer';
 import { useForm } from '@mantine/form';
 import { showNotification } from '@mantine/notifications';
@@ -149,7 +149,7 @@ function Keys() {
           <td>{getTimeText(t.expiresAt, { defaultText: 'Forever' })}</td>
           <td>
             <div className={`flex gap-1`}>
-              <Button color={'danger'} onClick={() => onClickDelKey(t)}>
+              <Button color={'red'} onClick={() => onClickDelKey(t)}>
                 Del
               </Button>
             </div>
@@ -210,7 +210,7 @@ function Keys() {
       setIsCreateLoading(false);
       if (_.isEmpty(res)) {
         showNotification({
-          color: 'danger',
+          color: 'red',
           title: 'Fail',
           message: `Creation fail, go check tasks! 🤥`,
         });

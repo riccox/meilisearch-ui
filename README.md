@@ -1,6 +1,6 @@
 # Meilisearch-UI
 
-<a href="https://github.com/riccox/meilisearch-ui/actions">![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/riccox/meilisearch-ui/docker-build-latest.yaml?branch=main)</a>
+<a href="https://github.com/riccox/meilisearch-ui/actions">![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/riccox/meilisearch-ui/docker-build-release.yaml?branch=main)</a>
 <a href="https://github.com/riccox/meilisearch-ui/releases">![release](https://img.shields.io/github/v/release/riccox/meilisearch-ui?display_name=release)</a>
 ![stars](https://img.shields.io/github/stars/riccox/meilisearch-ui)
 <a href="https://github.com/riccox/meilisearch-ui/issues">![issues](https://img.shields.io/github/issues/riccox/meilisearch-ui)</a>
@@ -71,6 +71,7 @@ pnpm run dev
 
 ## Built with ♥
 
+- [Sira-UI](https://sira.riccox.com/)
 - React v18
 - TypeScript
 - Vite

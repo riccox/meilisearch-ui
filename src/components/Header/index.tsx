@@ -10,7 +10,7 @@ import {
   IconKey,
   IconListCheck,
   IconSettings,
-} from '@tabler/icons';
+} from '@tabler/icons-react';
 import { Link } from 'react-router-dom';
 import { FC, useCallback, useMemo, useState } from 'react';
 import { showNotification } from '@mantine/notifications';
@@ -62,7 +62,7 @@ export const Header: FC<Props> = ({ client }) => {
   const onClickHost = useCallback(() => {
     clipboard.copy(store.currentInstance?.host);
     showNotification({
-      color: 'success',
+      color: 'green',
       title: 'Copied',
       message: 'Server Host Copied ✍',
     });

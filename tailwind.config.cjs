@@ -7,5 +7,19 @@ module.exports = {
         extend: {
             colors: theme.colors
         },
-    }
+    },
+    plugins: [
+        require("@sira-ui/tailwind")({
+            themes: [
+                {
+                    name: "light",
+                    colorScheme: "light",
+                    colors: {
+                        primary: "#F15F79",
+                        info: "#219bfe",
+                    },
+                },
+            ],
+        }),
+    ],
 }

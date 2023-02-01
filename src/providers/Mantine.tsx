@@ -1,12 +1,11 @@
 import type { FC, ReactNode } from 'react';
-
 import { createEmotionCache, DefaultMantineColor, MantineProvider, Tuple } from '@mantine/core';
 import theme from '@/src/style/theme.json';
 import _ from 'lodash';
 import { NotificationsProvider } from '@mantine/notifications';
 import { ModalsProvider } from '@mantine/modals';
 
-type CustomColors = 'brand' | 'success' | 'danger' | 'warning' | 'info';
+type CustomColors = 'brand';
 type ExtendedCustomColors = CustomColors | DefaultMantineColor;
 
 declare module '@mantine/core' {
@@ -27,7 +26,7 @@ export const MantineUIProvider: FC<Props> = ({ children }) => {
       emotionCache={myCache}
       withNormalizeCSS
       theme={{
-        colors: _.omit(theme.colors as unknown as Record<CustomColors, Tuple<string, 10>>, 'background'),
+        colors: _.pick(theme.colors as unknown as Record<CustomColors, Tuple<string, 10>>, 'brand'),
         primaryColor: 'brand',
       }}
     >

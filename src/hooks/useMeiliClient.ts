@@ -17,7 +17,7 @@ export const useMeiliClient = () => {
     console.debug('useMeilisearchClient', 'start connection');
     if (_.isEmpty(currentInstance?.host)) {
       showNotification({
-        color: 'warning',
+        color: 'orange',
         title: 'Reconnection Required',
         message: 'Connection fail, go check your config! 🤥',
       });
@@ -34,7 +34,7 @@ export const useMeiliClient = () => {
     } catch (err) {
       console.warn('useMeilisearchClient', 'test conn error', err);
       showNotification({
-        color: 'warning',
+        color: 'orange',
         title: 'Connection Fail',
         message: 'Go check your config! 🤥',
       });
