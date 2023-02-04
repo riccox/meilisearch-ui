@@ -1,6 +1,6 @@
 # Meilisearch-UI
 
-<a href="https://github.com/riccox/meilisearch-ui/actions">![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/riccox/meilisearch-ui/docker-build-release.yaml?branch=main)</a>
+<a href="https://github.com/riccox/meilisearch-ui/actions">![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/riccox/meilisearch-ui/docker-build-release.yaml)</a>
 <a href="https://github.com/riccox/meilisearch-ui/releases">![release](https://img.shields.io/github/v/release/riccox/meilisearch-ui?display_name=release)</a>
 ![stars](https://img.shields.io/github/stars/riccox/meilisearch-ui)
 <a href="https://github.com/riccox/meilisearch-ui/issues">![issues](https://img.shields.io/github/issues/riccox/meilisearch-ui)</a>
@@ -8,7 +8,7 @@
 <a href="https://hub.docker.com/r/riccoxie/meilisearch-ui/tags" target="_blank">![Docker Image Version (latest semver)](https://img.shields.io/docker/v/riccoxie/meilisearch-ui?label=image%20version&sort=semver)</a>
 <a href="https://hub.docker.com/r/riccoxie/meilisearch-ui" target="_blank">![Docker Pulls](https://img.shields.io/docker/pulls/riccoxie/meilisearch-ui)</a>
 <a href="https://github.com/riccox/meilisearch-ui/blob/main/LICENSE">![license](https://img.shields.io/github/license/riccox/meilisearch-ui)</a>
-<a href="https://meilisearch-ui.riccox.com" target="_blank">![GitHub deployments](https://img.shields.io/github/deployments/riccox/meilisearch-ui/production?label=Vercel&logo=vercel)</a>
+<a href="https://meilisearch-ui.riccox.com" target="_blank">![GitHub deployments](https://img.shields.io/github/deployments/riccox/meilisearch-ui/production?label=Demo&nbsp;On&nbsp;Vercel&logo=vercel)</a>
 
 <a href="https://www.producthunt.com/posts/meilisearch-ui?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-meilisearch&#0045;ui" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=373175&theme=light" alt="Meilisearch&#0045;UI - Pretty&#0044;&#0032;simple&#0032;and&#0032;fast&#0032;meilisearch&#0032;admin&#0032;dashboard | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" /></a>
 
@@ -17,10 +17,6 @@
 > [IMPORTANT] The main branch may be unstable or unavailable during development.
 >
 > Please use release instead of main branch to obtain a stable version app
-
-## Online use
-
-There is a live demo 👉 [meilisearch-ui](https://meilisearch-ui.riccox.com), deploy on Vercel.
 
 ## Features
 
@@ -39,6 +35,10 @@ There is a live demo 👉 [meilisearch-ui](https://meilisearch-ui.riccox.com), d
 ## Get start
 
 > [IMPORTANT] Remember enable CORS in your instance server for this ui domain before using.
+
+### Online use
+
+There is a live demo 👉 [meilisearch-ui](https://meilisearch-ui.riccox.com), deploy on Vercel.
 
 ### Docker
 
@@ -87,3 +87,4 @@ pnpm run dev
 - Lodash.js
 - Immer
 - react-json-view
+- Dayjs
