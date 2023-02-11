@@ -150,7 +150,7 @@ function Keys() {
           <td>
             <div className={`flex gap-1`}>
               <Button color={'red'} onClick={() => onClickDelKey(t)}>
-                Del
+                Delete
               </Button>
             </div>
           </td>
@@ -347,11 +347,11 @@ function Keys() {
                   { value: 'search', label: 'Search' },
                   { value: 'documents.add', label: 'Add/Update documents' },
                   { value: 'documents.get', label: 'Get document(s)' },
-                  { value: 'documents.delete', label: 'Del document(s)' },
+                  { value: 'documents.delete', label: 'Delete document(s)' },
                   { value: 'indexes.create', label: 'Create index' },
                   { value: 'indexes.get', label: 'Get index(es) (without Non-authorized indexes)' },
                   { value: 'indexes.update', label: 'Update index(es)' },
-                  { value: 'indexes.delete', label: 'Del index(es)' },
+                  { value: 'indexes.delete', label: 'Delete index(es)' },
                   { value: 'tasks.get', label: 'Get task(s) (without Non-authorized indexes)' },
                   { value: 'settings.get', label: 'Get settings' },
                   { value: 'settings.update', label: 'Update/Reset settings' },
@@ -361,7 +361,7 @@ function Keys() {
                   { value: 'keys.get', label: 'Get keys' },
                   { value: 'keys.create', label: 'Create keys' },
                   { value: 'keys.update', label: 'Update keys' },
-                  { value: 'keys.delete', label: 'Del keys' },
+                  { value: 'keys.delete', label: 'Delete keys' },
                 ]}
                 {...form.getInputProps('actions')}
               />
