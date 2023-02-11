@@ -35,8 +35,11 @@
 ## Get start
 
 > [IMPORTANT] Remember enable CORS in your instance server for this ui domain before using.
+>
+> This version have not achieved responsive design, so mind that only use this app on desktop to gain better experience.
 
 ### Online use
+
 
 There is a live demo 👉 [meilisearch-ui](https://meilisearch-ui.riccox.com), deploy on Vercel.
 
