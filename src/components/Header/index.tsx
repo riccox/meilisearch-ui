@@ -1,4 +1,4 @@
-import { ActionIcon, Badge, Button, HoverCard, Menu } from '@mantine/core';
+import { ActionIcon, Button, HoverCard, Menu } from '@mantine/core';
 import {
   IconArrowsLeftRight,
   IconBook2,
@@ -100,30 +100,21 @@ export const Header: FC<Props> = ({ client }) => {
         >
           Home
         </Button>
-        <p className={`text-2xl underline font-bold`}>{_.truncate(store.currentInstance?.name, { length: 20 })}</p>
-        <Badge
-          className={`!cursor-pointer hover:border hover:border-brand-4`}
-          onClick={onClickHost}
-          size="xl"
-          radius="lg"
-          variant="dot"
-          color={'green'}
-        >
+        <p className={`text-2xl font-bold`}>{_.truncate(store.currentInstance?.name, { length: 20 })}</p>
+        <span className={`!cursor-pointer hover:underline badge outline lg success`} onClick={onClickHost}>
           Host: {_.truncate(store.currentInstance?.host, { length: 40 })}
-        </Badge>
-        <Badge className={``} size="xl" radius="lg">
-          Database Size: {_.ceil((stats?.databaseSize ?? 0) / 1048576, 2)} MB
-        </Badge>
+        </span>
         <p className={`font-bold `}>Last Updated: {getTimeText(stats?.lastUpdate)}</p>
-        <Badge className={``} size="xl" radius="lg" variant="dot" color={health ? 'green' : 'yellow'}>
+        <span className={`badge outline lg primary`}>
+          Database Size: {_.ceil((stats?.databaseSize ?? 0) / 1048576, 2)} MB
+        </span>
+        <span className={`badge light lg ${health ? 'success' : 'warn'}`}>
           Status: {health ? 'Available' : 'Unknown'}
-        </Badge>
+        </span>
 
         <HoverCard withinPortal shadow="lg" radius={'lg'} transition={'fade'}>
           <HoverCard.Target>
-            <Badge className={``} size="xl" radius="lg">
-              Version: {version?.pkgVersion}
-            </Badge>
+            <span className={`badge light lg primary`}>Version: {version?.pkgVersion}</span>
           </HoverCard.Target>
           <HoverCard.Dropdown>
             Commit Date: {version?.commitDate} <br />
@@ -131,7 +122,7 @@ export const Header: FC<Props> = ({ client }) => {
           </HoverCard.Dropdown>
         </HoverCard>
 
-        <Menu withinPortal shadow="xl" width={180} radius={'lg'} transition={'pop'}>
+        <Menu withinPortal position="bottom-end" shadow="xl" width={180} radius={'lg'} transition={'pop'}>
           <Menu.Target>
             <ActionIcon color="primary" size="lg" radius="xl" variant="outline">
               <IconSettings size={26} />

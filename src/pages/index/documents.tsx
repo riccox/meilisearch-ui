@@ -344,7 +344,7 @@ export const Documents = () => {
                     <div className={`ml-auto mt-auto flex gap-x-4 items-center`}>
                       {searchDocumentsQuery.isFetching && <Loader color="gray" size="sm" />}
                       <div className="dropdown info">
-                        <label className={`btn sm solid info`} tabIndex={0}>
+                        <label className={`btn solid info`} tabIndex={0}>
                           Add Documents
                         </label>
                         <div className="menu left-top w-max font-semibold">
@@ -367,7 +367,7 @@ export const Documents = () => {
 
                       <button
                         type={'submit'}
-                        className={`btn sm solid primary bg-gradient-to-br from-[#c84e89] to-[#F15F79]`}
+                        className={`btn solid primary bg-gradient-to-br from-[#c84e89] to-[#F15F79]`}
                       >
                         Search
                       </button>

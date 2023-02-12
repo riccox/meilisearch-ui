@@ -1,6 +1,6 @@
 import './index.css';
 import { useCallback, useMemo, useState } from 'react';
-import { ActionIcon, Badge, Button, CopyButton, Modal, MultiSelect, Table, TextInput, Tooltip } from '@mantine/core';
+import { ActionIcon, CopyButton, Modal, MultiSelect, Table, TextInput, Tooltip } from '@mantine/core';
 import { useMeiliClient } from '@/src/hooks/useMeiliClient';
 import { Key } from 'meilisearch';
 import { EmptyArea } from '@/src/components/EmptyArea';
@@ -133,14 +133,18 @@ function Keys() {
           <td>
             <div className={`flex gap-1 flex-wrap`}>
               {t.indexes.map((index) => (
-                <Badge key={index}>{index}</Badge>
+                <span className="badge secondary light" key={index}>
+                  {index}
+                </span>
               ))}
             </div>
           </td>
           <td>
             <div className={`flex gap-1 flex-wrap`}>
               {t.actions.map((action) => (
-                <Badge key={action}>{action}</Badge>
+                <span className="badge secondary light" key={action}>
+                  {action}
+                </span>
               ))}
             </div>
           </td>
@@ -149,9 +153,9 @@ function Keys() {
           <td>{getTimeText(t.expiresAt, { defaultText: 'Forever' })}</td>
           <td>
             <div className={`flex gap-1`}>
-              <Button color={'red'} onClick={() => onClickDelKey(t)}>
+              <button className={'btn sm solid danger'} onClick={() => onClickDelKey(t)}>
                 Delete
-              </Button>
+              </button>
             </div>
           </td>
         </tr>
@@ -240,9 +244,9 @@ function Keys() {
               radius={'lg'}
               onChange={({ target: { value } }) => setFilter((filter) => ({ ...filter, query: value }))}
             ></TextInput>
-            <Button radius={'lg'} onClick={() => onClickCreate()}>
+            <button className={'btn solid info sm'} onClick={() => onClickCreate()}>
               Create
-            </Button>
+            </button>
           </div>
           <div
             className={`flex-1 p-2 w-full overflow-scroll`}
@@ -375,9 +379,9 @@ function Keys() {
                 {...form.getInputProps('expiresAt')}
               />
             </Tooltip>
-            <Button type="submit" radius={'xl'} size={'lg'} variant="light" loading={isCreateLoading}>
+            <button type="submit" className={`${isCreateLoading ? 'is-loading' : ''} btn solid success`}>
               Create this key
-            </Button>
+            </button>
             <Footer />
           </form>
         </Modal>
