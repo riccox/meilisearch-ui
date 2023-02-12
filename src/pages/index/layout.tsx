@@ -153,9 +153,7 @@ function IndexesLayout() {
           >
             <p className={`col-span-4 text-xl font-bold`}>{uid}</p>
             <div className={`col-span-4 flex justify-end gap-x-2 items-center`}>
-              <Badge className={`mr-auto`} size="lg" variant="outline">
-                Count: {indexStat?.numberOfDocuments ?? 0}
-              </Badge>
+              <span className={`mr-auto badge outline primary`}>Count: {indexStat?.numberOfDocuments ?? 0}</span>
 
               <Tooltip label="Field Distribution">
                 <ActionIcon

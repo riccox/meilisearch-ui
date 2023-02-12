@@ -20,6 +20,12 @@ export const TaskColors: Record<TaskStatus, MantineColor> = {
   [TaskStatus.TASK_FAILED]: 'yellow',
   [TaskStatus.TASK_PROCESSING]: 'grape',
 };
+export const TaskThemes: Record<TaskStatus, string> = {
+  [TaskStatus.TASK_SUCCEEDED]: 'success',
+  [TaskStatus.TASK_ENQUEUED]: 'warn',
+  [TaskStatus.TASK_FAILED]: 'danger',
+  [TaskStatus.TASK_PROCESSING]: 'secondary',
+};
 
 export const showTaskSubmitNotification = (task: EnqueuedTask): void => {
   showNotification({

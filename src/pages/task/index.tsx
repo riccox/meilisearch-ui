@@ -1,6 +1,6 @@
 import './index.css';
 import { useCallback, useMemo, useState } from 'react';
-import { Badge, Code, Modal, Select, TextInput } from '@mantine/core';
+import { Code, Modal, Select, TextInput } from '@mantine/core';
 import { useMeiliClient } from '@/src/hooks/useMeiliClient';
 import { Task, TasksResults } from 'meilisearch';
 import { EmptyArea } from '@/src/components/EmptyArea';
@@ -8,7 +8,7 @@ import { useInfiniteQuery } from 'react-query';
 import Fuse from 'fuse.js';
 import { useAppStore } from '@/src/store';
 import { Header } from '@/src/components/Header';
-import { getTimeText, stringifyJsonPretty, TaskColors } from '@/src/utils/text';
+import { getTimeText, stringifyJsonPretty, TaskThemes } from '@/src/utils/text';
 import _ from 'lodash';
 import { TaskTypes } from 'meilisearch/src/types/types';
 import { useDebounceFn } from 'ahooks';
@@ -92,9 +92,7 @@ function Tasks() {
           >
             <div className={`flex items-center gap-2`}>
               <p className={`text-2xl font-extrabold`}>{`#${uid}`}</p>
-              <Badge color={TaskColors[t.status]} size={'lg'}>
-                {t.status}
-              </Badge>
+              <span className={`badge light ${TaskThemes[t.status]} uppercase `}>{t.status}</span>
               <p className={`ml-auto text-lg`}>{t.type}</p>
             </div>
             <div className={`grid grid-cols-4 gap-2 task-card-options`}>
