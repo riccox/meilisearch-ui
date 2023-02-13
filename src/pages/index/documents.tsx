@@ -288,13 +288,15 @@ export const Documents = () => {
             collapsed={3}
             collapseStringsAfterLength={50}
           />
-          <div className={`absolute right-0 bottom-0 invisible group-hover:visible p-2 flex items-center gap-2`}>
-            <Button color={'blue'} size={'xs'} variant={'outline'} onClick={() => onClickDocumentUpdate(d)}>
+          <div
+            className={`absolute right-0 bottom-0 opacity-95 invisible group-hover:visible p-2 flex items-center gap-2`}
+          >
+            <button className={'btn xs font-normal outline info'} onClick={() => onClickDocumentUpdate(d)}>
               Update
-            </Button>
-            <Button color={'red'} size={'xs'} variant={'outline'} onClick={() => onClickDocumentDel(d)}>
+            </button>
+            <button className={'btn xs font-normal outline danger'} onClick={() => onClickDocumentDel(d)}>
               Delete
-            </Button>
+            </button>
           </div>
         </div>
       );
@@ -347,19 +349,19 @@ export const Documents = () => {
                         <label className={`btn solid info`} tabIndex={0}>
                           Add Documents
                         </label>
-                        <div className="menu left-top w-max font-semibold">
+                        <div className="menu left-top w-max font-medium">
                           <div
-                            className={'item only-one-line flex-nowrap !flex-row gap-1'}
+                            className={'item only-one-line flex-nowrap !flex-row'}
                             onClick={onAddDocumentsByEditorClick}
                           >
-                            <span> Input by editor</span>
+                            <span className="pr-2"> Input by editor</span>
                             <span className={`badge sm light`}>Manually type in</span>
                           </div>
                           <div
-                            className={'item only-one-line flex-nowrap !flex-row gap-1'}
+                            className={'item only-one-line flex-nowrap !flex-row'}
                             onClick={onAddDocumentsByImportClick}
                           >
-                            <span>Import json file</span>
+                            <span className="pr-2">Import json file</span>
                             <span className={`badge sm light`}>For large documents</span>
                           </div>
                         </div>

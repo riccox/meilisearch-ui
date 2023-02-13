@@ -249,9 +249,9 @@ function Dashboard() {
               {...instanceForm.getInputProps('apiKey')}
             />
           </Tooltip>
-          <Button type="submit" radius={'xl'} size={'lg'} variant="light" disabled={isSubmitInstanceLoading}>
+          <button type="submit" className="btn primary outline" disabled={isSubmitInstanceLoading}>
             {instanceFormType === 'edit' ? 'Confirm edit' : 'Add this instance'}
-          </Button>
+          </button>
           <Footer />
         </form>
       </Modal>
