@@ -8,7 +8,7 @@ specifiers:
   '@mantine/modals': ^5.10.3
   '@mantine/notifications': ^5.10.3
   '@mantine/nprogress': ^5.10.3
-  '@sira-ui/tailwind': ^0.4.3
+  '@sira-ui/tailwind': ^0.5.0
   '@tabler/icons-react': ^2.3.0
   '@types/lodash': ^4.14.191
   '@types/node': ^18.13.0
@@ -52,7 +52,7 @@ dependencies:
   '@mantine/modals': 5.10.3_7qw7iibcf4wkwwwrwp57hnnlya
   '@mantine/notifications': 5.10.3_7qw7iibcf4wkwwwrwp57hnnlya
   '@mantine/nprogress': 5.10.3_7qw7iibcf4wkwwwrwp57hnnlya
-  '@sira-ui/tailwind': 0.4.3_tailwindcss@3.2.6
+  '@sira-ui/tailwind': 0.5.0_tailwindcss@3.2.6
   '@tabler/icons-react': 2.3.0_react@18.2.0
   '@uiball/loaders': registry.npmmirror.com/@uiball/loaders/1.2.6_biqbaboplfbrettd7655fr4n2y
   ahooks: 3.7.4_react@18.2.0
@@ -1115,19 +1115,19 @@ packages:
     engines: {node: '>=14'}
     dev: false
 
-  /@riccox/colorify/0.1.5:
-    resolution: {integrity: sha512-ky0kHbdyIg1e+y+7H/mPgNfbRE3azGLILi4DNTZ3e+ADZ9S4p7+cVGGcAnACwhA+CYTLD/GPjRinxYRKXPfoWQ==}
+  /@riccox/colorify/0.2.2:
+    resolution: {integrity: sha512-0qcuBNEw2ZY1eVx6tGeVJfiNVwlwKXQNV4Ap+VYnuSPEKVF0nU1MBncjFmxobrfr+0y3ZtNo2QuoIkxEQN9dyA==}
     engines: {node: '>=14'}
     dependencies:
       chroma-js: 2.4.2
     dev: false
 
-  /@sira-ui/tailwind/0.4.3_tailwindcss@3.2.6:
-    resolution: {integrity: sha512-Do5hXfmzdpXeeZ/W+6hwmtVGL7ME8qLSrqoTvZ5ELGkKwICFpvsNCxv7nOu7lMnZDEZxZ87QpbX6++8K6np/1A==}
+  /@sira-ui/tailwind/0.5.0_tailwindcss@3.2.6:
+    resolution: {integrity: sha512-DKPHTZKYeia7zXmlJGQ+fG2F56IujdTOvSQbmXmVs+XRCgCP7ASHr5vPjoAsELoykz3fgtwxN0NVy6DqQ+116g==}
     peerDependencies:
       tailwindcss: ^3
     dependencies:
-      '@riccox/colorify': 0.1.5
+      '@riccox/colorify': 0.2.2
       postcss: 8.4.21
       postcss-js: 4.0.1_postcss@8.4.21
       postcss-selector-parser: 6.0.11

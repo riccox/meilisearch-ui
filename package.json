@@ -23,7 +23,7 @@
     "@mantine/modals": "^5.10.3",
     "@mantine/notifications": "^5.10.3",
     "@mantine/nprogress": "^5.10.3",
-    "@sira-ui/tailwind": "^0.4.3",
+    "@sira-ui/tailwind": "^0.5.0",
     "@tabler/icons-react": "^2.3.0",
     "@uiball/loaders": "^1.2.6",
     "ahooks": "^3.7.4",
