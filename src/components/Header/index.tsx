@@ -1,4 +1,4 @@
-import { ActionIcon, Button, HoverCard, Menu } from '@mantine/core';
+import { ActionIcon, Button, HoverCard } from '@mantine/core';
 import {
   IconArrowsLeftRight,
   IconBook2,
@@ -88,18 +88,15 @@ export const Header: FC<Props> = ({ client }) => {
       <div
         className={`bg-background-light
         flex justify-between items-center
-        p-5 rounded-3xl drop-shadow-xl`}
+        p-5 rounded-3xl drop-shadow-xl z-20`}
       >
-        <Button
-          leftIcon={<IconHomeBolt size={26} />}
-          color="primary"
-          size="md"
-          radius="xl"
-          variant="gradient"
+        <button
+          className="btn primary solid flex items-center gap-2"
           onClick={() => navigate(['/'], { currentInstance: store.currentInstance })}
         >
-          Home
-        </Button>
+          <IconHomeBolt size={26} />
+          <p>Home</p>
+        </button>
         <p className={`text-2xl font-bold`}>{_.truncate(store.currentInstance?.name, { length: 20 })}</p>
         <span className={`!cursor-pointer hover:underline badge outline lg success`} onClick={onClickHost}>
           Host: {_.truncate(store.currentInstance?.host, { length: 40 })}
@@ -114,7 +111,7 @@ export const Header: FC<Props> = ({ client }) => {
 
         <HoverCard withinPortal shadow="lg" radius={'lg'} transition={'fade'}>
           <HoverCard.Target>
-            <span className={`badge light lg primary`}>Version: {version?.pkgVersion}</span>
+            <span className={`badge outline lg primary`}>Meili Version: {version?.pkgVersion}</span>
           </HoverCard.Target>
           <HoverCard.Dropdown>
             Commit Date: {version?.commitDate} <br />
@@ -122,64 +119,71 @@ export const Header: FC<Props> = ({ client }) => {
           </HoverCard.Dropdown>
         </HoverCard>
 
-        <Menu withinPortal position="bottom-end" shadow="xl" width={180} radius={'lg'} transition={'pop'}>
-          <Menu.Target>
-            <ActionIcon color="primary" size="lg" radius="xl" variant="outline">
-              <IconSettings size={26} />
-            </ActionIcon>
-          </Menu.Target>
-          <Menu.Dropdown>
-            <Menu.Label>Instance</Menu.Label>
-            <Menu.Item icon={<IconBooks size={14} />} component={Link} to={'/index'}>
-              Index
-            </Menu.Item>
-            <Menu.Item
-              icon={<IconKey size={14} />}
-              className={'font-semibold hover:underline'}
+        <div className="dropdown bw">
+          <ActionIcon color="primary" size="lg" radius="xl" variant="outline" tabIndex={0}>
+            <IconSettings size={26} />
+          </ActionIcon>
+          <div className="menu bottom-left">
+            <p className="subtitle">Instance</p>
+            <Link to={'/index'} className="item text-sm flex items-center gap-2 " tabIndex={-1}>
+              <IconBooks size={14} />
+              <p>Index</p>
+            </Link>
+            <div
               onClick={() => {
                 navigate(['/keys'], { currentInstance: store.currentInstance });
               }}
+              className="item text-sm flex items-center gap-2 hover:underline"
+              tabIndex={-1}
             >
-              Keys
-            </Menu.Item>
-            <Menu.Item icon={<IconListCheck size={14} />} component={Link} to={'/tasks'}>
-              Tasks
-            </Menu.Item>
-            <Menu.Item
-              className={'font-semibold hover:underline'}
-              icon={<IconDeviceFloppy size={14} />}
-              onClick={onClickDump}
-            >
-              Dump
-            </Menu.Item>
-            <Menu.Divider />
-            <Menu.Label>System</Menu.Label>
-            <Menu.Item color="red" icon={<IconArrowsLeftRight size={14} />} component={Link} to={'/'}>
-              Change Instance
-            </Menu.Item>
-            <Menu.Divider />
-            <Menu.Label>Support</Menu.Label>
-            <Menu.Item icon={<IconBook2 size={14} />} component={Link} to={'//docs.meilisearch.com'} target={'_blank'}>
-              Meilisearch Docs
-            </Menu.Item>
-            <Menu.Item
-              icon={<IconBug size={14} />}
-              component={Link}
-              to={'//github.com/riccox/meilisearch-ui/issues'}
+              <IconKey size={14} />
+              <p>Keys</p>
+            </div>
+            <Link to={'/tasks'} className="item text-sm flex items-center gap-2" tabIndex={-1}>
+              <IconListCheck size={14} />
+              <p>Tasks</p>
+            </Link>
+            <div onClick={onClickDump} className="item text-sm flex items-center gap-2 hover:underline" tabIndex={-1}>
+              <IconDeviceFloppy size={14} />
+              <p>Dump</p>
+            </div>
+            <div className="divider" role="separator"></div>
+            <p className="subtitle">System</p>
+            <Link to={'/'} className="item text-sm flex items-center gap-2 danger" tabIndex={-1}>
+              <IconArrowsLeftRight size={14} />
+              <p>Change Instance</p>
+            </Link>
+            <div className="divider" role="separator"></div>
+            <p className="subtitle">Support</p>
+            <Link
+              to={'https://docs.meilisearch.com'}
               target={'_blank'}
+              className="item text-sm flex items-center gap-2"
+              tabIndex={-1}
             >
-              Issues
-            </Menu.Item>
-            <Menu.Item
-              icon={<IconBrandGithub size={14} />}
-              component={Link}
-              to={'//github.com/riccox/meilisearch-ui'}
+              <IconBook2 size={14} />
+              <p>Meilisearch Docs</p>
+            </Link>
+            <Link
+              to={'https://github.com/riccox/meilisearch-ui/issues'}
               target={'_blank'}
+              className="item text-sm flex items-center gap-2"
+              tabIndex={-1}
             >
-              Open Source
-            </Menu.Item>
-          </Menu.Dropdown>
-        </Menu>
+              <IconBug size={14} />
+              <p>Issues</p>
+            </Link>
+            <Link
+              to={'https://github.com/riccox/meilisearch-ui'}
+              target={'_blank'}
+              className="item text-sm flex items-center gap-2"
+              tabIndex={-1}
+            >
+              <IconBrandGithub size={14} />
+              <p>Open Source</p>
+            </Link>
+          </div>
+        </div>
       </div>
     ),
     [
