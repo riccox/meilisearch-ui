@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.1.1](https://github.com/riccox/meilisearch-ui/compare/v0.1.0...v0.1.1) (2023-02-13)
+
+
+### Performance Improvements
+
+* adjust header menu dropdown position. ([d8aa04c](https://github.com/riccox/meilisearch-ui/commit/d8aa04c976a05da7aeb6029a3d0e139e561893a2))
+* reorganize global styles. ([44d9ec6](https://github.com/riccox/meilisearch-ui/commit/44d9ec6e102232fe93f252a0aa7314fef6c81f1c))
+
 ## [0.1.0](https://github.com/riccox/meilisearch-ui/compare/v0.0.5...v0.1.0) (2023-02-01)
 
 
