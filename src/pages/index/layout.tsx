@@ -246,7 +246,6 @@ function IndexesLayout() {
           lockScroll
           radius="lg"
           shadow="xl"
-          overlayOpacity={0.3}
           padding="xl"
           withCloseButton={false}
         >
