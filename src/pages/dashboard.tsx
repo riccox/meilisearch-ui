@@ -1,7 +1,7 @@
 import { Logo } from '@/src/components/Logo';
 import { useCallback, useMemo, useState } from 'react';
 import { defaultInstance, Instance, useAppStore } from '@/src/store';
-import { ActionIcon, Autocomplete, Button, Modal, PasswordInput, TextInput, Tooltip } from '@mantine/core';
+import { ActionIcon, Autocomplete, Modal, PasswordInput, TextInput, Tooltip } from '@mantine/core';
 import { Footer } from '@/src/components/Footer';
 import { useForm } from '@mantine/form';
 import { IconBooks, IconCirclePlus, IconCircleX, IconKey, IconListCheck, IconPencilMinus } from '@tabler/icons-react';
@@ -208,7 +208,6 @@ function Dashboard() {
         lockScroll
         radius="lg"
         shadow="xl"
-        overlayOpacity={0.3}
         padding="xl"
         withCloseButton={false}
       >

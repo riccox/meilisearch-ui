@@ -401,10 +401,8 @@ export const Documents = () => {
           lockScroll
           radius="lg"
           shadow="xl"
-          overlayOpacity={0.3}
           padding="xl"
           withCloseButton={true}
-          overflow={'inside'}
           title={<p className={`font-bold text-lg`}>Add New Documents</p>}
         >
           <form className={`flex flex-col gap-y-4 w-full `} onSubmit={addDocumentsForm.onSubmit(onAddDocumentsSubmit)}>
@@ -434,10 +432,8 @@ export const Documents = () => {
           lockScroll
           radius="lg"
           shadow="xl"
-          overlayOpacity={0.3}
           padding="xl"
           withCloseButton={true}
-          overflow={'inside'}
           title={<p className={`font-bold text-lg`}>Edit Document</p>}
         >
           <div className={`flex flex-col gap-y-4 w-full `}>

@@ -1,4 +1,4 @@
-import { ActionIcon, Button, HoverCard } from '@mantine/core';
+import { ActionIcon, HoverCard } from '@mantine/core';
 import {
   IconArrowsLeftRight,
   IconBook2,
@@ -109,7 +109,7 @@ export const Header: FC<Props> = ({ client }) => {
           Status: {health ? 'Available' : 'Unknown'}
         </span>
 
-        <HoverCard withinPortal shadow="lg" radius={'lg'} transition={'fade'}>
+        <HoverCard withinPortal shadow="lg" radius={'lg'} transitionProps={{ transition: 'fade' }}>
           <HoverCard.Target>
             <span className={`badge outline lg primary`}>Meili Version: {version?.pkgVersion}</span>
           </HoverCard.Target>

@@ -327,7 +327,6 @@ function SettingsPage() {
           lockScroll
           radius="lg"
           shadow="xl"
-          overlayOpacity={0.3}
           padding="xl"
           withCloseButton={true}
           title={<p className={`font-bold text-lg`}>Edit Primary Key</p>}

@@ -300,7 +300,6 @@ function Keys() {
           size="lg"
           radius="lg"
           shadow="xl"
-          overlayOpacity={0.3}
           padding="xl"
           opened={isCreateKeyModalOpen}
           onClose={() => setIsCreateKeyModalOpen(false)}

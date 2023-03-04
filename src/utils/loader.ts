@@ -14,7 +14,7 @@ export const showRequestLoader = () => {
     RequestLoaderTimeoutId = arr;
     showNotification({
       id: RequestLoaderID,
-      disallowClose: true,
+      withCloseButton: false,
       title: 'Loading',
       message: 'Data fetching',
       loading: true,
@@ -36,7 +36,7 @@ const ConnectionTestLoaderID = 'conn-test-loader';
 export const showConnectionTestLoader = () => {
   showNotification({
     id: ConnectionTestLoaderID,
-    disallowClose: true,
+    withCloseButton: false,
     title: 'Testing',
     message: 'Connection testing',
     loading: true,
