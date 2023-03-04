@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.2](https://github.com/riccox/meilisearch-ui/compare/v0.1.1...v0.1.2) (2023-03-04)
+
+
+### Bug Fixes
+
+* indexes list can not scrollable. ([24eb938](https://github.com/riccox/meilisearch-ui/commit/24eb938aebed1b61e07e9ffcc25429f2bec433d5))
+
 ## [0.1.1](https://github.com/riccox/meilisearch-ui/compare/v0.1.0...v0.1.1) (2023-02-13)
 
 
