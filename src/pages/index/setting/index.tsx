@@ -2,15 +2,16 @@ import './index.css';
 import { useCallback, useMemo, useState } from 'react';
 import { useMeiliClient } from '@/src/hooks/useMeiliClient';
 import { useNavigate, useOutletContext, useSearchParams } from 'react-router-dom';
-import { ActionIcon, Button, JsonInput, Modal, Paper, Text, TextInput, Tooltip } from '@mantine/core';
+import { ActionIcon, Button, Modal, Text, TextInput, Tooltip } from '@mantine/core';
 import { useAppStore } from '@/src/store';
 import { useMutation, useQuery } from 'react-query';
 import { hiddenRequestLoader, showRequestLoader } from '@/src/utils/loader';
-import { getTimeText, showTaskSubmitNotification, stringifyJsonPretty } from '@/src/utils/text';
+import { getTimeText, showTaskSubmitNotification } from '@/src/utils/text';
 import { IndexObject, IndexOptions, Settings } from 'meilisearch';
 import { IconPencilMinus } from '@tabler/icons-react';
 import { matches, useForm } from '@mantine/form';
 import { openConfirmModal } from '@mantine/modals';
+import ReactJson, { InteractionProps } from 'react-json-view';
 
 function SettingsPage() {
   const outletContext = useOutletContext<{ refreshIndexes: () => void }>();
@@ -57,9 +58,11 @@ function SettingsPage() {
       },
     }
   );
-  const [indexSettingDisplayData, setIndexSettingDisplayData] = useState<Settings>();
-  const [indexSettingInputData, setIndexSettingInputData] = useState<string>(
-    stringifyJsonPretty(indexSettingDisplayData)
+  const [indexSettingDisplayData, setIndexSettingDisplayData] = useState<Settings>({});
+  const [indexSettingInputData, setIndexSettingInputData] = useState<Settings>(indexSettingDisplayData);
+  const onSettingJsonEditorUpdate = useCallback(
+    (e: InteractionProps) => setIndexSettingInputData(e.updated_src as Settings),
+    [setIndexSettingInputData]
   );
 
   const queryRawInfo = useQuery(
@@ -85,8 +88,8 @@ function SettingsPage() {
 
   const resetSettings = useCallback(() => {
     setIsSettingsEditing(false);
-    setIndexSettingDisplayData(querySettings.data);
-    !isSettingsEditing && setIndexSettingInputData(stringifyJsonPretty(querySettings.data));
+    setIndexSettingDisplayData(querySettings.data || {});
+    !isSettingsEditing && setIndexSettingInputData(querySettings.data || {});
   }, [isSettingsEditing, querySettings.data]);
 
   const resetRawInfo = useCallback(() => {
@@ -130,7 +133,7 @@ function SettingsPage() {
 
   const onSaveSettings = useCallback(() => {
     setIsSettingsEditing(false);
-    indexSettingInputData && settingsMutation.mutate(JSON.parse(indexSettingInputData));
+    indexSettingInputData && settingsMutation.mutate(indexSettingInputData);
   }, [indexSettingInputData, settingsMutation]);
 
   const editRawInfoForm = useForm({
@@ -234,8 +237,8 @@ function SettingsPage() {
           <div className={`font-extrabold text-3xl`}>🛠️ Settings</div>
         </div>
         <div className={`flex-1 flex flex-col gap-2 px-4 py-2 overflow-scroll`}>
-          <p className={`text-xl font-bold font-sans`}>Index Info</p>
-          <Paper radius="md" p="lg" withBorder>
+          <div className="has-border bg-bw-50 py-2 px-3 rounded-lg">
+            <p className={`text-xl font-bold font-sans`}>Index Info</p>
             <div className={`index-properties grid grid-cols-6 gap-2`}>
               <p className={`cell`}>Index UID</p>
               <p className={`cell`}>{indexRawInfoDisplayData?.uid}</p>
@@ -251,64 +254,56 @@ function SettingsPage() {
               <p className={`cell`}>Updated At</p>
               <p className={`cell`}>{getTimeText(indexRawInfoDisplayData?.updatedAt)}</p>
             </div>
-          </Paper>
-          <JsonInput
-            className={`h-fit`}
-            labelProps={{
-              style: {
-                width: '100%',
-              },
-            }}
-            label={
-              <div className={`flex justify-end items-center gap-x-2 w-full py-1`}>
-                <p className={`mr-auto text-xl font-bold font-sans`}>Index Settings</p>
-                <Button
-                  size={'xs'}
-                  hidden={isSettingsEditing}
-                  variant="light"
-                  color={'brand'}
+          </div>
+
+          <div className="has-border bg-bw-50 py-2 px-3 rounded-lg font-sans">
+            <div className={`flex justify-end items-center gap-x-2 w-full py-1`}>
+              <p className={`mr-auto text-xl font-bold font-sans`}>Index Settings</p>
+              {!isSettingsEditing && (
+                <button
+                  className={'btn outline xs primary'}
                   onClick={() => {
                     onClickEditSettings();
                   }}
                 >
                   Edit
-                </Button>
-                <Button
-                  size={'xs'}
-                  hidden={!isSettingsEditing}
-                  variant="light"
-                  color={'brand'}
+                </button>
+              )}
+              {isSettingsEditing && (
+                <button
+                  className={'btn outline xs primary'}
                   onClick={() => {
                     onSaveSettings();
                   }}
                 >
                   Save
-                </Button>
-                <Button
-                  size={'xs'}
-                  hidden={!isSettingsEditing}
-                  variant="light"
-                  color={'gray'}
+                </button>
+              )}
+              {isSettingsEditing && (
+                <button
+                  className={'btn outline xs bw'}
                   onClick={() => {
                     resetSettings();
                   }}
                 >
                   Cancel
-                </Button>
-              </div>
-            }
-            radius="md"
-            size="md"
-            validationError="Invalid setting object"
-            formatOnBlur
-            autosize
-            value={isSettingsEditing ? indexSettingInputData : stringifyJsonPretty(indexSettingDisplayData)}
-            onChange={(e) => setIndexSettingInputData(e)}
-            disabled={!isSettingsEditing}
-          />
-          <Paper radius="md" p="lg" withBorder className={`!bg-opacity-50 !bg-danger-100`}>
+                </button>
+              )}
+            </div>
+            <ReactJson
+              src={isSettingsEditing ? indexSettingInputData : indexSettingDisplayData}
+              onAdd={isSettingsEditing && onSettingJsonEditorUpdate}
+              onEdit={isSettingsEditing && onSettingJsonEditorUpdate}
+              onDelete={isSettingsEditing && onSettingJsonEditorUpdate}
+              name={false}
+              displayDataTypes={false}
+              displayObjectSize={false}
+              enableClipboard={false}
+            />
+          </div>
+          <div className={`bg-danger-300 has-border py-2 px-3 rounded-lg`}>
+            <p className={`text-danger-900 text-xl font-bold font-sans py-1`}>Danger Zone</p>
             <div className={`flex flex-col items-start gap-4`}>
-              <p className={`text-danger-700 text-xl font-bold font-sans`}>Danger Zone</p>
               <div className={`flex items-center gap-x-2`}>
                 <Button color={'red'} onClick={onClickDeleteAllDocuments}>
                   Delete All Documents
@@ -318,7 +313,7 @@ function SettingsPage() {
                 </Button>
               </div>
             </div>
-          </Paper>
+          </div>
         </div>
         <Modal
           opened={isRawInfoEditing}
@@ -388,6 +383,7 @@ function SettingsPage() {
       onClickEditPrimaryKey,
       onClickEditSettings,
       onSaveSettings,
+      onSettingJsonEditorUpdate,
       onSubmitEditRawInfoUpdate,
       resetSettings,
     ]
