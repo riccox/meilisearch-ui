@@ -230,7 +230,7 @@ function IndexesLayout() {
             <div
               className={`flex-1
         flex flex-col justify-start items-stretch
-        rounded-3xl gap-y-2`}
+        rounded-3xl gap-y-2 overflow-scroll p-1`}
             >
               {indexList}
             </div>
