@@ -5,7 +5,7 @@ export const Copyright: FC = () => {
     <div className={``}>
       <p>
         Powered by{' '}
-        <a className={`hover:underline`} href={`https://www.riccox.com`} target="_blank" rel="noreferrer">
+        <a className={`hover:underline`} href={`https://ricco.riccox.com`} target="_blank" rel="noreferrer">
           Ricco Xie
         </a>
       </p>
