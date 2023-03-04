@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.3](https://github.com/riccox/meilisearch-ui/compare/v0.1.2...v0.1.3) (2023-03-04)
+
+
+### Bug Fixes
+
+* index settings parse chaos after type. ([c130744](https://github.com/riccox/meilisearch-ui/commit/c1307441db31566bd720197a6e2703f4a58c569d))
+
 ## [0.1.2](https://github.com/riccox/meilisearch-ui/compare/v0.1.1...v0.1.2) (2023-03-04)
 
 
