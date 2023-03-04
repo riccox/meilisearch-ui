@@ -74,7 +74,7 @@ pnpm run dev
 
 ## Built with ♥
 
-- [Sira-UI](https://sira.riccox.com/)
+- [Sira-UI](https://sira-design.party)
 - React v18
 - TypeScript
 - Vite

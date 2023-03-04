@@ -12,10 +12,6 @@ export const Footer: FC<Props> = ({ className = '' }) => {
       <a className={`hover:underline`} href={`//github.com/riccox/meilisearch-ui`} target="_blank" rel="noreferrer">
         Github
       </a>
-      -
-      <a className={`hover:underline`} href={`//www.riccox.com/matrix`} target="_blank" rel="noreferrer">
-        Riccox Matrix
-      </a>
     </div>
   );
 };
