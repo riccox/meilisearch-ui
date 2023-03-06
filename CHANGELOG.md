@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.4](https://github.com/riccox/meilisearch-ui/compare/v0.1.3...v0.1.4) (2023-03-06)
+
+
+### Performance Improvements
+
+* speed up init cold start load. ([a78086c](https://github.com/riccox/meilisearch-ui/commit/a78086c5e418117fbd5ad33ea3ef857e126ac450))
+
 ## [0.1.3](https://github.com/riccox/meilisearch-ui/compare/v0.1.2...v0.1.3) (2023-03-04)
 
 
