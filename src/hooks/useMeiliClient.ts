@@ -2,7 +2,7 @@ import { MeiliSearch } from 'meilisearch';
 import { useCallback, useEffect, useState } from 'react';
 import { defaultInstance, useAppStore } from '@/src/store';
 import _ from 'lodash';
-import { showNotification } from '@mantine/notifications';
+import { toast } from '../utils/toast';
 
 export const useMeiliClient = () => {
   const currentInstance = useAppStore((state) => state.currentInstance ?? defaultInstance);
@@ -16,10 +16,8 @@ export const useMeiliClient = () => {
   const connect = useCallback(async () => {
     console.debug('useMeilisearchClient', 'start connection');
     if (_.isEmpty(currentInstance?.host)) {
-      showNotification({
-        color: 'orange',
-        title: 'Reconnection Required',
-        message: 'Connection fail, go check your config! 🤥',
+      toast('Connection fail, go check your config! 🤥', {
+        type: 'warning',
       });
       console.debug('useMeilisearchClient', 'connection config lost');
       // do not use useNavigate, because maybe in first render
@@ -33,10 +31,8 @@ export const useMeiliClient = () => {
       setClient(conn);
     } catch (err) {
       console.warn('useMeilisearchClient', 'test conn error', err);
-      showNotification({
-        color: 'orange',
-        title: 'Connection Fail',
-        message: 'Go check your config! 🤥',
+      toast('Connection fail, go check your config! 🤥', {
+        type: 'warning',
       });
       // do not use useNavigate, because maybe in first render
       window.location.assign('/');

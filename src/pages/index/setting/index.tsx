@@ -4,7 +4,7 @@ import { useMeiliClient } from '@/src/hooks/useMeiliClient';
 import { useNavigate, useOutletContext, useSearchParams } from 'react-router-dom';
 import { ActionIcon, Button, Modal, Text, TextInput, Tooltip } from '@mantine/core';
 import { useAppStore } from '@/src/store';
-import { useMutation, useQuery } from 'react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { hiddenRequestLoader, showRequestLoader } from '@/src/utils/loader';
 import { getTimeText, showTaskSubmitNotification } from '@/src/utils/text';
 import { IndexObject, IndexOptions, Settings } from 'meilisearch';

@@ -1,7 +1,7 @@
 import { useSearchParams } from 'react-router-dom';
 import { EmptyArea } from '@/src/components/EmptyArea';
 import { useCallback, useMemo, useState } from 'react';
-import { useMutation, useQuery } from 'react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { useAppStore } from '@/src/store';
 import { useMeiliClient } from '@/src/hooks/useMeiliClient';
 import { useForm } from '@mantine/form';
@@ -9,10 +9,11 @@ import { Button, Loader, Modal, NumberInput, TextInput, Tooltip } from '@mantine
 import { IconArrowsSort, IconFilter, IconSearch } from '@tabler/icons-react';
 import { showTaskErrorNotification, showTaskSubmitNotification } from '@/src/utils/text';
 import ReactJson, { InteractionProps } from 'react-json-view';
-import { showNotification } from '@mantine/notifications';
 import _ from 'lodash';
 import { EnqueuedTask, Hit } from 'meilisearch';
 import { openConfirmModal } from '@mantine/modals';
+import { toast } from '@/src/utils/toast';
+import MonacoEditor from '@monaco-editor/react';
 
 export const Documents = () => {
   const host = useAppStore((state) => state.currentInstance?.host);
@@ -65,9 +66,8 @@ export const Documents = () => {
           return null;
         } else {
           const msg = 'Added documents should be JSON Array whose length > 0';
-          showNotification({
-            color: 'yellow',
-            message: msg,
+          toast(msg, {
+            type: 'warning',
           });
           return msg;
         }
@@ -191,12 +191,12 @@ export const Documents = () => {
   }, [onAddDocumentsSubmit]);
 
   const onAddDocumentsJsonEditorUpdate = useCallback(
-    (e: InteractionProps) => addDocumentsForm.setFieldValue('documents', e.updated_src as object[]),
+    (value: string = '[]') => addDocumentsForm.setFieldValue('documents', JSON.parse(value)),
     [addDocumentsForm]
   );
 
   const onEditDocumentJsonEditorUpdate = useCallback(
-    (e: InteractionProps) => setEditingDocument(e.updated_src as object),
+    (value: string = '[]') => setEditingDocument(JSON.parse(value)),
     []
   );
 
@@ -258,9 +258,8 @@ export const Documents = () => {
           },
         });
       } else {
-        showNotification({
-          color: 'red',
-          message: `Document deletion require the valid primaryKey in index ${indexClient?.uid}`,
+        toast(`Document deletion require the valid primaryKey in index ${indexClient?.uid}`, {
+          type: 'error',
         });
       }
     },
@@ -405,17 +404,18 @@ export const Documents = () => {
           withCloseButton={true}
           title={<p className={`font-bold text-lg`}>Add New Documents</p>}
         >
-          <form className={`flex flex-col gap-y-4 w-full `} onSubmit={addDocumentsForm.onSubmit(onAddDocumentsSubmit)}>
-            <div className={`border rounded-xl p-4`}>
-              <ReactJson
-                src={addDocumentsForm.values.documents}
-                onAdd={onAddDocumentsJsonEditorUpdate}
-                onEdit={onAddDocumentsJsonEditorUpdate}
-                onDelete={onAddDocumentsJsonEditorUpdate}
-                name={false}
-                displayDataTypes={false}
-                displayObjectSize={false}
-              />
+          <form className={`flex flex-col gap-y-4 w-full`} onSubmit={addDocumentsForm.onSubmit(onAddDocumentsSubmit)}>
+            <div className={`border rounded-xl p-2`}>
+              <MonacoEditor
+                language="json"
+                className="h-40"
+                defaultValue={String(addDocumentsForm.values.documents)}
+                options={{
+                  automaticLayout: true,
+                  lineDecorationsWidth: 1,
+                }}
+                onChange={onAddDocumentsJsonEditorUpdate}
+              ></MonacoEditor>
             </div>
             <Button type="submit" radius={'xl'} size={'lg'} variant="light">
               Submit
@@ -436,17 +436,18 @@ export const Documents = () => {
           withCloseButton={true}
           title={<p className={`font-bold text-lg`}>Edit Document</p>}
         >
-          <div className={`flex flex-col gap-y-4 w-full `}>
-            <div className={`border rounded-xl p-4`}>
-              <ReactJson
-                src={editingDocument ?? {}}
-                onAdd={onEditDocumentJsonEditorUpdate}
-                onEdit={onEditDocumentJsonEditorUpdate}
-                onDelete={onEditDocumentJsonEditorUpdate}
-                name={false}
-                displayDataTypes={false}
-                displayObjectSize={false}
-              />
+          <div className={`flex flex-col gap-y-4 w-full`}>
+            <div className={`border rounded-xl p-2`}>
+              <MonacoEditor
+                language="json"
+                className="h-40"
+                defaultValue={JSON.stringify(editingDocument ?? {})}
+                options={{
+                  automaticLayout: true,
+                  lineDecorationsWidth: 1,
+                }}
+                onChange={onEditDocumentJsonEditorUpdate}
+              ></MonacoEditor>
             </div>
             <Button onClick={onSubmitDocumentUpdate} radius={'xl'} size={'lg'} variant="light">
               Submit

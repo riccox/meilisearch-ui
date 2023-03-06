@@ -2,10 +2,10 @@ import { Button, TextInput, Tooltip } from '@mantine/core';
 import { useCallback, useMemo, useState } from 'react';
 import { useForm } from '@mantine/form';
 import _ from 'lodash';
-import { showNotification } from '@mantine/notifications';
 import { useMeiliClient } from '@/src/hooks/useMeiliClient';
 import { showTaskSubmitNotification } from '@/src/utils/text';
 import { useOutletContext } from 'react-router-dom';
+import { toast } from '@/src/utils/toast';
 
 export const CreateIndex = () => {
   const outletContext = useOutletContext<{ refreshIndexes: () => void }>();
@@ -35,10 +35,8 @@ export const CreateIndex = () => {
         console.info(task);
       } catch (e) {
         console.warn(e);
-        showNotification({
-          color: 'orange',
-          title: 'Fail',
-          message: e as string,
+        toast(`Fail, ${e as string}`, {
+          type: 'warning',
         });
       }
       // button stop loading

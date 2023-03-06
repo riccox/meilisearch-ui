@@ -1,10 +1,10 @@
 import { EnqueuedTask } from 'meilisearch';
-import { MantineColor } from '@mantine/core';
-import { showNotification } from '@mantine/notifications';
+import { TypeOptions } from 'react-toastify';
 import dayjs from 'dayjs';
+import { toast } from './toast';
 
 export const getTaskSubmitMessage = (task: EnqueuedTask): string => {
-  return `Status ${task.status}, task uid ${task.taskUid} 🚀`;
+  return `Task submit ${task.status}, task uid ${task.taskUid} 🚀`;
 };
 
 const enum TaskStatus {
@@ -14,11 +14,11 @@ const enum TaskStatus {
   TASK_ENQUEUED = 'enqueued',
 }
 
-export const TaskColors: Record<TaskStatus, MantineColor> = {
-  [TaskStatus.TASK_SUCCEEDED]: 'green',
-  [TaskStatus.TASK_ENQUEUED]: 'blue',
-  [TaskStatus.TASK_FAILED]: 'yellow',
-  [TaskStatus.TASK_PROCESSING]: 'grape',
+const TaskColors: Record<TaskStatus, TypeOptions> = {
+  [TaskStatus.TASK_SUCCEEDED]: 'success',
+  [TaskStatus.TASK_ENQUEUED]: 'info',
+  [TaskStatus.TASK_FAILED]: 'warning',
+  [TaskStatus.TASK_PROCESSING]: 'default',
 };
 export const TaskThemes: Record<TaskStatus, string> = {
   [TaskStatus.TASK_SUCCEEDED]: 'success',
@@ -28,18 +28,14 @@ export const TaskThemes: Record<TaskStatus, string> = {
 };
 
 export const showTaskSubmitNotification = (task: EnqueuedTask): void => {
-  showNotification({
-    color: TaskColors[task.status],
-    title: `Task ${task.status}`,
-    message: getTaskSubmitMessage(task),
+  toast(getTaskSubmitMessage(task), {
+    type: TaskColors[task.status],
   });
 };
 
 export const showTaskErrorNotification = (err: any): void => {
-  showNotification({
-    color: TaskColors.failed,
-    title: `Task Fail`,
-    message: err.toString(),
+  toast(`Task Fail: ${err.toString()}`, {
+    type: TaskColors.failed,
   });
 };
 

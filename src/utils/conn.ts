@@ -1,8 +1,8 @@
 import { hiddenConnectionTestLoader, showConnectionTestLoader } from '@/src/utils/loader';
 import { Config, MeiliSearch } from 'meilisearch';
 import _ from 'lodash';
-import { showNotification } from '@mantine/notifications';
 import { WarningPageData } from '@/src/store';
+import { toast } from './toast';
 
 export const testConnection = async (cfg: Config) => {
   showConnectionTestLoader();
@@ -12,11 +12,9 @@ export const testConnection = async (cfg: Config) => {
     stats = await client.getStats();
     console.debug('[meilisearch connection test]', stats);
   } catch (e) {
-    console.warn('[meilisearch connection test]', e);
-    showNotification({
-      color: 'yellow',
-      title: 'Fail',
-      message: 'Connection fail, go check your config! 🤥',
+    console.warn('[meilisearch connection test error]', e);
+    toast('Connection fail, go check your config! 🤥', {
+      type: 'warning',
     });
     throw e;
   }
@@ -24,10 +22,8 @@ export const testConnection = async (cfg: Config) => {
   hiddenConnectionTestLoader();
   if (_.isEmpty(stats)) {
     const msg = 'Connection fail, go check your config! 🤥';
-    showNotification({
-      color: 'yellow',
-      title: 'Fail',
-      message: msg,
+    toast(msg, {
+      type: 'warning',
     });
     console.error(msg, stats);
     throw new Error('msg');

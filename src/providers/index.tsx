@@ -4,6 +4,7 @@ import { ErrorBoundaryProvider } from './error-boundary';
 import { ReactQueryProvider } from './react-query';
 import { ReactRouterProvider } from './react-router';
 import { MantineUIProvider } from '@/src/providers/Mantine';
+import { ToastProvider } from './toast';
 
 type Props = {
   children: ReactNode;
@@ -14,7 +15,9 @@ export const AppProvider: FC<Props> = ({ children }) => {
     <ErrorBoundaryProvider>
       <ReactQueryProvider>
         <ReactRouterProvider>
-          <MantineUIProvider>{children}</MantineUIProvider>
+          <MantineUIProvider>
+            <ToastProvider>{children}</ToastProvider>
+          </MantineUIProvider>
         </ReactRouterProvider>
       </ReactQueryProvider>
     </ErrorBoundaryProvider>

@@ -13,17 +13,17 @@ import {
 } from '@tabler/icons-react';
 import { Link } from 'react-router-dom';
 import { FC, useCallback, useMemo, useState } from 'react';
-import { showNotification } from '@mantine/notifications';
 import { useClipboard } from '@mantine/hooks';
 import { useAppStore } from '@/src/store';
 import { MeiliSearch, Version } from 'meilisearch';
-import { useQuery } from 'react-query';
+import { useQuery } from '@tanstack/react-query';
 import { useInstanceStats } from '@/src/hooks/useInstanceStats';
 import _ from 'lodash';
 import { openConfirmModal } from '@mantine/modals';
 import { getTimeText, showTaskSubmitNotification } from '@/src/utils/text';
 import { validateKeysRouteAvailable } from '@/src/utils/conn';
 import { useNavigatePreCheck } from '@/src/hooks/useRoutePreCheck';
+import { toast } from '@/src/utils/toast';
 
 interface Props {
   client: MeiliSearch;
@@ -61,10 +61,8 @@ export const Header: FC<Props> = ({ client }) => {
 
   const onClickHost = useCallback(() => {
     clipboard.copy(store.currentInstance?.host);
-    showNotification({
-      color: 'green',
-      title: 'Copied',
-      message: 'Server Host Copied ✍',
+    toast('Server Host Copied ✍', {
+      type: 'success',
     });
   }, [clipboard, store.currentInstance?.host]);
 
