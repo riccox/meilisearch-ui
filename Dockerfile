@@ -1,3 +1,21 @@
+FROM node:16-alpine as builder
+
+RUN apk add --update bash
+
+# Setting working directory.
+WORKDIR /opt/meilisearch-ui
+
+RUN npm install -g pnpm
+
+# Copying source files
+COPY . .
+
+# Installing dependencies
+RUN pnpm install
+
+# Build
+RUN pnpm build
+
 FROM node:16-alpine
 
 RUN apk add --update bash
@@ -5,14 +23,11 @@ RUN apk add --update bash
 # Setting working directory.
 WORKDIR /opt/meilisearch-ui
 
-# Installing dependencies
-COPY package*.json ./
-RUN npm install --legacy-peer-deps
+COPY --from=builder /opt/meilisearch-ui/dist /opt/meilisearch-ui/dist
 
-# Copying source files
-COPY . .
+RUN npm install -g serve
 
 EXPOSE 24900
 
 # Running the app
-CMD [ "npm", "run", "start" ]
+CMD [ "serve", "dist" ]
