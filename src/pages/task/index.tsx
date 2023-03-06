@@ -4,7 +4,7 @@ import { Code, Modal, Select, TextInput } from '@mantine/core';
 import { useMeiliClient } from '@/src/hooks/useMeiliClient';
 import { Task, TasksResults } from 'meilisearch';
 import { EmptyArea } from '@/src/components/EmptyArea';
-import { useInfiniteQuery } from 'react-query';
+import { useInfiniteQuery } from '@tanstack/react-query';
 import Fuse from 'fuse.js';
 import { useAppStore } from '@/src/store';
 import { Header } from '@/src/components/Header';

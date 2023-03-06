@@ -21,9 +21,11 @@
     "@mantine/form": "^6.0.0",
     "@mantine/hooks": "^6.0.0",
     "@mantine/modals": "^6.0.0",
-    "@mantine/notifications": "^6.0.0",
+    "@monaco-editor/react": "^4.4.6",
     "@sira-ui/tailwind": "^0.7.0",
     "@tabler/icons-react": "^2.7.0",
+    "@tanstack/react-query": "^4.26.0",
+    "@tanstack/react-query-devtools": "^4.26.0",
     "ahooks": "^3.7.5",
     "dayjs": "^1.11.7",
     "echarts": "^5.4.1",
@@ -37,8 +39,8 @@
     "react-dom": "^18.2.0",
     "react-error-boundary": "^3.1.4",
     "react-json-view": "^1.21.3",
-    "react-query": "^3.39.3",
     "react-router-dom": "^6.8.2",
+    "react-toastify": "^9.1.1",
     "zustand": "^4.3.5"
   },
   "devDependencies": {

@@ -4,7 +4,7 @@ import { ActionIcon, CopyButton, Modal, MultiSelect, Table, TextInput, Tooltip }
 import { useMeiliClient } from '@/src/hooks/useMeiliClient';
 import { Key } from 'meilisearch';
 import { EmptyArea } from '@/src/components/EmptyArea';
-import { useInfiniteQuery } from 'react-query';
+import { useInfiniteQuery } from '@tanstack/react-query';
 import Fuse from 'fuse.js';
 import { useAppStore } from '@/src/store';
 import { Header } from '@/src/components/Header';
@@ -15,9 +15,9 @@ import { hiddenRequestLoader, showRequestLoader } from '@/src/utils/loader';
 import { IconCheck, IconCopy } from '@tabler/icons-react';
 import { Footer } from '@/src/components/Footer';
 import { useForm } from '@mantine/form';
-import { showNotification } from '@mantine/notifications';
 import { useIndexes } from '@/src/hooks/useIndexes';
 import { openConfirmModal } from '@mantine/modals';
+import { toast } from '@/src/utils/toast';
 
 function Keys() {
   const client = useMeiliClient();
@@ -213,10 +213,8 @@ function Keys() {
       // button stop loading
       setIsCreateLoading(false);
       if (_.isEmpty(res)) {
-        showNotification({
-          color: 'red',
-          title: 'Fail',
-          message: `Creation fail, go check tasks! 🤥`,
+        toast(`Creation fail, go check tasks! 🤥`, {
+          type: 'warning',
         });
         return;
       } else {

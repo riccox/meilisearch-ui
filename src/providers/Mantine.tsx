@@ -2,7 +2,6 @@ import type { FC, ReactNode } from 'react';
 import { createEmotionCache, DefaultMantineColor, MantineProvider, Tuple } from '@mantine/core';
 import theme from '@/src/style/theme.json';
 import _ from 'lodash';
-import { Notifications } from '@mantine/notifications';
 import { ModalsProvider } from '@mantine/modals';
 
 type CustomColors = 'brand';
@@ -42,7 +41,6 @@ export const MantineUIProvider: FC<Props> = ({ children }) => {
           },
         }}
       >
-        <Notifications />
         {children}
       </ModalsProvider>
     </MantineProvider>
