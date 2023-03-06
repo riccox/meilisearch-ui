@@ -199,7 +199,11 @@ function Tasks() {
           onClose={() => setIsTaskDetailModalOpen(false)}
           title="Task Detail"
         >
-          <Code block>{stringifyJsonPretty(taskDetailModalContent)}</Code>
+          <div className="flex justify-center items-center">
+            <Code block className="w-96">
+              {stringifyJsonPretty(taskDetailModalContent)}
+            </Code>
+          </div>
         </Modal>
       </div>
     ),
