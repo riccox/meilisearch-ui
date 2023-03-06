@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@emotion/react": "^11.10.6",
+    "@hookform/resolvers": "^2.9.11",
     "@mantine/core": "^6.0.0",
     "@mantine/form": "^6.0.0",
     "@mantine/hooks": "^6.0.0",
@@ -27,6 +28,7 @@
     "@tanstack/react-query": "^4.26.0",
     "@tanstack/react-query-devtools": "^4.26.0",
     "ahooks": "^3.7.5",
+    "clsx": "^1.2.1",
     "dayjs": "^1.11.7",
     "echarts": "^5.4.1",
     "echarts-for-react": "^3.0.2",
@@ -38,9 +40,11 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-error-boundary": "^3.1.4",
+    "react-hook-form": "^7.43.4",
     "react-json-view": "^1.21.3",
     "react-router-dom": "^6.8.2",
     "react-toastify": "^9.1.1",
+    "zod": "^3.21.1",
     "zustand": "^4.3.5"
   },
   "devDependencies": {

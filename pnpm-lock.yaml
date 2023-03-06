@@ -2,6 +2,7 @@ lockfileVersion: 5.4
 
 specifiers:
   '@emotion/react': ^11.10.6
+  '@hookform/resolvers': ^2.9.11
   '@mantine/core': ^6.0.0
   '@mantine/form': ^6.0.0
   '@mantine/hooks': ^6.0.0
@@ -19,6 +20,7 @@ specifiers:
   '@vitejs/plugin-react': ^3.1.0
   ahooks: ^3.7.5
   autoprefixer: ^10.4.13
+  clsx: ^1.2.1
   dayjs: ^1.11.7
   echarts: ^5.4.1
   echarts-for-react: ^3.0.2
@@ -35,16 +37,19 @@ specifiers:
   react: ^18.2.0
   react-dom: ^18.2.0
   react-error-boundary: ^3.1.4
+  react-hook-form: ^7.43.4
   react-json-view: ^1.21.3
   react-router-dom: ^6.8.2
   react-toastify: ^9.1.1
   tailwindcss: ^3.2.7
   typescript: ^4.9.5
   vite: ^4.1.4
+  zod: ^3.21.1
   zustand: ^4.3.5
 
 dependencies:
   '@emotion/react': 11.10.6_pmekkgnqduwlme35zpnqhenc34
+  '@hookform/resolvers': 2.9.11_react-hook-form@7.43.4
   '@mantine/core': 6.0.0_2anhyhi6fovdpc2mtkpggnnsdu
   '@mantine/form': 6.0.0_react@18.2.0
   '@mantine/hooks': 6.0.0_react@18.2.0
@@ -55,6 +60,7 @@ dependencies:
   '@tanstack/react-query': 4.26.0_biqbaboplfbrettd7655fr4n2y
   '@tanstack/react-query-devtools': 4.26.0_5hzrghlx6t3gi6xtnmlxdxfsqq
   ahooks: 3.7.5_react@18.2.0
+  clsx: 1.2.1
   dayjs: 1.11.7
   echarts: 5.4.1
   echarts-for-react: registry.npmmirror.com/echarts-for-react/3.0.2_echarts@5.4.1+react@18.2.0
@@ -66,6 +72,7 @@ dependencies:
   react: registry.npmmirror.com/react/18.2.0
   react-dom: registry.npmmirror.com/react-dom/18.2.0_react@18.2.0
   react-error-boundary: registry.npmmirror.com/react-error-boundary/3.1.4_react@18.2.0
+  react-hook-form: 7.43.4_react@18.2.0
   react-json-view: registry.npmmirror.com/react-json-view/1.21.3_zula6vjvt3wdocc4mwcxqa6nzi
   react-router-dom: 6.8.2_biqbaboplfbrettd7655fr4n2y
   react-toastify: 9.1.1_biqbaboplfbrettd7655fr4n2y
@@ -1540,6 +1547,11 @@ packages:
     engines: {node: '>=6'}
     dev: false
 
+  /clsx/1.2.1:
+    resolution: {integrity: sha512-EcR6r5a8bj6pu3ycsa/E/cKVGuTgZJZdsyUYHOksG/UHIiKfjxzRxYJpyVBwYaQeOvghal9fcc4PidlgzugAQg==}
+    engines: {node: '>=6'}
+    dev: false
+
   /color-convert/1.9.3:
     resolution: {integrity: sha512-QfAUtd+vFdAtFQcC8CCyYt1fYWxSqAiK2cSD6zDB8N3cpsEBAvRxp9zOGg6G/SHHJYAT88/az/IuDGALsNVbGg==}
     dependencies:
@@ -2478,11 +2490,9 @@ packages:
     resolution: {integrity: sha512-WuyALRjWPDGtt/wzJiadO5AXY+8hZ80hVpe6MyivgraREW751X3SbhRvG3eLKOYN+8VEvqLcf3wdnt44Z4S4SA==}
     engines: {node: '>=10'}
 
-  /react-is/16.13.1:
-    resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
-
-  /react-query/3.39.3_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha512-nLfLz7GiohKTJDuT4us4X3h/8unOh+00MLb2yJoGTPjxKs2bc1iDhkNx2bd5MKklXnOD3NrVZ+J2UXujA5In4g==}
+  /react-hook-form/7.43.4_react@18.2.0:
+    resolution: {integrity: sha512-JZp05wvmuV8qr3NNDWwyhiQL05sh9E8x/2NoWtkdiyyiezmwOr5pKexlvbCEfBMa7ZYrvzk88G/uhLl47T9b7Q==}
+    engines: {node: '>=12.22.0'}
     peerDependencies:
       react: ^16.8.0 || ^17 || ^18
     dependencies:
@@ -2592,7 +2602,7 @@ packages:
       react: '>=16'
       react-dom: '>=16'
     dependencies:
-      clsx: 1.1.1
+      clsx: 1.2.1
       react: registry.npmmirror.com/react/18.2.0
       react-dom: registry.npmmirror.com/react-dom/18.2.0_react@18.2.0
     dev: false
@@ -3024,6 +3034,10 @@ packages:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
     dev: true
+
+  /zod/3.21.1:
+    resolution: {integrity: sha512-+dTu2m6gmCbO9Ahm4ZBDapx2O6ZY9QSPXst2WXjcznPMwf2YNpn3RevLx4KkZp1OPW/ouFcoBtBzFz/LeY69oA==}
+    dev: false
 
   /zrender/5.4.1:
     resolution: {integrity: sha512-M4Z05BHWtajY2241EmMPHglDQAJ1UyHQcYsxDNzD9XLSkPDqMq4bB28v9Pb4mvHnVQ0GxyTklZ/69xCFP6RXBA==}
