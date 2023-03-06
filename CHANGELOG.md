@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.5](https://github.com/riccox/meilisearch-ui/compare/v0.1.4...v0.1.5) (2023-03-06)
+
+
+### Performance Improvements
+
+* build chunk split more fine-grained. ([958c4fd](https://github.com/riccox/meilisearch-ui/commit/958c4fd14b6445e066a0d1d71fa20fa64a78f4bb))
+
 ## [0.1.4](https://github.com/riccox/meilisearch-ui/compare/v0.1.3...v0.1.4) (2023-03-06)
 
 
