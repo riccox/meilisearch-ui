@@ -30,4 +30,4 @@ RUN npm install -g serve
 EXPOSE 24900
 
 # Running the app
-CMD [ "serve", "dist" ]
+CMD ["serve","dist","-p","24900"]
