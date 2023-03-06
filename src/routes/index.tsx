@@ -16,7 +16,7 @@ export const AppRoutes = () => {
     <Suspense
       fallback={
         <div className={`flex full-page justify-center items-center`}>
-          <Loader size={120} />
+          <Loader size={'xl'} />
         </div>
       }
     >
