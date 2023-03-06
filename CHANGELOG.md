@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.6](https://github.com/riccox/meilisearch-ui/compare/v0.1.5...v0.1.6) (2023-03-06)
+
+
+### Bug Fixes
+
+* **docker:** docker cmd serve port. ([6aeb7c1](https://github.com/riccox/meilisearch-ui/commit/6aeb7c1a7c748ec98631ba1adadc6aba0445ca9b))
+
 ## [0.1.5](https://github.com/riccox/meilisearch-ui/compare/v0.1.4...v0.1.5) (2023-03-06)
 
 
