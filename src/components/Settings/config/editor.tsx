@@ -1,13 +1,14 @@
-import { FC, useCallback, useMemo, useState } from 'react';
+import { FC, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { hiddenRequestLoader, showRequestLoader } from '@/src/utils/loader';
 import { showTaskSubmitNotification } from '@/src/utils/text';
 import { Settings } from 'meilisearch';
-import { IndexSettingComponentProps } from '..';
+import { IndexSettingConfigComponentProps } from '..';
 import MonacoEditor from '@monaco-editor/react';
 import clsx from 'clsx';
 
-export const Editor: FC<IndexSettingComponentProps> = ({ client, host, className }) => {
+export const Editor: FC<IndexSettingConfigComponentProps> = ({ client, host, className, toggleLoading }) => {
+  const editorRef = useRef<any>(null);
   const [isSettingsEditing, setIsSettingsEditing] = useState<boolean>(false);
 
   const onClickEditSettings = useCallback(() => {
@@ -17,10 +18,13 @@ export const Editor: FC<IndexSettingComponentProps> = ({ client, host, className
   const [indexSettingInputData, setIndexSettingInputData] = useState<Settings>(indexSettingDisplayData);
 
   const resetSettings = useCallback(
-    (data?: Settings) => {
+    (data: Settings = {}) => {
       setIsSettingsEditing(false);
-      setIndexSettingDisplayData(data || {});
-      !isSettingsEditing && setIndexSettingInputData(data || {});
+      setIndexSettingDisplayData(data);
+      if (!isSettingsEditing) {
+        setIndexSettingInputData(data);
+        editorRef.current?.setValue(JSON.stringify(data, null, 2));
+      }
     },
     [isSettingsEditing]
   );
@@ -33,6 +37,7 @@ export const Editor: FC<IndexSettingComponentProps> = ({ client, host, className
     },
     {
       keepPreviousData: true,
+      refetchInterval: 5000,
       refetchOnMount: 'always',
       onSuccess: (data) => {
         // change display data when not editing
@@ -69,6 +74,11 @@ export const Editor: FC<IndexSettingComponentProps> = ({ client, host, className
     setIsSettingsEditing(false);
     indexSettingInputData && settingsMutation.mutate(indexSettingInputData);
   }, [indexSettingInputData, settingsMutation]);
+
+  useEffect(() => {
+    const isLoading = querySettings.isLoading || querySettings.isFetching || settingsMutation.isLoading;
+    toggleLoading(isLoading);
+  }, [querySettings.isFetching, querySettings.isLoading, settingsMutation.isLoading, toggleLoading]);
 
   return useMemo(
     () => (
@@ -116,6 +126,9 @@ export const Editor: FC<IndexSettingComponentProps> = ({ client, host, className
             readOnly: !isSettingsEditing,
           }}
           onChange={onSettingJsonEditorUpdate}
+          onMount={(ed) => {
+            editorRef.current = ed;
+          }}
         ></MonacoEditor>
       </div>
     ),

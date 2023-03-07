@@ -5,3 +5,7 @@ export type IndexSettingComponentProps = {
   host?: string;
   client: Index;
 };
+
+export type IndexSettingConfigComponentProps = IndexSettingComponentProps & {
+  toggleLoading: (bool: boolean) => void;
+};
