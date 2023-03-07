@@ -145,13 +145,13 @@ export const Header: FC<Props> = ({ client }) => {
               <IconDeviceFloppy size={14} />
               <p>Dump</p>
             </div>
-            <div className="divider" role="separator"></div>
+            <div className="is-divider" role="separator"></div>
             <p className="subtitle">System</p>
             <Link to={'/'} className="item text-sm flex items-center gap-2 danger" tabIndex={-1}>
               <IconArrowsLeftRight size={14} />
               <p>Change Instance</p>
             </Link>
-            <div className="divider" role="separator"></div>
+            <div className="is-divider" role="separator"></div>
             <p className="subtitle">Support</p>
             <Link
               to={'https://docs.meilisearch.com'}

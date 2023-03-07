@@ -8,7 +8,7 @@ import { useForm } from '@mantine/form';
 import { Button, Loader, Modal, NumberInput, TextInput, Tooltip } from '@mantine/core';
 import { IconArrowsSort, IconFilter, IconSearch } from '@tabler/icons-react';
 import { showTaskErrorNotification, showTaskSubmitNotification } from '@/src/utils/text';
-import ReactJson, { InteractionProps } from 'react-json-view';
+import ReactJson from 'react-json-view';
 import _ from 'lodash';
 import { EnqueuedTask, Hit } from 'meilisearch';
 import { openConfirmModal } from '@mantine/modals';

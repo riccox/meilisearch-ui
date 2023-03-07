@@ -8,10 +8,10 @@ specifiers:
   '@mantine/hooks': ^6.0.0
   '@mantine/modals': ^6.0.0
   '@monaco-editor/react': ^4.4.6
-  '@sira-ui/tailwind': ^0.7.0
-  '@tabler/icons-react': ^2.7.0
-  '@tanstack/react-query': ^4.26.0
-  '@tanstack/react-query-devtools': ^4.26.0
+  '@sira-ui/tailwind': ^0.8.0
+  '@tabler/icons-react': ^2.8.0
+  '@tanstack/react-query': ^4.26.1
+  '@tanstack/react-query-devtools': ^4.26.1
   '@types/lodash': ^4.14.191
   '@types/node': ^18.14.6
   '@types/qs': ^6.9.7
@@ -33,32 +33,32 @@ specifiers:
   meilisearch: ^0.31.1
   postcss: ^8.4.21
   prettier: ^2.8.4
-  qs: ^6.11.0
+  qs: ^6.11.1
   react: ^18.2.0
   react-dom: ^18.2.0
   react-error-boundary: ^3.1.4
-  react-hook-form: ^7.43.4
+  react-hook-form: ^7.43.5
   react-json-view: ^1.21.3
   react-router-dom: ^6.8.2
   react-toastify: ^9.1.1
   tailwindcss: ^3.2.7
   typescript: ^4.9.5
   vite: ^4.1.4
-  zod: ^3.21.1
-  zustand: ^4.3.5
+  zod: ^3.21.4
+  zustand: ^4.3.6
 
 dependencies:
   '@emotion/react': 11.10.6_pmekkgnqduwlme35zpnqhenc34
-  '@hookform/resolvers': 2.9.11_react-hook-form@7.43.4
+  '@hookform/resolvers': 2.9.11_react-hook-form@7.43.5
   '@mantine/core': 6.0.0_2anhyhi6fovdpc2mtkpggnnsdu
   '@mantine/form': 6.0.0_react@18.2.0
   '@mantine/hooks': 6.0.0_react@18.2.0
   '@mantine/modals': 6.0.0_uziugpv5zwkk3pqsn64qbjkxrm
   '@monaco-editor/react': 4.4.6_waewrrayshn643ztij6zbniufy
-  '@sira-ui/tailwind': 0.7.0_tailwindcss@3.2.7
-  '@tabler/icons-react': 2.7.0_react@18.2.0
-  '@tanstack/react-query': 4.26.0_biqbaboplfbrettd7655fr4n2y
-  '@tanstack/react-query-devtools': 4.26.0_5hzrghlx6t3gi6xtnmlxdxfsqq
+  '@sira-ui/tailwind': 0.8.0_tailwindcss@3.2.7
+  '@tabler/icons-react': 2.8.0_react@18.2.0
+  '@tanstack/react-query': 4.26.1_biqbaboplfbrettd7655fr4n2y
+  '@tanstack/react-query-devtools': 4.26.1_brdhmlf72zuns3lsk66phyptty
   ahooks: 3.7.5_react@18.2.0
   clsx: 1.2.1
   dayjs: 1.11.7
@@ -68,16 +68,16 @@ dependencies:
   immer: 9.0.19
   lodash: registry.npmmirror.com/lodash/4.17.21
   meilisearch: 0.31.1
-  qs: registry.npmmirror.com/qs/6.11.0
+  qs: 6.11.1
   react: registry.npmmirror.com/react/18.2.0
   react-dom: registry.npmmirror.com/react-dom/18.2.0_react@18.2.0
   react-error-boundary: registry.npmmirror.com/react-error-boundary/3.1.4_react@18.2.0
-  react-hook-form: 7.43.4_react@18.2.0
+  react-hook-form: 7.43.5_react@18.2.0
   react-json-view: registry.npmmirror.com/react-json-view/1.21.3_zula6vjvt3wdocc4mwcxqa6nzi
   react-router-dom: 6.8.2_biqbaboplfbrettd7655fr4n2y
   react-toastify: 9.1.1_biqbaboplfbrettd7655fr4n2y
-  zod: 3.21.1
-  zustand: 4.3.5_immer@9.0.19+react@18.2.0
+  zod: 3.21.4
+  zustand: 4.3.6_immer@9.0.19+react@18.2.0
 
 devDependencies:
   '@types/lodash': 4.14.191
@@ -890,12 +890,12 @@ packages:
       - '@types/react'
     dev: false
 
-  /@hookform/resolvers/2.9.11_react-hook-form@7.43.4:
+  /@hookform/resolvers/2.9.11_react-hook-form@7.43.5:
     resolution: {integrity: sha512-bA3aZ79UgcHj7tFV7RlgThzwSSHZgvfbt2wprldRkYBcMopdMvHyO17Wwp/twcJasNFischFfS7oz8Katz8DdQ==}
     peerDependencies:
       react-hook-form: ^7.0.0
     dependencies:
-      react-hook-form: 7.43.4_react@18.2.0
+      react-hook-form: 7.43.5_react@18.2.0
     dev: false
 
   /@humanwhocodes/config-array/0.11.8:
@@ -1197,8 +1197,8 @@ packages:
       chroma-js: 2.4.2
     dev: false
 
-  /@sira-ui/tailwind/0.7.0_tailwindcss@3.2.7:
-    resolution: {integrity: sha512-TwO4MJmlBscqvro/FML6zk4jjP8VDkEHyqewka5BqSsRscM1bTKJeorjVPirjw/xMHXxchycyE8av1PJcRTX1Q==}
+  /@sira-ui/tailwind/0.8.0_tailwindcss@3.2.7:
+    resolution: {integrity: sha512-lKPa71QXorKuA5At2pI6Iw6m+pPfiHi9YeSsheS3Qdy7zHG9U8aa1YpPWPvFvP/F2ABFu56E7rIZ0H3bh+dvMw==}
     peerDependencies:
       tailwindcss: ^3
     dependencies:
@@ -1209,18 +1209,18 @@ packages:
       tailwindcss: 3.2.7_postcss@8.4.21
     dev: false
 
-  /@tabler/icons-react/2.7.0_react@18.2.0:
-    resolution: {integrity: sha512-WV2ZwMUuZN9QcCX4RPg9+G+ycUgoItzOWVCCQYVWbYKV581fH8szM2KVaQHQhMbttL4JYtOgf4ColJIDwsIgdw==}
+  /@tabler/icons-react/2.8.0_react@18.2.0:
+    resolution: {integrity: sha512-8d5nCsgIy6tVfu/mgwOnqgN4kgnLqj232f+VSHv/zie2PKlS6NEhkX5A3qB6/+xQ/y5Y0uiwXzjhzG+iM8whDQ==}
     peerDependencies:
       react: ^16.5.1 || ^17.0.0 || ^18.0.0
     dependencies:
-      '@tabler/icons': 2.7.0
+      '@tabler/icons': 2.8.0
       prop-types: 15.8.1
       react: registry.npmmirror.com/react/18.2.0
     dev: false
 
-  /@tabler/icons/2.7.0:
-    resolution: {integrity: sha512-mSjUKhwN5fJHI9yITqFn9GXGnsJ4gBAyQDWyP4Ev5fk6hD78G7u6cHEF1KARr5FOOdiIKSZWCzNzUzyLhiNPrg==}
+  /@tabler/icons/2.8.0:
+    resolution: {integrity: sha512-8diABuB3J+NEUtdwIXJF0bJSE5VpnnyzWeiZGFq/XlcTYJNEF+36ijiPNUGpsV/QXY6syesJKmmPkUUwD+LxdA==}
     dev: false
 
   /@tanstack/match-sorter-utils/8.7.6:
@@ -1230,27 +1230,27 @@ packages:
       remove-accents: 0.4.2
     dev: false
 
-  /@tanstack/query-core/4.26.0:
-    resolution: {integrity: sha512-9CRqXmCH82KZDKmezoGU4FOn1Oqbzlp2/zf71n+9nC58e7NSqCIjfSCMpqQWcu9YqUcUykxZEUunOyKHVc6BJA==}
+  /@tanstack/query-core/4.26.1:
+    resolution: {integrity: sha512-Zrx2pVQUP4ndnsu6+K/m8zerXSVY8QM+YSbxA1/jbBY21GeCd5oKfYl92oXPK0hPEUtoNuunIdiq0ZMqLos+Zg==}
     dev: false
 
-  /@tanstack/react-query-devtools/4.26.0_5hzrghlx6t3gi6xtnmlxdxfsqq:
-    resolution: {integrity: sha512-KRZBdcqXrYYlN/35JSZV0XsbbW2Nc0ktzq6DHUeeOeGQs+RpKb+7CnUqoREe5FNL/mdhhx/UPzcRABl8zVjUpQ==}
+  /@tanstack/react-query-devtools/4.26.1_brdhmlf72zuns3lsk66phyptty:
+    resolution: {integrity: sha512-ts2mA+fyFYFRi3Cee4xBk8Fx6waSFOM+yCkFqwJfGQRGjjTIMYMZPJv4wkv7vy12IVi1SYhL8au22LRKlXS1Zg==}
     peerDependencies:
-      '@tanstack/react-query': 4.26.0
+      '@tanstack/react-query': 4.26.1
       react: ^16.8.0 || ^17.0.0 || ^18.0.0
       react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
     dependencies:
       '@tanstack/match-sorter-utils': 8.7.6
-      '@tanstack/react-query': 4.26.0_biqbaboplfbrettd7655fr4n2y
+      '@tanstack/react-query': 4.26.1_biqbaboplfbrettd7655fr4n2y
       react: registry.npmmirror.com/react/18.2.0
       react-dom: registry.npmmirror.com/react-dom/18.2.0_react@18.2.0
       superjson: 1.12.2
       use-sync-external-store: 1.2.0_react@18.2.0
     dev: false
 
-  /@tanstack/react-query/4.26.0_biqbaboplfbrettd7655fr4n2y:
-    resolution: {integrity: sha512-Y5qKyr9AtreTHBPAsn+ulR02E7SyZXPQbwL2tkOcgUAGH2KHHcf7j7NHBhKpaAGB6/vPqkxGYW46epu29V0HqA==}
+  /@tanstack/react-query/4.26.1_biqbaboplfbrettd7655fr4n2y:
+    resolution: {integrity: sha512-i3dnz4TOARGIXrXQ5P7S25Zfi4noii/bxhcwPurh2nrf5EUCcAt/95TB2HSmMweUBx206yIMWUMEQ7ptd6zwDg==}
     peerDependencies:
       react: ^16.8.0 || ^17.0.0 || ^18.0.0
       react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
@@ -1261,7 +1261,7 @@ packages:
       react-native:
         optional: true
     dependencies:
-      '@tanstack/query-core': 4.26.0
+      '@tanstack/query-core': 4.26.1
       react: registry.npmmirror.com/react/18.2.0
       react-dom: registry.npmmirror.com/react-dom/18.2.0_react@18.2.0
       use-sync-external-store: 1.2.0_react@18.2.0
@@ -1491,6 +1491,12 @@ packages:
       node-releases: 2.0.10
       update-browserslist-db: 1.0.10_browserslist@4.21.5
     dev: true
+
+  /call-bind/1.0.2:
+    resolution: {integrity: sha512-7O+FbCihrB5WGbFYesctwmTKae6rOiIzmz1icreWJ+0aA7LJfuqhEso2T9ncpcFtzMQtzXf2QGGueWJGTYsqrA==}
+    dependencies:
+      function-bind: 1.1.1
+      get-intrinsic: 1.2.0
 
   /callsites/3.1.0:
     resolution: {integrity: sha512-P8BjAsXvZS+VIDUI11hHCQEv74YT67YUi5JJFNWIqL235sBmjX4+qx9Muvls5ivyNENctx46xQLQ3aTuE7ssaQ==}
@@ -1969,6 +1975,13 @@ packages:
     engines: {node: '>=6.9.0'}
     dev: true
 
+  /get-intrinsic/1.2.0:
+    resolution: {integrity: sha512-L049y6nFOuom5wGyRc3/gdTLO94dySVKRACj1RmJZBQXlbTMhtNIgkWkUHq+jYmZvKf14EW1EoJnnjbmoHij0Q==}
+    dependencies:
+      function-bind: 1.1.1
+      has: 1.0.3
+      has-symbols: 1.0.3
+
   /get-nonce/1.0.1:
     resolution: {integrity: sha512-FJhYRoDaiatfEkUK8HKlicmu/3SGFD51q3itKDGoSTysQJBnfOcxU5GxnhE1E6soB76MbT0MBtnKJuXyAx+96Q==}
     engines: {node: '>=6'}
@@ -2021,6 +2034,10 @@ packages:
     resolution: {integrity: sha512-EykJT/Q1KjTWctppgIAgfSO0tKVuZUjhgMr17kqTumMl6Afv3EISleU7qZUzoXDFTAHTDC4NOoG/ZxU3EvlMPQ==}
     engines: {node: '>=8'}
     dev: true
+
+  /has-symbols/1.0.3:
+    resolution: {integrity: sha512-l3LCuF6MgDNwTDKkdYGEihYjt5pRPbEg46rtlmnSPlUbgmB8LOIrKJbYYFBSbnPaJexMKtiPO8hmeRjRz2Td+A==}
+    engines: {node: '>= 0.4'}
 
   /has/1.0.3:
     resolution: {integrity: sha512-f2dvO0VU6Oej7RkWJGrehjbzMAjFp5/VKPp5tTpWIV4JHHZK1/BxbFRtf/siA2SWTe09caDmVtYYzWEIbBS4zw==}
@@ -2317,6 +2334,9 @@ packages:
     resolution: {integrity: sha512-RSn9F68PjH9HqtltsSnqYC1XXoWe9Bju5+213R98cNGttag9q9yAOTzdbsqvIa7aNm5WffBZFpWYr2aWrklWAw==}
     engines: {node: '>= 6'}
 
+  /object-inspect/1.12.3:
+    resolution: {integrity: sha512-geUvdk7c+eizMNUDkRpW1wJwgfOiOeHbxBR/hLXK1aT6zmVSO0jsQcs7fj6MGw89jC/cjGfLcNOrtMYtGqm81g==}
+
   /once/1.4.0:
     resolution: {integrity: sha512-lNaJgI+2Q5URQBkccEKHTQOPaXdUxnZZElQTZY0MFUAuaEqe1E+Nyvgdz/aIyNi6Z9MzO5dv1H8n58/GELp3+w==}
     dependencies:
@@ -2483,6 +2503,13 @@ packages:
     engines: {node: '>=6'}
     dev: true
 
+  /qs/6.11.1:
+    resolution: {integrity: sha512-0wsrzgTz/kAVIeuxSjnpGC56rzYtr6JT/2BwEvMaPhFIoYa1aGO8LbzuU1R0uUYQkLpWBTOj0l/CLAJB64J6nQ==}
+    engines: {node: '>=0.6'}
+    dependencies:
+      side-channel: 1.0.4
+    dev: false
+
   /queue-microtask/1.2.3:
     resolution: {integrity: sha512-NuaNSa6flKT5JaSYQzJok04JzTL1CA6aGhv5rfLW3PgqA+M2ChpZQnAC8h8i4ZFkBS8X5RqkDBHA7r4hej3K9A==}
 
@@ -2490,8 +2517,8 @@ packages:
     resolution: {integrity: sha512-WuyALRjWPDGtt/wzJiadO5AXY+8hZ80hVpe6MyivgraREW751X3SbhRvG3eLKOYN+8VEvqLcf3wdnt44Z4S4SA==}
     engines: {node: '>=10'}
 
-  /react-hook-form/7.43.4_react@18.2.0:
-    resolution: {integrity: sha512-JZp05wvmuV8qr3NNDWwyhiQL05sh9E8x/2NoWtkdiyyiezmwOr5pKexlvbCEfBMa7ZYrvzk88G/uhLl47T9b7Q==}
+  /react-hook-form/7.43.5_react@18.2.0:
+    resolution: {integrity: sha512-YcaXhuFHoOPipu5pC7ckxrLrialiOcU91pKu8P+isAcXZyMgByUK9PkI9j5fENO4+6XU5PwWXRGMIFlk9u9UBQ==}
     engines: {node: '>=12.22.0'}
     peerDependencies:
       react: ^16.8.0 || ^17 || ^18
@@ -2708,6 +2735,13 @@ packages:
     resolution: {integrity: sha512-7++dFhtcx3353uBaq8DDR4NuxBetBzC7ZQOhmTQInHEd6bSrXdiEyzCvG07Z44UYdLShWUyXt5M/yhz8ekcb1A==}
     engines: {node: '>=8'}
     dev: true
+
+  /side-channel/1.0.4:
+    resolution: {integrity: sha512-q5XPytqFEIKHkGdiMIrY10mvLRvnQh42/+GoBlFW3b2LXLE2xxJpZFdm94we0BaoV3RwJyGqg5wS7epxTv0Zvw==}
+    dependencies:
+      call-bind: 1.0.2
+      get-intrinsic: 1.2.0
+      object-inspect: 1.12.3
 
   /source-map-js/1.0.2:
     resolution: {integrity: sha512-R0XvVJ9WusLiqTCEiGCmICCMplcCkIwwR11mOSD9CR5u+IXYdiseeEuXCVAjS54zqwkLcPNnmU4OeJ6tUrWhDw==}
@@ -3035,8 +3069,8 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
-  /zod/3.21.1:
-    resolution: {integrity: sha512-+dTu2m6gmCbO9Ahm4ZBDapx2O6ZY9QSPXst2WXjcznPMwf2YNpn3RevLx4KkZp1OPW/ouFcoBtBzFz/LeY69oA==}
+  /zod/3.21.4:
+    resolution: {integrity: sha512-m46AKbrzKVzOzs/DZgVnG5H55N1sv1M8qZU3A8RIKbs3mrACDNeIOeilDymVb2HdmP8uwshOCF4uJ8uM9rCqJw==}
     dev: false
 
   /zrender/5.4.1:
@@ -3045,8 +3079,8 @@ packages:
       tslib: 2.3.0
     dev: false
 
-  /zustand/4.3.5_immer@9.0.19+react@18.2.0:
-    resolution: {integrity: sha512-2iPUzfwx+g3f0PagOMz2vDO9mZzEp2puFpNe7vrAymVPOEIEUjCPkC4/zy84eAscxIWmTU4j9g6upXYkJdzEFQ==}
+  /zustand/4.3.6_immer@9.0.19+react@18.2.0:
+    resolution: {integrity: sha512-6J5zDxjxLE+yukC2XZWf/IyWVKnXT9b9HUv09VJ/bwGCpKNcaTqp7Ws28Xr8jnbvnZcdRaidztAPsXFBIqufiw==}
     engines: {node: '>=12.7.0'}
     peerDependencies:
       immer: '>=9.0'
@@ -4657,10 +4691,10 @@ packages:
     version: 3.1.5
     engines: {node: '>= 0.4'}
     dependencies:
-      call-bind: registry.npmmirror.com/call-bind/1.0.2
+      call-bind: 1.0.2
       define-properties: registry.npmmirror.com/define-properties/1.1.4
       es-abstract: registry.npmmirror.com/es-abstract/1.20.3
-      get-intrinsic: registry.npmmirror.com/get-intrinsic/1.1.3
+      get-intrinsic: 1.2.0
       is-string: registry.npmmirror.com/is-string/1.0.7
     dev: true
 
@@ -4677,7 +4711,7 @@ packages:
     version: 1.3.0
     engines: {node: '>= 0.4'}
     dependencies:
-      call-bind: registry.npmmirror.com/call-bind/1.0.2
+      call-bind: 1.0.2
       define-properties: registry.npmmirror.com/define-properties/1.1.4
       es-abstract: registry.npmmirror.com/es-abstract/1.20.3
       es-shim-unscopables: registry.npmmirror.com/es-shim-unscopables/1.0.0
@@ -4689,7 +4723,7 @@ packages:
     version: 1.3.0
     engines: {node: '>= 0.4'}
     dependencies:
-      call-bind: registry.npmmirror.com/call-bind/1.0.2
+      call-bind: 1.0.2
       define-properties: registry.npmmirror.com/define-properties/1.1.4
       es-abstract: registry.npmmirror.com/es-abstract/1.20.3
       es-shim-unscopables: registry.npmmirror.com/es-shim-unscopables/1.0.0
@@ -4811,14 +4845,6 @@ packages:
     version: 1.0.0
     dev: false
 
-  registry.npmmirror.com/call-bind/1.0.2:
-    resolution: {integrity: sha512-7O+FbCihrB5WGbFYesctwmTKae6rOiIzmz1icreWJ+0aA7LJfuqhEso2T9ncpcFtzMQtzXf2QGGueWJGTYsqrA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/call-bind/-/call-bind-1.0.2.tgz}
-    name: call-bind
-    version: 1.0.2
-    dependencies:
-      function-bind: 1.1.1
-      get-intrinsic: registry.npmmirror.com/get-intrinsic/1.1.3
-
   registry.npmmirror.com/confusing-browser-globals/1.0.11:
     resolution: {integrity: sha512-JsPKdmh8ZkmnHxDk55FZ1TqVLvEQTvoByJZRN9jzI0UjxK/QgAmsphz7PGtqgPieQZ/CQcHWXCR7ATDNhGe+YA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/confusing-browser-globals/-/confusing-browser-globals-1.0.11.tgz}
     name: confusing-browser-globals
@@ -4892,15 +4918,15 @@ packages:
     version: 1.20.3
     engines: {node: '>= 0.4'}
     dependencies:
-      call-bind: registry.npmmirror.com/call-bind/1.0.2
+      call-bind: 1.0.2
       es-to-primitive: registry.npmmirror.com/es-to-primitive/1.2.1
       function-bind: 1.1.1
       function.prototype.name: registry.npmmirror.com/function.prototype.name/1.1.5
-      get-intrinsic: registry.npmmirror.com/get-intrinsic/1.1.3
+      get-intrinsic: 1.2.0
       get-symbol-description: registry.npmmirror.com/get-symbol-description/1.0.0
       has: 1.0.3
       has-property-descriptors: registry.npmmirror.com/has-property-descriptors/1.0.0
-      has-symbols: registry.npmmirror.com/has-symbols/1.0.3
+      has-symbols: 1.0.3
       internal-slot: registry.npmmirror.com/internal-slot/1.0.3
       is-callable: registry.npmmirror.com/is-callable/1.2.7
       is-negative-zero: registry.npmmirror.com/is-negative-zero/2.0.2
@@ -4908,7 +4934,7 @@ packages:
       is-shared-array-buffer: registry.npmmirror.com/is-shared-array-buffer/1.0.2
       is-string: registry.npmmirror.com/is-string/1.0.7
       is-weakref: registry.npmmirror.com/is-weakref/1.0.2
-      object-inspect: registry.npmmirror.com/object-inspect/1.12.2
+      object-inspect: 1.12.3
       object-keys: registry.npmmirror.com/object-keys/1.1.1
       object.assign: registry.npmmirror.com/object.assign/4.1.4
       regexp.prototype.flags: registry.npmmirror.com/regexp.prototype.flags/1.4.3
@@ -5232,7 +5258,7 @@ packages:
     version: 1.1.5
     engines: {node: '>= 0.4'}
     dependencies:
-      call-bind: registry.npmmirror.com/call-bind/1.0.2
+      call-bind: 1.0.2
       define-properties: registry.npmmirror.com/define-properties/1.1.4
       es-abstract: registry.npmmirror.com/es-abstract/1.20.3
       functions-have-names: registry.npmmirror.com/functions-have-names/1.2.3
@@ -5251,23 +5277,14 @@ packages:
     engines: {node: '>=10'}
     dev: false
 
-  registry.npmmirror.com/get-intrinsic/1.1.3:
-    resolution: {integrity: sha512-QJVz1Tj7MS099PevUG5jvnt9tSkXN8K14dxQlikJuPt4uD9hHAHjLyLBiLR5zELelBdD9QNRAXZzsJx0WaDL9A==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/get-intrinsic/-/get-intrinsic-1.1.3.tgz}
-    name: get-intrinsic
-    version: 1.1.3
-    dependencies:
-      function-bind: 1.1.1
-      has: 1.0.3
-      has-symbols: registry.npmmirror.com/has-symbols/1.0.3
-
   registry.npmmirror.com/get-symbol-description/1.0.0:
     resolution: {integrity: sha512-2EmdH1YvIQiZpltCNgkuiUnyukzxM/R6NDJX31Ke3BG1Nq5b0S2PhX59UKi9vZpPDQVdqn+1IcaAwnzTT5vCjw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/get-symbol-description/-/get-symbol-description-1.0.0.tgz}
     name: get-symbol-description
     version: 1.0.0
     engines: {node: '>= 0.4'}
     dependencies:
-      call-bind: registry.npmmirror.com/call-bind/1.0.2
-      get-intrinsic: registry.npmmirror.com/get-intrinsic/1.1.3
+      call-bind: 1.0.2
+      get-intrinsic: 1.2.0
     dev: true
 
   registry.npmmirror.com/globby/11.1.0:
@@ -5295,14 +5312,8 @@ packages:
     name: has-property-descriptors
     version: 1.0.0
     dependencies:
-      get-intrinsic: registry.npmmirror.com/get-intrinsic/1.1.3
+      get-intrinsic: 1.2.0
     dev: true
-
-  registry.npmmirror.com/has-symbols/1.0.3:
-    resolution: {integrity: sha512-l3LCuF6MgDNwTDKkdYGEihYjt5pRPbEg46rtlmnSPlUbgmB8LOIrKJbYYFBSbnPaJexMKtiPO8hmeRjRz2Td+A==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/has-symbols/-/has-symbols-1.0.3.tgz}
-    name: has-symbols
-    version: 1.0.3
-    engines: {node: '>= 0.4'}
 
   registry.npmmirror.com/has-tostringtag/1.0.0:
     resolution: {integrity: sha512-kFjcSNhnlGV1kyoGk7OXKSawH5JOb/LzUc5w9B02hOTO0dfFRjbHQKvg1d6cf3HbeUmtU9VbbV3qzZ2Teh97WQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/has-tostringtag/-/has-tostringtag-1.0.0.tgz}
@@ -5310,7 +5321,7 @@ packages:
     version: 1.0.0
     engines: {node: '>= 0.4'}
     dependencies:
-      has-symbols: registry.npmmirror.com/has-symbols/1.0.3
+      has-symbols: 1.0.3
     dev: true
 
   registry.npmmirror.com/internal-slot/1.0.3:
@@ -5319,9 +5330,9 @@ packages:
     version: 1.0.3
     engines: {node: '>= 0.4'}
     dependencies:
-      get-intrinsic: registry.npmmirror.com/get-intrinsic/1.1.3
+      get-intrinsic: 1.2.0
       has: 1.0.3
-      side-channel: registry.npmmirror.com/side-channel/1.0.4
+      side-channel: 1.0.4
     dev: true
 
   registry.npmmirror.com/is-bigint/1.0.4:
@@ -5338,7 +5349,7 @@ packages:
     version: 1.1.2
     engines: {node: '>= 0.4'}
     dependencies:
-      call-bind: registry.npmmirror.com/call-bind/1.0.2
+      call-bind: 1.0.2
       has-tostringtag: registry.npmmirror.com/has-tostringtag/1.0.0
     dev: true
 
@@ -5380,7 +5391,7 @@ packages:
     version: 1.1.4
     engines: {node: '>= 0.4'}
     dependencies:
-      call-bind: registry.npmmirror.com/call-bind/1.0.2
+      call-bind: 1.0.2
       has-tostringtag: registry.npmmirror.com/has-tostringtag/1.0.0
     dev: true
 
@@ -5389,7 +5400,7 @@ packages:
     name: is-shared-array-buffer
     version: 1.0.2
     dependencies:
-      call-bind: registry.npmmirror.com/call-bind/1.0.2
+      call-bind: 1.0.2
     dev: true
 
   registry.npmmirror.com/is-string/1.0.7:
@@ -5407,7 +5418,7 @@ packages:
     version: 1.0.4
     engines: {node: '>= 0.4'}
     dependencies:
-      has-symbols: registry.npmmirror.com/has-symbols/1.0.3
+      has-symbols: 1.0.3
     dev: true
 
   registry.npmmirror.com/is-weakref/1.0.2:
@@ -5415,7 +5426,7 @@ packages:
     name: is-weakref
     version: 1.0.2
     dependencies:
-      call-bind: registry.npmmirror.com/call-bind/1.0.2
+      call-bind: 1.0.2
     dev: true
 
   registry.npmmirror.com/jsx-ast-utils/3.3.3:
@@ -5475,11 +5486,6 @@ packages:
       js-tokens: 4.0.0
     dev: false
 
-  registry.npmmirror.com/object-inspect/1.12.2:
-    resolution: {integrity: sha512-z+cPxW0QGUp0mcqcsgQyLVRDoXFQbXOwBaqyF7VIgI4TWNQsDHrBpUQslRmIfAoYWdYzs6UlKJtB2XJpTaNSpQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/object-inspect/-/object-inspect-1.12.2.tgz}
-    name: object-inspect
-    version: 1.12.2
-
   registry.npmmirror.com/object-keys/1.1.1:
     resolution: {integrity: sha512-NuAESUOUMrlIXOfHKzD6bpPu3tYt3xvjNdRIQ+FeT0lNb4K8WR70CaDxhuNguS2XG+GjkyMwOzsN5ZktImfhLA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/object-keys/-/object-keys-1.1.1.tgz}
     name: object-keys
@@ -5493,9 +5499,9 @@ packages:
     version: 4.1.4
     engines: {node: '>= 0.4'}
     dependencies:
-      call-bind: registry.npmmirror.com/call-bind/1.0.2
+      call-bind: 1.0.2
       define-properties: registry.npmmirror.com/define-properties/1.1.4
-      has-symbols: registry.npmmirror.com/has-symbols/1.0.3
+      has-symbols: 1.0.3
       object-keys: registry.npmmirror.com/object-keys/1.1.1
     dev: true
 
@@ -5505,7 +5511,7 @@ packages:
     version: 1.1.5
     engines: {node: '>= 0.4'}
     dependencies:
-      call-bind: registry.npmmirror.com/call-bind/1.0.2
+      call-bind: 1.0.2
       define-properties: registry.npmmirror.com/define-properties/1.1.4
       es-abstract: registry.npmmirror.com/es-abstract/1.20.3
     dev: true
@@ -5516,7 +5522,7 @@ packages:
     version: 2.0.5
     engines: {node: '>= 0.4'}
     dependencies:
-      call-bind: registry.npmmirror.com/call-bind/1.0.2
+      call-bind: 1.0.2
       define-properties: registry.npmmirror.com/define-properties/1.1.4
       es-abstract: registry.npmmirror.com/es-abstract/1.20.3
     dev: true
@@ -5536,7 +5542,7 @@ packages:
     version: 1.1.5
     engines: {node: '>= 0.4'}
     dependencies:
-      call-bind: registry.npmmirror.com/call-bind/1.0.2
+      call-bind: 1.0.2
       define-properties: registry.npmmirror.com/define-properties/1.1.4
       es-abstract: registry.npmmirror.com/es-abstract/1.20.3
     dev: true
@@ -5553,15 +5559,6 @@ packages:
     resolution: {integrity: sha512-QFADYnsVoBMw1srW7OVKEYjG+MbIa49s54w1MA1EDY6r2r/sTcKKYqRX1f4GYvnXP7eN/Pe9HFcX+hwzmrXRHA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/pure-color/-/pure-color-1.3.0.tgz}
     name: pure-color
     version: 1.3.0
-    dev: false
-
-  registry.npmmirror.com/qs/6.11.0:
-    resolution: {integrity: sha512-MvjoMCJwEarSbUYk5O+nmoSzSutSsTwF85zcHPQ9OrlFoZOYIjaqBAJIqIXjptyD5vThxGq52Xu/MaJzRkIk4Q==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/qs/-/qs-6.11.0.tgz}
-    name: qs
-    version: 6.11.0
-    engines: {node: '>=0.6'}
-    dependencies:
-      side-channel: registry.npmmirror.com/side-channel/1.0.4
     dev: false
 
   registry.npmmirror.com/react-base16-styling/0.6.0:
@@ -5682,7 +5679,7 @@ packages:
     version: 1.4.3
     engines: {node: '>= 0.4'}
     dependencies:
-      call-bind: registry.npmmirror.com/call-bind/1.0.2
+      call-bind: 1.0.2
       define-properties: registry.npmmirror.com/define-properties/1.1.4
       functions-have-names: registry.npmmirror.com/functions-have-names/1.2.3
     dev: true
@@ -5721,8 +5718,8 @@ packages:
     name: safe-regex-test
     version: 1.0.0
     dependencies:
-      call-bind: registry.npmmirror.com/call-bind/1.0.2
-      get-intrinsic: registry.npmmirror.com/get-intrinsic/1.1.3
+      call-bind: 1.0.2
+      get-intrinsic: 1.2.0
       is-regex: registry.npmmirror.com/is-regex/1.1.4
     dev: true
 
@@ -5739,15 +5736,6 @@ packages:
     name: setimmediate
     version: 1.0.5
     dev: false
-
-  registry.npmmirror.com/side-channel/1.0.4:
-    resolution: {integrity: sha512-q5XPytqFEIKHkGdiMIrY10mvLRvnQh42/+GoBlFW3b2LXLE2xxJpZFdm94we0BaoV3RwJyGqg5wS7epxTv0Zvw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/side-channel/-/side-channel-1.0.4.tgz}
-    name: side-channel
-    version: 1.0.4
-    dependencies:
-      call-bind: registry.npmmirror.com/call-bind/1.0.2
-      get-intrinsic: registry.npmmirror.com/get-intrinsic/1.1.3
-      object-inspect: registry.npmmirror.com/object-inspect/1.12.2
 
   registry.npmmirror.com/size-sensor/1.0.1:
     resolution: {integrity: sha512-QTy7MnuugCFXIedXRpUSk9gUnyNiaxIdxGfUjr8xxXOqIB3QvBUYP9+b51oCg2C4dnhaeNk/h57TxjbvoJrJUA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/size-sensor/-/size-sensor-1.0.1.tgz}
@@ -5773,14 +5761,14 @@ packages:
     name: string.prototype.matchall
     version: 4.0.7
     dependencies:
-      call-bind: registry.npmmirror.com/call-bind/1.0.2
+      call-bind: 1.0.2
       define-properties: registry.npmmirror.com/define-properties/1.1.4
       es-abstract: registry.npmmirror.com/es-abstract/1.20.3
-      get-intrinsic: registry.npmmirror.com/get-intrinsic/1.1.3
-      has-symbols: registry.npmmirror.com/has-symbols/1.0.3
+      get-intrinsic: 1.2.0
+      has-symbols: 1.0.3
       internal-slot: registry.npmmirror.com/internal-slot/1.0.3
       regexp.prototype.flags: registry.npmmirror.com/regexp.prototype.flags/1.4.3
-      side-channel: registry.npmmirror.com/side-channel/1.0.4
+      side-channel: 1.0.4
     dev: true
 
   registry.npmmirror.com/string.prototype.trimend/1.0.5:
@@ -5788,7 +5776,7 @@ packages:
     name: string.prototype.trimend
     version: 1.0.5
     dependencies:
-      call-bind: registry.npmmirror.com/call-bind/1.0.2
+      call-bind: 1.0.2
       define-properties: registry.npmmirror.com/define-properties/1.1.4
       es-abstract: registry.npmmirror.com/es-abstract/1.20.3
     dev: true
@@ -5798,7 +5786,7 @@ packages:
     name: string.prototype.trimstart
     version: 1.0.5
     dependencies:
-      call-bind: registry.npmmirror.com/call-bind/1.0.2
+      call-bind: 1.0.2
       define-properties: registry.npmmirror.com/define-properties/1.1.4
       es-abstract: registry.npmmirror.com/es-abstract/1.20.3
     dev: true
@@ -5845,9 +5833,9 @@ packages:
     name: unbox-primitive
     version: 1.0.2
     dependencies:
-      call-bind: registry.npmmirror.com/call-bind/1.0.2
+      call-bind: 1.0.2
       has-bigints: registry.npmmirror.com/has-bigints/1.0.2
-      has-symbols: registry.npmmirror.com/has-symbols/1.0.3
+      has-symbols: 1.0.3
       which-boxed-primitive: registry.npmmirror.com/which-boxed-primitive/1.0.2
     dev: true
 
