@@ -1,35 +1,35 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import clsx from 'clsx';
-import { FilterableAttributes as TFilterableAttributes } from 'meilisearch';
+import { SearchableAttributes as TSearchableAttributes } from 'meilisearch';
 import { FC, useEffect, useMemo } from 'react';
 import { IndexSettingConfigComponentProps } from '../..';
 import { ArrayInput } from './arrayInput';
 import { IconAlertTriangleFilled } from '@tabler/icons-react';
 import _ from 'lodash';
 
-export const FilterableAttributes: FC<IndexSettingConfigComponentProps> = ({
+export const SearchableAttributes: FC<IndexSettingConfigComponentProps> = ({
   client,
   className,
   host,
   toggleLoading,
 }) => {
   const query = useQuery({
-    queryKey: ['getFilterableAttributes', host, client.uid],
+    queryKey: ['getSearchableAttributes', host, client.uid],
     refetchInterval: 4500,
     async queryFn(ctx) {
-      return await client.getFilterableAttributes();
+      return await client.getSearchableAttributes();
     },
   });
 
   const mutation = useMutation({
-    mutationKey: ['updateFilterableAttributes', host, client.uid],
-    async mutationFn(variables: TFilterableAttributes) {
-      console.debug('🚀 ~ file: filterableAttributes.tsx:19 ~ mutationFn ~ variables:', variables);
+    mutationKey: ['updateSearchableAttributes', host, client.uid],
+    async mutationFn(variables: TSearchableAttributes) {
+      console.debug('🚀 ~ file: searchableAttributes.tsx:19 ~ mutationFn ~ variables:', variables);
       if (_.isEmpty(variables)) {
         // empty to reset
-        return await client.resetFilterableAttributes();
+        return await client.resetSearchableAttributes();
       }
-      return await client.updateFilterableAttributes(variables);
+      return await client.updateSearchableAttributes(variables);
     },
   });
 
@@ -41,12 +41,17 @@ export const FilterableAttributes: FC<IndexSettingConfigComponentProps> = ({
   return useMemo(
     () => (
       <div className={clsx(className)}>
-        <h2 className="font-semibold">Filterable Attributes</h2>
+        <h2 className="font-semibold">Searchable Attributes</h2>
         <span className="text-sm flex gap-2">
-          <p>Attributes in the filterableAttributes list can be used as filters or facets.</p>
+          <p>
+            The values associated with attributes in the searchableAttributes list are searched for matching query
+            words. The order of the list also determines the attribute ranking order. <br /> By default, the
+            searchableAttributes array is equal to all fields in your dataset. This behavior is represented by the value
+            ["*"].
+          </p>
           <a
             className="link info text-info-800"
-            href="https://docs.meilisearch.com/learn/advanced/filtering_and_faceted_search.html"
+            href="https://docs.meilisearch.com/learn/configuration/displayed_searchable_attributes.html#searchable-fields"
             target={'_blank'}
             rel="noreferrer"
           >
@@ -58,7 +63,7 @@ export const FilterableAttributes: FC<IndexSettingConfigComponentProps> = ({
             <IconAlertTriangleFilled />
           </span>
           <p className="content">
-            Updating filterable attributes will re-index all documents in the index, which can take some time. We
+            Updating searchable attributes will re-index all documents in the index, which can take some time. We
             recommend updating your index settings first and then adding documents as this reduces RAM consumption.
           </p>
         </span>

@@ -8,7 +8,7 @@ specifiers:
   '@mantine/hooks': ^6.0.0
   '@mantine/modals': ^6.0.0
   '@monaco-editor/react': ^4.4.6
-  '@sira-ui/tailwind': ^0.8.0
+  '@sira-ui/tailwind': ^0.9.0
   '@tabler/icons-react': ^2.8.0
   '@tanstack/react-query': ^4.26.1
   '@tanstack/react-query-devtools': ^4.26.1
@@ -55,7 +55,7 @@ dependencies:
   '@mantine/hooks': 6.0.0_react@18.2.0
   '@mantine/modals': 6.0.0_uziugpv5zwkk3pqsn64qbjkxrm
   '@monaco-editor/react': 4.4.6_waewrrayshn643ztij6zbniufy
-  '@sira-ui/tailwind': 0.8.0_tailwindcss@3.2.7
+  '@sira-ui/tailwind': 0.9.0_tailwindcss@3.2.7
   '@tabler/icons-react': 2.8.0_react@18.2.0
   '@tanstack/react-query': 4.26.1_biqbaboplfbrettd7655fr4n2y
   '@tanstack/react-query-devtools': 4.26.1_brdhmlf72zuns3lsk66phyptty
@@ -1197,8 +1197,8 @@ packages:
       chroma-js: 2.4.2
     dev: false
 
-  /@sira-ui/tailwind/0.8.0_tailwindcss@3.2.7:
-    resolution: {integrity: sha512-lKPa71QXorKuA5At2pI6Iw6m+pPfiHi9YeSsheS3Qdy7zHG9U8aa1YpPWPvFvP/F2ABFu56E7rIZ0H3bh+dvMw==}
+  /@sira-ui/tailwind/0.9.0_tailwindcss@3.2.7:
+    resolution: {integrity: sha512-ZowG1UiOJ9H1eLmMIEvs7BHeCuejzRXSFlkZ48VswFrHfHsEm23t1/vMRxeGxqpOV4gfm6ilm0ozGO0lw6y3Jw==}
     peerDependencies:
       tailwindcss: ^3
     dependencies:
