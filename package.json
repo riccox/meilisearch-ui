@@ -23,7 +23,7 @@
     "@mantine/hooks": "^6.0.0",
     "@mantine/modals": "^6.0.0",
     "@monaco-editor/react": "^4.4.6",
-    "@sira-ui/tailwind": "^0.8.0",
+    "@sira-ui/tailwind": "^0.9.0",
     "@tabler/icons-react": "^2.8.0",
     "@tanstack/react-query": "^4.26.1",
     "@tanstack/react-query-devtools": "^4.26.1",

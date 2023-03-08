@@ -1,12 +1,16 @@
-import { FC, useCallback, useMemo, useState } from 'react';
+import { FC, useMemo, useState } from 'react';
 import { IndexSettingComponentProps } from '..';
 import clsx from 'clsx';
 import { Editor } from './editor';
 import { FilterableAttributes } from './detail/filterableAttributes';
+import { DistinctAttribute } from './detail/distinctAttribute';
+import { SortableAttributes } from './detail/sortableAttributes';
+import { SearchableAttributes } from './detail/searchableAttributes';
+import { DisplayedAttributes } from './detail/displayedAttributes';
 
 const tabs = [
   'Filterable Attributes',
-  'Distinct Attributes',
+  'Distinct Attribute',
   'Sortable Attributes',
   'Searchable Attributes',
   'Displayed Attributes',
@@ -47,9 +51,13 @@ export const IndexConfiguration: FC<IndexSettingComponentProps> = ({ host, clien
           </div>
         </div>
         <div className={clsx('flex flex-nowrap', inputType !== 'visualization' && 'hidden')}>
-          <div className="tabs bordered primary left">
+          <div className="tabs bordered ghost primary left">
             {tabs.map((tab, i) => (
-              <div key={tab} className={clsx('tab p-4', selectTab === i && 'active')} onClick={() => setSelectTab(i)}>
+              <div
+                key={tab}
+                className={clsx('tab p-4 w-full', selectTab === i && 'active')}
+                onClick={() => setSelectTab(i)}
+              >
                 {tab}
               </div>
             ))}
@@ -57,6 +65,22 @@ export const IndexConfiguration: FC<IndexSettingComponentProps> = ({ host, clien
           <div className="flex-1 flex">
             <FilterableAttributes
               className={clsx(selectTab !== 0 && 'hidden', 'flex-1 flex flex-col gap-2 p-2')}
+              {...{ client, host, toggleLoading }}
+            />
+            <DistinctAttribute
+              className={clsx(selectTab !== 1 && 'hidden', 'flex-1 flex flex-col gap-2 p-2')}
+              {...{ client, host, toggleLoading }}
+            />
+            <SortableAttributes
+              className={clsx(selectTab !== 2 && 'hidden', 'flex-1 flex flex-col gap-2 p-2')}
+              {...{ client, host, toggleLoading }}
+            />
+            <SearchableAttributes
+              className={clsx(selectTab !== 3 && 'hidden', 'flex-1 flex flex-col gap-2 p-2')}
+              {...{ client, host, toggleLoading }}
+            />
+            <DisplayedAttributes
+              className={clsx(selectTab !== 4 && 'hidden', 'flex-1 flex flex-col gap-2 p-2')}
               {...{ client, host, toggleLoading }}
             />
           </div>
