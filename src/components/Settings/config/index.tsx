@@ -7,6 +7,8 @@ import { DistinctAttribute } from './detail/distinctAttribute';
 import { SortableAttributes } from './detail/sortableAttributes';
 import { SearchableAttributes } from './detail/searchableAttributes';
 import { DisplayedAttributes } from './detail/displayedAttributes';
+import { RankingRules } from './detail/rankingRules';
+import { StopWords } from './detail/stopWords';
 
 const tabs = [
   'Filterable Attributes',
@@ -37,13 +39,13 @@ export const IndexConfiguration: FC<IndexSettingComponentProps> = ({ host, clien
           </div>
           <div className="ml-auto tabs boxed bw pill">
             <div
-              className={clsx('tab px-3 !py-1 min-h-0 h-fit', inputType === 'visualization' && 'active')}
+              className={clsx('tab px-3 !py-1 !min-h-0 !h-fit', inputType === 'visualization' && 'active')}
               onClick={() => setInputType('visualization')}
             >
               Visualization
             </div>
             <div
-              className={clsx('tab px-3 !py-1 min-h-0 h-fit', inputType === 'json' && 'active')}
+              className={clsx('tab px-3 !py-1 !min-h-0 !h-fit', inputType === 'json' && 'active')}
               onClick={() => setInputType('json')}
             >
               JSON
@@ -81,6 +83,14 @@ export const IndexConfiguration: FC<IndexSettingComponentProps> = ({ host, clien
             />
             <DisplayedAttributes
               className={clsx(selectTab !== 4 && 'hidden', 'flex-1 flex flex-col gap-2 p-2')}
+              {...{ client, host, toggleLoading }}
+            />
+            <RankingRules
+              className={clsx(selectTab !== 5 && 'hidden', 'flex-1 flex flex-col gap-2 p-2')}
+              {...{ client, host, toggleLoading }}
+            />
+            <StopWords
+              className={clsx(selectTab !== 6 && 'hidden', 'flex-1 flex flex-col gap-2 p-2')}
               {...{ client, host, toggleLoading }}
             />
           </div>

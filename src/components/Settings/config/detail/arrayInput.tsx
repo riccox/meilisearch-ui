@@ -1,18 +1,21 @@
 import clsx from 'clsx';
 import { useForm } from 'react-hook-form';
-import { IconPlus, IconCircleMinus } from '@tabler/icons-react';
+import { IconPlus, IconCircleMinus, IconArrowUp, IconArrowDown } from '@tabler/icons-react';
 import { PropsWithoutRef, useCallback, useMemo, useState } from 'react';
 import { openConfirmModal } from '@mantine/modals';
 import _ from 'lodash';
+import { arrayMove } from '@/src/utils/array';
 
 export function ArrayInput<V extends string>({
   defaultValue,
   onMutation,
   className,
+  moveable = false,
 }: PropsWithoutRef<{
   className?: string;
   defaultValue: V[];
   onMutation: (value: V[]) => void;
+  moveable?: boolean;
 }>) {
   const [array, setArray] = useState<V[]>(defaultValue);
   const [isAdding, setIsAdding] = useState<boolean>(false);
@@ -33,6 +36,30 @@ export function ArrayInput<V extends string>({
     onMutation(updated);
     onCompleteInput();
   });
+
+  const onClickItemUp = useCallback(
+    (index: number) => {
+      console.debug('🚀 ~ file: ArrayInput onClickItemUp', index);
+      if (!moveable || index <= 0) return;
+
+      const updated = arrayMove(array, index, index - 1);
+      setArray(updated);
+      onMutation(updated);
+    },
+    [array, moveable, onMutation]
+  );
+
+  const onClickItemDown = useCallback(
+    (index: number) => {
+      console.debug('🚀 ~ file: ArrayInput onClickItemDown', index);
+      if (!moveable || index >= array.length - 1) return;
+
+      const updated = arrayMove(array, index, index + 1);
+      setArray(updated);
+      onMutation(updated);
+    },
+    [array, moveable, onMutation]
+  );
 
   const onClickItemDel = useCallback(
     (index: number) => {
@@ -63,7 +90,16 @@ export function ArrayInput<V extends string>({
             className="w-full flex justify-center items-center p-2 bg-primary-200 text-primary-1000 rounded-xl"
           >
             <p className="flex-1 text-center">{item}</p>
-            <button className={'ml-auto'} onClick={() => onClickItemDel(i)}>
+            <button className={clsx((!moveable || i <= 0) && 'hidden', 'ml-auto')} onClick={() => onClickItemUp(i)}>
+              <IconArrowUp />
+            </button>
+            <button
+              className={clsx((!moveable || i >= array.length - 1) && 'hidden')}
+              onClick={() => onClickItemDown(i)}
+            >
+              <IconArrowDown />
+            </button>
+            <button onClick={() => onClickItemDel(i)}>
               <IconCircleMinus />
             </button>
           </div>
@@ -94,6 +130,18 @@ export function ArrayInput<V extends string>({
         </button>
       </div>
     ),
-    [addForm, array, className, defaultValue, isAdding, onClickItemDel, onCompleteInput, onSubmit]
+    [
+      addForm,
+      array,
+      className,
+      defaultValue,
+      isAdding,
+      moveable,
+      onClickItemDel,
+      onClickItemDown,
+      onClickItemUp,
+      onCompleteInput,
+      onSubmit,
+    ]
   );
 }
