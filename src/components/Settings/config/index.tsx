@@ -9,6 +9,7 @@ import { SearchableAttributes } from './detail/searchableAttributes';
 import { DisplayedAttributes } from './detail/displayedAttributes';
 import { RankingRules } from './detail/rankingRules';
 import { StopWords } from './detail/stopWords';
+import { Synonyms } from './detail/synonyms';
 
 const tabs = [
   'Filterable Attributes',
@@ -91,6 +92,10 @@ export const IndexConfiguration: FC<IndexSettingComponentProps> = ({ host, clien
             />
             <StopWords
               className={clsx(selectTab !== 6 && 'hidden', 'flex-1 flex flex-col gap-2 p-2')}
+              {...{ client, host, toggleLoading }}
+            />
+            <Synonyms
+              className={clsx(selectTab !== 7 && 'hidden', 'flex-1 flex flex-col gap-2 p-2')}
               {...{ client, host, toggleLoading }}
             />
           </div>
