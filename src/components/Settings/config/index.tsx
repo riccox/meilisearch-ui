@@ -10,6 +10,7 @@ import { DisplayedAttributes } from './detail/displayedAttributes';
 import { RankingRules } from './detail/rankingRules';
 import { StopWords } from './detail/stopWords';
 import { Synonyms } from './detail/synonyms';
+import { TypoTolerance } from './detail/typoTolerance';
 
 const tabs = [
   'Filterable Attributes',
@@ -96,6 +97,10 @@ export const IndexConfiguration: FC<IndexSettingComponentProps> = ({ host, clien
             />
             <Synonyms
               className={clsx(selectTab !== 7 && 'hidden', 'flex-1 flex flex-col gap-2 p-2')}
+              {...{ client, host, toggleLoading }}
+            />
+            <TypoTolerance
+              className={clsx(selectTab !== 8 && 'hidden', 'flex-1 flex flex-col gap-2 p-2 overflow-scroll')}
               {...{ client, host, toggleLoading }}
             />
           </div>
