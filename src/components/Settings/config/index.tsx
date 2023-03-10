@@ -54,11 +54,11 @@ export const IndexConfiguration: FC<IndexSettingComponentProps> = ({ host, clien
           </div>
         </div>
         <div className={clsx('flex flex-nowrap', inputType !== 'visualization' && 'hidden')}>
-          <div className="tabs bordered ghost primary left">
+          <div className="tabs ghost primary left border-r-2 border-color-400">
             {tabs.map((tab, i) => (
               <div
                 key={tab}
-                className={clsx('tab p-4 w-full', selectTab === i && 'active')}
+                className={clsx('tab !p-4 w-full', selectTab === i && 'active bordered')}
                 onClick={() => setSelectTab(i)}
               >
                 {tab}
