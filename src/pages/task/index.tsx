@@ -93,9 +93,9 @@ function Tasks() {
             <div className={`flex items-center gap-2`}>
               <p className={`text-2xl font-extrabold`}>{`#${uid}`}</p>
               <span className={`badge light ${TaskThemes[t.status]} uppercase `}>{t.status}</span>
-              <p className={`ml-auto text-lg`}>{t.type}</p>
+              <p className={`ml-auto text-xl font-semibold`}>{t.type}</p>
             </div>
-            <div className={`grid grid-cols-4 gap-2 task-card-options`}>
+            <div className={`grid grid-cols-4 gap-2 task-card-options text-sm`}>
               <p>Duration: </p>
               <p>{t.duration}</p>
               <p>EnqueuedAt: </p>
