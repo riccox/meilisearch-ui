@@ -1,5 +1,23 @@
 # Changelog
 
+## [0.2.0](https://github.com/riccox/meilisearch-ui/compare/v0.1.6...v0.2.0) (2023-03-11)
+
+
+### Features
+
+* add Faceting & Pagination components. ([e7b9f6e](https://github.com/riccox/meilisearch-ui/commit/e7b9f6e4cdf2eac3fb257aeb6ee5651846a34da5))
+* add RankingRules & StopWords components. ([ad27fd7](https://github.com/riccox/meilisearch-ui/commit/ad27fd7996b98e7ab7b69d507bb378656bde59f7))
+* add Synonyms config component. ([fade71b](https://github.com/riccox/meilisearch-ui/commit/fade71b4fd5fc991bf27850a35c62f95b12ae9f7))
+* add TypoTolerance config component. ([ca775f2](https://github.com/riccox/meilisearch-ui/commit/ca775f2df974855f7ad97f5df3d792cab18c6b3c))
+* FilterableAttributes & ArrayStringInput components completed. ([f3b43a0](https://github.com/riccox/meilisearch-ui/commit/f3b43a084b6540133a05acb6b8a48f8ab8955582))
+* multiple setting config component completed. ([99e21bc](https://github.com/riccox/meilisearch-ui/commit/99e21bc8e800f941168de577d23cdc426f7e5e28))
+
+
+### Performance Improvements
+
+* index setting config tabs style. ([77c8731](https://github.com/riccox/meilisearch-ui/commit/77c8731eeb4b8304bdf46a4f8441cc2ec4269706))
+* task card font styles for accessible. ([9401662](https://github.com/riccox/meilisearch-ui/commit/9401662e420af1df8a8d2a0c9cd3e209edfc82ac))
+
 ## [0.1.6](https://github.com/riccox/meilisearch-ui/compare/v0.1.5...v0.1.6) (2023-03-06)
 
 
