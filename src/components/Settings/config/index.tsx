@@ -11,6 +11,8 @@ import { RankingRules } from './detail/rankingRules';
 import { StopWords } from './detail/stopWords';
 import { Synonyms } from './detail/synonyms';
 import { TypoTolerance } from './detail/typoTolerance';
+import { Faceting } from './detail/faceting';
+import { Pagination } from './detail/pagination';
 
 const tabs = [
   'Filterable Attributes',
@@ -68,39 +70,47 @@ export const IndexConfiguration: FC<IndexSettingComponentProps> = ({ host, clien
           </div>
           <div className="flex-1 flex">
             <FilterableAttributes
-              className={clsx(selectTab !== 0 && 'hidden', 'flex-1 flex flex-col gap-2 p-2')}
+              className={clsx(selectTab !== 0 && 'hidden', 'flex-1 flex flex-col gap-2 p-2 overflow-scroll')}
               {...{ client, host, toggleLoading }}
             />
             <DistinctAttribute
-              className={clsx(selectTab !== 1 && 'hidden', 'flex-1 flex flex-col gap-2 p-2')}
+              className={clsx(selectTab !== 1 && 'hidden', 'flex-1 flex flex-col gap-2 p-2 overflow-scroll')}
               {...{ client, host, toggleLoading }}
             />
             <SortableAttributes
-              className={clsx(selectTab !== 2 && 'hidden', 'flex-1 flex flex-col gap-2 p-2')}
+              className={clsx(selectTab !== 2 && 'hidden', 'flex-1 flex flex-col gap-2 p-2 overflow-scroll')}
               {...{ client, host, toggleLoading }}
             />
             <SearchableAttributes
-              className={clsx(selectTab !== 3 && 'hidden', 'flex-1 flex flex-col gap-2 p-2')}
+              className={clsx(selectTab !== 3 && 'hidden', 'flex-1 flex flex-col gap-2 p-2 overflow-scroll')}
               {...{ client, host, toggleLoading }}
             />
             <DisplayedAttributes
-              className={clsx(selectTab !== 4 && 'hidden', 'flex-1 flex flex-col gap-2 p-2')}
+              className={clsx(selectTab !== 4 && 'hidden', 'flex-1 flex flex-col gap-2 p-2 overflow-scroll')}
               {...{ client, host, toggleLoading }}
             />
             <RankingRules
-              className={clsx(selectTab !== 5 && 'hidden', 'flex-1 flex flex-col gap-2 p-2')}
+              className={clsx(selectTab !== 5 && 'hidden', 'flex-1 flex flex-col gap-2 p-2 overflow-scroll')}
               {...{ client, host, toggleLoading }}
             />
             <StopWords
-              className={clsx(selectTab !== 6 && 'hidden', 'flex-1 flex flex-col gap-2 p-2')}
+              className={clsx(selectTab !== 6 && 'hidden', 'flex-1 flex flex-col gap-2 p-2 overflow-scroll')}
               {...{ client, host, toggleLoading }}
             />
             <Synonyms
-              className={clsx(selectTab !== 7 && 'hidden', 'flex-1 flex flex-col gap-2 p-2')}
+              className={clsx(selectTab !== 7 && 'hidden', 'flex-1 flex flex-col gap-2 p-2 overflow-scroll')}
               {...{ client, host, toggleLoading }}
             />
             <TypoTolerance
               className={clsx(selectTab !== 8 && 'hidden', 'flex-1 flex flex-col gap-2 p-2 overflow-scroll')}
+              {...{ client, host, toggleLoading }}
+            />
+            <Faceting
+              className={clsx(selectTab !== 9 && 'hidden', 'flex-1 flex flex-col gap-2 p-2 overflow-scroll')}
+              {...{ client, host, toggleLoading }}
+            />
+            <Pagination
+              className={clsx(selectTab !== 10 && 'hidden', 'flex-1 flex flex-col gap-2 p-2 overflow-scroll')}
               {...{ client, host, toggleLoading }}
             />
           </div>
