@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.1](https://github.com/riccox/meilisearch-ui/compare/v0.2.0...v0.2.1) (2023-03-14)
+
+
+### Build System
+
+* **docker:** rollback to npm start server deploy. ([dca1d8e](https://github.com/riccox/meilisearch-ui/commit/dca1d8ed069d246e3eae992f98995a95a34111a6))
+
 ## [0.2.0](https://github.com/riccox/meilisearch-ui/compare/v0.1.6...v0.2.0) (2023-03-11)
 
 
