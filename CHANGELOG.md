@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.2](https://github.com/riccox/meilisearch-ui/compare/v0.2.1...v0.2.2) (2023-03-15)
+
+
+### Performance Improvements
+
+* more friendly Json format in document editor ([2a2b8a8](https://github.com/riccox/meilisearch-ui/commit/2a2b8a8448458ab014c8c9809fceff6fad58ab95))
+
 ## [0.2.1](https://github.com/riccox/meilisearch-ui/compare/v0.2.0...v0.2.1) (2023-03-14)
 
 
