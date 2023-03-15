@@ -401,6 +401,7 @@ export const Documents = () => {
           radius="lg"
           shadow="xl"
           padding="xl"
+          size="xl"
           withCloseButton={true}
           title={<p className={`font-bold text-lg`}>Add New Documents</p>}
         >
@@ -408,8 +409,8 @@ export const Documents = () => {
             <div className={`border rounded-xl p-2`}>
               <MonacoEditor
                 language="json"
-                className="h-40"
-                defaultValue={String(addDocumentsForm.values.documents)}
+                className="h-80"
+                defaultValue={JSON.stringify(addDocumentsForm.values.documents, null, 2)}
                 options={{
                   automaticLayout: true,
                   lineDecorationsWidth: 1,
@@ -433,6 +434,7 @@ export const Documents = () => {
           radius="lg"
           shadow="xl"
           padding="xl"
+          size="xl"
           withCloseButton={true}
           title={<p className={`font-bold text-lg`}>Edit Document</p>}
         >
@@ -440,8 +442,8 @@ export const Documents = () => {
             <div className={`border rounded-xl p-2`}>
               <MonacoEditor
                 language="json"
-                className="h-40"
-                defaultValue={JSON.stringify(editingDocument ?? {})}
+                className="h-80"
+                defaultValue={JSON.stringify(editingDocument ?? {}, null, 2)}
                 options={{
                   automaticLayout: true,
                   lineDecorationsWidth: 1,
