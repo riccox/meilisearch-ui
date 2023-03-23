@@ -21,7 +21,7 @@ export const AppRoutes = () => {
       }
     >
       <Routes>
-        <Route path="/">
+        <Route path={import.meta.env.BASE_URL}>
           <Route index element={<Dashboard />} />
           <Route path="index" element={<IndexesLayout />}>
             <Route index element={<Documents />} />
