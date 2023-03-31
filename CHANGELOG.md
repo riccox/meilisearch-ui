@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.3](https://github.com/riccox/meilisearch-ui/compare/v0.2.2...v0.2.3) (2023-03-31)
+
+
+### Bug Fixes
+
+* search wrong params make react-query crash. ([19afc90](https://github.com/riccox/meilisearch-ui/commit/19afc90b455d264c982a8cbcf89f607c36c8f8a1))
+
 ## [0.2.2](https://github.com/riccox/meilisearch-ui/compare/v0.2.1...v0.2.2) (2023-03-15)
 
 
