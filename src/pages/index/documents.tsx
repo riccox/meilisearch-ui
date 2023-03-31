@@ -15,6 +15,12 @@ import { openConfirmModal } from '@mantine/modals';
 import { toast } from '@/src/utils/toast';
 import MonacoEditor from '@monaco-editor/react';
 
+const emptySearchResult = {
+  hits: [],
+  estimatedTotalHits: 0,
+  processingTimeMs: 0,
+};
+
 export const Documents = () => {
   const host = useAppStore((state) => state.currentInstance?.host);
   const apiKey = useAppStore((state) => state.currentInstance?.apiKey);
@@ -89,12 +95,18 @@ export const Documents = () => {
   );
 
   const searchDocumentsQuery = useQuery(
-    ['searchDocuments', host, indexClient?.uid, searchForm.values],
+    [
+      'searchDocuments',
+      host,
+      indexClient?.uid,
+      // dependencies for the search refresh
+      searchForm.values,
+    ],
     async ({ queryKey }) => {
       const { q, limit, offset, filter, sort } = { ...searchForm.values, ...(queryKey[3] as typeof searchForm.values) };
       // prevent app error from request param invalid
-      if (searchForm.validate().hasErrors) return;
-      return await indexClient!.search(q, {
+      if (searchForm.validate().hasErrors) return emptySearchResult;
+      const data = await indexClient!.search(q, {
         limit,
         offset,
         filter,
@@ -103,14 +115,13 @@ export const Documents = () => {
           .filter((v) => v.trim().length > 0)
           .map((v) => v.trim()),
       });
+      return data || emptySearchResult;
     },
     {
       enabled: !!currentIndex,
       keepPreviousData: true,
       refetchOnMount: 'always',
       refetchInterval: 5000,
-      onSuccess: () => {},
-      onSettled: () => {},
     }
   );
   const [isAddDocumentsByEditorModalOpen, setIsAddDocumentsByEditorModalOpen] = useState(false);
