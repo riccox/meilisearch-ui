@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.0](https://github.com/riccox/meilisearch-ui/compare/v0.2.3...v0.3.0) (2023-05-11)
+
+
+### Features
+
+* add base path env config. ([d98dbcd](https://github.com/riccox/meilisearch-ui/commit/d98dbcdc37fadbc12cb4511f28f733590bee9ffa))
+
 ## [0.2.3](https://github.com/riccox/meilisearch-ui/compare/v0.2.2...v0.2.3) (2023-03-31)
 
 
