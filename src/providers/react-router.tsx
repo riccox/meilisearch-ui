@@ -6,5 +6,5 @@ type Props = {
 };
 
 export const ReactRouterProvider: FC<Props> = ({ children }) => {
-  return <BrowserRouter>{children}</BrowserRouter>;
+  return <BrowserRouter basename={process.env.BASE_PATH || '/'}>{children}</BrowserRouter>;
 };
