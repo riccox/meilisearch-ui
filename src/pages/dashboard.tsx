@@ -10,20 +10,21 @@ import { openConfirmModal } from '@mantine/modals';
 import { getTimeText } from '@/src/utils/text';
 import _ from 'lodash';
 import { useNavigatePreCheck } from '@/src/hooks/useRoutePreCheck';
+import { useCurrentInstance } from '../hooks/useCurrentInstance';
 
 const instanceCardClassName = `col-span-1 h-28 rounded-lg`;
 
 function Dashboard() {
   const navigate = useNavigatePreCheck(([to], opt) => {
-    console.debug('dashboard', 'navigate', to, opt?.currentInstance?.apiKey);
-    // check before keys page (no masterKey will cause error)
-    if (to === '/keys') {
+    console.debug('dashboard', 'navigate', to, opt?.currentInstance);
+    if (typeof to === 'string' && /\/keys$/.test(to)) {
+      // check before keys page (no masterKey will cause error)
       return validateKeysRouteAvailable(opt?.currentInstance?.apiKey);
     }
     return null;
   });
-  const currentInstance = useAppStore((state) => state.currentInstance);
-  const setCurrentInstance = useAppStore((state) => state.setCurrentInstance);
+
+  const currentInstance = useCurrentInstance();
   const addInstance = useAppStore((state) => state.addInstance);
   const editInstance = useAppStore((state) => state.editInstance);
   const removeInstance = useAppStore((state) => state.removeInstance);
@@ -53,7 +54,7 @@ function Dashboard() {
         return otherNames.includes(value) ? 'Name should be different from others' : null;
       },
       host: (value: string) =>
-        /(https?:\/\/)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()!@:%_\+.~#?&\/\/=]*)/.test(
+        /(https?:\/\/)?(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()!@:%_+.~#?&//=]*)/.test(
           value
         )
           ? null
@@ -83,7 +84,7 @@ function Dashboard() {
               addInstance({ ...cfg });
               break;
             case 'edit':
-              editInstance(instanceEditing!.name, { ...cfg });
+              editInstance(instanceEditing!.id, { ...cfg });
               break;
           }
           setIsInstanceFormModalOpen(false);
@@ -96,13 +97,12 @@ function Dashboard() {
     (ins: Instance, to?: string) => {
       // do connection test before next step
       testConnection({ ...ins }).then(() => {
-        setCurrentInstance(ins);
         if (to) {
           navigate([to], { currentInstance: ins });
         }
       });
     },
-    [navigate, setCurrentInstance]
+    [navigate]
   );
 
   const onClickRemoveInstance = useCallback(
@@ -110,10 +110,10 @@ function Dashboard() {
       openConfirmModal({
         title: 'Remove this instance',
         centered: true,
-        children: <p>Are you sure you want to remove this instance?</p>,
+        children: <p>Are you sure you want to remove this instance ({ins.name})?</p>,
         labels: { confirm: 'Yes', cancel: 'No' },
         onConfirm: () => {
-          removeInstance(ins.name);
+          removeInstance(ins.id);
         },
       });
     },
@@ -129,12 +129,20 @@ function Dashboard() {
       hover:ring-brand-4 hover:ring-2 ${instanceCardClassName}`}
         >
           <div className={`flex justify-between items-center`}>
-            <p
-              className={`text-2xl font-bold group-hover:underline cursor-pointer`}
-              onClick={() => onClickInstance(instance, '/index')}
-            >
-              {instance.name}
-            </p>
+            <div className="flex items-center gap-2">
+              <p
+                className={`text-2xl font-bold group-hover:underline cursor-pointer`}
+                onClick={() => onClickInstance(instance, `/ins/${instance.id}/index`)}
+              >
+                {instance.name}
+              </p>
+              <p
+                className={`text-2xl font-bold cursor-pointer text-bw-800/50`}
+                onClick={() => onClickInstance(instance, `/ins/${instance.id}/index`)}
+              >
+                #{instance.id}
+              </p>
+            </div>
             <div className={`flex gap-x-3`}>
               <Tooltip position={'left'} label="Edit">
                 <ActionIcon
@@ -158,17 +166,29 @@ function Dashboard() {
           <div className={`w-full flex justify-end items-center gap-x-3`}>
             <p className={`mr-auto text-neutral-500 text-sm`}>Updated at {getTimeText(instance.updatedTime)}</p>
             <Tooltip position={'bottom'} label="Indexes">
-              <ActionIcon variant="light" color="violet" onClick={() => onClickInstance(instance, '/index')}>
+              <ActionIcon
+                variant="light"
+                color="violet"
+                onClick={() => onClickInstance(instance, `/ins/${instance.id}/index`)}
+              >
                 <IconBooks size={24} />
               </ActionIcon>
             </Tooltip>
             <Tooltip position={'bottom'} label="Tasks">
-              <ActionIcon variant="light" color="blue" onClick={() => onClickInstance(instance, '/tasks')}>
+              <ActionIcon
+                variant="light"
+                color="blue"
+                onClick={() => onClickInstance(instance, `/ins/${instance.id}/tasks`)}
+              >
                 <IconListCheck size={24} />
               </ActionIcon>
             </Tooltip>
             <Tooltip position={'bottom'} label="Keys">
-              <ActionIcon variant="light" color="purple" onClick={() => onClickInstance(instance, '/keys')}>
+              <ActionIcon
+                variant="light"
+                color="purple"
+                onClick={() => onClickInstance(instance, `/ins/${instance.id}/keys`)}
+              >
                 <IconKey size={24} />
               </ActionIcon>
             </Tooltip>
@@ -214,7 +234,7 @@ function Dashboard() {
         <p className={`text-center font-semibold text-lg`}>
           {instanceFormType === 'edit' ? 'Edit Instance' : 'Add New Instance'}
         </p>
-        <form className={`flex flex-col gap-y-6 w-full `} onSubmit={instanceForm.onSubmit(onSubmitInstance)}>
+        <form className={`flex flex-col gap-y-6 w-full`} onSubmit={instanceForm.onSubmit(onSubmitInstance)}>
           <TextInput
             autoFocus
             radius="md"
@@ -225,7 +245,9 @@ function Dashboard() {
           />
           <Tooltip
             position={'bottom-start'}
-            label="Remember enable CORS in your instance server for this ui domain first"
+            multiline
+            width={400}
+            label={`Remember enable CORS in your instance server for this ui domain first`}
           >
             <Autocomplete
               radius="md"
@@ -238,6 +260,8 @@ function Dashboard() {
           </Tooltip>
           <Tooltip
             position={'bottom-start'}
+            multiline
+            width={400}
             label="Don't care! Your instance config will only be store in your local browser"
           >
             <PasswordInput

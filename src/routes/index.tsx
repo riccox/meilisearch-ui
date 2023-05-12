@@ -21,16 +21,20 @@ export const AppRoutes = () => {
       }
     >
       <Routes>
-        <Route path="/">
-          <Route index element={<Dashboard />} />
-          <Route path="index" element={<IndexesLayout />}>
-            <Route index element={<Documents />} />
-            <Route path="create" element={<CreateIndex />} />
-            <Route path="settings" element={<Settings />} />
+        <Route index element={<Dashboard />} />
+        <Route path="ins">
+          <Route path=":insId">
+            <Route path="index" element={<IndexesLayout />}>
+              <Route path="create" element={<CreateIndex />} />
+              <Route path=":indexId">
+                <Route index element={<Documents />} />
+                <Route path="settings" element={<Settings />} />
+              </Route>
+            </Route>
+            <Route path="tasks" element={<Tasks />} />
+            <Route path="keys" element={<Keys />} />
           </Route>
         </Route>
-        <Route path="tasks" element={<Tasks />} />
-        <Route path="keys" element={<Keys />} />
         <Route path="warning" element={<Warning />} />
         <Route path="*" element={<NotFound />} />
       </Routes>

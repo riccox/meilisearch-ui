@@ -1,11 +1,11 @@
 import { MeiliSearch } from 'meilisearch';
 import { useCallback, useEffect, useState } from 'react';
-import { defaultInstance, useAppStore } from '@/src/store';
 import _ from 'lodash';
 import { toast } from '../utils/toast';
+import { useCurrentInstance } from './useCurrentInstance';
 
 export const useMeiliClient = () => {
-  const currentInstance = useAppStore((state) => state.currentInstance ?? defaultInstance);
+  const currentInstance = useCurrentInstance();
 
   const [client, setClient] = useState<MeiliSearch>(
     new MeiliSearch({
@@ -21,7 +21,7 @@ export const useMeiliClient = () => {
       });
       console.debug('useMeilisearchClient', 'connection config lost');
       // do not use useNavigate, because maybe in first render
-      window.location.assign('/');
+      window.location.assign(import.meta.env.BASE_URL);
       return;
     }
     const conn = new MeiliSearch({ ...currentInstance });
@@ -35,7 +35,7 @@ export const useMeiliClient = () => {
         type: 'warning',
       });
       // do not use useNavigate, because maybe in first render
-      window.location.assign('/');
+      window.location.assign(import.meta.env.BASE_URL);
     }
   }, [currentInstance]);
 

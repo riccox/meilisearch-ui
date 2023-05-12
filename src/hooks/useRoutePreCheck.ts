@@ -4,6 +4,7 @@ import { useCallback } from 'react';
 
 export type NavigateFuncParams = [To, NavigateOptions?] | [number];
 export type NavigateFunc = (params: [To, NavigateOptions?] | [number], opt?: any) => void;
+
 export const useNavigatePreCheck = (
   pre: (params: NavigateFuncParams, opt?: any) => null | WarningPageData
 ): NavigateFunc => {

@@ -1,8 +1,7 @@
-import { useSearchParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { EmptyArea } from '@/src/components/EmptyArea';
 import { useCallback, useMemo, useState } from 'react';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { useAppStore } from '@/src/store';
 import { useMeiliClient } from '@/src/hooks/useMeiliClient';
 import { useForm } from '@mantine/form';
 import { Button, Loader, Modal, NumberInput, TextInput, Tooltip } from '@mantine/core';
@@ -14,6 +13,7 @@ import { EnqueuedTask, Hit } from 'meilisearch';
 import { openConfirmModal } from '@mantine/modals';
 import { toast } from '@/src/utils/toast';
 import MonacoEditor from '@monaco-editor/react';
+import { useCurrentInstance } from '@/src/hooks/useCurrentInstance';
 
 const emptySearchResult = {
   hits: [],
@@ -22,11 +22,12 @@ const emptySearchResult = {
 };
 
 export const Documents = () => {
-  const host = useAppStore((state) => state.currentInstance?.host);
-  const apiKey = useAppStore((state) => state.currentInstance?.apiKey);
-  const [searchParams] = useSearchParams();
+  const currentInstance = useCurrentInstance();
+  const host = currentInstance?.host;
+  const apiKey = currentInstance?.apiKey;
+  const { indexId } = useParams();
   const client = useMeiliClient();
-  const currentIndex = useMemo(() => searchParams.get('index')?.trim(), [searchParams]);
+  const currentIndex = useMemo(() => indexId?.trim(), [indexId]);
   const indexClient = useMemo(() => {
     return currentIndex ? client.index(currentIndex) : undefined;
   }, [client, currentIndex]);

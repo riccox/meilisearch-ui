@@ -6,17 +6,19 @@ import { Task, TasksResults } from 'meilisearch';
 import { EmptyArea } from '@/src/components/EmptyArea';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import Fuse from 'fuse.js';
-import { useAppStore } from '@/src/store';
 import { Header } from '@/src/components/Header';
 import { getTimeText, stringifyJsonPretty, TaskThemes } from '@/src/utils/text';
 import _ from 'lodash';
 import { TaskTypes } from 'meilisearch/src/types/types';
 import { useDebounceFn } from 'ahooks';
 import { hiddenRequestLoader, showRequestLoader } from '@/src/utils/loader';
+import { useCurrentInstance } from '@/src/hooks/useCurrentInstance';
 
 function Tasks() {
   const client = useMeiliClient();
-  const host = useAppStore((state) => state.currentInstance?.host);
+
+  const currentInstance = useCurrentInstance();
+  const host = currentInstance?.host;
   const [isTaskDetailModalOpen, setIsTaskDetailModalOpen] = useState<boolean>(false);
   const [taskDetailModalContent, setTaskDetailModalContent] = useState<Task>();
   const [fuse] = useState<Fuse<TasksResults['results'][0]>>(

@@ -6,7 +6,6 @@ import { Key } from 'meilisearch';
 import { EmptyArea } from '@/src/components/EmptyArea';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import Fuse from 'fuse.js';
-import { useAppStore } from '@/src/store';
 import { Header } from '@/src/components/Header';
 import { getTimeText } from '@/src/utils/text';
 import _ from 'lodash';
@@ -18,12 +17,15 @@ import { useForm } from '@mantine/form';
 import { useIndexes } from '@/src/hooks/useIndexes';
 import { openConfirmModal } from '@mantine/modals';
 import { toast } from '@/src/utils/toast';
+import { useCurrentInstance } from '@/src/hooks/useCurrentInstance';
 
 function Keys() {
   const client = useMeiliClient();
   // list as many as possible
   const [indexes] = useIndexes(client, { limit: 1000 });
-  const host = useAppStore((state) => state.currentInstance?.host);
+
+  const currentInstance = useCurrentInstance();
+  const host = currentInstance?.host;
   const [isCreateKeyModalOpen, setIsCreateKeyModalOpen] = useState<boolean>(false);
   const [fuse] = useState<Fuse<Key>>(
     new Fuse([], {
