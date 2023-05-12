@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.3.0](https://github.com/riccox/meilisearch-ui/compare/v0.2.3...v0.3.0) (2023-05-12)
+
+
+### Features
+
+* add base path env config. ([08e7030](https://github.com/riccox/meilisearch-ui/commit/08e7030a1d3f4eb918a9c5ec149d82a44871e45c))
+* select instance & index based on dynamic url param. ([979c648](https://github.com/riccox/meilisearch-ui/commit/979c648f398acea935229a7b63a6d9d2a192eeda))
+
 ## [0.2.3](https://github.com/riccox/meilisearch-ui/compare/v0.2.2...v0.2.3) (2023-03-31)
 
 
