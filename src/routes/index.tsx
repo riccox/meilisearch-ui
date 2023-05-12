@@ -10,6 +10,7 @@ import Tasks from '@/src/pages/task';
 import Keys from '@/src/pages/key';
 import Settings from '@/src/pages/index/setting';
 import Warning from '@/src/pages/warning';
+import { EmptyArea } from '../components/EmptyArea';
 
 export const AppRoutes = () => {
   return (
@@ -21,16 +22,21 @@ export const AppRoutes = () => {
       }
     >
       <Routes>
-        <Route path="/">
-          <Route index element={<Dashboard />} />
-          <Route path="index" element={<IndexesLayout />}>
-            <Route index element={<Documents />} />
-            <Route path="create" element={<CreateIndex />} />
-            <Route path="settings" element={<Settings />} />
+        <Route index element={<Dashboard />} />
+        <Route path="ins">
+          <Route path=":insId">
+            <Route path="index" element={<IndexesLayout />}>
+              <Route index element={<EmptyArea text={'Select or Create a index on the left to start'} />} />
+              <Route path="create" element={<CreateIndex />} />
+              <Route path=":indexId">
+                <Route index element={<Documents />} />
+                <Route path="settings" element={<Settings />} />
+              </Route>
+            </Route>
+            <Route path="tasks" element={<Tasks />} />
+            <Route path="keys" element={<Keys />} />
           </Route>
         </Route>
-        <Route path="tasks" element={<Tasks />} />
-        <Route path="keys" element={<Keys />} />
         <Route path="warning" element={<Warning />} />
         <Route path="*" element={<NotFound />} />
       </Routes>

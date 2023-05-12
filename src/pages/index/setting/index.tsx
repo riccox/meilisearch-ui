@@ -1,28 +1,28 @@
 import { useMemo } from 'react';
 import { useMeiliClient } from '@/src/hooks/useMeiliClient';
-import { useNavigate, useOutletContext, useSearchParams } from 'react-router-dom';
-import { useAppStore } from '@/src/store';
+import { useNavigate, useOutletContext, useParams } from 'react-router-dom';
 import { BaseInfo } from '@/src/components/Settings/baseInfo';
 import { DangerZone } from '@/src/components/Settings/dangerZone';
 import { IndexConfiguration } from '@/src/components/Settings/config';
+import { useCurrentInstance } from '@/src/hooks/useCurrentInstance';
 
 function SettingsPage() {
   const outletContext = useOutletContext<{ refreshIndexes: () => void }>();
 
-  const [searchParams] = useSearchParams();
+  const currentInstance = useCurrentInstance();
+  const { indexId } = useParams();
   const navigate = useNavigate();
   const client = useMeiliClient();
 
-  if (!searchParams.get('index')) {
-    navigate('/index');
+  if (!indexId) {
+    navigate(`/ins/${currentInstance.id}/index`);
   }
 
   const indexClient = useMemo(() => {
-    return client.index(searchParams.get('index') ?? '');
-  }, [client, searchParams]);
+    return client.index(indexId ?? '');
+  }, [client, indexId]);
 
-  const host = useAppStore((state) => state.currentInstance?.host);
-
+  const host = currentInstance?.host;
   return useMemo(
     () => (
       <div

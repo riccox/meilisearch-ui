@@ -7,7 +7,6 @@ import { Link, Outlet, useNavigate, useSearchParams } from 'react-router-dom';
 import { Index } from 'meilisearch';
 import { useMeiliClient } from '@/src/hooks/useMeiliClient';
 import { IconAbacus, IconAdjustments, IconAlertTriangle, IconSquarePlus } from '@tabler/icons-react';
-import qs from 'qs';
 
 import ReactECharts from 'echarts-for-react'; // Import the echarts core module, which provides the necessary interfaces for using echarts.
 import * as echarts from 'echarts/core'; // Import charts, all with Chart suffix
@@ -15,10 +14,12 @@ import { BarChart } from 'echarts/charts'; // import components, all suffixed wi
 import { GridComponent, TitleComponent, TooltipComponent } from 'echarts/components'; // Import renderer, note that introducing the CanvasRenderer or SVGRenderer is a required step
 import { CanvasRenderer } from 'echarts/renderers'; // Register the required components
 import _ from 'lodash';
+import { useCurrentInstance } from '@/src/hooks/useCurrentInstance';
 // Register the required components
 echarts.use([TitleComponent, TooltipComponent, GridComponent, BarChart, CanvasRenderer]);
 
 function IndexesLayout() {
+  const currentInstance = useCurrentInstance();
   const navigate = useNavigate();
   const client = useMeiliClient();
   const stats = useInstanceStats(client);
@@ -26,13 +27,6 @@ function IndexesLayout() {
   const [searchParams] = useSearchParams();
   const [isFieldDistributionDetailModalOpen, setIsFieldDistributionDetailModalOpen] = useState(false);
   const [fieldDistributionDetailChartIndex, setFieldDistributionDetailChartIndex] = useState<Index>(indexes[0]);
-
-  const onClickIndex = useCallback(
-    (index: Index, to: string) => {
-      to && navigate(to + `?${qs.stringify({ index: index.uid })}`);
-    },
-    [navigate]
-  );
 
   const onClickFieldDistribution = useCallback((index: Index) => {
     if (index) {
@@ -148,7 +142,7 @@ function IndexesLayout() {
            bg-brand-1 hover:bg-opacity-40 bg-opacity-20 
            ${searchParams.get('index') === uid ? 'ring ring-brand-4' : ''}`}
             onClick={() => {
-              onClickIndex(index, '/index');
+              navigate(`/ins/${currentInstance.id}/index/${index.uid}`);
             }}
           >
             <p className={`col-span-4 text-xl font-bold`}>{uid}</p>
@@ -176,7 +170,7 @@ function IndexesLayout() {
                   onClick={
                     ((e) => {
                       e.stopPropagation();
-                      onClickIndex(index, '/index/settings');
+                      navigate(`/ins/${currentInstance.id}/index/${index.uid}/settings`);
                     }) as MouseEventHandler<HTMLButtonElement>
                   }
                 >
@@ -203,13 +197,13 @@ function IndexesLayout() {
     } else {
       return (
         <div className={`flex-1 flex justify-center items-center`}>
-          <Button radius={'xl'} size={'xl'} component={Link} to="/index/create">
+          <Button radius={'xl'} size={'xl'} component={Link} to={`/ins/${currentInstance.id}/index/create`}>
             Create Index
           </Button>
         </div>
       );
     }
-  }, [indexes, onClickFieldDistribution, onClickIndex, searchParams, stats?.indexes]);
+  }, [currentInstance.id, indexes, navigate, onClickFieldDistribution, searchParams, stats?.indexes]);
 
   return useMemo(
     () => (
@@ -223,7 +217,12 @@ function IndexesLayout() {
           >
             <div className={`flex justify-between items-center`}>
               <div className={`font-extrabold text-3xl`}>🦄 Indexes</div>
-              <ActionIcon className={``} variant={'light'} component={Link} to="/index/create">
+              <ActionIcon
+                className={``}
+                variant={'light'}
+                component={Link}
+                to={`/ins/${currentInstance.id}/index/create`}
+              >
                 <IconSquarePlus size={64} />
               </ActionIcon>
             </div>
@@ -253,7 +252,7 @@ function IndexesLayout() {
         </Modal>
       </div>
     ),
-    [client, fieldDistributionChartOpt, indexList, indexesQuery, isFieldDistributionDetailModalOpen]
+    [client, currentInstance.id, fieldDistributionChartOpt, indexList, indexesQuery, isFieldDistributionDetailModalOpen]
   );
 }
 

@@ -14,7 +14,6 @@ import {
 import { Link } from 'react-router-dom';
 import { FC, useCallback, useMemo, useState } from 'react';
 import { useClipboard } from '@mantine/hooks';
-import { useAppStore } from '@/src/store';
 import { MeiliSearch, Version } from 'meilisearch';
 import { useQuery } from '@tanstack/react-query';
 import { useInstanceStats } from '@/src/hooks/useInstanceStats';
@@ -24,20 +23,21 @@ import { getTimeText, showTaskSubmitNotification } from '@/src/utils/text';
 import { validateKeysRouteAvailable } from '@/src/utils/conn';
 import { useNavigatePreCheck } from '@/src/hooks/useRoutePreCheck';
 import { toast } from '@/src/utils/toast';
+import { useCurrentInstance } from '@/src/hooks/useCurrentInstance';
 
 interface Props {
   client: MeiliSearch;
 }
 
 export const Header: FC<Props> = ({ client }) => {
+  const currentInstance = useCurrentInstance();
   const navigate = useNavigatePreCheck(([to], opt) => {
-    // check before keys page (no masterKey will cause error)
-    if (to === '/keys') {
+    if (typeof to === 'string' && /\/keys$/.test(to)) {
+      // check before keys page (no masterKey will cause error)
       return validateKeysRouteAvailable(opt?.currentInstance?.apiKey);
     }
     return null;
   });
-  const store = useAppStore();
   const clipboard = useClipboard({ timeout: 500 });
 
   const stats = useInstanceStats(client);
@@ -45,14 +45,14 @@ export const Header: FC<Props> = ({ client }) => {
   const [health, setHealth] = useState<boolean>(true);
 
   useQuery(
-    ['version', store.currentInstance?.host],
+    ['version', currentInstance?.host],
     async () => {
       return await client.getVersion();
     },
     { refetchOnMount: 'always', refetchInterval: 60000, onSuccess: (res) => setVersion(res) }
   );
   useQuery(
-    ['health', store.currentInstance?.host],
+    ['health', currentInstance?.host],
     async () => {
       return (await client.health()).status === 'available';
     },
@@ -60,17 +60,17 @@ export const Header: FC<Props> = ({ client }) => {
   );
 
   const onClickHost = useCallback(() => {
-    clipboard.copy(store.currentInstance?.host);
+    clipboard.copy(currentInstance?.host);
     toast('Server Host Copied ✍', {
       type: 'success',
     });
-  }, [clipboard, store.currentInstance?.host]);
+  }, [clipboard, currentInstance?.host]);
 
   const onClickDump = useCallback(() => {
     openConfirmModal({
       title: 'Create a new dump',
       centered: true,
-      children: <p>Are you sure you want to start a new dump?</p>,
+      children: <p>Are you sure you want to start a new dump for instance {currentInstance.name}?</p>,
       labels: { confirm: 'Start', cancel: 'Cancel' },
       confirmProps: { color: 'orange' },
       onConfirm: () => {
@@ -79,7 +79,7 @@ export const Header: FC<Props> = ({ client }) => {
         });
       },
     });
-  }, [client]);
+  }, [client, currentInstance.name]);
 
   return useMemo(
     () => (
@@ -90,14 +90,15 @@ export const Header: FC<Props> = ({ client }) => {
       >
         <button
           className="btn primary solid flex items-center gap-2"
-          onClick={() => navigate(['/'], { currentInstance: store.currentInstance })}
+          onClick={() => navigate(['/'], { currentInstance })}
         >
           <IconHomeBolt size={26} />
           <p>Home</p>
         </button>
-        <p className={`text-2xl font-bold`}>{_.truncate(store.currentInstance?.name, { length: 20 })}</p>
+        <p className={`text-2xl font-bold`}>{_.truncate(currentInstance?.name, { length: 20 })}</p>
+        <p className={`text-2xl font-bold text-bw-800/50`}>#{currentInstance.id}</p>
         <span className={`!cursor-pointer hover:underline badge outline lg success`} onClick={onClickHost}>
-          Host: {_.truncate(store.currentInstance?.host, { length: 40 })}
+          Host: {_.truncate(currentInstance?.host, { length: 40 })}
         </span>
         <p className={`font-bold `}>Last Updated: {getTimeText(stats?.lastUpdate)}</p>
         <span className={`badge outline lg primary`}>
@@ -123,13 +124,17 @@ export const Header: FC<Props> = ({ client }) => {
           </ActionIcon>
           <div className="menu bottom-left">
             <p className="subtitle">Instance</p>
-            <Link to={'/index'} className="item text-sm flex items-center gap-2 " tabIndex={-1}>
+            <Link
+              to={`/ins/${currentInstance.id}/index`}
+              className="item text-sm flex items-center gap-2 "
+              tabIndex={-1}
+            >
               <IconBooks size={14} />
               <p>Index</p>
             </Link>
             <div
               onClick={() => {
-                navigate(['/keys'], { currentInstance: store.currentInstance });
+                navigate([`/ins/${currentInstance.id}/keys`], { currentInstance });
               }}
               className="item text-sm flex items-center gap-2 hover:underline"
               tabIndex={-1}
@@ -137,7 +142,11 @@ export const Header: FC<Props> = ({ client }) => {
               <IconKey size={14} />
               <p>Keys</p>
             </div>
-            <Link to={'/tasks'} className="item text-sm flex items-center gap-2" tabIndex={-1}>
+            <Link
+              to={`/ins/${currentInstance.id}/tasks`}
+              className="item text-sm flex items-center gap-2"
+              tabIndex={-1}
+            >
               <IconListCheck size={14} />
               <p>Tasks</p>
             </Link>
@@ -185,13 +194,13 @@ export const Header: FC<Props> = ({ client }) => {
       </div>
     ),
     [
+      currentInstance,
       health,
       navigate,
       onClickDump,
       onClickHost,
       stats?.databaseSize,
       stats?.lastUpdate,
-      store.currentInstance,
       version?.commitDate,
       version?.commitSha,
       version?.pkgVersion,

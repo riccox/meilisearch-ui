@@ -6,6 +6,7 @@ import { hiddenRequestLoader, showRequestLoader } from '@/src/utils/loader';
 import { showTaskSubmitNotification } from '@/src/utils/text';
 import { openConfirmModal } from '@mantine/modals';
 import { IndexSettingComponentProps } from '.';
+import { useCurrentInstance } from '@/src/hooks/useCurrentInstance';
 
 export const DangerZone: FC<
   IndexSettingComponentProps & {
@@ -14,6 +15,7 @@ export const DangerZone: FC<
 > = ({ refreshIndexes, host, client }) => {
   const navigate = useNavigate();
 
+  const currentInstance = useCurrentInstance();
   const delIndexMutation = useMutation(
     ['delIndex', host, client.uid],
     async () => {
@@ -24,7 +26,7 @@ export const DangerZone: FC<
       onSuccess: (t) => {
         showTaskSubmitNotification(t);
         refreshIndexes();
-        navigate('/index');
+        navigate(`/ins/${currentInstance.id}/index`);
       },
       onSettled: () => {
         hiddenRequestLoader();

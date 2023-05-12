@@ -1,11 +1,11 @@
 import { MeiliSearch, Stats } from 'meilisearch';
 import { useState } from 'react';
-import { useAppStore } from '@/src/store';
 import { useQuery } from '@tanstack/react-query';
+import { useCurrentInstance } from './useCurrentInstance';
 
 export const useInstanceStats = (client: MeiliSearch) => {
-  const host = useAppStore((state) => state.currentInstance?.host);
-
+  const currentInstance = useCurrentInstance();
+  const host = currentInstance?.host;
   const [stats, setStats] = useState<Stats>();
 
   useQuery(
