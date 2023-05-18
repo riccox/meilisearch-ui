@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.1](https://github.com/riccox/meilisearch-ui/compare/v0.3.0...v0.3.1) (2023-05-18)
+
+
+### Bug Fixes
+
+* stopWords setting tab display name. ([39683ba](https://github.com/riccox/meilisearch-ui/commit/39683ba4add1f2c46239c062156aa3b836d1b4df))
+
 ## [0.3.0](https://github.com/riccox/meilisearch-ui/compare/v0.2.3...v0.3.0) (2023-05-12)
 
 
