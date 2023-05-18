@@ -36,7 +36,7 @@ export const StopWords: FC<IndexSettingConfigComponentProps> = ({ client, classN
   return useMemo(
     () => (
       <div className={clsx(className)}>
-        <h2 className="font-semibold">Displayed Attributes</h2>
+        <h2 className="font-semibold">Stop Words</h2>
         <span className="text-sm flex gap-2">
           <p>Words added to the stopWords list are ignored in future search queries.</p>
         </span>
