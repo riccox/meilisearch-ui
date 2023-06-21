@@ -10,6 +10,11 @@ const queryClient = new QueryClient({
     queries: {
       suspense: true,
       useErrorBoundary: true,
+      refetchIntervalInBackground: false,
+      refetchOnReconnect: 'always',
+      refetchOnMount: 'always',
+      refetchOnWindowFocus: 'always',
+      refetchInterval: 30000,
     },
   },
 });

@@ -8,7 +8,6 @@ import _ from 'lodash';
 export const Pagination: FC<IndexSettingConfigComponentProps> = ({ client, className, host, toggleLoading }) => {
   const query = useQuery({
     queryKey: ['getPagination', host, client.uid],
-    refetchInterval: 4500,
     async queryFn(ctx) {
       return (await client.getPagination()) as TPagination;
     },

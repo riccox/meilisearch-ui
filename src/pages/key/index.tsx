@@ -42,7 +42,6 @@ function Keys() {
     },
     {
       keepPreviousData: true,
-      refetchOnMount: 'always',
       getNextPageParam: (lastPage) => {
         const limit = lastPage.limit ?? 20;
         const offset = lastPage.offset ?? 0;

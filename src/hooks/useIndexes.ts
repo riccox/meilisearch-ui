@@ -15,7 +15,7 @@ export const useIndexes = (client: MeiliSearch, params?: IndexesQuery): [Index[]
     async () => {
       return (await client.getIndexes(params)).results;
     },
-    { refetchOnMount: 'always', refetchInterval: 10000, onSuccess: (res) => setIndexes(res) }
+    { onSuccess: (res) => setIndexes(res) }
   );
 
   return [indexes, query];

@@ -14,8 +14,6 @@ export const useInstanceStats = (client: MeiliSearch) => {
       return await client.getStats();
     },
     {
-      refetchOnMount: 'always',
-      refetchInterval: 10000,
       onSuccess: (res) => setStats(res),
       onError: (err) => {
         console.warn('get meilisearch stats error', err);

@@ -88,8 +88,6 @@ export const Documents = () => {
     {
       enabled: !!currentIndex,
       keepPreviousData: true,
-      refetchOnMount: 'always',
-      refetchInterval: 30000,
     }
   );
 
@@ -124,8 +122,6 @@ export const Documents = () => {
     {
       enabled: !!currentIndex,
       keepPreviousData: true,
-      refetchOnMount: 'always',
-      refetchInterval: 5000,
     }
   );
   const [isAddDocumentsByEditorModalOpen, setIsAddDocumentsByEditorModalOpen] = useState(false);

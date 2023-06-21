@@ -37,8 +37,6 @@ export const Editor: FC<IndexSettingConfigComponentProps> = ({ client, host, cla
     },
     {
       keepPreviousData: true,
-      refetchInterval: 5000,
-      refetchOnMount: 'always',
       onSuccess: (data) => {
         // change display data when not editing
         !isSettingsEditing && resetSettings(data);

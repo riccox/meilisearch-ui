@@ -8,7 +8,6 @@ import _ from 'lodash';
 export const Faceting: FC<IndexSettingConfigComponentProps> = ({ client, className, host, toggleLoading }) => {
   const query = useQuery({
     queryKey: ['getFaceting', host, client.uid],
-    refetchInterval: 4500,
     async queryFn(ctx) {
       return (await client.getFaceting()) as TFaceting;
     },

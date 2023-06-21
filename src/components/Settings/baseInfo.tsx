@@ -24,8 +24,6 @@ export const BaseInfo: FC<IndexSettingComponentProps> = ({ host, client }) => {
     },
     {
       keepPreviousData: true,
-      refetchOnMount: 'always',
-      refetchInterval: 3000,
       onSuccess: () => {
         // change display data when not editing
         !isRawInfoEditing && resetRawInfo();

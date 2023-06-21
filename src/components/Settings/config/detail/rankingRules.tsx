@@ -9,7 +9,7 @@ import _ from 'lodash';
 export const RankingRules: FC<IndexSettingConfigComponentProps> = ({ client, className, host, toggleLoading }) => {
   const query = useQuery({
     queryKey: ['getRankingRules', host, client.uid],
-    refetchInterval: 4500,
+
     async queryFn(ctx) {
       return await client.getRankingRules();
     },

@@ -15,7 +15,7 @@ export const SearchableAttributes: FC<IndexSettingConfigComponentProps> = ({
 }) => {
   const query = useQuery({
     queryKey: ['getSearchableAttributes', host, client.uid],
-    refetchInterval: 4500,
+
     async queryFn(ctx) {
       return await client.getSearchableAttributes();
     },

@@ -49,14 +49,14 @@ export const Header: FC<Props> = ({ client }) => {
     async () => {
       return await client.getVersion();
     },
-    { refetchOnMount: 'always', refetchInterval: 60000, onSuccess: (res) => setVersion(res) }
+    { refetchInterval: 120000, onSuccess: (res) => setVersion(res) }
   );
   useQuery(
     ['health', currentInstance?.host],
     async () => {
       return (await client.health()).status === 'available';
     },
-    { refetchOnMount: 'always', refetchInterval: 5000, onSuccess: (res) => setHealth(res) }
+    { refetchInterval: 30000, onSuccess: (res) => setHealth(res) }
   );
 
   const onClickHost = useCallback(() => {

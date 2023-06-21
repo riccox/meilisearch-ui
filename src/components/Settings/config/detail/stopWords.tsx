@@ -10,7 +10,7 @@ import { IconAlertTriangleFilled, IconInfoCircleFilled } from '@tabler/icons-rea
 export const StopWords: FC<IndexSettingConfigComponentProps> = ({ client, className, host, toggleLoading }) => {
   const query = useQuery({
     queryKey: ['getStopWords', host, client.uid],
-    refetchInterval: 4500,
+
     async queryFn(ctx) {
       return await client.getStopWords();
     },

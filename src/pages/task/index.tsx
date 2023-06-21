@@ -36,7 +36,6 @@ function Tasks() {
     },
     {
       keepPreviousData: true,
-      refetchOnMount: 'always',
       getNextPageParam: (lastPage, pages) => ({ from: lastPage.next }),
       onError: (err) => {
         console.warn('get meilisearch tasks error', err);
