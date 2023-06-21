@@ -13,18 +13,14 @@ export const testConnection = async (cfg: Config) => {
     console.debug('[meilisearch connection test]', stats);
   } catch (e) {
     console.warn('[meilisearch connection test error]', e);
-    toast('Connection fail, go check your config! 🤥', {
-      type: 'warning',
-    });
+    toast.error('Connection fail, go check your config! 🤥');
     throw e;
   }
   // stop loading
   hiddenConnectionTestLoader();
   if (_.isEmpty(stats)) {
     const msg = 'Connection fail, go check your config! 🤥';
-    toast(msg, {
-      type: 'warning',
-    });
+    toast.error(msg);
     console.error(msg, stats);
     throw new Error('msg');
   }

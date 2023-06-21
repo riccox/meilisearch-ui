@@ -1,4 +1,4 @@
-import { remove, toast } from './toast';
+import { toast } from './toast';
 
 const RequestLoaderID = 'request-loader';
 let RequestLoaderTimeoutId: NodeJS.Timeout[] = [];
@@ -12,17 +12,19 @@ export const showRequestLoader = () => {
       1
     );
     RequestLoaderTimeoutId = arr;
-    toast.loading('Data fetching', {
-      toastId: RequestLoaderID,
-      closeButton: false,
-      isLoading: true,
+    toast.loading(new Promise(() => {}), {
+      label: 'Request loading...',
+      success: 'Request completed',
+      error: 'Request failed',
+      id: RequestLoaderID,
+      duration: Infinity,
     });
-    // just show loader for slow request
+    // just show loader for slow request(>=2s)
   }, 2000);
   RequestLoaderTimeoutId.push(tid);
 };
 export const hiddenRequestLoader = () => {
-  remove(RequestLoaderID);
+  toast.remove(RequestLoaderID);
   clearTimeout(RequestLoaderTimeoutId[0]);
   const arr = [...RequestLoaderTimeoutId];
   arr.splice(0, 1);
@@ -32,12 +34,12 @@ export const hiddenRequestLoader = () => {
 const ConnectionTestLoaderID = 'conn-test-loader';
 
 export const showConnectionTestLoader = () => {
-  toast.loading('Connection testing', {
-    toastId: ConnectionTestLoaderID,
-    closeButton: false,
-    isLoading: true,
+  toast.loading(new Promise(() => {}), {
+    label: 'Connection testing...',
+    id: ConnectionTestLoaderID,
+    duration: Infinity,
   });
 };
 export const hiddenConnectionTestLoader = () => {
-  remove(ConnectionTestLoaderID);
+  toast.remove(ConnectionTestLoaderID);
 };

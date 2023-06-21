@@ -22,7 +22,7 @@ import { openConfirmModal } from '@mantine/modals';
 import { getTimeText, showTaskSubmitNotification } from '@/src/utils/text';
 import { validateKeysRouteAvailable } from '@/src/utils/conn';
 import { useNavigatePreCheck } from '@/src/hooks/useRoutePreCheck';
-import { toast } from '@/src/utils/toast';
+import { toast } from 'sonner';
 import { useCurrentInstance } from '@/src/hooks/useCurrentInstance';
 
 interface Props {
@@ -61,9 +61,7 @@ export const Header: FC<Props> = ({ client }) => {
 
   const onClickHost = useCallback(() => {
     clipboard.copy(currentInstance?.host);
-    toast('Server Host Copied ✍', {
-      type: 'success',
-    });
+    toast.success('Server Host Copied ✍');
   }, [clipboard, currentInstance?.host]);
 
   const onClickDump = useCallback(() => {

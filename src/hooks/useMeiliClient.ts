@@ -16,9 +16,7 @@ export const useMeiliClient = () => {
   const connect = useCallback(async () => {
     console.debug('useMeilisearchClient', 'start connection');
     if (_.isEmpty(currentInstance?.host)) {
-      toast('Connection fail, go check your config! 🤥', {
-        type: 'warning',
-      });
+      toast.error('Connection fail, go check your config! 🤥');
       console.debug('useMeilisearchClient', 'connection config lost');
       // do not use useNavigate, because maybe in first render
       window.location.assign(import.meta.env.BASE_URL);
@@ -31,9 +29,7 @@ export const useMeiliClient = () => {
       setClient(conn);
     } catch (err) {
       console.warn('useMeilisearchClient', 'test conn error', err);
-      toast('Connection fail, go check your config! 🤥', {
-        type: 'warning',
-      });
+      toast.error('Connection fail, go check your config! 🤥');
       // do not use useNavigate, because maybe in first render
       window.location.assign(import.meta.env.BASE_URL);
     }

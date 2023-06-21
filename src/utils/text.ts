@@ -1,5 +1,4 @@
 import { EnqueuedTask } from 'meilisearch';
-import { TypeOptions } from 'react-toastify';
 import dayjs from 'dayjs';
 import { toast } from './toast';
 
@@ -14,11 +13,14 @@ const enum TaskStatus {
   TASK_ENQUEUED = 'enqueued',
 }
 
-const TaskColors: Record<TaskStatus, TypeOptions> = {
-  [TaskStatus.TASK_SUCCEEDED]: 'success',
-  [TaskStatus.TASK_ENQUEUED]: 'info',
-  [TaskStatus.TASK_FAILED]: 'warning',
-  [TaskStatus.TASK_PROCESSING]: 'default',
+const TaskStatusToast: Record<
+  TaskStatus,
+  (typeof toast)['success'] | (typeof toast)['info'] | (typeof toast)['error']
+> = {
+  [TaskStatus.TASK_SUCCEEDED]: toast.success,
+  [TaskStatus.TASK_ENQUEUED]: toast.info,
+  [TaskStatus.TASK_FAILED]: toast.error,
+  [TaskStatus.TASK_PROCESSING]: toast.info,
 };
 export const TaskThemes: Record<TaskStatus, string> = {
   [TaskStatus.TASK_SUCCEEDED]: 'success',
@@ -28,15 +30,11 @@ export const TaskThemes: Record<TaskStatus, string> = {
 };
 
 export const showTaskSubmitNotification = (task: EnqueuedTask): void => {
-  toast(getTaskSubmitMessage(task), {
-    type: TaskColors[task.status],
-  });
+  TaskStatusToast[task.status](getTaskSubmitMessage(task));
 };
 
 export const showTaskErrorNotification = (err: any): void => {
-  toast(`Task Fail: ${err.toString()}`, {
-    type: TaskColors.failed,
-  });
+  TaskStatusToast.failed(`Task Fail: ${err.toString()}`);
 };
 
 export const getTimeText = (

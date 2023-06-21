@@ -215,9 +215,7 @@ function Keys() {
       // button stop loading
       setIsCreateLoading(false);
       if (_.isEmpty(res)) {
-        toast(`Creation fail, go check tasks! 🤥`, {
-          type: 'warning',
-        });
+        toast.error(`Creation fail, go check tasks! 🤥`);
         return;
       } else {
         setIsCreateKeyModalOpen(false);

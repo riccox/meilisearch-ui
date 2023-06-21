@@ -35,9 +35,7 @@ export const CreateIndex = () => {
         console.info(task);
       } catch (e) {
         console.warn(e);
-        toast(`Fail, ${e as string}`, {
-          type: 'warning',
-        });
+        toast.error(`Fail, ${e as string}`);
       }
       // button stop loading
       setIsSubmitLoading(false);

@@ -73,9 +73,7 @@ export const Documents = () => {
           return null;
         } else {
           const msg = 'Added documents should be JSON Array whose length > 0';
-          toast(msg, {
-            type: 'warning',
-          });
+          toast.error(msg);
           return msg;
         }
       },
@@ -119,7 +117,7 @@ export const Documents = () => {
         });
         return data || emptySearchResult;
       } catch (err) {
-        toast((err as Error).message, { type: 'error' });
+        toast.error((err as Error).message);
         return emptySearchResult;
       }
     },
@@ -275,9 +273,7 @@ export const Documents = () => {
           },
         });
       } else {
-        toast(`Document deletion require the valid primaryKey in index ${indexClient?.uid}`, {
-          type: 'error',
-        });
+        toast.error(`Document deletion require the valid primaryKey in index ${indexClient?.uid}`);
       }
     },
     [currentIndex, indexClient?.uid, indexPrimaryKeyQuery.data, removeDocumentsMutation]
