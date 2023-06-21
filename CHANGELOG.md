@@ -1,5 +1,25 @@
 # Changelog
 
+## [0.4.0](https://github.com/riccox/meilisearch-ui/compare/v0.3.1...v0.4.0) (2023-06-21)
+
+
+### Features
+
+* split upload page from search page. ([a6c9af2](https://github.com/riccox/meilisearch-ui/commit/a6c9af231e262328c982475a619087122aa29536))
+
+
+### Bug Fixes
+
+* gh-46 search input error toast. ([f383bbc](https://github.com/riccox/meilisearch-ui/commit/f383bbc83a526e63ac4c998379755d3b5fbc79d5))
+* instance key updatedAt display. ([833b7f6](https://github.com/riccox/meilisearch-ui/commit/833b7f6d0773feab2d25f27e7f101bf7b44658f2))
+* website logo icon. ([f90a200](https://github.com/riccox/meilisearch-ui/commit/f90a200b8147e9c047d29b7f86354c6ce2637599))
+
+
+### Performance Improvements
+
+* gh-42 updated queries refetch config. ([47e1337](https://github.com/riccox/meilisearch-ui/commit/47e133721a53f6d0953bf595857902f92034351e))
+* header item responsive. ([17db843](https://github.com/riccox/meilisearch-ui/commit/17db843b2bca4602f19bb59c32a69cd5c0b953b8))
+
 ## [0.3.1](https://github.com/riccox/meilisearch-ui/compare/v0.3.0...v0.3.1) (2023-05-18)
 
 
