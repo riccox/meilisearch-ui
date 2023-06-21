@@ -93,22 +93,22 @@ export const Header: FC<Props> = ({ client }) => {
           <IconHomeBolt size={26} />
           <p>Home</p>
         </button>
-        <p className={`text-2xl font-bold`}>{_.truncate(currentInstance?.name, { length: 20 })}</p>
+        <p className={`text-2xl font-bold`}>{_.truncate(currentInstance?.name, { length: 16 })}</p>
         <p className={`text-2xl font-bold text-bw-800/50`}>#{currentInstance.id}</p>
-        <span className={`!cursor-pointer hover:underline badge outline lg success`} onClick={onClickHost}>
+        <span className={`!cursor-pointer hover:underline badge outline cornered lg success`} onClick={onClickHost}>
           Host: {_.truncate(currentInstance?.host, { length: 40 })}
         </span>
-        <p className={`font-bold `}>Last Updated: {getTimeText(stats?.lastUpdate)}</p>
-        <span className={`badge outline lg primary`}>
-          Database Size: {_.ceil((stats?.databaseSize ?? 0) / 1048576, 2)} MB
+        <p className={`font-bold `}>Updated: {getTimeText(stats?.lastUpdate)}</p>
+        <span className={`badge outline cornered lg primary`}>
+          DB Size: {_.ceil((stats?.databaseSize ?? 0) / 1048576, 2)} MB
         </span>
-        <span className={`badge light lg ${health ? 'success' : 'warn'}`}>
+        <span className={`badge light cornered lg ${health ? 'success' : 'warn'}`}>
           Status: {health ? 'Available' : 'Unknown'}
         </span>
 
         <HoverCard withinPortal shadow="lg" radius={'lg'} transitionProps={{ transition: 'fade' }}>
           <HoverCard.Target>
-            <span className={`badge outline lg primary`}>Meili Version: {version?.pkgVersion}</span>
+            <span className={`badge outline cornered lg primary`}>Meili Version: {version?.pkgVersion}</span>
           </HoverCard.Target>
           <HoverCard.Dropdown>
             Commit Date: {version?.commitDate} <br />

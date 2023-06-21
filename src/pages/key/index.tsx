@@ -135,7 +135,7 @@ function Keys() {
           <td>
             <div className={`flex gap-1 flex-wrap`}>
               {t.indexes.map((index) => (
-                <span className="badge secondary light" key={index}>
+                <span className="badge secondary light cornered" key={index}>
                   {index}
                 </span>
               ))}
@@ -144,14 +144,16 @@ function Keys() {
           <td>
             <div className={`flex gap-1 flex-wrap`}>
               {t.actions.map((action) => (
-                <span className="badge secondary light" key={action}>
+                <span className="badge secondary light cornered" key={action}>
                   {action}
                 </span>
               ))}
             </div>
           </td>
           <td>{getTimeText(t.createdAt)}</td>
-          <td>{getTimeText(t.updateAt)}</td>
+          {/* meilisearch package type typos */}
+          {/* @ts-ignore */}
+          <td>{getTimeText(t.updatedAt)}</td>
           <td>{getTimeText(t.expiresAt, { defaultText: 'Forever' })}</td>
           <td>
             <div className={`flex gap-1`}>
