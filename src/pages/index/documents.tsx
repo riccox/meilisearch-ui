@@ -107,16 +107,21 @@ export const Documents = () => {
       const { q, limit, offset, filter, sort } = { ...searchForm.values, ...(queryKey[3] as typeof searchForm.values) };
       // prevent app error from request param invalid
       if (searchForm.validate().hasErrors) return emptySearchResult;
-      const data = await indexClient!.search(q, {
-        limit,
-        offset,
-        filter,
-        sort: sort
-          .split(',')
-          .filter((v) => v.trim().length > 0)
-          .map((v) => v.trim()),
-      });
-      return data || emptySearchResult;
+      try {
+        const data = await indexClient!.search(q, {
+          limit,
+          offset,
+          filter,
+          sort: sort
+            .split(',')
+            .filter((v) => v.trim().length > 0)
+            .map((v) => v.trim()),
+        });
+        return data || emptySearchResult;
+      } catch (err) {
+        toast((err as Error).message, { type: 'error' });
+        return emptySearchResult;
+      }
     },
     {
       enabled: !!currentIndex,

@@ -19,7 +19,7 @@ export const AppFallback: FC<ErrorFallbackProps> = ({ error }) => {
       >
         <div className={`text-xl`}>
           <p>{error.message}</p>
-          <a onClick={handleReload}>Reload</a>
+          <p className='link' onClick={handleReload}>Reload</p>
         </div>
       </Alert>
     </div>
