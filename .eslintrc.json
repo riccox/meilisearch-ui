@@ -1,6 +1,6 @@
 {
-  "extends": [
-    "react-app",
-    "plugin:react-hooks/recommended"
-  ]
+  "extends": ["react-app", "plugin:react-hooks/recommended"],
+  "rules": {
+    "no-useless-computed-key": "off"
+  }
 }

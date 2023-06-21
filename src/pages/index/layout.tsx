@@ -1,12 +1,12 @@
 import { Header } from '@/src/components/Header';
 import { MouseEventHandler, useCallback, useMemo, useState } from 'react';
-import { ActionIcon, Badge, Button, Modal, Tooltip } from '@mantine/core';
+import { ActionIcon, Badge, Button, Modal } from '@mantine/core';
 import { useIndexes } from '@/src/hooks/useIndexes';
 import { useInstanceStats } from '@/src/hooks/useInstanceStats';
 import { Link, Outlet, useNavigate, useSearchParams } from 'react-router-dom';
 import { Index } from 'meilisearch';
 import { useMeiliClient } from '@/src/hooks/useMeiliClient';
-import { IconAbacus, IconAdjustments, IconAlertTriangle, IconSquarePlus } from '@tabler/icons-react';
+import { IconAbacus, IconAdjustments, IconAlertTriangle, IconFileImport, IconSquarePlus } from '@tabler/icons-react';
 
 import ReactECharts from 'echarts-for-react'; // Import the echarts core module, which provides the necessary interfaces for using echarts.
 import * as echarts from 'echarts/core'; // Import charts, all with Chart suffix
@@ -15,6 +15,7 @@ import { GridComponent, TitleComponent, TooltipComponent } from 'echarts/compone
 import { CanvasRenderer } from 'echarts/renderers'; // Register the required components
 import _ from 'lodash';
 import { useCurrentInstance } from '@/src/hooks/useCurrentInstance';
+import clsx from 'clsx';
 // Register the required components
 echarts.use([TitleComponent, TooltipComponent, GridComponent, BarChart, CanvasRenderer]);
 
@@ -138,18 +139,36 @@ function IndexesLayout() {
         return (
           <div
             key={index.uid}
-            className={`cursor-pointer p-3 rounded-xl grid grid-cols-4 gap-y-2
-           bg-brand-1 hover:bg-opacity-40 bg-opacity-20 
-           ${searchParams.get('index') === uid ? 'ring ring-brand-4' : ''}`}
+            className={clsx(
+              `group cursor-pointer p-3 rounded-xl grid grid-cols-4 gap-y-2
+           bg-brand-1 hover:bg-opacity-40 bg-opacity-20`,
+              searchParams.get('index') === uid && 'ring ring-brand-4'
+            )}
             onClick={() => {
               navigate(`/ins/${currentInstance.id}/index/${index.uid}`);
             }}
           >
             <p className={`col-span-4 text-xl font-bold`}>{uid}</p>
             <div className={`col-span-4 flex justify-end gap-x-2 items-center`}>
-              <span className={`mr-auto badge outline primary`}>Count: {indexStat?.numberOfDocuments ?? 0}</span>
+              <span className={`mr-auto badge outline sm primary`}>Count: {indexStat?.numberOfDocuments ?? 0}</span>
 
-              <Tooltip label="Field Distribution">
+              {/* Add docs */}
+              <span data-tooltip="Add documents" className="tooltip bw top group-hover:visible invisible" tabIndex={0}>
+                <ActionIcon
+                  variant="light"
+                  color={'brand'}
+                  onClick={
+                    ((e) => {
+                      e.stopPropagation();
+                      navigate(`/ins/${currentInstance.id}/index/${index.uid}/upload`);
+                    }) as MouseEventHandler<HTMLButtonElement>
+                  }
+                >
+                  <IconFileImport size={24} />
+                </ActionIcon>
+              </span>
+
+              <span data-tooltip="Field Distribution" className="tooltip bw left group-hover:visible invisible">
                 <ActionIcon
                   variant="light"
                   color={'brand'}
@@ -162,8 +181,9 @@ function IndexesLayout() {
                 >
                   <IconAbacus size={24} />
                 </ActionIcon>
-              </Tooltip>
-              <Tooltip label="Settings">
+              </span>
+
+              <span data-tooltip="Settings" className="tooltip bw left group-hover:visible invisible">
                 <ActionIcon
                   variant="light"
                   color={'brand'}
@@ -176,11 +196,11 @@ function IndexesLayout() {
                 >
                   <IconAdjustments size={24} />
                 </ActionIcon>
-              </Tooltip>
+              </span>
               {indexStat?.isIndexing && (
-                <Tooltip
-                  position={'bottom-start'}
-                  label="This index is indexing documents, setting & search results may be incorrect now!"
+                <span
+                  className={'tooltip bw bottom'}
+                  data-tooltip="This index is indexing documents, setting & search results may be incorrect now!"
                 >
                   <Badge size="lg" variant="filled">
                     <div className={`flex flex-nowrap`}>
@@ -188,7 +208,7 @@ function IndexesLayout() {
                       <div>indexing...</div>
                     </div>
                   </Badge>
-                </Tooltip>
+                </span>
               )}
             </div>
           </div>
@@ -207,36 +227,40 @@ function IndexesLayout() {
 
   return useMemo(
     () => (
-      <div className="bg-mount full-page items-stretch p-5 gap-3">
-        <Header client={client} />
-        <div className={`flex-1 flex gap-3 overflow-hidden`}>
-          <div
-            className={`flex-1 bg-background-light 
-        flex flex-col justify-start items-stretch
-        p-6 rounded-3xl gap-y-2`}
-          >
-            <div className={`flex justify-between items-center`}>
-              <div className={`font-extrabold text-3xl`}>🦄 Indexes</div>
-              <ActionIcon
-                className={``}
-                variant={'light'}
-                component={Link}
-                to={`/ins/${currentInstance.id}/index/create`}
+      <div className="bg-mount full-page p-4 gap-2 !grid grid-cols-4 grid-rows-[repeat(10,_minmax(0,_1fr))]">
+        <Header className="col-span-full" client={client} />
+        <div
+          className={`col-span-1 row-[span_9_/_span_9] bg-background-light 
+        flex flex-col items-stretch p-6 rounded-3xl gap-y-2 overflow-hidden`}
+        >
+          <div className={`flex justify-between items-center flex-wrap gap-2`}>
+            <div className={`font-extrabold text-3xl`}>🦄 Indexes</div>
+            {/* multi-search btn */}
+            <span className={'tooltip primary bottom'} data-tooltip="Coming soon!">
+              {/* TODO */}
+              <button
+                type={'button'}
+                className={`btn sm solid primary bg-gradient-to-r from-[#00DBDE] to-[#FC00FF] only-one-line`}
+                onClick={() => {
+                  navigate(`/ins/${currentInstance.id}/multi-search`);
+                }}
+                disabled
               >
-                <IconSquarePlus size={64} />
-              </ActionIcon>
-            </div>
-            <div
-              className={`flex-1
-        flex flex-col justify-start items-stretch
-        rounded-3xl gap-y-2 overflow-scroll p-1`}
-            >
-              {indexList}
-            </div>
+                🔥 Multi-Search
+              </button>
+            </span>
+            <ActionIcon variant={'light'} component={Link} to={`/ins/${currentInstance.id}/index/create`}>
+              <IconSquarePlus size={64} />
+            </ActionIcon>
           </div>
-          <div className={`flex-[3] bg-background-light rounded-3xl overflow-hidden`}>
-            <Outlet context={{ refreshIndexes: () => indexesQuery.refetch() }} />
+          <div
+            className={clsx('flex-1 p-1 flex flex-col items-stretch gap-y-2 ', 'overflow-x-hidden overflow-y-scroll')}
+          >
+            {indexList}
           </div>
+        </div>
+        <div className={`col-span-3 row-[span_9_/_span_9] bg-background-light rounded-3xl overflow-hidden`}>
+          <Outlet context={{ refreshIndexes: () => indexesQuery.refetch() }} />
         </div>
         <Modal
           opened={isFieldDistributionDetailModalOpen}
@@ -252,7 +276,15 @@ function IndexesLayout() {
         </Modal>
       </div>
     ),
-    [client, currentInstance.id, fieldDistributionChartOpt, indexList, indexesQuery, isFieldDistributionDetailModalOpen]
+    [
+      client,
+      currentInstance.id,
+      fieldDistributionChartOpt,
+      indexList,
+      indexesQuery,
+      isFieldDistributionDetailModalOpen,
+      navigate,
+    ]
   );
 }
 

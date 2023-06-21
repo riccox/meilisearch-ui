@@ -24,12 +24,14 @@ import { validateKeysRouteAvailable } from '@/src/utils/conn';
 import { useNavigatePreCheck } from '@/src/hooks/useRoutePreCheck';
 import { toast } from 'sonner';
 import { useCurrentInstance } from '@/src/hooks/useCurrentInstance';
+import clsx from 'clsx';
 
 interface Props {
+  className?: string;
   client: MeiliSearch;
 }
 
-export const Header: FC<Props> = ({ client }) => {
+export const Header: FC<Props> = ({ client, className }) => {
   const currentInstance = useCurrentInstance();
   const navigate = useNavigatePreCheck(([to], opt) => {
     if (typeof to === 'string' && /\/keys$/.test(to)) {
@@ -82,9 +84,12 @@ export const Header: FC<Props> = ({ client }) => {
   return useMemo(
     () => (
       <div
-        className={`bg-background-light
+        className={clsx(
+          className,
+          `bg-background-light
         flex justify-between items-center
-        p-5 rounded-3xl drop-shadow-xl z-20`}
+        p-5 rounded-3xl drop-shadow-xl z-20`
+        )}
       >
         <button
           className="btn primary solid flex items-center gap-2"
@@ -202,6 +207,7 @@ export const Header: FC<Props> = ({ client }) => {
       </div>
     ),
     [
+      className,
       currentInstance,
       health,
       navigate,

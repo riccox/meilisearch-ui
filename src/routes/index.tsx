@@ -11,6 +11,7 @@ import Keys from '@/src/pages/key';
 import Settings from '@/src/pages/index/setting';
 import Warning from '@/src/pages/warning';
 import { EmptyArea } from '../components/EmptyArea';
+import { UploadDoc } from '../pages/index/upload';
 
 export const AppRoutes = () => {
   return (
@@ -31,10 +32,13 @@ export const AppRoutes = () => {
               <Route path=":indexId">
                 <Route index element={<Documents />} />
                 <Route path="settings" element={<Settings />} />
+                <Route path="upload" element={<UploadDoc />} />
               </Route>
             </Route>
             <Route path="tasks" element={<Tasks />} />
             <Route path="keys" element={<Keys />} />
+            {/* TODO replace page element */}
+            <Route path="multi-search" element={<Keys />} />
           </Route>
         </Route>
         <Route path="warning" element={<Warning />} />

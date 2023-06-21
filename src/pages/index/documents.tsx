@@ -8,8 +8,7 @@ import { Button, Loader, Modal, NumberInput, TextInput, Tooltip } from '@mantine
 import { IconArrowsSort, IconFilter, IconSearch } from '@tabler/icons-react';
 import { showTaskErrorNotification, showTaskSubmitNotification } from '@/src/utils/text';
 import ReactJson from 'react-json-view';
-import _ from 'lodash';
-import { EnqueuedTask, Hit } from 'meilisearch';
+import { Hit } from 'meilisearch';
 import { openConfirmModal } from '@mantine/modals';
 import { toast } from '@/src/utils/toast';
 import MonacoEditor from '@monaco-editor/react';
@@ -24,7 +23,6 @@ const emptySearchResult = {
 export const Documents = () => {
   const currentInstance = useCurrentInstance();
   const host = currentInstance?.host;
-  const apiKey = currentInstance?.apiKey;
   const { indexId } = useParams();
   const client = useMeiliClient();
   const currentIndex = useMemo(() => indexId?.trim(), [indexId]);
@@ -57,25 +55,6 @@ export const Documents = () => {
           sorts.every((v) => /^([a-zA-Z]\w+|_geoRadius\([\s\d,.]+\)):(asc|desc)$/g.test(v.trim()))
           ? null
           : 'sort string invalid';
-      },
-    },
-  });
-
-  const addDocumentsForm = useForm<{
-    documents: object[] | File;
-  }>({
-    initialValues: {
-      documents: [],
-    },
-    validate: {
-      documents: (value: object[] | File) => {
-        if (value instanceof File ? value.size > 0 : value.length > 0) {
-          return null;
-        } else {
-          const msg = 'Added documents should be JSON Array whose length > 0';
-          toast.error(msg);
-          return msg;
-        }
       },
     },
   });
@@ -124,87 +103,12 @@ export const Documents = () => {
       keepPreviousData: true,
     }
   );
-  const [isAddDocumentsByEditorModalOpen, setIsAddDocumentsByEditorModalOpen] = useState(false);
   const [isEditDocumentsModalOpen, setIsEditDocumentsModalOpen] = useState(false);
   const [editingDocument, setEditingDocument] = useState<object>();
-
-  const addDocumentsMutation = useMutation(
-    ['addDocuments', host, indexClient?.uid],
-    async (variables: object[] | File) => {
-      const url = new URL(`/indexes/${currentIndex}/documents`, host);
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          Authorization: apiKey ? `Bearer ${apiKey}` : '',
-        },
-        body: variables instanceof File ? (variables as File) : JSON.stringify(variables),
-      });
-      const task = (await response.json()) as EnqueuedTask;
-      console.debug('addDocumentsMutation', 'response', task);
-      return task;
-    },
-    {
-      onSuccess: (t) => {
-        showTaskSubmitNotification(t);
-        setIsAddDocumentsByEditorModalOpen(false);
-        addDocumentsForm.reset();
-      },
-      onError: (error) => {
-        console.error(error);
-        showTaskErrorNotification(error);
-      },
-    }
-  );
 
   const onSearchSubmit = useCallback(async () => {
     await searchDocumentsQuery.refetch();
   }, [searchDocumentsQuery]);
-
-  const onAddDocumentsByEditorClick = useCallback(async () => {
-    setIsAddDocumentsByEditorModalOpen(true);
-    // read clipboard and set default val if clipboard value match rules
-    const [firstContent] = await navigator.clipboard.read();
-    if (firstContent.types.includes('text/plain')) {
-      const json = JSON.parse(await (await firstContent.getType('text/plain')).text());
-      const arr = _.isArray(json) ? json : _.isObject(json) ? [json] : [];
-      console.debug('onAddDocumentsByEditorClick paste clipboard', arr, json);
-      if (arr.length > 0) {
-        await addDocumentsForm.setFieldValue('documents', arr);
-      }
-    }
-  }, [addDocumentsForm]);
-
-  const onAddDocumentsSubmit = useCallback(
-    async (val: typeof addDocumentsForm.values) => {
-      await addDocumentsMutation.mutate(val.documents);
-    },
-    [addDocumentsForm, addDocumentsMutation]
-  );
-
-  const onAddDocumentsByImportClick = useCallback(async () => {
-    const fileElem = document.getElementById('documents-json-file-selector');
-    if (fileElem) {
-      fileElem.click();
-
-      await fileElem.addEventListener(
-        'change',
-        async (ev) => {
-          // @ts-ignore
-          const jsonFile = ev.target!.files[0] as File;
-          console.debug('onAddDocumentsByImportClick', 'file-change', jsonFile);
-          await onAddDocumentsSubmit({ documents: jsonFile });
-        },
-        false
-      );
-    }
-  }, [onAddDocumentsSubmit]);
-
-  const onAddDocumentsJsonEditorUpdate = useCallback(
-    (value: string = '[]') => addDocumentsForm.setFieldValue('documents', JSON.parse(value)),
-    [addDocumentsForm]
-  );
 
   const onEditDocumentJsonEditorUpdate = useCallback(
     (value: string = '[]') => setEditingDocument(JSON.parse(value)),
@@ -351,30 +255,12 @@ export const Documents = () => {
                   <div className={`flex items-stretch gap-4`}>
                     <NumberInput radius="md" label="Limit" {...searchForm.getInputProps('limit')} />
                     <NumberInput radius="md" label="Offset" {...searchForm.getInputProps('offset')} />
+
+                    {/* right btn group */}
                     <div className={`ml-auto mt-auto flex gap-x-4 items-center`}>
                       {searchDocumentsQuery.isFetching && <Loader color="gray" size="sm" />}
-                      <div className="dropdown info">
-                        <label className={`btn solid info`} tabIndex={0}>
-                          Add Documents
-                        </label>
-                        <div className="menu left-top w-max font-medium">
-                          <div
-                            className={'item only-one-line flex-nowrap !flex-row'}
-                            onClick={onAddDocumentsByEditorClick}
-                          >
-                            <span className="pr-2"> Input by editor</span>
-                            <span className={`badge sm light`}>Manually type in</span>
-                          </div>
-                          <div
-                            className={'item only-one-line flex-nowrap !flex-row'}
-                            onClick={onAddDocumentsByImportClick}
-                          >
-                            <span className="pr-2">Import json file</span>
-                            <span className={`badge sm light`}>For large documents</span>
-                          </div>
-                        </div>
-                      </div>
 
+                      {/* search btn */}
                       <button
                         type={'submit'}
                         className={`btn solid primary bg-gradient-to-br from-[#c84e89] to-[#F15F79]`}
@@ -399,39 +285,6 @@ export const Documents = () => {
         ) : (
           <EmptyArea text={'Select or Create a index on the left to start'} />
         )}
-        <Modal
-          opened={isAddDocumentsByEditorModalOpen}
-          onClose={() => {
-            setIsAddDocumentsByEditorModalOpen(false);
-            addDocumentsForm.reset();
-          }}
-          centered
-          lockScroll
-          radius="lg"
-          shadow="xl"
-          padding="xl"
-          size="xl"
-          withCloseButton={true}
-          title={<p className={`font-bold text-lg`}>Add New Documents</p>}
-        >
-          <form className={`flex flex-col gap-y-4 w-full`} onSubmit={addDocumentsForm.onSubmit(onAddDocumentsSubmit)}>
-            <div className={`border rounded-xl p-2`}>
-              <MonacoEditor
-                language="json"
-                className="h-80"
-                defaultValue={JSON.stringify(addDocumentsForm.values.documents, null, 2)}
-                options={{
-                  automaticLayout: true,
-                  lineDecorationsWidth: 1,
-                }}
-                onChange={onAddDocumentsJsonEditorUpdate}
-              ></MonacoEditor>
-            </div>
-            <Button type="submit" radius={'xl'} size={'lg'} variant="light">
-              Submit
-            </Button>
-          </form>
-        </Modal>
         <Modal
           opened={isEditDocumentsModalOpen}
           onClose={() => {
@@ -465,7 +318,6 @@ export const Documents = () => {
             </Button>
           </div>
         </Modal>
-        <input type="file" id="documents-json-file-selector" accept=".json" hidden multiple={false} min={1} max={1} />
       </>
     ),
     [
@@ -475,13 +327,7 @@ export const Documents = () => {
       searchDocumentsQuery.data?.processingTimeMs,
       searchForm,
       onSearchSubmit,
-      onAddDocumentsByEditorClick,
-      onAddDocumentsByImportClick,
       docList,
-      isAddDocumentsByEditorModalOpen,
-      addDocumentsForm,
-      onAddDocumentsSubmit,
-      onAddDocumentsJsonEditorUpdate,
       isEditDocumentsModalOpen,
       editingDocument,
       onEditDocumentJsonEditorUpdate,
