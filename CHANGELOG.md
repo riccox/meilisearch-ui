@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.4.1](https://github.com/riccox/meilisearch-ui/compare/v0.4.0...v0.4.1) (2023-07-03)
+
+
+### Bug Fixes
+
+* gh-57 improve search form validation. ([5f1a271](https://github.com/riccox/meilisearch-ui/commit/5f1a2716d4f479e491d388dec65c9c3831d42f0a))
+
 ## [0.4.0](https://github.com/riccox/meilisearch-ui/compare/v0.3.1...v0.4.0) (2023-06-21)
 
 

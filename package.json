@@ -64,5 +64,5 @@
     "typescript": "5.0.4",
     "vite": "^4.3.9"
   },
-  "version": "0.4.0"
+  "version": "0.4.1"
 }
