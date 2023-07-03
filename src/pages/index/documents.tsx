@@ -13,6 +13,7 @@ import { openConfirmModal } from '@mantine/modals';
 import { toast } from '@/src/utils/toast';
 import MonacoEditor from '@monaco-editor/react';
 import { useCurrentInstance } from '@/src/hooks/useCurrentInstance';
+import clsx from 'clsx';
 
 const emptySearchResult = {
   hits: [],
@@ -21,6 +22,7 @@ const emptySearchResult = {
 };
 
 export const Documents = () => {
+  const [searchFormError, setSearchFormError] = useState<string | null>(null);
   const currentInstance = useCurrentInstance();
   const host = currentInstance?.host;
   const { indexId } = useParams();
@@ -41,21 +43,6 @@ export const Documents = () => {
     validate: {
       limit: (value: number) =>
         value < 500 ? null : 'limit search value allow (<500) in this ui console for performance',
-      filter: (value: string) =>
-        value.length === 0 ||
-        /\s(=|!=|>=|>|<|<=|(IN)|(NOT IN)|(TO)|(EXISTS)|(NOT EXISTS))\s|^_geoRadius\([\s\d,.]+\)$/g.test(value.trim())
-          ? null
-          : 'filter string invalid',
-      sort: (value: string) => {
-        const sorts = value
-          .split(',')
-          .filter((v) => v.trim().length > 0)
-          .map((v) => v.trim());
-        return sorts.length === 0 ||
-          sorts.every((v) => /^([a-zA-Z]\w+|_geoRadius\([\s\d,.]+\)):(asc|desc)$/g.test(v.trim()))
-          ? null
-          : 'sort string invalid';
-      },
     },
   });
 
@@ -92,9 +79,19 @@ export const Documents = () => {
             .filter((v) => v.trim().length > 0)
             .map((v) => v.trim()),
         });
+        // clear error message if results are running normally
+        setSearchFormError(null);
         return data || emptySearchResult;
       } catch (err) {
-        toast.error((err as Error).message);
+        const msg = (err as Error).message;
+        setSearchFormError(null);
+        if (msg.match(/filter/i)) {
+          searchForm.setFieldError('filter', msg);
+        } else if (msg.match(/sort/i)) {
+          searchForm.setFieldError('sort', msg);
+        } else {
+          setSearchFormError(msg);
+        }
         return emptySearchResult;
       }
     },
@@ -224,6 +221,30 @@ export const Documents = () => {
             <div className={`rounded-lg ${searchDocumentsQuery.isFetching ? 'rainbow-ring-rotate' : ''}`}>
               <div className={`rounded-lg p-4 border`}>
                 <form className={`flex flex-col gap-2 `} onSubmit={searchForm.onSubmit(onSearchSubmit)}>
+                  <div className={clsx('prompt danger ghost xs', !searchFormError && 'hidden')}>
+                    <div className="icon">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        className="icon icon-tabler icon-tabler-alert-triangle"
+                        width={18}
+                        height={18}
+                        viewBox="0 0 24 24"
+                        stroke-width={2}
+                        stroke="currentColor"
+                        fill="none"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      >
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                        <path d="M10.24 3.957l-8.422 14.06a1.989 1.989 0 0 0 1.7 2.983h16.845a1.989 1.989 0 0 0 1.7 -2.983l-8.423 -14.06a1.989 1.989 0 0 0 -3.4 0z"></path>
+                        <path d="M12 9v4"></path>
+                        <path d="M12 17h.01"></path>
+                      </svg>
+                    </div>
+                    <div className="content">
+                      <p>{searchFormError}</p>
+                    </div>
+                  </div>
                   <TextInput
                     icon={<IconSearch size={16} />}
                     autoFocus
@@ -321,6 +342,7 @@ export const Documents = () => {
       </>
     ),
     [
+      searchFormError,
       currentIndex,
       searchDocumentsQuery.isFetching,
       searchDocumentsQuery.data?.estimatedTotalHits,
