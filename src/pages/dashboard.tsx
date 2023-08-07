@@ -200,7 +200,7 @@ function Dashboard() {
 
   return (
     <div className="bg-mount full-page justify-center items-center gap-y-6">
-      <div className={`w-1/4 h-2/3 flex flex-col justify-center items-center gap-y-10`}>
+      <div className={`w-1/2 2xl:w-1/4 h-2/3 flex flex-col justify-center items-center gap-y-10`}>
         <Logo />
         <p className={`text-brand-2 font-bold xl:text-3xl text-xl w-screen text-center`}>A Beautiful Meilisearch UI</p>
         <div className={`grid grid-cols-1 gap-y-3 w-full p-1  overflow-y-scroll`}>
