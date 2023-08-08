@@ -1,25 +1,51 @@
 import { DocumentList } from '@/src/components/Document/list';
+import { MultiSearchQueries } from '@/src/components/Document/multi-search/queries';
+import { EmptyArea } from '@/src/components/EmptyArea';
 import { Header } from '@/src/components/Header';
 import { useCurrentInstance } from '@/src/hooks/useCurrentInstance';
 import { useMeiliClient } from '@/src/hooks/useMeiliClient';
 import { useQuery } from '@tanstack/react-query';
-import { useMemo } from 'react';
+import { MultiSearchQuery, MultiSearchResult } from 'meilisearch';
+import { useMemo, useReducer } from 'react';
+
+type DocList = (MultiSearchResult<Record<string, any>> & { primaryKey?: string })[];
+
+type State = {
+  queries: MultiSearchQuery[];
+  queriesEditorShow: boolean;
+};
 
 export const MultiIndexSearch = () => {
   const currentInstance = useCurrentInstance();
   const host = currentInstance?.host;
   const client = useMeiliClient();
 
-  const query = useQuery(
+  const [state, updateState] = useReducer(
+    (prev: State, next: Partial<State>) => {
+      return { ...prev, ...next };
+    },
+    { queries: [], queriesEditorShow: false }
+  );
+
+  const query = useQuery<unknown, unknown, DocList>(
     [
       'multiSearchDocuments',
       host,
       // dependencies for the search refresh
-      // searchForm.values,
+      state.queries,
     ],
-    async ({ queryKey }) => {
+    async () => {
       try {
-        const data = await client!.multiSearch();
+        const data: DocList = (await client!.multiSearch({ queries: state.queries })).results;
+
+        if (data.length > 0) {
+          for (let i in data) {
+            data[i] = {
+              ...data[i],
+              primaryKey: (await client.index(data[i].indexUid).getRawInfo())!.primaryKey,
+            };
+          }
+        }
 
         return data || [];
       } catch (err) {
@@ -43,10 +69,37 @@ export const MultiIndexSearch = () => {
         >
           <div className={`flex justify-between items-center gap-x-6`}>
             <div className={`font-extrabold text-xl`}>🌿 Multi Search</div>
+            <button className="btn light info" onClick={() => updateState({ queriesEditorShow: true })}>
+              Queries
+            </button>
+          </div>
+          <MultiSearchQueries
+            show={state.queriesEditorShow}
+            toggle={(show) => updateState({ queriesEditorShow: show })}
+          />
+          <div className={`flex-1 flex flex-col gap-4 overflow-scroll`}>
+            {state.queries.length > 0 ? (
+              <DocumentList
+                // @ts-ignore
+                docs={query.data?.reduce((prev, curr) => {
+                  return [
+                    ...prev,
+                    ...curr.hits.map((i) => ({
+                      indexId: curr.indexUid,
+                      content: i,
+                      primaryKey: curr.primaryKey,
+                    })),
+                  ];
+                }, [])}
+                refetchDocs={query.refetch}
+              />
+            ) : (
+              <EmptyArea text={'Empty results on current queries, try click button on top right to edit queries'} />
+            )}
           </div>
         </div>
       </div>
     ),
-    [client]
+    [client, query.data, query.refetch, state.queries.length, state.queriesEditorShow]
   );
 };
