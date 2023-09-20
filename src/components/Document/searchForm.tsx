@@ -57,7 +57,7 @@ export const SearchForm = ({
         </div>
         {indexIdEnable && (
           <TextInput
-            icon={<IconAlignBoxLeftMiddle size={16} />}
+            leftSection={<IconAlignBoxLeftMiddle size={16} />}
             radius="md"
             placeholder="input target index id"
             required
@@ -65,7 +65,7 @@ export const SearchForm = ({
           />
         )}
         <TextInput
-          icon={<IconSearch size={16} />}
+          leftSection={<IconSearch size={16} />}
           autoFocus
           radius="md"
           placeholder="type some search query..."
@@ -75,7 +75,7 @@ export const SearchForm = ({
           <TextInput
             className={`flex-1`}
             label="Filter"
-            icon={<IconFilter size={16} />}
+            leftSection={<IconFilter size={16} />}
             radius="md"
             {...searchForm.getInputProps('filter')}
           />
@@ -86,7 +86,7 @@ export const SearchForm = ({
             <TextInput
               className={`flex-1`}
               label="Sort"
-              icon={<IconArrowsSort size={16} />}
+              leftSection={<IconArrowsSort size={16} />}
               radius="md"
               {...searchForm.getInputProps('sort')}
             />

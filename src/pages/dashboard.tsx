@@ -186,7 +186,7 @@ function Dashboard() {
             <Tooltip position={'bottom'} label="Keys">
               <ActionIcon
                 variant="light"
-                color="purple"
+                color="grape"
                 onClick={() => onClickInstance(instance, `/ins/${instance.id}/keys`)}
               >
                 <IconKey size={24} />
@@ -246,7 +246,6 @@ function Dashboard() {
           <Tooltip
             position={'bottom-start'}
             multiline
-            width={400}
             label={`Remember enable CORS in your instance server for this ui domain first`}
           >
             <Autocomplete
@@ -261,7 +260,6 @@ function Dashboard() {
           <Tooltip
             position={'bottom-start'}
             multiline
-            width={400}
             label="Don't care! Your instance config will only be store in your local browser"
           >
             <PasswordInput
