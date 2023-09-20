@@ -12,7 +12,6 @@ import Settings from '@/src/pages/index/setting';
 import Warning from '@/src/pages/warning';
 import { EmptyArea } from '../components/EmptyArea';
 import { UploadDoc } from '../pages/index/upload';
-import { MultiIndexSearch } from '../pages/index/multi-search';
 
 export const AppRoutes = () => {
   return (
@@ -38,7 +37,8 @@ export const AppRoutes = () => {
             </Route>
             <Route path="tasks" element={<Tasks />} />
             <Route path="keys" element={<Keys />} />
-            <Route path="multi-search" element={<MultiIndexSearch />} />
+            {/* TODO replace page element */}
+            <Route path="multi-search" element={<Keys />} />
           </Route>
         </Route>
         <Route path="warning" element={<Warning />} />

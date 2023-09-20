@@ -38,7 +38,6 @@ function Keys() {
     ['keys', host],
     async ({ pageParam }) => {
       showRequestLoader();
-      console.log(client.config);
       return await client.getKeys(pageParam);
     },
     {
@@ -124,7 +123,7 @@ function Keys() {
               <CopyButton value={t.key} timeout={200}>
                 {({ copied, copy }) => (
                   <Tooltip label={copied ? 'Copied' : 'Copy'} withArrow position="right">
-                    <ActionIcon color={copied ? 'teal' : 'gray'} variant="transparent" onClick={copy}>
+                    <ActionIcon color={copied ? 'teal' : 'gray'} onClick={copy}>
                       {copied ? <IconCheck size={16} /> : <IconCopy size={16} />}
                     </ActionIcon>
                   </Tooltip>
@@ -328,7 +327,10 @@ function Keys() {
                 size={'lg'}
                 label={<p className={'text-brand-5 pb-2 text-lg'}>Indexes</p>}
                 placeholder="select permitted indexes"
+                creatable
+                clearable
                 searchable
+                withinPortal
                 data={indexes.map((i) => i.uid)}
                 {...form.getInputProps('indexes')}
               />
@@ -339,7 +341,10 @@ function Keys() {
                 size={'lg'}
                 label={<p className={'text-brand-5 pb-2 text-lg'}>Actions</p>}
                 placeholder="select permitted actions"
+                creatable
+                clearable
                 searchable
+                withinPortal
                 data={[
                   { value: 'search', label: 'Search' },
                   { value: 'documents.add', label: 'Add/Update documents' },

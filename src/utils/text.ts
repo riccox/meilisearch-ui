@@ -11,7 +11,6 @@ const enum TaskStatus {
   TASK_PROCESSING = 'processing',
   TASK_FAILED = 'failed',
   TASK_ENQUEUED = 'enqueued',
-  TASK_CANCEL = 'canceled',
 }
 
 const TaskStatusToast: Record<
@@ -22,14 +21,12 @@ const TaskStatusToast: Record<
   [TaskStatus.TASK_ENQUEUED]: toast.info,
   [TaskStatus.TASK_FAILED]: toast.error,
   [TaskStatus.TASK_PROCESSING]: toast.info,
-  [TaskStatus.TASK_CANCEL]: toast.info,
 };
 export const TaskThemes: Record<TaskStatus, string> = {
   [TaskStatus.TASK_SUCCEEDED]: 'success',
   [TaskStatus.TASK_ENQUEUED]: 'warn',
   [TaskStatus.TASK_FAILED]: 'danger',
   [TaskStatus.TASK_PROCESSING]: 'secondary',
-  [TaskStatus.TASK_CANCEL]: 'info',
 };
 
 export const showTaskSubmitNotification = (task: EnqueuedTask): void => {
