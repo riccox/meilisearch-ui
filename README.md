@@ -32,14 +32,29 @@
 
 🔒 Data is stored inside your browser
 
-## Get start
+## Quick start
 
-> [IMPORTANT] Remember enable CORS in your instance server for this ui domain before using.
->
-> This version have not achieved responsive design, so mind that only use this app on desktop to gain better experience.
+
+> ⚠️ This app have not achieved responsive design, so mind that only use this app on desktop to gain better experience.
+
+### CORS settings
+
+✅ Remember update CORS settings in your instance server for this ui domain before using.
+
+Because this app use meilisearch official JS client to call your meilisearch instance, you need to manually configure CORS settings in your web server to make sure ui panel can access your instance server with api calls.
+
+Add your ui panel deployment domain to your instance server cors list.
+
+ex:
+```conf
+# ... other configurations
+     add_header Access-Control-Allow-Origin "your.meilisearch-ui.domain.com";
+# ... other configurations
+```
+
+[Learn how to configure CORS settings in your web server](https://enable-cors.org/)
 
 ### Online use
-
 
 There is a live demo 👉 [meilisearch-ui](https://meilisearch-ui.riccox.com), deploy on Vercel.
 
@@ -74,7 +89,7 @@ pnpm run dev
 
 ## Built with ♥
 
-- [Sira-UI](https://sira-design.party)
+- [Sira Design](https://sira-design.party)
 - React v18
 - TypeScript
 - Vite
