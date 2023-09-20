@@ -1,6 +1,6 @@
 import { FC, useCallback, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Button, Text } from '@mantine/core';
+import { Text } from '@mantine/core';
 import { useMutation } from '@tanstack/react-query';
 import { hiddenRequestLoader, showRequestLoader } from '@/src/utils/loader';
 import { showTaskSubmitNotification } from '@/src/utils/text';
@@ -95,12 +95,12 @@ export const DangerZone: FC<
         <p className={`text-danger-900 text-xl font-bold font-sans py-1`}>Danger Zone</p>
         <div className={`flex flex-col items-start gap-4`}>
           <div className={`flex items-center gap-x-2`}>
-            <Button color={'red'} onClick={onClickDeleteAllDocuments}>
+            <button className={'danger btn solid sm'} onClick={onClickDeleteAllDocuments}>
               Delete All Documents
-            </Button>
-            <Button color={'red'} onClick={onClickDeleteIndex}>
+            </button>
+            <button className={'danger btn solid sm'} onClick={onClickDeleteIndex}>
               Delete This Index
-            </Button>
+            </button>
           </div>
         </div>
       </div>

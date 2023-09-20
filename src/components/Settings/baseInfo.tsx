@@ -84,7 +84,7 @@ export const BaseInfo: FC<IndexSettingComponentProps> = ({ host, client }) => {
           <p className={`cell`}>Primary Key</p>
           <div className={`cell flex items-center gap-x-1`}>
             {indexRawInfoDisplayData?.primaryKey || '-'}
-            <ActionIcon onClick={onClickEditPrimaryKey}>
+            <ActionIcon variant="transparent" onClick={onClickEditPrimaryKey}>
               <IconPencilMinus size={18} />
             </ActionIcon>
           </div>

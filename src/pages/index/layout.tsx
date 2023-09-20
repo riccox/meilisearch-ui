@@ -6,7 +6,13 @@ import { useInstanceStats } from '@/src/hooks/useInstanceStats';
 import { Link, Outlet, useNavigate, useSearchParams } from 'react-router-dom';
 import { Index } from 'meilisearch';
 import { useMeiliClient } from '@/src/hooks/useMeiliClient';
-import { IconAbacus, IconAdjustments, IconAlertTriangle, IconFileImport, IconSquarePlus } from '@tabler/icons-react';
+import {
+  IconAbacus,
+  IconAdjustments,
+  IconAlertTriangle,
+  IconFileImport,
+  IconSquareRoundedPlusFilled,
+} from '@tabler/icons-react';
 
 import ReactECharts from 'echarts-for-react'; // Import the echarts core module, which provides the necessary interfaces for using echarts.
 import * as echarts from 'echarts/core'; // Import charts, all with Chart suffix
@@ -235,18 +241,9 @@ function IndexesLayout() {
         >
           <div className={`flex justify-between items-center flex-wrap gap-2`}>
             <div className={`font-extrabold text-xl`}>🦄 Indexes</div>
-            {/* multi-search btn */}
-            <button
-              type={'button'}
-              className={`btn xs solid primary bg-gradient-to-r from-[#00DBDE] to-[#FC00FF] only-one-line`}
-              onClick={() => {
-                navigate(`/ins/${currentInstance.id}/multi-search`);
-              }}
-            >
-              🔥 Multi-Search
-            </button>
-            <ActionIcon variant={'light'} component={Link} to={`/ins/${currentInstance.id}/index/create`}>
-              <IconSquarePlus size={64} />
+
+            <ActionIcon variant={'transparent'} component={Link} to={`/ins/${currentInstance.id}/index/create`}>
+              <IconSquareRoundedPlusFilled size={64} />
             </ActionIcon>
           </div>
           <div
