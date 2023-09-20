@@ -144,7 +144,6 @@ function Tasks() {
 
             <Select
               placeholder="Filter Task Type"
-              clearable
               radius={'lg'}
               data={[
                 { value: TaskTypes.DOCUMENT_DELETION, label: 'DOCUMENT_DELETION' },
@@ -158,7 +157,6 @@ function Tasks() {
             />
             <Select
               placeholder="Filter Task Status"
-              clearable
               radius={'lg'}
               data={[
                 { value: 'succeeded', label: 'Succeeded ✅' },
@@ -199,9 +197,10 @@ function Tasks() {
           opened={isTaskDetailModalOpen}
           onClose={() => setIsTaskDetailModalOpen(false)}
           title="Task Detail"
+          size={'xl'}
         >
           <div className="flex justify-center items-center">
-            <Code block className="w-96">
+            <Code block className="w-full">
               {stringifyJsonPretty(taskDetailModalContent)}
             </Code>
           </div>

@@ -1,5 +1,6 @@
 import { ActionIcon, HoverCard } from '@mantine/core';
 import {
+  IconAffiliate,
   IconArrowsLeftRight,
   IconBook2,
   IconBooks,
@@ -145,6 +146,7 @@ export const Header: FC<Props> = ({ client, className }) => {
               <IconBooks size={14} />
               <p>Index</p>
             </Link>
+
             <div
               onClick={() => {
                 navigate([`/ins/${currentInstance.id}/keys`], { currentInstance });

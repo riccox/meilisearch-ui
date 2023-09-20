@@ -6,7 +6,13 @@ import { useInstanceStats } from '@/src/hooks/useInstanceStats';
 import { Link, Outlet, useNavigate, useSearchParams } from 'react-router-dom';
 import { Index } from 'meilisearch';
 import { useMeiliClient } from '@/src/hooks/useMeiliClient';
-import { IconAbacus, IconAdjustments, IconAlertTriangle, IconFileImport, IconSquarePlus } from '@tabler/icons-react';
+import {
+  IconAbacus,
+  IconAdjustments,
+  IconAlertTriangle,
+  IconFileImport,
+  IconSquareRoundedPlusFilled,
+} from '@tabler/icons-react';
 
 import ReactECharts from 'echarts-for-react'; // Import the echarts core module, which provides the necessary interfaces for using echarts.
 import * as echarts from 'echarts/core'; // Import charts, all with Chart suffix
@@ -148,7 +154,7 @@ function IndexesLayout() {
               navigate(`/ins/${currentInstance.id}/index/${index.uid}`);
             }}
           >
-            <p className={`col-span-4 text-xl font-bold`}>{uid}</p>
+            <p className={`col-span-4 text-lg font-bold`}>{uid}</p>
             <div className={`col-span-4 flex justify-end gap-x-2 items-center`}>
               <span className={`mr-auto badge outline sm primary`}>Count: {indexStat?.numberOfDocuments ?? 0}</span>
 
@@ -234,23 +240,10 @@ function IndexesLayout() {
         flex flex-col items-stretch p-6 rounded-3xl gap-y-2 overflow-hidden`}
         >
           <div className={`flex justify-between items-center flex-wrap gap-2`}>
-            <div className={`font-extrabold text-3xl`}>🦄 Indexes</div>
-            {/* multi-search btn */}
-            <span className={'tooltip primary bottom'} data-tooltip="Coming soon!">
-              {/* TODO */}
-              <button
-                type={'button'}
-                className={`btn sm solid primary bg-gradient-to-r from-[#00DBDE] to-[#FC00FF] only-one-line`}
-                onClick={() => {
-                  navigate(`/ins/${currentInstance.id}/multi-search`);
-                }}
-                disabled
-              >
-                🔥 Multi-Search
-              </button>
-            </span>
-            <ActionIcon variant={'light'} component={Link} to={`/ins/${currentInstance.id}/index/create`}>
-              <IconSquarePlus size={64} />
+            <div className={`font-extrabold text-xl`}>🦄 Indexes</div>
+
+            <ActionIcon variant={'transparent'} component={Link} to={`/ins/${currentInstance.id}/index/create`}>
+              <IconSquareRoundedPlusFilled size={64} />
             </ActionIcon>
           </div>
           <div
