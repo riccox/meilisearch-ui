@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.5.0](https://github.com/riccox/meilisearch-ui/compare/v0.4.1...v0.5.0) (2023-09-20)
+
+
+### Features
+
+* gh-62 larger pop-up task detail window. ([e310471](https://github.com/riccox/meilisearch-ui/commit/e310471f6573b0159b64d4c3c1c0943936951b8a))
+
+
+### Performance Improvements
+
+* add dash responsive width. ([e310471](https://github.com/riccox/meilisearch-ui/commit/e310471f6573b0159b64d4c3c1c0943936951b8a))
+
 ## [0.4.1](https://github.com/riccox/meilisearch-ui/compare/v0.4.0...v0.4.1) (2023-07-03)
 
 
