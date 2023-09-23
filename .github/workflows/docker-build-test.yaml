@@ -1,13 +1,13 @@
-name: docker-build-latest
+name: docker-build-test
 
 env:
   dockerhub_repository: "riccoxie/meilisearch-ui"
-  dockerhub_tag: "dev"
+  dockerhub_tag: "test"
 
 on:
   push:
     branches:
-      - main
+      - test
 
 jobs:
   dockerhub-build-push:
