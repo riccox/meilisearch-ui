@@ -269,15 +269,7 @@ function IndexesLayout() {
         </Modal>
       </div>
     ),
-    [
-      client,
-      currentInstance.id,
-      fieldDistributionChartOpt,
-      indexList,
-      indexesQuery,
-      isFieldDistributionDetailModalOpen,
-      navigate,
-    ]
+    [client, currentInstance.id, fieldDistributionChartOpt, indexList, indexesQuery, isFieldDistributionDetailModalOpen]
   );
 }
 
