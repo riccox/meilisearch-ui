@@ -14,6 +14,8 @@ export const testConnection = async (cfg: Config) => {
   } catch (e) {
     console.warn('[meilisearch connection test error]', e);
     toast.error('Connection fail, go check your config! 🤥');
+    // stop loading when error.
+    hiddenConnectionTestLoader();
     throw e;
   }
   // stop loading
