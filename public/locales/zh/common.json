@@ -1,9 +1,20 @@
 {
+  "forever": "永久",
+  "actions": "操作",
+  "create": "创建",
+  "delete": "删除",
   "confirm": "确认",
   "cancel": "取消",
   "edit": "编辑",
   "tasks": "任务",
   "indexes": "索引",
   "keys": "密钥",
-  "back": "回退"
+  "back": "回退",
+  "copy": "复制",
+  "copied": "已复制",
+  "name": "名称",
+  "description": "描述",
+  "created_at": "创建于",
+  "updated_at": "更新于",
+  "expired_at": "过期于"
 }

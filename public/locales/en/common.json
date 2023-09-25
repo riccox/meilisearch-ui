@@ -1,9 +1,20 @@
 {
+  "forever": "Forever",
+  "actions": "Actions",
+  "create": "Create",
+  "delete": "Delete",
   "confirm": "Confirm",
   "cancel": "Cancel",
   "edit": "Edit",
   "tasks": "Tasks",
   "indexes": "Indexes",
   "keys": "Keys",
-  "back": "Back"
+  "back": "Back",
+  "copy": "Copy",
+  "copied": "Copied",
+  "name": "Name",
+  "description": "Description",
+  "created_at": "Created At",
+  "updated_at": "Updated At",
+  "expired_at": "Expired At"
 }
