@@ -12,8 +12,10 @@ import MonacoEditor from '@monaco-editor/react';
 import clsx from 'clsx';
 import { IconCopy } from '@tabler/icons-react';
 import { hiddenRequestLoader, showRequestLoader } from '@/src/utils/loader';
+import { useTranslation } from 'react-i18next';
 
 export const UploadDoc = () => {
+  const { t } = useTranslation('upload');
   const outletContext = useOutletContext<{ refreshIndexes: () => void }>();
 
   const [dragAreaState, setDragAreaState] = useState<'leave' | 'over' | 'uploading'>('leave');
@@ -109,11 +111,11 @@ export const UploadDoc = () => {
       if (arr.length > 0) {
         if (editorRef) {
           editorRef.current.setValue(JSON.stringify(arr, null, 2));
-          toast.success('Clipboard JSON pasted');
+          toast.success(t('clipboard_json_pasted'));
         }
       }
     }
-  }, []);
+  }, [t]);
 
   const onAddDocumentsSubmit = useCallback(
     async (val: typeof addDocumentsForm.values) => {
@@ -164,16 +166,21 @@ export const UploadDoc = () => {
         p-6 rounded-3xl gap-y-4`}
       >
         <div className={`flex justify-between items-center gap-x-6`}>
-          <div className={`font-extrabold text-3xl`}>💽 Upload documents into Index({indexId})</div>
+          <div className={`font-extrabold text-3xl`}>
+            💽 {t('title')}({indexId})
+          </div>
         </div>
         <div className={`flex-1 flex gap-2 p-4 overflow-hidden`}>
           <div className={`flex-1 flex flex-col gap-y-4`}>
             <div className="flex justify-between items-center">
               <div className={'only-one-line'}>
-                <span className="pr-2">Input by editor</span>
-                <span className={`badge sm light info`}>Manually type in</span>
+                <span className="pr-2">{t('input_by_editor')}</span>
+                <span className={`badge sm light info`}>{t('manually_type_in')}</span>
               </div>
-              <span data-tooltip="Click to paste clipboard content (if it is valid JSON)" className="tooltip bw left">
+              <span
+                data-tooltip={t('click_to_paste_clipboard_content_if_it_is_valid_json')}
+                className="tooltip bw left"
+              >
                 <IconCopy
                   className="cursor-pointer"
                   style={{ transform: 'scale(-1, 1)' }}
@@ -201,16 +208,16 @@ export const UploadDoc = () => {
                   }}
                 ></MonacoEditor>
               </div>
-              <button type="submit" className="btn light solid success">
-                Submit
+              <button type="submit" className="btn light solid success w-full">
+                {t('submit')}
               </button>
             </form>
           </div>
           <div className="divider vertical"></div>
           <div className="flex-1 flex flex-col gap-y-4">
             <div className={'only-one-line'}>
-              <span className="pr-2">Import json file</span>
-              <span className={`badge sm light info`}>For large documents</span>
+              <span className="pr-2">{t('import_json_file')}</span>
+              <span className={`badge sm light info`}>{t('for_large_documents')}</span>
             </div>
             <div
               className={clsx(
@@ -237,16 +244,18 @@ export const UploadDoc = () => {
             >
               <h6 className="text-2xl">
                 {dragAreaState === 'over' ? (
-                  <>Release to Upload Documents</>
+                  <>{t('release_to_upload_documents')}</>
                 ) : dragAreaState === 'uploading' ? (
-                  <>Upload...</>
+                  <>{t('uploading')}...</>
                 ) : (
-                  <>
-                    Drag & Drop A <strong className="underline">JSON</strong> File Here
-                  </>
+                  <span
+                    dangerouslySetInnerHTML={{
+                      __html: t('drag_and_drop_a_file_here', { type: '<strong class="underline">JSON</strong>' }),
+                    }}
+                  ></span>
                 )}
               </h6>
-              <span>OR</span>
+              <span>{t('or')}</span>
               <button
                 className={clsx('btn outline info', {
                   ['!success']: dragAreaState === 'over',
@@ -254,7 +263,7 @@ export const UploadDoc = () => {
                 })}
                 disabled={dragAreaState === 'uploading'}
               >
-                Browse File
+                {t('browse_file')}
               </button>
               <input
                 type="file"
@@ -279,6 +288,7 @@ export const UploadDoc = () => {
       onImportAreaClick,
       onImportAreaDrop,
       pasteClipboardJSON,
+      t,
     ]
   );
 };
