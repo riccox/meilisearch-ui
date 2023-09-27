@@ -7,12 +7,14 @@ import { showTaskSubmitNotification } from '@/src/utils/text';
 import { openConfirmModal } from '@mantine/modals';
 import { IndexSettingComponentProps } from '.';
 import { useCurrentInstance } from '@/src/hooks/useCurrentInstance';
+import { useTranslation } from 'react-i18next';
 
 export const DangerZone: FC<
   IndexSettingComponentProps & {
     refreshIndexes: () => void;
   }
 > = ({ refreshIndexes, host, client }) => {
+  const { t } = useTranslation('instance');
   const navigate = useNavigate();
 
   const currentInstance = useCurrentInstance();
@@ -53,58 +55,54 @@ export const DangerZone: FC<
 
   const onClickDeleteIndex = useCallback(async () => {
     openConfirmModal({
-      title: 'Please confirm your action',
+      title: t('index_delete.dialog.title'),
       children: (
-        <Text size="sm">
-          You are <strong>deleting index {client.uid}</strong>. <br />
-          This action is so important that you are required to confirm it.
-          <br />
-          Please click one of these buttons to proceed.
-        </Text>
+        <Text
+          size="sm"
+          dangerouslySetInnerHTML={{ __html: t('index_delete.dialog.content', { uid: client.uid }) }}
+        ></Text>
       ),
-      labels: { confirm: 'Confirm', cancel: 'Cancel' },
+      labels: { confirm: t('confirm'), cancel: t('cancel') },
       confirmProps: {
         color: 'red',
       },
       onConfirm: () => delIndexMutation.mutate(),
     });
-  }, [delIndexMutation, client.uid]);
+  }, [delIndexMutation, client.uid, t]);
 
   const onClickDeleteAllDocuments = useCallback(async () => {
     openConfirmModal({
-      title: 'Please confirm your action',
+      title: t('all_documents_delete.dialog.title'),
       children: (
-        <Text size="sm">
-          You are <strong>deleting all documents</strong> of index <strong>{client.uid}</strong>. <br />
-          This action is so important that you are required to confirm it.
-          <br />
-          Please click one of these buttons to proceed.
-        </Text>
+        <Text
+          size="sm"
+          dangerouslySetInnerHTML={{ __html: t('all_documents_delete.dialog.content', { uid: client.uid }) }}
+        ></Text>
       ),
-      labels: { confirm: 'Confirm', cancel: 'Cancel' },
+      labels: { confirm: t('confirm'), cancel: t('cancel') },
       confirmProps: {
         color: 'red',
       },
       onConfirm: () => delIndexAllDocumentsMutation.mutate(),
     });
-  }, [delIndexAllDocumentsMutation, client.uid]);
+  }, [delIndexAllDocumentsMutation, t, client.uid]);
 
   return useMemo(
     () => (
       <div className={`bg-danger-300 has-border py-2 px-3 rounded-lg`}>
-        <p className={`text-danger-900 text-xl font-bold font-sans py-1`}>Danger Zone</p>
+        <p className={`text-danger-900 text-xl font-bold font-sans py-1`}>{t('setting.index.danger_zone')}</p>
         <div className={`flex flex-col items-start gap-4`}>
           <div className={`flex items-center gap-x-2`}>
             <button className={'danger btn solid sm'} onClick={onClickDeleteAllDocuments}>
-              Delete All Documents
+              {t('all_documents_delete.label')}
             </button>
             <button className={'danger btn solid sm'} onClick={onClickDeleteIndex}>
-              Delete This Index
+              {t('index_delete.label')}
             </button>
           </div>
         </div>
       </div>
     ),
-    [onClickDeleteAllDocuments, onClickDeleteIndex]
+    [onClickDeleteAllDocuments, t, onClickDeleteIndex]
   );
 };

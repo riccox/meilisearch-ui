@@ -1,14 +1,21 @@
 {
   "or": "OR",
+  "unknown": "Unknown",
   "uploading": "Uploading",
+  "search": "Search",
+  "save": "Save",
   "submit": "Submit",
   "forever": "Forever",
   "actions": "Actions",
   "create": "Create",
   "delete": "Delete",
+  "update": "Update",
   "confirm": "Confirm",
   "cancel": "Cancel",
   "edit": "Edit",
+  "system": "System",
+  "instance": "Instance",
+  "settings": "Settings",
   "tasks": "Tasks",
   "indexes": "Indexes",
   "keys": "Keys",
@@ -19,5 +26,9 @@
   "description": "Description",
   "created_at": "Created At",
   "updated_at": "Updated At",
-  "expired_at": "Expired At"
+  "expired_at": "Expired At",
+  "learn_more": "Learn more",
+  "toast": {
+    "fail": "Fail, {{msg}}"
+  }
 }

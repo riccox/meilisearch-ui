@@ -6,6 +6,7 @@ import { IndexSettingConfigComponentProps } from '../..';
 import { ArrayInput } from './arrayInput';
 import { IconAlertTriangleFilled } from '@tabler/icons-react';
 import _ from 'lodash';
+import { useTranslation } from 'react-i18next';
 
 export const FilterableAttributes: FC<IndexSettingConfigComponentProps> = ({
   client,
@@ -13,6 +14,8 @@ export const FilterableAttributes: FC<IndexSettingConfigComponentProps> = ({
   host,
   toggleLoading,
 }) => {
+  const { t } = useTranslation('instance');
+
   const query = useQuery({
     queryKey: ['getFilterableAttributes', host, client.uid],
     async queryFn(ctx) {
@@ -42,24 +45,21 @@ export const FilterableAttributes: FC<IndexSettingConfigComponentProps> = ({
       <div className={clsx(className)}>
         <h2 className="font-semibold">Filterable Attributes</h2>
         <span className="text-sm flex gap-2">
-          <p>Attributes in the filterableAttributes list can be used as filters or facets.</p>
+          <p>{t('setting.index.config.filterableAttributes.description')}</p>
           <a
             className="link info text-info-800"
             href="https://docs.meilisearch.com/learn/advanced/filtering_and_faceted_search.html"
             target={'_blank'}
             rel="noreferrer"
           >
-            Learn more
+            {t('learn_more')}
           </a>
         </span>
         <span className="prompt warn sm">
           <span className="icon">
             <IconAlertTriangleFilled />
           </span>
-          <p className="content">
-            Updating filterable attributes will re-index all documents in the index, which can take some time. We
-            recommend updating your index settings first and then adding documents as this reduces RAM consumption.
-          </p>
+          <p className="content">{t('setting.index.config.re_index_tip', { attribute: 'filterable attribute' })}</p>
         </span>
         <ArrayInput
           className="py-2"
@@ -70,6 +70,6 @@ export const FilterableAttributes: FC<IndexSettingConfigComponentProps> = ({
         />
       </div>
     ),
-    [className, mutation, query.data]
+    [className, mutation, query.data, t]
   );
 };

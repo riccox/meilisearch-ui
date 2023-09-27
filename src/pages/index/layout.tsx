@@ -22,10 +22,12 @@ import { CanvasRenderer } from 'echarts/renderers'; // Register the required com
 import _ from 'lodash';
 import { useCurrentInstance } from '@/src/hooks/useCurrentInstance';
 import clsx from 'clsx';
+import { useTranslation } from 'react-i18next';
 // Register the required components
 echarts.use([TitleComponent, TooltipComponent, GridComponent, BarChart, CanvasRenderer]);
 
 function IndexesLayout() {
+  const { t } = useTranslation('document');
   const currentInstance = useCurrentInstance();
   const navigate = useNavigate();
   const client = useMeiliClient();
@@ -49,8 +51,8 @@ function IndexesLayout() {
     return {
       title: {
         show: true,
-        text: 'Field Distribution',
-        subtext: 'Go to official docs about Field Distribution',
+        text: t('fieldDistribution.label'),
+        subtext: t('fieldDistribution.subtitle'),
         sublink: 'https://docs.meilisearch.com/reference/api/stats.html#stats-object',
       },
       tooltip: {
@@ -135,7 +137,7 @@ function IndexesLayout() {
       animationEasing: 'quarticInOut',
       animationEasingUpdate: 'quarticInOut',
     };
-  }, [fieldDistributionDetailChartIndex, stats?.indexes]);
+  }, [fieldDistributionDetailChartIndex, stats?.indexes, t]);
 
   const indexList = useMemo(() => {
     if (indexes && indexes.length > 0) {
@@ -156,10 +158,16 @@ function IndexesLayout() {
           >
             <p className={`col-span-4 text-lg font-bold`}>{uid}</p>
             <div className={`col-span-4 flex justify-end gap-x-2 items-center`}>
-              <span className={`mr-auto badge outline sm primary`}>Count: {indexStat?.numberOfDocuments ?? 0}</span>
+              <span className={`mr-auto badge outline sm primary`}>
+                {t('count')}: {indexStat?.numberOfDocuments ?? 0}
+              </span>
 
               {/* Add docs */}
-              <span data-tooltip="Add documents" className="tooltip bw top group-hover:visible invisible" tabIndex={0}>
+              <span
+                data-tooltip={t('add_documents')}
+                className="tooltip bw top group-hover:visible invisible"
+                tabIndex={0}
+              >
                 <ActionIcon
                   variant="light"
                   color={'brand'}
@@ -174,7 +182,10 @@ function IndexesLayout() {
                 </ActionIcon>
               </span>
 
-              <span data-tooltip="Field Distribution" className="tooltip bw left group-hover:visible invisible">
+              <span
+                data-tooltip={t('fieldDistribution.label')}
+                className="tooltip bw left group-hover:visible invisible"
+              >
                 <ActionIcon
                   variant="light"
                   color={'brand'}
@@ -189,7 +200,7 @@ function IndexesLayout() {
                 </ActionIcon>
               </span>
 
-              <span data-tooltip="Settings" className="tooltip bw left group-hover:visible invisible">
+              <span data-tooltip={t('settings')} className="tooltip bw left group-hover:visible invisible">
                 <ActionIcon
                   variant="light"
                   color={'brand'}
@@ -204,14 +215,11 @@ function IndexesLayout() {
                 </ActionIcon>
               </span>
               {indexStat?.isIndexing && (
-                <span
-                  className={'tooltip bw bottom'}
-                  data-tooltip="This index is indexing documents, setting & search results may be incorrect now!"
-                >
+                <span className={'tooltip bw bottom'} data-tooltip={t('indexing_tip')}>
                   <Badge size="lg" variant="filled">
                     <div className={`flex flex-nowrap`}>
                       <IconAlertTriangle />
-                      <div>indexing...</div>
+                      <div>{t('indexing')}...</div>
                     </div>
                   </Badge>
                 </span>
@@ -224,12 +232,12 @@ function IndexesLayout() {
       return (
         <div className={`flex-1 flex justify-center items-center`}>
           <Button radius={'xl'} size={'xl'} component={Link} to={`/ins/${currentInstance.id}/index/create`}>
-            Create Index
+            {t('instance:create_index.label')}
           </Button>
         </div>
       );
     }
-  }, [currentInstance.id, indexes, navigate, onClickFieldDistribution, searchParams, stats?.indexes]);
+  }, [currentInstance.id, indexes, navigate, onClickFieldDistribution, searchParams, t, stats?.indexes]);
 
   return useMemo(
     () => (
@@ -240,7 +248,7 @@ function IndexesLayout() {
         flex flex-col items-stretch p-6 rounded-3xl gap-y-2 overflow-hidden`}
         >
           <div className={`flex justify-between items-center flex-wrap gap-2`}>
-            <div className={`font-extrabold text-xl`}>🦄 Indexes</div>
+            <div className={`font-extrabold text-xl`}>🦄 {t('indexes')}</div>
 
             <ActionIcon variant={'transparent'} component={Link} to={`/ins/${currentInstance.id}/index/create`}>
               <IconSquareRoundedPlusFilled size={64} />
@@ -269,7 +277,15 @@ function IndexesLayout() {
         </Modal>
       </div>
     ),
-    [client, currentInstance.id, fieldDistributionChartOpt, indexList, indexesQuery, isFieldDistributionDetailModalOpen]
+    [
+      client,
+      currentInstance.id,
+      fieldDistributionChartOpt,
+      indexList,
+      indexesQuery,
+      t,
+      isFieldDistributionDetailModalOpen,
+    ]
   );
 }
 

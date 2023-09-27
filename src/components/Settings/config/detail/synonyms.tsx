@@ -7,6 +7,7 @@ import _ from 'lodash';
 import { IconCircleMinus, IconEdit, IconPlus } from '@tabler/icons-react';
 import { openConfirmModal } from '@mantine/modals';
 import { Controller, useForm } from 'react-hook-form';
+import { useTranslation } from 'react-i18next';
 
 type State = {
   // add or update synonyms modal state
@@ -27,6 +28,8 @@ type SynonymsMutationForm = {
 };
 
 export const Synonyms: FC<IndexSettingConfigComponentProps> = ({ client, className, host, toggleLoading }) => {
+  const { t } = useTranslation('instance');
+
   const [state, updateState] = useReducer((prev: State, curr: Partial<State>) => ({ ...prev, ...curr }), {
     isSynonymsMutationModalShow: false,
     synonymsMutationType: 'add',
@@ -73,10 +76,10 @@ export const Synonyms: FC<IndexSettingConfigComponentProps> = ({ client, classNa
       console.debug('🚀 ~ file: Synonyms onClickItemDel', key);
 
       openConfirmModal({
-        title: 'Remove this synonyms',
+        title: t('setting.index.config.remove_this.item'),
         centered: true,
-        children: <p>Are you sure you want to remove "{key}" ?</p>,
-        labels: { confirm: 'Remove', cancel: 'Cancel' },
+        children: <p>{t('setting.index.config.are_you_sure_you_want_to_remove_item', { item: key })}</p>,
+        labels: { confirm: t('confirm'), cancel: t('cancel') },
         confirmProps: { color: 'red' },
         onConfirm: async () => {
           const updated = _.omit(query.data, [key]);
@@ -84,7 +87,7 @@ export const Synonyms: FC<IndexSettingConfigComponentProps> = ({ client, classNa
         },
       });
     },
-    [mutation, query.data]
+    [mutation, t, query.data]
   );
 
   const onSubmitSynonymsMutation = synonymsMutationForm.handleSubmit((data) => {
@@ -123,17 +126,14 @@ export const Synonyms: FC<IndexSettingConfigComponentProps> = ({ client, classNa
       <div className={clsx(className)}>
         <h2 className="font-semibold">Synonyms</h2>
         <span className="text-sm flex gap-2">
-          <p>
-            The synonyms object contains words and their respective synonyms. A synonym in Meilisearch is considered
-            equal to its associated word for the purposes of calculating search results.
-          </p>
+          <p>{t('setting.index.config.synonyms.description')}</p>
           <a
             className="link info text-info-800"
             href="https://docs.meilisearch.com/learn/configuration/synonyms.html"
             target={'_blank'}
             rel="noreferrer"
           >
-            Learn more
+            {t('learn_more')}
           </a>
         </span>
         <div className={clsx('flex flex-col gap-2')}>
@@ -170,9 +170,13 @@ export const Synonyms: FC<IndexSettingConfigComponentProps> = ({ client, classNa
             >
               ✕
             </button>
-            <h2 className="text-xl">{state.synonymsMutationType === 'add' ? 'Add Synonyms' : 'Update Synonyms'}</h2>
+            <h2 className="text-xl">
+              {state.synonymsMutationType === 'add'
+                ? t('setting.index.config.synonyms.dialog.title.add')
+                : t('setting.index.config.synonyms.dialog.title.update')}
+            </h2>
             <label className="grid gap-2">
-              Synonyms Key
+              {t('setting.index.config.synonyms.dialog.synonymsKey')}
               <input
                 className="input outline secondary"
                 {...synonymsMutationForm.register('synonyms', { required: true })}
@@ -184,7 +188,10 @@ export const Synonyms: FC<IndexSettingConfigComponentProps> = ({ client, classNa
               render={({ field }) => (
                 <div className="flex flex-wrap items-center gap-2">
                   {(field.value || []).map((value) => (
-                    <span className="tooltip bw top" data-tooltip="Click to remove">
+                    <span
+                      className="tooltip bw top"
+                      data-tooltip={t('setting.index.config.synonyms.synonymsWords.tip')}
+                    >
                       <span
                         key={value}
                         className="badge solid secondary cursor-pointer items-center"
@@ -205,7 +212,7 @@ export const Synonyms: FC<IndexSettingConfigComponentProps> = ({ client, classNa
                     }}
                   >
                     <IconPlus />
-                    Add a word
+                    {t('setting.index.config.synonyms.synonymsWords.add')}
                   </span>
                   <label className="modal-overlay !h-full"></label>
                   <div
@@ -224,7 +231,7 @@ export const Synonyms: FC<IndexSettingConfigComponentProps> = ({ client, classNa
                     >
                       ✕
                     </button>
-                    <h2 className="text-xl">Add Synonyms Word</h2>
+                    <h2 className="text-xl">{t('setting.index.config.synonyms.synonymsWords.add')}</h2>
                     <input
                       className="input outline primary"
                       value={state.mutatingSynonymsWord}
@@ -243,7 +250,7 @@ export const Synonyms: FC<IndexSettingConfigComponentProps> = ({ client, classNa
                           updateState({ isMutateSynonymsWordModalShow: false });
                         }}
                       >
-                        Confirm
+                        {t('confirm')}
                       </button>
                       <button
                         className="btn solid bw flex-1"
@@ -252,7 +259,7 @@ export const Synonyms: FC<IndexSettingConfigComponentProps> = ({ client, classNa
                           toggleSynonymsWordMutationModal(false);
                         }}
                       >
-                        Cancel
+                        {t('cancel')}
                       </button>
                     </div>
                   </div>
@@ -267,7 +274,7 @@ export const Synonyms: FC<IndexSettingConfigComponentProps> = ({ client, classNa
                   onSubmitSynonymsMutation();
                 }}
               >
-                Submit
+                {t('submit')}
               </button>
               <button
                 className="btn solid bw flex-1"
@@ -276,7 +283,7 @@ export const Synonyms: FC<IndexSettingConfigComponentProps> = ({ client, classNa
                   toggleSynonymsMutationModal(false);
                 }}
               >
-                Cancel
+                {t('cancel')}
               </button>
             </div>
           </form>
@@ -289,6 +296,7 @@ export const Synonyms: FC<IndexSettingConfigComponentProps> = ({ client, classNa
     [
       className,
       synonymsKeys,
+      t,
       state.isSynonymsMutationModalShow,
       state.synonymsMutationType,
       state.isMutateSynonymsWordModalShow,

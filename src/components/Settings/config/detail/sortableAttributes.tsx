@@ -6,6 +6,7 @@ import { IndexSettingConfigComponentProps } from '../..';
 import { ArrayInput } from './arrayInput';
 import { IconAlertTriangleFilled } from '@tabler/icons-react';
 import _ from 'lodash';
+import { useTranslation } from 'react-i18next';
 
 export const SortableAttributes: FC<IndexSettingConfigComponentProps> = ({
   client,
@@ -13,6 +14,7 @@ export const SortableAttributes: FC<IndexSettingConfigComponentProps> = ({
   host,
   toggleLoading,
 }) => {
+  const { t } = useTranslation('instance');
   const query = useQuery({
     queryKey: ['getSortableAttributes', host, client.uid],
 
@@ -43,24 +45,21 @@ export const SortableAttributes: FC<IndexSettingConfigComponentProps> = ({
       <div className={clsx(className)}>
         <h2 className="font-semibold">Sortable Attributes</h2>
         <span className="text-sm flex gap-2">
-          <p>Attributes that can be used when sorting search results using the sort search parameter.</p>
+          <p>{t('setting.index.config.sortableAttributes.description')}</p>
           <a
             className="link info text-info-800"
             href="https://docs.meilisearch.com/learn/advanced/sorting.html"
             target={'_blank'}
             rel="noreferrer"
           >
-            Learn more
+            {t('learn_more')}
           </a>
         </span>
         <span className="prompt warn sm">
           <span className="icon">
             <IconAlertTriangleFilled />
           </span>
-          <p className="content">
-            Updating sortable attributes will re-index all documents in the index, which can take some time. We
-            recommend updating your index settings first and then adding documents as this reduces RAM consumption.
-          </p>
+          <p className="content">{t('setting.index.config.re_index_tip', { attribute: 'sortable attributes' })}</p>
         </span>
         <ArrayInput
           className="py-2"
@@ -71,6 +70,6 @@ export const SortableAttributes: FC<IndexSettingConfigComponentProps> = ({
         />
       </div>
     ),
-    [className, mutation, query.data]
+    [className, mutation, t, query.data]
   );
 };

@@ -8,8 +8,11 @@ import { IndexObject, IndexOptions } from 'meilisearch';
 import { IconPencilMinus } from '@tabler/icons-react';
 import { matches, useForm } from '@mantine/form';
 import { IndexSettingComponentProps } from '.';
+import { useTranslation } from 'react-i18next';
 
 export const BaseInfo: FC<IndexSettingComponentProps> = ({ host, client }) => {
+  const { t } = useTranslation('instance');
+
   const [isRawInfoEditing, setIsRawInfoEditing] = useState<boolean>(false);
 
   const onClickEditPrimaryKey = useCallback(() => {
@@ -62,7 +65,7 @@ export const BaseInfo: FC<IndexSettingComponentProps> = ({ host, client }) => {
       primaryKey: indexRawInfoDisplayData?.primaryKey,
     },
     validate: {
-      primaryKey: matches(/[a-zA-Z\d-_]+/, 'Invalid primary key'),
+      primaryKey: matches(/[a-zA-Z\d-_]+/, t('setting.index.edit.form.primaryKey.validation_error')),
     },
   });
 
@@ -77,20 +80,20 @@ export const BaseInfo: FC<IndexSettingComponentProps> = ({ host, client }) => {
   return useMemo(
     () => (
       <div className="has-border bg-bw-50 py-2 px-3 rounded-lg">
-        <p className={`text-xl font-bold font-sans`}>Index Info</p>
+        <p className={`text-xl font-bold font-sans`}>{t('setting.index.index_info')}</p>
         <div className={`index-properties grid grid-cols-6 gap-2`}>
-          <p className={`cell`}>Index UID</p>
+          <p className={`cell`}>UID</p>
           <p className={`cell`}>{indexRawInfoDisplayData?.uid}</p>
-          <p className={`cell`}>Primary Key</p>
+          <p className={`cell`}>{t('primaryKey')}</p>
           <div className={`cell flex items-center gap-x-1`}>
             {indexRawInfoDisplayData?.primaryKey || '-'}
             <ActionIcon variant="transparent" onClick={onClickEditPrimaryKey}>
               <IconPencilMinus size={18} />
             </ActionIcon>
           </div>
-          <p className={`cell`}>Created At</p>
+          <p className={`cell`}>{t('created_at')}</p>
           <p className={`cell`}>{getTimeText(indexRawInfoDisplayData?.createdAt)}</p>
-          <p className={`cell`}>Updated At</p>
+          <p className={`cell`}>{t('updated_at')}</p>
           <p className={`cell`}>{getTimeText(indexRawInfoDisplayData?.updatedAt)}</p>
         </div>
         <Modal
@@ -102,22 +105,18 @@ export const BaseInfo: FC<IndexSettingComponentProps> = ({ host, client }) => {
           shadow="xl"
           padding="xl"
           withCloseButton={true}
-          title={<p className={`font-bold text-lg`}>Edit Primary Key</p>}
+          title={<p className={`font-bold text-lg`}>{t('edit') + t('primaryKey')}</p>}
         >
           <form
             className={`flex flex-col gap-y-6 w-full `}
             onSubmit={editRawInfoForm.onSubmit(onSubmitEditRawInfoUpdate)}
           >
-            <Tooltip
-              position={'bottom-start'}
-              label="NOTE: Primary key cannot be changed while documents are present in the index."
-            >
+            <Tooltip position={'bottom-start'} label={t('setting.index.edit.form.primaryKey.tip')}>
               <TextInput
                 autoFocus
                 radius="md"
                 size={'lg'}
-                label={<p className={'text-brand-5 pb-2 text-lg'}>Name</p>}
-                placeholder="field must be present in all documents"
+                placeholder={t('setting.index.edit.form.primaryKey.placeholder')}
                 {...editRawInfoForm.getInputProps('primaryKey')}
               />
             </Tooltip>
@@ -129,7 +128,7 @@ export const BaseInfo: FC<IndexSettingComponentProps> = ({ host, client }) => {
               // submit only value changed
               disabled={editRawInfoForm.values.primaryKey === indexRawInfoDisplayData?.primaryKey}
             >
-              Submit
+              {t('submit')}
             </Button>
             <div>
               <Text
@@ -139,7 +138,7 @@ export const BaseInfo: FC<IndexSettingComponentProps> = ({ host, client }) => {
                 size="sm"
                 href="//docs.meilisearch.com/learn/core_concepts/primary_key.html#primary-key"
               >
-                🔎 Look up official docs about primary-key
+                {t('setting.index.edit.form.primaryKey.learn_more')}
               </Text>
             </div>
           </form>
@@ -148,6 +147,7 @@ export const BaseInfo: FC<IndexSettingComponentProps> = ({ host, client }) => {
     ),
     [
       editRawInfoForm,
+      t,
       indexRawInfoDisplayData?.createdAt,
       indexRawInfoDisplayData?.primaryKey,
       indexRawInfoDisplayData?.uid,

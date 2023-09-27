@@ -5,6 +5,7 @@ import { useForm } from '@mantine/form';
 import { useQuery } from '@tanstack/react-query';
 import { useMeiliClient } from '@/src/hooks/useMeiliClient';
 import { useCurrentInstance } from '@/src/hooks/useCurrentInstance';
+import { useTranslation } from 'react-i18next';
 
 const emptySearchResult = {
   hits: [],
@@ -17,6 +18,7 @@ type Props = {
 };
 
 export const SearchPage = ({ currentIndex }: Props) => {
+  const { t } = useTranslation('document');
   const [searchFormError, setSearchFormError] = useState<string | null>(null);
   const currentInstance = useCurrentInstance();
   const host = currentInstance?.host;
@@ -35,8 +37,7 @@ export const SearchPage = ({ currentIndex }: Props) => {
       sort: '',
     },
     validate: {
-      limit: (value: number) =>
-        value < 500 ? null : 'limit search value allow (<500) in this ui console for performance',
+      limit: (value: number) => (value < 500 ? null : t('search.form.limit.validation_error')),
     },
   });
 
@@ -110,10 +111,14 @@ export const SearchPage = ({ currentIndex }: Props) => {
           onFormSubmit={searchForm.onSubmit(onSearchSubmit)}
         />
         <div className={`flex gap-x-4 justify-between items-baseline`}>
-          <p className={`font-extrabold text-2xl`}>Results </p>
+          <p className={`font-extrabold text-2xl`}>{t('search.results.label')} </p>
           <div className={`flex gap-x-2 px-4 font-thin text-xs text-neutral-500`}>
-            <p>total {searchDocumentsQuery.data?.estimatedTotalHits} hits</p>
-            <p>in {searchDocumentsQuery.data?.processingTimeMs} ms</p>
+            <p>
+              {t('search.results.total_hits', { estimatedTotalHits: searchDocumentsQuery.data?.estimatedTotalHits })}
+            </p>
+            <p>
+              {t('search.results.processing_time', { processingTimeMs: searchDocumentsQuery.data?.processingTimeMs })}
+            </p>
           </div>
         </div>
         {/* Doc List */}
@@ -131,6 +136,7 @@ export const SearchPage = ({ currentIndex }: Props) => {
     ),
     [
       currentIndex,
+      t,
       indexPrimaryKeyQuery.data,
       onSearchSubmit,
       searchDocumentsQuery.data?.estimatedTotalHits,

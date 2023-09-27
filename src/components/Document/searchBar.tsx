@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import { UseFormReturnType } from '@mantine/form';
 import { SearchForm } from './searchForm';
+import { useTranslation } from 'react-i18next';
 
 type Props = {
   isFetching?: boolean;
@@ -16,6 +17,7 @@ type Props = {
 };
 
 export const SearchBar = ({ isFetching = false, searchForm, searchFormError, onFormSubmit }: Props) => {
+  const { t } = useTranslation('document');
   return useMemo(
     () => (
       <div className={`rounded-lg ${isFetching ? 'rainbow-ring-rotate' : ''}`}>
@@ -25,11 +27,11 @@ export const SearchBar = ({ isFetching = false, searchForm, searchFormError, onF
             searchForm={searchForm}
             searchFormError={searchFormError}
             onFormSubmit={onFormSubmit}
-            submitBtnText="Search"
+            submitBtnText={t('common:search')}
           />
         </div>
       </div>
     ),
-    [isFetching, onFormSubmit, searchForm, searchFormError]
+    [isFetching, onFormSubmit, searchForm, searchFormError, t]
   );
 };

@@ -5,8 +5,11 @@ import { FC, useEffect, useMemo } from 'react';
 import { IndexSettingConfigComponentProps } from '../..';
 import { ArrayInput } from './arrayInput';
 import _ from 'lodash';
+import { useTranslation } from 'react-i18next';
 
 export const TypoTolerance: FC<IndexSettingConfigComponentProps> = ({ client, className, host, toggleLoading }) => {
+  const { t } = useTranslation('instance');
+
   const query = useQuery({
     queryKey: ['getTypoTolerance', host, client.uid],
 
@@ -37,22 +40,18 @@ export const TypoTolerance: FC<IndexSettingConfigComponentProps> = ({ client, cl
       <div className={clsx(className)}>
         <h2 className="font-semibold">Typo Tolerance</h2>
         <span className="text-sm flex flex-wrap gap-2">
-          <p>
-            Typo tolerance helps users find relevant results even when their search queries contain spelling mistakes or
-            typos. This setting allows you to configure the minimum word size for typos and disable typo tolerance for
-            specific words or attributes.
-          </p>
+          <p>{t('setting.index.config.typoTolerance.description')}</p>
           <a
             className="link info text-info-800"
             href="https://docs.meilisearch.com/learn/configuration/typo_tolerance.html"
             target={'_blank'}
             rel="noreferrer"
           >
-            Learn more
+            {t('learn_more')}
           </a>
         </span>
 
-        <h3>Enabled</h3>
+        <h3>{t('setting.index.config.typoTolerance.enabled')}</h3>
         <input
           defaultChecked={query.data?.enabled || false}
           className="switch success"
@@ -62,7 +61,7 @@ export const TypoTolerance: FC<IndexSettingConfigComponentProps> = ({ client, cl
           }}
         />
 
-        <h3>Disable on attributes</h3>
+        <h3>{t('setting.index.config.typoTolerance.disableOnAttributes')}</h3>
         <ArrayInput
           className="py-2"
           defaultValue={query.data?.disableOnAttributes || []}
@@ -71,7 +70,7 @@ export const TypoTolerance: FC<IndexSettingConfigComponentProps> = ({ client, cl
           }}
         />
 
-        <h3>Disable on words</h3>
+        <h3>{t('setting.index.config.typoTolerance.disableOnWords')}</h3>
         <ArrayInput
           className="py-2"
           defaultValue={query.data?.disableOnWords || []}
@@ -80,7 +79,7 @@ export const TypoTolerance: FC<IndexSettingConfigComponentProps> = ({ client, cl
           }}
         />
 
-        <h3>Min word size for typos</h3>
+        <h3>{t('setting.index.config.typoTolerance.minWordSizeForTypos')}</h3>
         <div className="w-fit grid grid-cols-2 items-center gap-4">
           <h4>One typos</h4>
           <input
@@ -115,6 +114,6 @@ export const TypoTolerance: FC<IndexSettingConfigComponentProps> = ({ client, cl
         </div>
       </div>
     ),
-    [className, mutation, query.data]
+    [className, mutation, t, query.data]
   );
 };

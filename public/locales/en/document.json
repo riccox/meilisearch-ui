@@ -1,0 +1,46 @@
+{
+  "fieldDistribution": {
+    "label": "Field Distribution",
+    "subtitle": "Go to official docs about “Field Distribution”"
+  },
+  "count": "Count",
+  "add_documents": "Add documents",
+  "indexing": "Indexing",
+  "indexing_tip": "This index is indexing documents, setting & search results may be incorrect now!",
+  "empty_area_tip": "Select or Create a index on the left to start",
+  "delete_document": "Delete document",
+  "delete": {
+    "tip": "Are you sure you want to delete this",
+    "require_primaryKey": "Document deletion require the valid primaryKey in index {{indexId}}"
+  },
+  "edit_document": "Edit document",
+  "search": {
+    "form": {
+      "limit": {
+        "label": "Limit",
+        "validation_error": "limit search value allow (<500) in this ui console for performance"
+      },
+      "indexId": {
+        "placeholder": "input target index id"
+      },
+      "q": {
+        "placeholder": "type some search query..."
+      },
+      "filter": {
+        "label": "Filter"
+      },
+      "offset": {
+        "label": "Offset"
+      },
+      "sort": {
+        "label": "Sort",
+        "tip": "use half-width comma(',') to separate multi sort expression and order"
+      }
+    },
+    "results": {
+      "label": "Results",
+      "total_hits": "total {{estimatedTotalHits}} hits",
+      "processing_time": "in {{processingTimeMs}} ms"
+    }
+  }
+}

@@ -6,8 +6,11 @@ import { IndexSettingConfigComponentProps } from '../..';
 import { IconAlertTriangleFilled } from '@tabler/icons-react';
 import { Controller, useForm } from 'react-hook-form';
 import _ from 'lodash';
+import { useTranslation } from 'react-i18next';
 
 export const DistinctAttribute: FC<IndexSettingConfigComponentProps> = ({ client, className, host, toggleLoading }) => {
+  const { t } = useTranslation('instance');
+
   const query = useQuery({
     queryKey: ['getDistinctAttribute', host, client.uid],
     async queryFn(ctx) {
@@ -56,24 +59,21 @@ export const DistinctAttribute: FC<IndexSettingConfigComponentProps> = ({ client
       <div className={clsx(className)}>
         <h2 className="font-semibold">Distinct Attribute</h2>
         <span className="text-sm flex gap-2">
-          <p>The distinct attribute is a field whose value will always be unique in the returned documents.</p>
+          <p>{t('setting.index.config.distinctAttribute.description')}</p>
           <a
             className="link info text-info-800"
             href="https://docs.meilisearch.com/learn/configuration/distinct.html"
             target={'_blank'}
             rel="noreferrer"
           >
-            Learn more
+            {t('learn_more')}
           </a>
         </span>
         <span className="prompt warn sm">
           <span className="icon">
             <IconAlertTriangleFilled />
           </span>
-          <p className="content">
-            Updating distinct attributes will re-index all documents in the index, which can take some time. We
-            recommend updating your index settings first and then adding documents as this reduces RAM consumption.
-          </p>
+          <p className="content">{t('setting.index.config.re_index_tip', { attribute: 'distinct attribute' })}</p>
         </span>
 
         <form className={clsx('flex flex-col gap-2')}>
@@ -83,7 +83,7 @@ export const DistinctAttribute: FC<IndexSettingConfigComponentProps> = ({ client
             render={({ field: { value, onChange } }) => (
               <span
                 className="tooltip secondary bottom"
-                data-tooltip="leave empty to reset the distinct attribute of an index to its default value."
+                data-tooltip={t('setting.index.config.distinctAttribute.input.tip')}
               >
                 <input
                   className="input outline primary"
@@ -101,7 +101,7 @@ export const DistinctAttribute: FC<IndexSettingConfigComponentProps> = ({ client
                 startEdit();
               }}
             >
-              Edit
+              {t('edit')}
             </button>
             <button
               className={clsx(!isEditing && 'hidden', 'flex-1 btn outline sm success')}
@@ -110,7 +110,7 @@ export const DistinctAttribute: FC<IndexSettingConfigComponentProps> = ({ client
                 onSubmit();
               }}
             >
-              Save
+              {t('save')}
             </button>
             <button
               className={clsx(!isEditing && 'hidden', 'flex-1 btn outline sm bw')}
@@ -119,12 +119,12 @@ export const DistinctAttribute: FC<IndexSettingConfigComponentProps> = ({ client
                 onCompleteInput();
               }}
             >
-              Cancel
+              {t('cancel')}
             </button>
           </div>
         </form>
       </div>
     ),
-    [className, form.control, isEditing, onCompleteInput, onSubmit, query.data, startEdit]
+    [className, t, form.control, isEditing, onCompleteInput, onSubmit, query.data, startEdit]
   );
 };

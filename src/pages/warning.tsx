@@ -7,7 +7,7 @@ import { useTranslation } from 'react-i18next';
 
 function Warning() {
   const navigate = useNavigate();
-  const { t } = useTranslation('warning');
+  const { t } = useTranslation('sys');
   const warningPageData = useAppStore((state) => state.warningPageData);
   return (
     <div className="full-page bg-mount gap-y-10 justify-center items-center">

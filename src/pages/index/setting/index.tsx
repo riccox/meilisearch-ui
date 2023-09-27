@@ -5,10 +5,12 @@ import { BaseInfo } from '@/src/components/Settings/baseInfo';
 import { DangerZone } from '@/src/components/Settings/dangerZone';
 import { IndexConfiguration } from '@/src/components/Settings/config';
 import { useCurrentInstance } from '@/src/hooks/useCurrentInstance';
+import { useTranslation } from 'react-i18next';
 
 function SettingsPage() {
   const outletContext = useOutletContext<{ refreshIndexes: () => void }>();
 
+  const { t } = useTranslation();
   const currentInstance = useCurrentInstance();
   const { indexId } = useParams();
   const navigate = useNavigate();
@@ -31,7 +33,7 @@ function SettingsPage() {
         p-6 rounded-3xl gap-y-4`}
       >
         <div className={`flex justify-between items-center gap-x-6`}>
-          <div className={`font-extrabold text-3xl`}>🛠️ Settings</div>
+          <div className={`font-extrabold text-3xl`}>🛠️ {t('settings')}</div>
         </div>
         <div className={`flex-1 flex flex-col gap-2 px-4 py-2 overflow-scroll`}>
           <BaseInfo {...{ host, client: indexClient }} />
@@ -40,7 +42,7 @@ function SettingsPage() {
         </div>
       </div>
     ),
-    [host, indexClient, outletContext.refreshIndexes]
+    [host, indexClient, outletContext.refreshIndexes, t]
   );
 }
 

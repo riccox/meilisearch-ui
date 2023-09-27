@@ -1,0 +1,46 @@
+{
+  "fieldDistribution": {
+    "label": "字段分布",
+    "subtitle": "转到有关 Field Distribution 的官方文档"
+  },
+  "count": "文档计数",
+  "add_documents": "添加文档",
+  "indexing": "索引中",
+  "indexing_tip": "此索引正在为文档编制索引，设置与搜索结果现在可能显示不正确!",
+  "empty_area_tip": "选择索引 或 在左侧创建索引 以开始",
+  "delete_document": "删除文档",
+  "delete": {
+    "tip": "是否确实要删除这个",
+    "require_primaryKey": "文档删除需要索引 {{indexId}} 中存在有效的primaryKey"
+  },
+  "edit_document": "编辑文档",
+  "search": {
+    "form": {
+      "limit": {
+        "label": "限制结果数",
+        "validation_error": "为了此面板的性能，限制此搜索结果数（＜500）"
+      },
+      "indexId": {
+        "placeholder": "输入目标索引id"
+      },
+      "q": {
+        "placeholder": "输入搜索词..."
+      },
+      "filter": {
+        "label": "过滤器"
+      },
+      "offset": {
+        "label": "偏移"
+      },
+      "sort": {
+        "label": "排序",
+        "tip": "使用半角逗号（','）分隔多个排序表达式"
+      }
+    },
+    "results": {
+      "label": "搜索结果",
+      "total_hits": "总计返回 {{estimatedTotalHits}} 条结果",
+      "processing_time": "用时 {{processingTimeMs}} ms"
+    }
+  }
+}

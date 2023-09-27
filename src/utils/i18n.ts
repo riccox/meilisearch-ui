@@ -9,7 +9,17 @@ export enum SUPPORTED_LANGUAGE_LOCALIZED {
   en = 'EN',
   zh = '中文',
 }
-export const NAMESPACES = ['common', 'dashboard', 'warning', 'task', 'key', 'upload'] as const;
+export const NAMESPACES = [
+  'common',
+  'dashboard',
+  'task',
+  'key',
+  'upload',
+  'document',
+  'instance',
+  'header',
+  'sys',
+] as const;
 
 i18n
   .use(Backend)
