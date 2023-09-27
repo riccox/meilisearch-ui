@@ -13,6 +13,7 @@ import { Synonyms } from './detail/synonyms';
 import { TypoTolerance } from './detail/typoTolerance';
 import { Faceting } from './detail/faceting';
 import { Pagination } from './detail/pagination';
+import { useTranslation } from 'react-i18next';
 
 const tabs = [
   'Filterable Attributes',
@@ -32,12 +33,13 @@ export const IndexConfiguration: FC<IndexSettingComponentProps> = ({ host, clien
   const [inputType, setInputType] = useState<'visualization' | 'json'>('visualization');
   const [selectTab, setSelectTab] = useState<number>(0);
   const [isLoading, toggleLoading] = useState<boolean>(false);
+  const { t } = useTranslation('instance');
 
   return useMemo(
     () => (
       <div className="has-border bg-bw-50 py-2 px-3 rounded-lg font-sans">
         <div className={`flex justify-between items-center gap-x-2 w-full py-1`}>
-          <p className={`text-xl font-bold font-sans`}>Index Configuration</p>
+          <p className={`text-xl font-bold font-sans`}>{t('setting.index.config.label')}</p>
           <div className={clsx('loader bw xs opacity-70', !isLoading && '!hidden')}>
             <div className="spin" />
           </div>
@@ -46,7 +48,7 @@ export const IndexConfiguration: FC<IndexSettingComponentProps> = ({ host, clien
               className={clsx('tab px-3 !py-1 !min-h-0 !h-fit', inputType === 'visualization' && 'active')}
               onClick={() => setInputType('visualization')}
             >
-              Visualization
+              {t('setting.index.config.visualization')}
             </div>
             <div
               className={clsx('tab px-3 !py-1 !min-h-0 !h-fit', inputType === 'json' && 'active')}
@@ -118,6 +120,6 @@ export const IndexConfiguration: FC<IndexSettingComponentProps> = ({ host, clien
         <Editor className={clsx(inputType !== 'json' && 'hidden')} {...{ host, client, toggleLoading }} />
       </div>
     ),
-    [client, host, inputType, isLoading, selectTab, toggleLoading]
+    [client, host, inputType, isLoading, selectTab, toggleLoading, t]
   );
 };

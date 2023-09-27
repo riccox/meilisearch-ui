@@ -18,8 +18,10 @@ import { useIndexes } from '@/src/hooks/useIndexes';
 import { openConfirmModal } from '@mantine/modals';
 import { toast } from '@/src/utils/toast';
 import { useCurrentInstance } from '@/src/hooks/useCurrentInstance';
+import { useTranslation } from 'react-i18next';
 
 function Keys() {
+  const { t } = useTranslation('key');
   const client = useMeiliClient();
   // list as many as possible
   const [indexes] = useIndexes(client, { limit: 1000 });
@@ -95,10 +97,10 @@ function Keys() {
   const onClickDelKey = useCallback(
     (key: Key) => {
       openConfirmModal({
-        title: 'Delete this key',
+        title: t('delete.title'),
         centered: true,
-        children: <p>Are you sure you want to delete this key?</p>,
-        labels: { confirm: 'Delete key', cancel: "No don't delete it" },
+        children: <p>{t('delete.tip')}</p>,
+        labels: { confirm: t('confirm'), cancel: t('cancel') },
         confirmProps: { color: 'red' },
         onConfirm: () => {
           client.deleteKey(key.uid).finally(() => {
@@ -107,23 +109,23 @@ function Keys() {
         },
       });
     },
-    [client, refreshKeys]
+    [client, refreshKeys, t]
   );
 
   const keyList = useMemo(() => {
-    return filteredKeys.map((t) => {
+    return filteredKeys.map((key) => {
       return (
-        <tr key={t.uid}>
-          <td>{t.uid}</td>
-          <td>{t.name || '-'}</td>
-          <td>{t.description || '-'}</td>
+        <tr key={key.uid}>
+          <td>{key.uid}</td>
+          <td>{key.name || '-'}</td>
+          <td className="hidden 2xl:table-cell">{key.description || '-'}</td>
           <td>
             <div className={`flex items-center`}>
               {/* desensitization */}
-              <p>{t.key.replace(/^(.{8})(?:\S+)(.{6})$/, '$1******$2')}</p>
-              <CopyButton value={t.key} timeout={200}>
+              <p>{key.key.replace(/^(.{8})(?:\S+)(.{6})$/, '$1****$2')}</p>
+              <CopyButton value={key.key} timeout={200}>
                 {({ copied, copy }) => (
-                  <Tooltip label={copied ? 'Copied' : 'Copy'} withArrow position="right">
+                  <Tooltip label={copied ? t('copied') : t('copy')} withArrow position="right">
                     <ActionIcon color={copied ? 'teal' : 'gray'} variant="transparent" onClick={copy}>
                       {copied ? <IconCheck size={16} /> : <IconCopy size={16} />}
                     </ActionIcon>
@@ -134,7 +136,7 @@ function Keys() {
           </td>
           <td>
             <div className={`flex gap-1 flex-wrap`}>
-              {t.indexes.map((index) => (
+              {key.indexes.map((index) => (
                 <span className="badge secondary light cornered" key={index}>
                   {index}
                 </span>
@@ -143,29 +145,29 @@ function Keys() {
           </td>
           <td>
             <div className={`flex gap-1 flex-wrap`}>
-              {t.actions.map((action) => (
+              {key.actions.map((action) => (
                 <span className="badge secondary light cornered" key={action}>
                   {action}
                 </span>
               ))}
             </div>
           </td>
-          <td>{getTimeText(t.createdAt)}</td>
+          <td className="hidden 2xl:table-cell">{getTimeText(key.createdAt)}</td>
           {/* meilisearch package type typos */}
           {/* @ts-ignore */}
-          <td>{getTimeText(t.updatedAt)}</td>
-          <td>{getTimeText(t.expiresAt, { defaultText: 'Forever' })}</td>
+          <td>{getTimeText(key.updatedAt)}</td>
+          <td>{getTimeText(key.expiresAt, { defaultText: t('forever') })}</td>
           <td>
             <div className={`flex gap-1`}>
-              <button className={'btn sm solid danger'} onClick={() => onClickDelKey(t)}>
-                Delete
+              <button className={'btn sm solid danger'} onClick={() => onClickDelKey(key)}>
+                {t('common:delete')}
               </button>
             </div>
           </td>
         </tr>
       );
     });
-  }, [filteredKeys, onClickDelKey]);
+  }, [filteredKeys, onClickDelKey, t]);
 
   const { run: onScrollEnd } = useDebounceFn(
     () => {
@@ -191,7 +193,7 @@ function Keys() {
     },
     validate: {
       expiresAt: (value: string | null) =>
-        value ? (/^\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}$/.test(value) ? null : 'Invalid Expire Time') : null,
+        value ? (/^\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}$/.test(value) ? null : t('form.expireAt.invalid')) : null,
     },
   });
 
@@ -217,14 +219,14 @@ function Keys() {
       // button stop loading
       setIsCreateLoading(false);
       if (_.isEmpty(res)) {
-        toast.error(`Creation fail, go check tasks! 🤥`);
+        toast.error(t('create.fail'));
         return;
       } else {
         setIsCreateKeyModalOpen(false);
         refreshKeys();
       }
     },
-    [client, form, refreshKeys]
+    [client, form, refreshKeys, t]
   );
 
   return useMemo(
@@ -237,15 +239,15 @@ function Keys() {
         p-6 rounded-3xl gap-y-2`}
         >
           <div className={`flex justify-between items-center gap-x-6`}>
-            <div className={`font-extrabold text-3xl`}>🗝️ Keys</div>
+            <div className={`font-extrabold text-3xl`}>🗝️ {t('keys')}</div>
             <TextInput
               className={` flex-1`}
-              placeholder={'Search keys'}
+              placeholder={t('search.placeholder')}
               radius={'lg'}
               onChange={({ target: { value } }) => setFilter((filter) => ({ ...filter, query: value }))}
             ></TextInput>
             <button className={'btn solid info sm'} onClick={() => onClickCreate()}>
-              Create
+              {t('common:create')}
             </button>
           </div>
           <div
@@ -273,16 +275,16 @@ function Keys() {
               >
                 <thead>
                   <tr>
-                    <th>UID</th>
-                    <th>Name</th>
-                    <th>Description</th>
-                    <th>Key</th>
-                    <th>Indexes</th>
-                    <th>Actions</th>
-                    <th>CreateAt</th>
-                    <th>UpdateAt</th>
-                    <th>ExpiresAt</th>
-                    <th>Action</th>
+                    <th className=" text-left">UID</th>
+                    <th className=" text-left">{t('name')}</th>
+                    <th className="hidden 2xl:table-cell text-left">{t('description')}</th>
+                    <th className=" text-left">{t('props.key')}</th>
+                    <th className=" text-left">{t('props.indexes')}</th>
+                    <th className=" text-left">{t('props.actions')}</th>
+                    <th className="hidden 2xl:table-cell text-left">{t('created_at')}</th>
+                    <th className=" text-left">{t('updated_at')}</th>
+                    <th className=" text-left">{t('expired_at')}</th>
+                    <th className=" text-left">{t('actions')}</th>
                   </tr>
                 </thead>
                 <tbody className={`py-1`}>{keyList}</tbody>
@@ -304,13 +306,13 @@ function Keys() {
           opened={isCreateKeyModalOpen}
           onClose={() => setIsCreateKeyModalOpen(false)}
         >
-          <p className={`text-center font-semibold text-lg`}>Add New Key</p>
+          <p className={`text-center font-semibold text-lg`}>{t('create.title')}</p>
           <form className={`flex flex-col gap-y-6 w-full `} onSubmit={form.onSubmit(onCreation)}>
             <TextInput
               autoFocus
               radius="md"
               size={'lg'}
-              label={<p className={'text-brand-5 pb-2 text-lg'}>Name</p>}
+              label={<p className={'text-brand-5 pb-2 text-lg'}>{t('name')}</p>}
               placeholder="just name your key"
               {...form.getInputProps('name')}
             />
@@ -318,62 +320,141 @@ function Keys() {
               autoFocus
               radius="md"
               size={'lg'}
-              label={<p className={'text-brand-5 pb-2 text-lg'}>Description</p>}
+              label={<p className={'text-brand-5 pb-2 text-lg'}>{t('description')}</p>}
               placeholder="just describe your key"
               {...form.getInputProps('description')}
             />{' '}
-            <Tooltip position={'bottom-start'} label="Leave this option empty means all indexes permitted">
+            <Tooltip position={'bottom-start'} label={t('form.indexes.tip')}>
               <MultiSelect
                 radius="md"
                 size={'lg'}
-                label={<p className={'text-brand-5 pb-2 text-lg'}>Indexes</p>}
-                placeholder="select permitted indexes"
+                label={<p className={'text-brand-5 pb-2 text-lg'}>{t('props.indexes')}</p>}
+                placeholder={t('form.indexes.placeholder')}
                 searchable
                 data={indexes.map((i) => i.uid)}
                 {...form.getInputProps('indexes')}
               />
             </Tooltip>
-            <Tooltip position={'bottom-start'} label="Leave this option empty means all indexes permitted">
+            <Tooltip position={'bottom-start'} label={t('form.actions.tip')}>
               <MultiSelect
                 radius="md"
                 size={'lg'}
-                label={<p className={'text-brand-5 pb-2 text-lg'}>Actions</p>}
-                placeholder="select permitted actions"
+                label={<p className={'text-brand-5 pb-2 text-lg'}>{t('props.actions')}</p>}
+                placeholder={t('form.actions.placeholder')}
                 searchable
+                rightSection={
+                  <a
+                    href="https://www.meilisearch.com/docs/reference/api/keys#actions"
+                    target="_blank"
+                    rel="noreferrer"
+                  >
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="icon icon-tabler icon-tabler-help-circle"
+                      width={24}
+                      height={24}
+                      viewBox="0 0 24 24"
+                      stroke-width={2}
+                      stroke="currentColor"
+                      fill="none"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    >
+                      <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                      <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"></path>
+                      <path d="M12 16v.01"></path>
+                      <path d="M12 13a2 2 0 0 0 .914 -3.782a1.98 1.98 0 0 0 -2.414 .483"></path>
+                    </svg>
+                  </a>
+                }
                 data={[
-                  { value: 'search', label: 'Search' },
-                  { value: 'documents.add', label: 'Add/Update documents' },
-                  { value: 'documents.get', label: 'Get document(s)' },
-                  { value: 'documents.delete', label: 'Delete document(s)' },
-                  { value: 'indexes.create', label: 'Create index' },
-                  { value: 'indexes.get', label: 'Get index(es) (without Non-authorized indexes)' },
-                  { value: 'indexes.update', label: 'Update index(es)' },
-                  { value: 'indexes.delete', label: 'Delete index(es)' },
-                  { value: 'tasks.get', label: 'Get task(s) (without Non-authorized indexes)' },
-                  { value: 'settings.get', label: 'Get settings' },
-                  { value: 'settings.update', label: 'Update/Reset settings' },
-                  { value: 'stats.get', label: 'Get stats (without Non-authorized indexes)' },
-                  { value: 'dumps.create', label: 'Create dumps (with Non-authorized indexes)' },
-                  { value: 'version', label: 'Get instance version' },
-                  { value: 'keys.get', label: 'Get keys' },
-                  { value: 'keys.create', label: 'Create keys' },
-                  { value: 'keys.update', label: 'Update keys' },
-                  { value: 'keys.delete', label: 'Delete keys' },
+                  {
+                    value: 'search',
+                    label: 'search',
+                  },
+                  {
+                    value: 'documents.add',
+                    label: 'documents.add',
+                  },
+                  {
+                    value: 'documents.get',
+                    label: 'documents.get',
+                  },
+                  {
+                    value: 'documents.delete',
+                    label: 'documents.delete',
+                  },
+                  {
+                    value: 'indexes.create',
+                    label: 'indexes.create',
+                  },
+                  {
+                    value: 'indexes.get',
+                    label: 'indexes.get',
+                  },
+                  {
+                    value: 'indexes.update',
+                    label: 'indexes.update',
+                  },
+                  {
+                    value: 'indexes.delete',
+                    label: 'indexes.delete',
+                  },
+                  {
+                    value: 'tasks.get',
+                    label: 'tasks.get',
+                  },
+                  {
+                    value: 'settings.get',
+                    label: 'settings.get',
+                  },
+                  {
+                    value: 'settings.update',
+                    label: 'settings.update',
+                  },
+                  {
+                    value: 'stats.get',
+                    label: 'stats.get',
+                  },
+                  {
+                    value: 'dumps.create',
+                    label: 'dumps.create',
+                  },
+                  {
+                    value: 'version',
+                    label: 'version',
+                  },
+                  {
+                    value: 'keys.get',
+                    label: 'keys.get',
+                  },
+                  {
+                    value: 'keys.create',
+                    label: 'keys.create',
+                  },
+                  {
+                    value: 'keys.update',
+                    label: 'keys.update',
+                  },
+                  {
+                    value: 'keys.delete',
+                    label: 'keys.delete',
+                  },
                 ]}
                 {...form.getInputProps('actions')}
               />
             </Tooltip>
-            <Tooltip position={'bottom-start'} label="Leave this option empty means this key never expires">
+            <Tooltip position={'bottom-start'} label={t('form.expiresAt.tip')}>
               <TextInput
-                placeholder="!!UTC!! time and format must be YYYY-MM-DD HH:mm:ss"
+                placeholder={t('form.expiresAt.placeholder')}
                 radius="md"
                 size={'lg'}
-                label={<p className={'text-brand-5 pb-2 text-lg'}>Expired at</p>}
+                label={<p className={'text-brand-5 pb-2 text-lg'}>{t('expired_at')}</p>}
                 {...form.getInputProps('expiresAt')}
               />
             </Tooltip>
             <button type="submit" className={`${isCreateLoading ? 'is-loading' : ''} btn solid success`}>
-              Create this key
+              {t('create.submit')}
             </button>
             <Footer />
           </form>
@@ -391,6 +472,7 @@ function Keys() {
       onClickCreate,
       onCreation,
       onScrollEnd,
+      t,
     ]
   );
 }

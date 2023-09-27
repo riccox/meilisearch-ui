@@ -1,5 +1,6 @@
 import type { FC } from 'react';
 import { Copyright } from '@/src/components/Footer/Copyright';
+import { LangSelector } from '../lang';
 
 interface Props {
   className?: string;
@@ -12,6 +13,8 @@ export const Footer: FC<Props> = ({ className = '' }) => {
       <a className={`hover:underline`} href={`//github.com/riccox/meilisearch-ui`} target="_blank" rel="noreferrer">
         Github
       </a>
+      -
+      <LangSelector />
     </div>
   );
 };

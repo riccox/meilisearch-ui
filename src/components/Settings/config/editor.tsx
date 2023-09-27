@@ -6,8 +6,11 @@ import { Settings } from 'meilisearch';
 import { IndexSettingConfigComponentProps } from '..';
 import MonacoEditor from '@monaco-editor/react';
 import clsx from 'clsx';
+import { useTranslation } from 'react-i18next';
 
 export const Editor: FC<IndexSettingConfigComponentProps> = ({ client, host, className, toggleLoading }) => {
+  const { t } = useTranslation('instance');
+
   const editorRef = useRef<any>(null);
   const [isSettingsEditing, setIsSettingsEditing] = useState<boolean>(false);
 
@@ -82,7 +85,7 @@ export const Editor: FC<IndexSettingConfigComponentProps> = ({ client, host, cla
     () => (
       <div className={clsx(className, 'p-1')}>
         <div className={`flex items-center gap-4 w-full pb-2`}>
-          <p className={`text-lg font-medium`}>Configuration JSON</p>
+          <p className={`text-lg font-medium`}>JSON {t('setting.index.config.label')}</p>
           {!isSettingsEditing && (
             <button
               className={'btn outline xs primary'}
@@ -90,7 +93,7 @@ export const Editor: FC<IndexSettingConfigComponentProps> = ({ client, host, cla
                 onClickEditSettings();
               }}
             >
-              Edit
+              {t('edit')}
             </button>
           )}
           {isSettingsEditing && (
@@ -100,7 +103,7 @@ export const Editor: FC<IndexSettingConfigComponentProps> = ({ client, host, cla
                 onSaveSettings();
               }}
             >
-              Save
+              {t('save')}
             </button>
           )}
           {isSettingsEditing && (
@@ -110,7 +113,7 @@ export const Editor: FC<IndexSettingConfigComponentProps> = ({ client, host, cla
                 resetSettings();
               }}
             >
-              Cancel
+              {t('cancel')}
             </button>
           )}
         </div>
@@ -132,6 +135,7 @@ export const Editor: FC<IndexSettingConfigComponentProps> = ({ client, host, cla
     ),
     [
       className,
+      t,
       indexSettingDisplayData,
       isSettingsEditing,
       onClickEditSettings,

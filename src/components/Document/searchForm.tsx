@@ -3,6 +3,7 @@ import { Loader, NumberInput, TextInput, Tooltip } from '@mantine/core';
 import { IconAlignBoxLeftMiddle, IconArrowsSort, IconFilter, IconSearch } from '@tabler/icons-react';
 import clsx from 'clsx';
 import { UseFormReturnType } from '@mantine/form';
+import { useTranslation } from 'react-i18next';
 
 type Props = {
   isFetching?: boolean;
@@ -28,6 +29,8 @@ export const SearchForm = ({
   submitBtnText,
   indexIdEnable = false,
 }: Props) => {
+  const { t } = useTranslation('document');
+
   return useMemo(
     () => (
       <form className={`flex flex-col gap-2 `} onSubmit={onFormSubmit}>
@@ -59,7 +62,7 @@ export const SearchForm = ({
           <TextInput
             leftSection={<IconAlignBoxLeftMiddle size={16} />}
             radius="md"
-            placeholder="input target index id"
+            placeholder={t('search.form.indexId.placeholder')}
             required
             {...searchForm.getInputProps('indexId')}
           />
@@ -68,24 +71,21 @@ export const SearchForm = ({
           leftSection={<IconSearch size={16} />}
           autoFocus
           radius="md"
-          placeholder="type some search query..."
+          placeholder={t('search.form.q.placeholder')}
           {...searchForm.getInputProps('q')}
         />
         <div className={`flex items-center gap-4`}>
           <TextInput
             className={`flex-1`}
-            label="Filter"
+            label={t('search.form.filter.label')}
             leftSection={<IconFilter size={16} />}
             radius="md"
             {...searchForm.getInputProps('filter')}
           />
-          <Tooltip
-            position={'bottom-start'}
-            label="use half-width comma(',') to separate multi sort expression and order"
-          >
+          <Tooltip position={'bottom-start'} label={t('search.form.sort.tip')}>
             <TextInput
               className={`flex-1`}
-              label="Sort"
+              label={t('search.form.sort.label')}
               leftSection={<IconArrowsSort size={16} />}
               radius="md"
               {...searchForm.getInputProps('sort')}
@@ -93,8 +93,8 @@ export const SearchForm = ({
           </Tooltip>
         </div>
         <div className={`flex items-stretch gap-4`}>
-          <NumberInput radius="md" label="Limit" {...searchForm.getInputProps('limit')} />
-          <NumberInput radius="md" label="Offset" {...searchForm.getInputProps('offset')} />
+          <NumberInput radius="md" label={t('search.form.limit.label')} {...searchForm.getInputProps('limit')} />
+          <NumberInput radius="md" label={t('search.form.offset.label')} {...searchForm.getInputProps('offset')} />
 
           {/* right btn group */}
           <div className={`ml-auto mt-auto flex gap-x-4 items-center`}>
@@ -108,6 +108,6 @@ export const SearchForm = ({
         </div>
       </form>
     ),
-    [indexIdEnable, isFetching, onFormSubmit, searchForm, searchFormError, submitBtnText]
+    [indexIdEnable, isFetching, onFormSubmit, t, searchForm, searchFormError, submitBtnText]
   );
 };

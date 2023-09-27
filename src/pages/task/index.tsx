@@ -9,14 +9,14 @@ import Fuse from 'fuse.js';
 import { Header } from '@/src/components/Header';
 import { getTimeText, stringifyJsonPretty, TaskThemes } from '@/src/utils/text';
 import _ from 'lodash';
-import { TaskTypes } from 'meilisearch/src/types/types';
 import { useDebounceFn } from 'ahooks';
 import { hiddenRequestLoader, showRequestLoader } from '@/src/utils/loader';
 import { useCurrentInstance } from '@/src/hooks/useCurrentInstance';
+import { useTranslation } from 'react-i18next';
 
 function Tasks() {
   const client = useMeiliClient();
-
+  const { t } = useTranslation('task');
   const currentInstance = useCurrentInstance();
   const host = currentInstance?.host;
   const [isTaskDetailModalOpen, setIsTaskDetailModalOpen] = useState<boolean>(false);
@@ -82,35 +82,35 @@ function Tasks() {
 
   const taskList = useMemo(() => {
     if (filteredTasks.length > 0) {
-      return filteredTasks.map((t) => {
-        const uid = t.uid;
+      return filteredTasks.map((task) => {
+        const uid = task.uid;
         return (
           <div
-            key={t.uid}
+            key={task.uid}
             className={`cursor-pointer overflow-hidden p-3 rounded-xl flex flex-col justify-between gap-y-2
            bg-brand-1 hover:bg-opacity-30 hover:ring ring-brand-4 bg-opacity-20`}
-            onClick={() => onClickDetail(t)}
+            onClick={() => onClickDetail(task)}
           >
             <div className={`flex items-center gap-2`}>
               <p className={`text-2xl font-extrabold`}>{`#${uid}`}</p>
-              <span className={`badge light ${TaskThemes[t.status]} uppercase `}>{t.status}</span>
-              <p className={`ml-auto text-xl font-semibold`}>{t.type}</p>
+              <span className={`badge light ${TaskThemes[task.status]} uppercase `}>{t(`status.${task.status}`)}</span>
+              <p className={`ml-auto text-xl font-semibold`}>{t(`type.${task.type}`)}</p>
             </div>
             <div className={`grid grid-cols-4 gap-2 task-card-options text-sm`}>
-              <p>Duration: </p>
-              <p>{t.duration}</p>
-              <p>EnqueuedAt: </p>
-              <p>{getTimeText(t.enqueuedAt)}</p>
-              <p>StartedAt: </p>
-              <p>{getTimeText(t.startedAt)}</p>
-              <p>FinishedAt: </p>
-              <p>{getTimeText(t.finishedAt)}</p>
+              <p>{t('duration')}: </p>
+              <p>{task.duration}</p>
+              <p>{t('enqueued_at')}: </p>
+              <p>{getTimeText(task.enqueuedAt)}</p>
+              <p>{t('started_at')}: </p>
+              <p>{getTimeText(task.startedAt)}</p>
+              <p>{t('finished_at')}: </p>
+              <p>{getTimeText(task.finishedAt)}</p>
             </div>
           </div>
         );
       });
     }
-  }, [filteredTasks, onClickDetail]);
+  }, [filteredTasks, onClickDetail, t]);
 
   const { run: onScrollEnd } = useDebounceFn(
     () => {
@@ -134,36 +134,30 @@ function Tasks() {
         p-6 rounded-3xl gap-y-2`}
         >
           <div className={`flex justify-between items-center gap-x-6`}>
-            <div className={`font-extrabold text-3xl`}>✅ Tasks</div>
+            <div className={`font-extrabold text-3xl`}>✅ {t('tasks')}</div>
             <TextInput
               className={`flex-1`}
-              placeholder={'Search tasks'}
+              placeholder={t('search.placeholder')}
               radius={'lg'}
               onChange={({ target: { value } }) => setFilter((filter) => ({ ...filter, query: value }))}
             ></TextInput>
 
             <Select
-              placeholder="Filter Task Type"
+              placeholder={t('filter.type.placeholder')}
               radius={'lg'}
-              data={[
-                { value: TaskTypes.DOCUMENT_DELETION, label: 'DOCUMENT_DELETION' },
-                { value: TaskTypes.DOCUMENTS_ADDITION_OR_UPDATE, label: 'DOCUMENTS_ADDITION_OR_UPDATE' },
-                { value: TaskTypes.INDEX_DELETION, label: 'INDEX_DELETION' },
-                { value: TaskTypes.INDEX_UPDATE, label: 'INDEX_UPDATE' },
-                { value: TaskTypes.INDEX_CREATION, label: 'INDEX_CREATION' },
-                { value: TaskTypes.SETTINGS_UPDATE, label: 'SETTINGS_UPDATE' },
-              ]}
+              data={_.entries(t('type', { returnObjects: true }) as Record<string, string>).map(([k, v]) => ({
+                value: k,
+                label: v,
+              }))}
               onChange={(value) => setFilter((filter) => ({ ...filter, type: value ?? undefined }))}
             />
             <Select
-              placeholder="Filter Task Status"
+              placeholder={t('filter.status.placeholder')}
               radius={'lg'}
-              data={[
-                { value: 'succeeded', label: 'Succeeded ✅' },
-                { value: 'processing', label: 'Processing ⚡' },
-                { value: 'failed', label: 'Failed ❌' },
-                { value: 'enqueued', label: 'Enqueued 🔀' },
-              ]}
+              data={_.entries(t('status', { returnObjects: true }) as Record<string, string>).map(([k, v]) => ({
+                value: k,
+                label: v,
+              }))}
               onChange={(value) => setFilter((filter) => ({ ...filter, status: value ?? undefined }))}
             />
           </div>
@@ -196,7 +190,7 @@ function Tasks() {
           centered
           opened={isTaskDetailModalOpen}
           onClose={() => setIsTaskDetailModalOpen(false)}
-          title="Task Detail"
+          title={t('detail.title')}
           size={'xl'}
         >
           <div className="flex justify-center items-center">
@@ -207,7 +201,7 @@ function Tasks() {
         </Modal>
       </div>
     ),
-    [client, filteredTasks.length, isTaskDetailModalOpen, onScrollEnd, taskDetailModalContent, taskList]
+    [client, filteredTasks.length, isTaskDetailModalOpen, onScrollEnd, taskDetailModalContent, t, taskList]
   );
 }
 

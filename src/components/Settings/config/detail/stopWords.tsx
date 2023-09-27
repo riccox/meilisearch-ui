@@ -6,8 +6,11 @@ import { IndexSettingConfigComponentProps } from '../..';
 import { ArrayInput } from './arrayInput';
 import _ from 'lodash';
 import { IconAlertTriangleFilled, IconInfoCircleFilled } from '@tabler/icons-react';
+import { useTranslation } from 'react-i18next';
 
 export const StopWords: FC<IndexSettingConfigComponentProps> = ({ client, className, host, toggleLoading }) => {
+  const { t } = useTranslation('instance');
+
   const query = useQuery({
     queryKey: ['getStopWords', host, client.uid],
 
@@ -38,26 +41,19 @@ export const StopWords: FC<IndexSettingConfigComponentProps> = ({ client, classN
       <div className={clsx(className)}>
         <h2 className="font-semibold">Stop Words</h2>
         <span className="text-sm flex gap-2">
-          <p>Words added to the stopWords list are ignored in future search queries.</p>
+          <p>{t('setting.index.config.stopWords.description')}</p>
         </span>
         <span className="prompt justify-start warn sm">
           <span className="icon">
             <IconAlertTriangleFilled />
           </span>
-          <p className="content">
-            Updating stop words will re-index all documents in the index, which can take some time. We recommend
-            updating your index settings first and then adding documents as this reduces RAM consumption.
-          </p>
+          <p className="content">{t('setting.index.config.re_index_tip', { attribute: 'stop words' })}</p>
         </span>
         <span className="prompt info sm">
           <span className="icon">
             <IconInfoCircleFilled />
           </span>
-          <p className="content">
-            Stop words are strongly related to the language used in your dataset. For example, most datasets containing
-            English documents will have countless occurrences of 'the' and 'of'. Italian datasets, instead, will benefit
-            from ignoring words like 'a', 'la', or 'il'.
-          </p>
+          <p className="content">{t('setting.index.config.stopWords.tip')}</p>
         </span>
         <ArrayInput
           className="py-2"
@@ -68,6 +64,6 @@ export const StopWords: FC<IndexSettingConfigComponentProps> = ({ client, classN
         />
       </div>
     ),
-    [className, mutation, query.data]
+    [className, mutation, query.data, t]
   );
 };

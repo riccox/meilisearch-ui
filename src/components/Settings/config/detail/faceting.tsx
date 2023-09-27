@@ -4,8 +4,11 @@ import { Faceting as TFaceting } from 'meilisearch';
 import { FC, useEffect, useMemo } from 'react';
 import { IndexSettingConfigComponentProps } from '../..';
 import _ from 'lodash';
+import { useTranslation } from 'react-i18next';
 
 export const Faceting: FC<IndexSettingConfigComponentProps> = ({ client, className, host, toggleLoading }) => {
+  const { t } = useTranslation('instance');
+
   const query = useQuery({
     queryKey: ['getFaceting', host, client.uid],
     async queryFn(ctx) {
@@ -35,21 +38,18 @@ export const Faceting: FC<IndexSettingConfigComponentProps> = ({ client, classNa
       <div className={clsx(className)}>
         <h2 className="font-semibold">Faceting</h2>
         <span className="text-sm flex flex-wrap gap-2">
-          <p>
-            With Meilisearch, you can create faceted search interfaces. This setting allows you to define the maximum
-            number of values returned by the facets search parameter.
-          </p>
+          <p>{t('setting.index.config.faceting.description')}</p>
           <a
             className="link info text-info-800"
             href="https://docs.meilisearch.com/learn/advanced/filtering_and_faceted_search.html"
             target={'_blank'}
             rel="noreferrer"
           >
-            Learn more
+            {t('learn_more')}
           </a>
         </span>
 
-        <h3>Max values per facet</h3>
+        <h3>{t('setting.index.config.faceting.max_values_per_facet')}</h3>
         <input
           defaultValue={query.data?.maxValuesPerFacet || 0}
           className="input outline primary"
@@ -63,6 +63,6 @@ export const Faceting: FC<IndexSettingConfigComponentProps> = ({ client, classNa
         />
       </div>
     ),
-    [className, mutation, query.data]
+    [className, mutation, query.data, t]
   );
 };

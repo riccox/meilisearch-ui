@@ -1,6 +1,5 @@
 import { ActionIcon, HoverCard } from '@mantine/core';
 import {
-  IconAffiliate,
   IconArrowsLeftRight,
   IconBook2,
   IconBooks,
@@ -26,6 +25,8 @@ import { useNavigatePreCheck } from '@/src/hooks/useRoutePreCheck';
 import { toast } from 'sonner';
 import { useCurrentInstance } from '@/src/hooks/useCurrentInstance';
 import clsx from 'clsx';
+import { useTranslation } from 'react-i18next';
+import { LangSelector } from '../lang';
 
 interface Props {
   className?: string;
@@ -33,6 +34,7 @@ interface Props {
 }
 
 export const Header: FC<Props> = ({ client, className }) => {
+  const { t } = useTranslation('header');
   const currentInstance = useCurrentInstance();
   const navigate = useNavigatePreCheck(([to], opt) => {
     if (typeof to === 'string' && /\/keys$/.test(to)) {
@@ -69,10 +71,10 @@ export const Header: FC<Props> = ({ client, className }) => {
 
   const onClickDump = useCallback(() => {
     openConfirmModal({
-      title: 'Create a new dump',
+      title: t('instance:dump.dialog.title'),
       centered: true,
-      children: <p>Are you sure you want to start a new dump for instance {currentInstance.name}?</p>,
-      labels: { confirm: 'Start', cancel: 'Cancel' },
+      children: <p>{t('instance:dump.dialog.tip', { name: currentInstance.name })}</p>,
+      labels: { confirm: t('confirm'), cancel: t('cancel') },
       confirmProps: { color: 'orange' },
       onConfirm: () => {
         client.createDump().then((value) => {
@@ -80,7 +82,7 @@ export const Header: FC<Props> = ({ client, className }) => {
         });
       },
     });
-  }, [client, currentInstance.name]);
+  }, [client, currentInstance.name, t]);
 
   return useMemo(
     () => (
@@ -97,7 +99,7 @@ export const Header: FC<Props> = ({ client, className }) => {
           onClick={() => navigate(['/'], { currentInstance })}
         >
           <IconHomeBolt size={26} />
-          <p>Home</p>
+          <p>{t('home')}</p>
         </button>
 
         <p className={`text-2xl font-bold`}>{_.truncate(currentInstance?.name, { length: 16 })}</p>
@@ -107,23 +109,27 @@ export const Header: FC<Props> = ({ client, className }) => {
           className={`!cursor-pointer hover:underline badge outline cornered lg success hidden 2xl:inline`}
           onClick={onClickHost}
         >
-          Host: {_.truncate(currentInstance?.host, { length: 40 })}
+          {t('host')}: {_.truncate(currentInstance?.host, { length: 40 })}
         </span>
 
-        <p className={`font-bold hidden xl:inline`}>Updated: {getTimeText(stats?.lastUpdate)}</p>
+        <p className={`font-bold hidden xl:inline`}>
+          {t('updated_at')}: {getTimeText(stats?.lastUpdate)}
+        </p>
 
         <span className={`badge outline cornered lg primary hidden xl:inline`}>
-          DB Size: {_.ceil((stats?.databaseSize ?? 0) / 1048576, 2)} MB
+          {t('db_size', { size: _.ceil((stats?.databaseSize ?? 0) / 1048576, 2) })}
         </span>
 
         <span className={`badge light cornered lg ${health ? 'success' : 'warn'} hidden xl:inline`}>
-          Status: {health ? 'Available' : 'Unknown'}
+          {t('status.label')}: {health ? t('status.available') : t('unknown')}
         </span>
+
+        <LangSelector className="font-medium" />
 
         <HoverCard withinPortal shadow="lg" radius={'lg'} transitionProps={{ transition: 'fade' }}>
           <HoverCard.Target>
             <span className={`badge outline cornered lg primary hidden 2xl:inline`}>
-              Meili Version: {version?.pkgVersion}
+              {t('meili_version')}: {version?.pkgVersion}
             </span>
           </HoverCard.Target>
           <HoverCard.Dropdown>
@@ -137,14 +143,14 @@ export const Header: FC<Props> = ({ client, className }) => {
             <IconSettings size={26} />
           </ActionIcon>
           <div className="menu bottom-left">
-            <p className="subtitle">Instance</p>
+            <p className="subtitle">{t('instance')}</p>
             <Link
               to={`/ins/${currentInstance.id}/index`}
               className="item text-sm flex items-center gap-2 "
               tabIndex={-1}
             >
               <IconBooks size={14} />
-              <p>Index</p>
+              <p>{t('indexes')}</p>
             </Link>
 
             <div
@@ -155,7 +161,7 @@ export const Header: FC<Props> = ({ client, className }) => {
               tabIndex={-1}
             >
               <IconKey size={14} />
-              <p>Keys</p>
+              <p>{t('keys')}</p>
             </div>
             <Link
               to={`/ins/${currentInstance.id}/tasks`}
@@ -163,20 +169,20 @@ export const Header: FC<Props> = ({ client, className }) => {
               tabIndex={-1}
             >
               <IconListCheck size={14} />
-              <p>Tasks</p>
+              <p>{t('tasks')}</p>
             </Link>
             <div onClick={onClickDump} className="item text-sm flex items-center gap-2 hover:underline" tabIndex={-1}>
               <IconDeviceFloppy size={14} />
               <p>Dump</p>
             </div>
             <div className="is-divider" role="separator"></div>
-            <p className="subtitle">System</p>
+            <p className="subtitle">{t('system')}</p>
             <Link to={'/'} className="item text-sm flex items-center gap-2 danger" tabIndex={-1}>
               <IconArrowsLeftRight size={14} />
-              <p>Change Instance</p>
+              <p>{t('change_instance')}</p>
             </Link>
             <div className="is-divider" role="separator"></div>
-            <p className="subtitle">Support</p>
+            <p className="subtitle">{t('support')}</p>
             <Link
               to={'https://docs.meilisearch.com'}
               target={'_blank'}
@@ -184,7 +190,7 @@ export const Header: FC<Props> = ({ client, className }) => {
               tabIndex={-1}
             >
               <IconBook2 size={14} />
-              <p>Meilisearch Docs</p>
+              <p>{t('meilisearch_docs')}</p>
             </Link>
             <Link
               to={'https://github.com/riccox/meilisearch-ui/issues'}
@@ -193,7 +199,7 @@ export const Header: FC<Props> = ({ client, className }) => {
               tabIndex={-1}
             >
               <IconBug size={14} />
-              <p>Issues</p>
+              <p>{t('issues')}</p>
             </Link>
             <Link
               to={'https://github.com/riccox/meilisearch-ui'}
@@ -202,7 +208,7 @@ export const Header: FC<Props> = ({ client, className }) => {
               tabIndex={-1}
             >
               <IconBrandGithub size={14} />
-              <p>Open Source</p>
+              <p>{t('open_source')}</p>
             </Link>
           </div>
         </div>
@@ -210,6 +216,7 @@ export const Header: FC<Props> = ({ client, className }) => {
     ),
     [
       className,
+      t,
       currentInstance,
       health,
       navigate,

@@ -8,6 +8,7 @@ import ReactJson from 'react-json-view';
 import { Button, Modal } from '@mantine/core';
 import MonacoEditor from '@monaco-editor/react';
 import clsx from 'clsx';
+import { useTranslation } from 'react-i18next';
 
 type Doc = { indexId: string; content: object; primaryKey: string };
 
@@ -18,6 +19,7 @@ interface Props {
 }
 
 export const DocumentList = ({ docs = [], showIndex = false, refetchDocs }: Props) => {
+  const { t } = useTranslation('document');
   const client = useMeiliClient();
   const [isEditDocumentsModalOpen, setIsEditDocumentsModalOpen] = useState(false);
   const [editingDocument, setEditingDocument] = useState<Doc>();
@@ -63,11 +65,11 @@ export const DocumentList = ({ docs = [], showIndex = false, refetchDocs }: Prop
       console.debug('onClickDocumentDel', 'pk', pk);
       if (pk) {
         openConfirmModal({
-          title: 'Delete a document',
+          title: t('delete_document'),
           centered: true,
           children: (
             <p>
-              Are you sure you want to delete this{' '}
+              {t('delete.tip') + ' '}
               <strong>
                 {/* @ts-ignore */}
                 document ({pk}: {doc.content[pk]}) in index {doc.indexId}
@@ -75,17 +77,17 @@ export const DocumentList = ({ docs = [], showIndex = false, refetchDocs }: Prop
               ?
             </p>
           ),
-          labels: { confirm: 'Confirm', cancel: 'Cancel' },
+          labels: { confirm: t('confirm'), cancel: t('cancel') },
           onConfirm: () => {
             // @ts-ignore
             removeDocumentsMutation.mutate({ indexId: doc.indexId, docId: [doc.content[pk]] });
           },
         });
       } else {
-        toast.error(`Document deletion require the valid primaryKey in index ${doc.indexId}`);
+        toast.error(t('delete.require_primaryKey', { indexId: doc.indexId }));
       }
     },
-    [removeDocumentsMutation]
+    [removeDocumentsMutation, t]
   );
 
   const onClickDocumentUpdate = useCallback((doc: Doc) => {
@@ -119,16 +121,16 @@ export const DocumentList = ({ docs = [], showIndex = false, refetchDocs }: Prop
             className={`absolute right-0 bottom-0 opacity-95 invisible group-hover:visible p-2 flex items-center gap-2`}
           >
             <button className={'btn xs font-normal outline info'} onClick={() => onClickDocumentUpdate(d)}>
-              Update
+              {t('update')}
             </button>
             <button className={'btn xs font-normal outline danger'} onClick={() => onClickDocumentDel(d)}>
-              Delete
+              {t('delete')}
             </button>
           </div>
         </div>
       );
     });
-  }, [docs, showIndex, onClickDocumentUpdate, onClickDocumentDel]);
+  }, [docs, showIndex, onClickDocumentUpdate, onClickDocumentDel, t]);
 
   const onSubmitDocumentUpdate = useCallback(() => {
     editingDocument &&
@@ -152,7 +154,7 @@ export const DocumentList = ({ docs = [], showIndex = false, refetchDocs }: Prop
           padding="xl"
           size="xl"
           withCloseButton={true}
-          title={<p className={`font-bold text-lg`}>Edit Document</p>}
+          title={<p className={`font-bold text-lg`}>{t('edit_document')}</p>}
         >
           <div className={`flex flex-col gap-y-4 w-full`}>
             <div className={`border rounded-xl p-2`}>
@@ -168,12 +170,12 @@ export const DocumentList = ({ docs = [], showIndex = false, refetchDocs }: Prop
               ></MonacoEditor>
             </div>
             <Button onClick={onSubmitDocumentUpdate} radius={'xl'} size={'lg'} variant="light">
-              Submit
+              {t('submit')}
             </Button>
           </div>
         </Modal>
       </>
     ),
-    [editingDocument, isEditDocumentsModalOpen, list, onEditDocumentJsonEditorUpdate, onSubmitDocumentUpdate]
+    [editingDocument, t, isEditDocumentsModalOpen, list, onEditDocumentJsonEditorUpdate, onSubmitDocumentUpdate]
   );
 };

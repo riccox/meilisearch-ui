@@ -5,6 +5,7 @@ import { FC, useEffect, useMemo } from 'react';
 import { IndexSettingConfigComponentProps } from '../..';
 import { ArrayInput } from './arrayInput';
 import _ from 'lodash';
+import { useTranslation } from 'react-i18next';
 
 export const DisplayedAttributes: FC<IndexSettingConfigComponentProps> = ({
   client,
@@ -12,6 +13,8 @@ export const DisplayedAttributes: FC<IndexSettingConfigComponentProps> = ({
   host,
   toggleLoading,
 }) => {
+  const { t } = useTranslation('instance');
+
   const query = useQuery({
     queryKey: ['getDisplayedAttributes', host, client.uid],
     async queryFn(ctx) {
@@ -41,20 +44,14 @@ export const DisplayedAttributes: FC<IndexSettingConfigComponentProps> = ({
       <div className={clsx(className)}>
         <h2 className="font-semibold">Displayed Attributes</h2>
         <span className="text-sm flex gap-2">
-          <p>
-            The attributes added to the displayedAttributes list appear in search results. displayedAttributes only
-            affects the search endpoints. It has no impact on the GET documents endpoint.
-            <br />
-            By default, the displayedAttributes array is equal to all fields in your dataset. This behavior is
-            represented by the value ["*"].
-          </p>
+          <p>{t('setting.index.config.displayedAttributes.description')}</p>
           <a
             className="link info text-info-800"
             href="https://docs.meilisearch.com/learn/configuration/displayed_searchable_attributes.html#displayed-fields"
             target={'_blank'}
             rel="noreferrer"
           >
-            Learn more
+            {t('learn_more')}
           </a>
         </span>
         <ArrayInput
@@ -66,6 +63,6 @@ export const DisplayedAttributes: FC<IndexSettingConfigComponentProps> = ({
         />
       </div>
     ),
-    [className, mutation, query.data]
+    [className, mutation, query.data, t]
   );
 };

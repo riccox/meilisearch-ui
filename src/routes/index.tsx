@@ -13,8 +13,10 @@ import Warning from '@/src/pages/warning';
 import { EmptyArea } from '../components/EmptyArea';
 import { UploadDoc } from '../pages/index/upload';
 import { MultiIndexSearch } from '../pages/index/multi-search';
+import { useTranslation } from 'react-i18next';
 
 export const AppRoutes = () => {
+  const { t } = useTranslation();
   return (
     <Suspense
       fallback={
@@ -28,7 +30,7 @@ export const AppRoutes = () => {
         <Route path="ins">
           <Route path=":insId">
             <Route path="index" element={<IndexesLayout />}>
-              <Route index element={<EmptyArea text={'Select or Create a index on the left to start'} />} />
+              <Route index element={<EmptyArea text={t('document:empty_area_tip')} />} />
               <Route path="create" element={<CreateIndex />} />
               <Route path=":indexId">
                 <Route index element={<Documents />} />

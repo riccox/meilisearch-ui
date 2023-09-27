@@ -6,6 +6,7 @@ import { IndexSettingConfigComponentProps } from '../..';
 import { ArrayInput } from './arrayInput';
 import { IconAlertTriangleFilled } from '@tabler/icons-react';
 import _ from 'lodash';
+import { useTranslation } from 'react-i18next';
 
 export const SearchableAttributes: FC<IndexSettingConfigComponentProps> = ({
   client,
@@ -13,6 +14,8 @@ export const SearchableAttributes: FC<IndexSettingConfigComponentProps> = ({
   host,
   toggleLoading,
 }) => {
+  const { t } = useTranslation('instance');
+
   const query = useQuery({
     queryKey: ['getSearchableAttributes', host, client.uid],
 
@@ -43,29 +46,21 @@ export const SearchableAttributes: FC<IndexSettingConfigComponentProps> = ({
       <div className={clsx(className)}>
         <h2 className="font-semibold">Searchable Attributes</h2>
         <span className="text-sm flex gap-2">
-          <p>
-            The values associated with attributes in the searchableAttributes list are searched for matching query
-            words. The order of the list also determines the attribute ranking order. <br /> By default, the
-            searchableAttributes array is equal to all fields in your dataset. This behavior is represented by the value
-            ["*"].
-          </p>
+          <p>{t('setting.index.config.searchableAttributes.description')}</p>
           <a
             className="link info text-info-800"
             href="https://docs.meilisearch.com/learn/configuration/displayed_searchable_attributes.html#searchable-fields"
             target={'_blank'}
             rel="noreferrer"
           >
-            Learn more
+            {t('learn_more')}
           </a>
         </span>
         <span className="prompt warn sm">
           <span className="icon">
             <IconAlertTriangleFilled />
           </span>
-          <p className="content">
-            Updating searchable attributes will re-index all documents in the index, which can take some time. We
-            recommend updating your index settings first and then adding documents as this reduces RAM consumption.
-          </p>
+          <p className="content">{t('setting.index.config.re_index_tip', { attribute: 'searchable attributes' })}</p>
         </span>
         <ArrayInput
           className="py-2"
@@ -76,6 +71,6 @@ export const SearchableAttributes: FC<IndexSettingConfigComponentProps> = ({
         />
       </div>
     ),
-    [className, mutation, query.data]
+    [t, className, mutation, query.data]
   );
 };

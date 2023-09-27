@@ -5,6 +5,7 @@ import { PropsWithoutRef, useCallback, useMemo, useState } from 'react';
 import { openConfirmModal } from '@mantine/modals';
 import _ from 'lodash';
 import { arrayMove } from '@/src/utils/array';
+import { useTranslation } from 'react-i18next';
 
 export function ArrayInput<V extends string>({
   defaultValue,
@@ -17,6 +18,8 @@ export function ArrayInput<V extends string>({
   onMutation: (value: V[]) => void;
   moveable?: boolean;
 }>) {
+  const { t } = useTranslation('instance');
+
   const [array, setArray] = useState<V[]>(defaultValue);
   const [isAdding, setIsAdding] = useState<boolean>(false);
 
@@ -66,10 +69,10 @@ export function ArrayInput<V extends string>({
       console.debug('🚀 ~ file: ArrayInput onClickItemDel', index);
 
       openConfirmModal({
-        title: 'Remove this item',
+        title: t('setting.index.config.remove_this.item'),
         centered: true,
-        children: <p>Are you sure you want to remove "{array[index]}" ?</p>,
-        labels: { confirm: 'Remove', cancel: 'Cancel' },
+        children: <p>{t('setting.index.config.are_you_sure_you_want_to_remove_item', { item: array[index] })}</p>,
+        labels: { confirm: t('confirm'), cancel: t('cancel') },
         confirmProps: { color: 'red' },
         onConfirm: async () => {
           const updated = _.without(array, array[index]);
@@ -78,7 +81,7 @@ export function ArrayInput<V extends string>({
         },
       });
     },
-    [array, onMutation]
+    [array, onMutation, t]
   );
 
   return useMemo(
@@ -113,7 +116,7 @@ export function ArrayInput<V extends string>({
               onSubmit();
             }}
           >
-            Save
+            {t('save')}
           </button>
           <button
             className="btn outline sm bw"
@@ -122,7 +125,7 @@ export function ArrayInput<V extends string>({
               onCompleteInput();
             }}
           >
-            Cancel
+            {t('cancel')}
           </button>
         </form>
         <button className={clsx(isAdding && 'hidden', 'btn primary outline w-full')} onClick={() => setIsAdding(true)}>
@@ -132,6 +135,7 @@ export function ArrayInput<V extends string>({
     ),
     [
       addForm,
+      t,
       array,
       className,
       defaultValue,
