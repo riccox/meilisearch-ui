@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.2](https://github.com/riccox/meilisearch-ui/compare/v0.6.1...v0.6.2) (2023-09-29)
+
+
+### Continuous Integration
+
+* update release actions meta tags. ([5cfe996](https://github.com/riccox/meilisearch-ui/commit/5cfe99623e5feb978f5bb46fb25ed7f86a549038))
+
 ## [0.6.1](https://github.com/riccox/meilisearch-ui/compare/v0.6.0...v0.6.1) (2023-09-29)
 
 
