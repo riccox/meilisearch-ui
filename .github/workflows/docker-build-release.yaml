@@ -65,7 +65,9 @@ jobs:
     runs-on: ubuntu-latest
     needs:
       - build
-    steps:
+    steps:      
+      - name: Checkout
+        uses: actions/checkout@v4
       - name: Download digests
         uses: actions/download-artifact@v3
         with:
