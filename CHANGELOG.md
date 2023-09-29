@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.1](https://github.com/riccox/meilisearch-ui/compare/v0.6.0...v0.6.1) (2023-09-29)
+
+
+### Bug Fixes
+
+* gh-76 build docker image release actions for multi-platforms. ([470580e](https://github.com/riccox/meilisearch-ui/commit/470580e5f5104b512f17845296ff83e3c61a4bf6))
+
 ## [0.6.0](https://github.com/riccox/meilisearch-ui/compare/v0.5.0...v0.6.0) (2023-09-27)
 
 
