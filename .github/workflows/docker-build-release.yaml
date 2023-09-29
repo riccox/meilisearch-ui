@@ -27,7 +27,7 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: ${{ env.REGISTRY_IMAGE }}
-          tags:
+          tags: |
             type=raw,value=latest
             type=ref,event=tag
 
@@ -78,7 +78,7 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: ${{ env.REGISTRY_IMAGE }}
-          tags:
+          tags: |
             type=raw,value=latest
             type=ref,event=tag
             
