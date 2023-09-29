@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.4](https://github.com/riccox/meilisearch-ui/compare/v0.6.3...v0.6.4) (2023-09-29)
+
+
+### Continuous Integration
+
+* add checkout step for docker description upload. ([bac19c9](https://github.com/riccox/meilisearch-ui/commit/bac19c9888dd945df4ec5928ed05881664449898))
+
 ## [0.6.3](https://github.com/riccox/meilisearch-ui/compare/v0.6.2...v0.6.3) (2023-09-29)
 
 
