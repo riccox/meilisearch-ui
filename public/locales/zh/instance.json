@@ -80,12 +80,12 @@
         },
         "synonyms": {
           "description": "synonyms对象包含单词及其对应的同义词。在Meilisearch中，同义词被视为与其关联的单词相等，用于计算搜索结果。",
+          "synonymsWords": {
+            "add": "添加同义词",
+            "tip": "点击以移除"
+          },
           "dialog": {
             "synonymsKey": "同义词关键词",
-            "synonymsWords": {
-              "add": "添加同义词",
-              "tip": "点击以移除"
-            },
             "title": {
               "add": "添加同义词",
               "update": "更新同义词"

@@ -91,11 +91,11 @@ export const Header: FC<Props> = ({ client, className }) => {
           className,
           `bg-background-light
         flex justify-between items-center
-        p-5 rounded-3xl drop-shadow-xl z-20`
+        p-2 rounded-3xl drop-shadow-xl z-20`
         )}
       >
         <button
-          className="btn primary solid flex items-center gap-2"
+          className="btn primary solid flex items-center gap-2 pill"
           onClick={() => navigate(['/'], { currentInstance })}
         >
           <IconHomeBolt size={26} />

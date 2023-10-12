@@ -4,7 +4,7 @@ import { Text } from '@mantine/core';
 import { useMutation } from '@tanstack/react-query';
 import { hiddenRequestLoader, showRequestLoader } from '@/src/utils/loader';
 import { showTaskSubmitNotification } from '@/src/utils/text';
-import { openConfirmModal } from '@mantine/modals';
+import { modals } from '@mantine/modals';
 import { IndexSettingComponentProps } from '.';
 import { useCurrentInstance } from '@/src/hooks/useCurrentInstance';
 import { useTranslation } from 'react-i18next';
@@ -54,7 +54,7 @@ export const DangerZone: FC<
   );
 
   const onClickDeleteIndex = useCallback(async () => {
-    openConfirmModal({
+    modals.openConfirmModal({
       title: t('index_delete.dialog.title'),
       children: (
         <Text
@@ -71,7 +71,7 @@ export const DangerZone: FC<
   }, [delIndexMutation, client.uid, t]);
 
   const onClickDeleteAllDocuments = useCallback(async () => {
-    openConfirmModal({
+    modals.openConfirmModal({
       title: t('all_documents_delete.dialog.title'),
       children: (
         <Text
