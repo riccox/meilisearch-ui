@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.6](https://github.com/riccox/meilisearch-ui/compare/v0.6.5...v0.6.6) (2023-11-02)
+
+
+### Continuous Integration
+
+* remove docker build platform arm v6. ([7e425a0](https://github.com/riccox/meilisearch-ui/commit/7e425a098ee2ec995906c1c59d6e6efa1d17cb92))
+
 ## [0.6.5](https://github.com/riccox/meilisearch-ui/compare/v0.6.4...v0.6.5) (2023-11-02)
 
 
