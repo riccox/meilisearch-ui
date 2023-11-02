@@ -1,6 +1,4 @@
-FROM node:16-alpine as builder
-
-RUN apk add --update bash
+FROM node:18-slim
 
 # Setting working directory.
 WORKDIR /opt/meilisearch-ui
@@ -16,4 +14,4 @@ RUN pnpm install
 EXPOSE 24900
 
 # Running the app
-CMD ["pnpm","run","start"]
+CMD ["pnpm", "run", "start"]
