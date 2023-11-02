@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.6.5](https://github.com/riccox/meilisearch-ui/compare/v0.6.4...v0.6.5) (2023-11-02)
+
+
+### Performance Improvements
+
+* add config for netlify avoid refresh page become page 404. ([b528ed6](https://github.com/riccox/meilisearch-ui/commit/b528ed634d7c5acf0b4869d78ea686c3af0db5b7))
+* use vite-react-swc. ([b528ed6](https://github.com/riccox/meilisearch-ui/commit/b528ed634d7c5acf0b4869d78ea686c3af0db5b7))
+
+
+### Miscellaneous Chores
+
+* merge gh-87. ([b528ed6](https://github.com/riccox/meilisearch-ui/commit/b528ed634d7c5acf0b4869d78ea686c3af0db5b7))
+
 ## [0.6.4](https://github.com/riccox/meilisearch-ui/compare/v0.6.3...v0.6.4) (2023-09-29)
 
 
