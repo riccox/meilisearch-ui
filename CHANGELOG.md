@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.6.7](https://github.com/riccox/meilisearch-ui/compare/v0.6.6...v0.6.7) (2023-11-03)
+
+
+### Bug Fixes
+
+* gh-82 delete confirm modal btn. ([1d61376](https://github.com/riccox/meilisearch-ui/commit/1d6137661db2ca7ed239abc025b1368503fa178e))
+* instance i18n translation file. ([6fe7f50](https://github.com/riccox/meilisearch-ui/commit/6fe7f50687302e9ca80f33a7f4a732a9d8a40e63))
+
+
+### Performance Improvements
+
+* change header padding size & home btn radius. ([6fe7f50](https://github.com/riccox/meilisearch-ui/commit/6fe7f50687302e9ca80f33a7f4a732a9d8a40e63))
+* request loader logic. ([1d61376](https://github.com/riccox/meilisearch-ui/commit/1d6137661db2ca7ed239abc025b1368503fa178e))
+
 ## [0.6.6](https://github.com/riccox/meilisearch-ui/compare/v0.6.5...v0.6.6) (2023-11-02)
 
 
