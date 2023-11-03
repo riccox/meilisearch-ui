@@ -57,9 +57,9 @@ export const UploadDoc = () => {
     },
   });
 
-  const addDocumentsMutation = useMutation(
-    ['addDocuments', host, indexClient?.uid],
-    async (variables: object[] | File) => {
+  const addDocumentsMutation = useMutation({
+    mutationKey: ['addDocuments', host, indexClient?.uid],
+    mutationFn: async (variables: object[] | File) => {
       const url = new URL(`/indexes/${currentIndex}/documents`, host);
       const response = await fetch(url, {
         method: 'POST',
@@ -74,31 +74,30 @@ export const UploadDoc = () => {
       console.debug('addDocumentsMutation', 'response', task);
       return task;
     },
-    {
-      onSuccess: (t) => {
-        showTaskSubmitNotification(t);
-        addDocumentsForm.reset();
-        // refresh the document counter
-        outletContext.refreshIndexes();
-      },
-      onError: (error) => {
-        console.error(error);
-        showTaskErrorNotification(error);
-      },
-      onMutate() {
-        if (dragAreaState !== 'uploading') {
-          setDragAreaState('uploading');
-          showRequestLoader();
-        }
-      },
-      onSettled() {
-        if (dragAreaState === 'uploading') {
-          setDragAreaState('leave');
-        }
-        hiddenRequestLoader();
-      },
-    }
-  );
+
+    onSuccess: (t) => {
+      showTaskSubmitNotification(t);
+      addDocumentsForm.reset();
+      // refresh the document counter
+      outletContext.refreshIndexes();
+    },
+    onError: (error) => {
+      console.error(error);
+      showTaskErrorNotification(error);
+    },
+    onMutate() {
+      if (dragAreaState !== 'uploading') {
+        setDragAreaState('uploading');
+        showRequestLoader();
+      }
+    },
+    onSettled() {
+      if (dragAreaState === 'uploading') {
+        setDragAreaState('leave');
+      }
+      hiddenRequestLoader();
+    },
+  });
 
   // only read at first render time, so we don't need to use "useCallback"
   const pasteClipboardJSON = useCallback(async () => {

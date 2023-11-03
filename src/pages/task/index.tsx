@@ -1,5 +1,5 @@
 import './index.css';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Code, Modal, Select, TextInput } from '@mantine/core';
 import { useMeiliClient } from '@/src/hooks/useMeiliClient';
 import { Task, TasksResults } from 'meilisearch';
@@ -28,23 +28,25 @@ function Tasks() {
   );
   const [filter, setFilter] = useState<{ query: string; status?: string; type?: string }>({ query: '' });
 
-  const tasksQuery = useInfiniteQuery(
-    ['tasks', host],
-    async ({ pageParam }) => {
+  const tasksQuery = useInfiniteQuery({
+    queryKey: ['tasks', host],
+    initialPageParam: {},
+    queryFn: async ({ pageParam }) => {
       showRequestLoader();
       return await client.getTasks(pageParam);
     },
-    {
-      keepPreviousData: true,
-      getNextPageParam: (lastPage, pages) => ({ from: lastPage.next }),
-      onError: (err) => {
-        console.warn('get meilisearch tasks error', err);
-      },
-      onSettled: () => {
-        hiddenRequestLoader();
-      },
+    getNextPageParam: (lastPage, pages) => ({ from: lastPage.next }),
+  });
+
+  useEffect(() => {
+    if (tasksQuery.isError) {
+      console.warn('get meilisearch tasks error', tasksQuery.error);
     }
-  );
+    if (!tasksQuery.isFetching) {
+      console.log('fetched!');
+      hiddenRequestLoader();
+    }
+  }, [tasksQuery.error, tasksQuery.isError, tasksQuery.isFetching]);
 
   const filteredTasks = useMemo(() => {
     const tasks: Task[] = [];

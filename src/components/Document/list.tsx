@@ -24,40 +24,38 @@ export const DocumentList = ({ docs = [], showIndex = false, refetchDocs }: Prop
   const [isEditDocumentsModalOpen, setIsEditDocumentsModalOpen] = useState(false);
   const [editingDocument, setEditingDocument] = useState<Doc>();
 
-  const editDocumentMutation = useMutation(
-    ['editDocument'],
-    async ({ indexId, docs }: { indexId: string; docs: object[] }) => {
+  const editDocumentMutation = useMutation({
+    mutationKey: ['editDocument'],
+    mutationFn: async ({ indexId, docs }: { indexId: string; docs: object[] }) => {
       return await client.index(indexId).updateDocuments(docs);
     },
-    {
-      onSuccess: (t) => {
-        setIsEditDocumentsModalOpen(false);
-        showTaskSubmitNotification(t);
-        refetchDocs();
-      },
-      onError: (error) => {
-        console.error(error);
-        showTaskErrorNotification(error);
-      },
-    }
-  );
 
-  const removeDocumentsMutation = useMutation(
-    ['removeDocuments'],
-    async ({ indexId, docId }: { indexId: string; docId: string[] | number[] }) => {
+    onSuccess: (t) => {
+      setIsEditDocumentsModalOpen(false);
+      showTaskSubmitNotification(t);
+      refetchDocs();
+    },
+    onError: (error) => {
+      console.error(error);
+      showTaskErrorNotification(error);
+    },
+  });
+
+  const removeDocumentsMutation = useMutation({
+    mutationKey: ['removeDocuments'],
+    mutationFn: async ({ indexId, docId }: { indexId: string; docId: string[] | number[] }) => {
       return await client.index(indexId).deleteDocuments(docId);
     },
-    {
-      onSuccess: (t) => {
-        showTaskSubmitNotification(t);
-        refetchDocs();
-      },
-      onError: (error: Error) => {
-        console.error(error);
-        showTaskErrorNotification(error);
-      },
-    }
-  );
+
+    onSuccess: (t) => {
+      showTaskSubmitNotification(t);
+      refetchDocs();
+    },
+    onError: (error: Error) => {
+      console.error(error);
+      showTaskErrorNotification(error);
+    },
+  });
 
   const onClickDocumentDel = useCallback(
     (doc: Doc) => {
