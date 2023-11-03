@@ -60,9 +60,9 @@ export const Synonyms: FC<IndexSettingConfigComponentProps> = ({ client, classNa
   });
 
   useEffect(() => {
-    const isLoading = query.isLoading || query.isFetching || mutation.isLoading;
+    const isLoading = query.isLoading || query.isFetching || mutation.isPending;
     toggleLoading(isLoading);
-  }, [mutation.isLoading, query.isFetching, query.isLoading, toggleLoading]);
+  }, [mutation.isPending, query.isFetching, query.isLoading, toggleLoading]);
 
   const synonymsMutationForm = useForm<SynonymsMutationForm>({
     defaultValues: {
@@ -268,7 +268,7 @@ export const Synonyms: FC<IndexSettingConfigComponentProps> = ({ client, classNa
             />
             <div className="flex gap-3">
               <button
-                className={clsx('btn solid success flex-1', mutation.isLoading && 'is-loading')}
+                className={clsx('btn solid success flex-1', mutation.isPending && 'is-loading')}
                 onClick={(e) => {
                   e.preventDefault();
                   onSubmitSynonymsMutation();
@@ -302,7 +302,7 @@ export const Synonyms: FC<IndexSettingConfigComponentProps> = ({ client, classNa
       state.isMutateSynonymsWordModalShow,
       state.mutatingSynonymsWord,
       synonymsMutationForm,
-      mutation.isLoading,
+      mutation.isPending,
       query.data,
       toggleSynonymsMutationModal,
       onClickItemDel,

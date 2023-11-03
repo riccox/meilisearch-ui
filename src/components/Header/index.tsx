@@ -12,7 +12,7 @@ import {
   IconSettings,
 } from '@tabler/icons-react';
 import { Link } from 'react-router-dom';
-import { FC, useCallback, useMemo, useState } from 'react';
+import { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import { useClipboard } from '@mantine/hooks';
 import { MeiliSearch, Version } from 'meilisearch';
 import { useQuery } from '@tanstack/react-query';
@@ -49,20 +49,30 @@ export const Header: FC<Props> = ({ client, className }) => {
   const [version, setVersion] = useState<Version>();
   const [health, setHealth] = useState<boolean>(true);
 
-  useQuery(
-    ['version', currentInstance?.host],
-    async () => {
+  const queryVersion = useQuery({
+    queryKey: ['version', currentInstance?.host],
+    queryFn: async () => {
       return await client.getVersion();
     },
-    { refetchInterval: 120000, onSuccess: (res) => setVersion(res) }
-  );
-  useQuery(
-    ['health', currentInstance?.host],
-    async () => {
+    refetchInterval: 120000,
+  });
+
+  const queryHealth = useQuery({
+    queryKey: ['health', currentInstance?.host],
+    queryFn: async () => {
       return (await client.health()).status === 'available';
     },
-    { refetchInterval: 30000, onSuccess: (res) => setHealth(res) }
-  );
+    refetchInterval: 30000,
+  });
+
+  useEffect(() => {
+    if (queryVersion.isSuccess) {
+      setVersion(queryVersion.data);
+    }
+    if (queryHealth.isSuccess) {
+      setHealth(queryHealth.data);
+    }
+  }, [queryHealth.data, queryHealth.isSuccess, queryVersion.data, queryVersion.isSuccess]);
 
   const onClickHost = useCallback(() => {
     clipboard.copy(currentInstance?.host);

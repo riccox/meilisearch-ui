@@ -1,5 +1,5 @@
 import './baseInfo.css';
-import { FC, useCallback, useMemo, useState } from 'react';
+import { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import { ActionIcon, Button, Modal, Text, TextInput, Tooltip } from '@mantine/core';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { hiddenRequestLoader, showRequestLoader } from '@/src/utils/loader';
@@ -19,23 +19,14 @@ export const BaseInfo: FC<IndexSettingComponentProps> = ({ host, client }) => {
     setIsRawInfoEditing(true);
   }, []);
 
-  const queryRawInfo = useQuery(
-    ['rawInfo', host, client.uid],
-    async () => {
+  const queryRawInfo = useQuery({
+    queryKey: ['rawInfo', host, client.uid],
+    queryFn: async () => {
       showRequestLoader();
       return await client.getRawInfo();
     },
-    {
-      keepPreviousData: true,
-      onSuccess: () => {
-        // change display data when not editing
-        !isRawInfoEditing && resetRawInfo();
-      },
-      onSettled: () => {
-        hiddenRequestLoader();
-      },
-    }
-  );
+  });
+
   const [indexRawInfoDisplayData, setIndexRawInfoDisplayData] = useState<IndexObject>();
 
   const resetRawInfo = useCallback(() => {
@@ -43,22 +34,30 @@ export const BaseInfo: FC<IndexSettingComponentProps> = ({ host, client }) => {
     setIndexRawInfoDisplayData(queryRawInfo.data);
   }, [queryRawInfo.data]);
 
-  const rawInfoMutation = useMutation(
-    ['rawInfo', host, client.uid],
-    async (variables: IndexOptions) => {
+  useEffect(() => {
+    if (queryRawInfo.isSuccess) {
+      // change display data when not editing
+      !isRawInfoEditing && resetRawInfo();
+    }
+    if (!queryRawInfo.isFetching) {
+      hiddenRequestLoader();
+    }
+  }, [isRawInfoEditing, queryRawInfo.isFetching, queryRawInfo.isSuccess, resetRawInfo]);
+
+  const rawInfoMutation = useMutation({
+    mutationKey: ['rawInfo', host, client.uid],
+    mutationFn: async (variables: IndexOptions) => {
       showRequestLoader();
       return await client.update(variables);
     },
-    {
-      onSuccess: (t) => {
-        showTaskSubmitNotification(t);
-        setTimeout(() => queryRawInfo.refetch(), 450);
-      },
-      onSettled: () => {
-        hiddenRequestLoader();
-      },
-    }
-  );
+    onSuccess: (t) => {
+      showTaskSubmitNotification(t);
+      setTimeout(() => queryRawInfo.refetch(), 450);
+    },
+    onSettled: () => {
+      hiddenRequestLoader();
+    },
+  });
 
   const editRawInfoForm = useForm({
     initialValues: {

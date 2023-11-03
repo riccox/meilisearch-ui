@@ -31,9 +31,9 @@ export const TypoTolerance: FC<IndexSettingConfigComponentProps> = ({ client, cl
   });
 
   useEffect(() => {
-    const isLoading = query.isLoading || query.isFetching || mutation.isLoading;
+    const isLoading = query.isLoading || query.isFetching || mutation.isPending;
     toggleLoading(isLoading);
-  }, [mutation.isLoading, query.isFetching, query.isLoading, toggleLoading]);
+  }, [mutation.isPending, query.isFetching, query.isLoading, toggleLoading]);
 
   return useMemo(
     () => (

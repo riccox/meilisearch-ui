@@ -27,14 +27,14 @@ export const MultiIndexSearch = () => {
     { queries: [], queriesEditorShow: false }
   );
 
-  const query = useQuery<unknown, unknown, DocList>(
-    [
+  const query = useQuery<unknown, unknown, DocList>({
+    queryKey: [
       'multiSearchDocuments',
       host,
       // dependencies for the search refresh
       state.queries,
     ],
-    async () => {
+    queryFn: async () => {
       try {
         const data: DocList = (await client!.multiSearch({ queries: state.queries })).results;
 
@@ -52,11 +52,8 @@ export const MultiIndexSearch = () => {
         return [];
       }
     },
-    {
-      enabled: !!client,
-      keepPreviousData: true,
-    }
-  );
+    enabled: !!client,
+  });
 
   return useMemo(
     () => (

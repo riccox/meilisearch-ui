@@ -1,5 +1,5 @@
 import './index.css';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { ActionIcon, CopyButton, Modal, MultiSelect, Table, TextInput, Tooltip } from '@mantine/core';
 import { useMeiliClient } from '@/src/hooks/useMeiliClient';
 import { Key } from 'meilisearch';
@@ -36,31 +36,35 @@ function Keys() {
   );
   const [filter, setFilter] = useState<{ query: string; actions?: string[] }>({ query: '' });
 
-  const keysQuery = useInfiniteQuery(
-    ['keys', host],
-    async ({ pageParam }) => {
+  const keysQuery = useInfiniteQuery({
+    queryKey: ['keys', host],
+    initialPageParam: {
+      limit: 20,
+      offset: 0,
+    },
+    queryFn: async ({ pageParam }) => {
       showRequestLoader();
       console.log(client.config);
       return await client.getKeys(pageParam);
     },
-    {
-      keepPreviousData: true,
-      getNextPageParam: (lastPage) => {
-        const limit = lastPage.limit ?? 20;
-        const offset = lastPage.offset ?? 0;
-        return {
-          limit,
-          offset: offset + limit > lastPage.total ? 0 : offset + limit,
-        };
-      },
-      onError: (err) => {
-        console.warn('get meilisearch keys error', err);
-      },
-      onSettled: () => {
-        hiddenRequestLoader();
-      },
+    getNextPageParam: (lastPage) => {
+      const limit = lastPage.limit ?? 20;
+      const offset = lastPage.offset ?? 0;
+      return {
+        limit,
+        offset: offset + limit > lastPage.total ? 0 : offset + limit,
+      };
+    },
+  });
+
+  useEffect(() => {
+    if (keysQuery.isError) {
+      console.warn('get meilisearch keys error', keysQuery.error);
     }
-  );
+    if (!keysQuery.isFetching) {
+      hiddenRequestLoader();
+    }
+  }, [keysQuery.error, keysQuery.isError, keysQuery.isFetching]);
 
   const filteredKeys = useMemo(() => {
     const keys: Key[] = [];

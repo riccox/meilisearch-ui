@@ -31,9 +31,9 @@ export const DistinctAttribute: FC<IndexSettingConfigComponentProps> = ({ client
   });
 
   useEffect(() => {
-    const isLoading = query.isLoading || query.isFetching || mutation.isLoading;
+    const isLoading = query.isLoading || query.isFetching || mutation.isPending;
     toggleLoading(isLoading);
-  }, [mutation.isLoading, query.isFetching, query.isLoading, toggleLoading]);
+  }, [mutation.isPending, query.isFetching, query.isLoading, toggleLoading]);
 
   const [isEditing, setIsEditing] = useState<boolean>(false);
   const form = useForm({ defaultValues: { input: '' } });
