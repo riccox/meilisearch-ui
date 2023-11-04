@@ -1,4 +1,4 @@
-import { openConfirmModal } from '@mantine/modals';
+import { modals } from '@mantine/modals';
 import { useMeiliClient } from '@/src/hooks/useMeiliClient';
 import { showTaskErrorNotification, showTaskSubmitNotification } from '@/src/utils/text';
 import { toast } from '@/src/utils/toast';
@@ -62,24 +62,43 @@ export const DocumentList = ({ docs = [], showIndex = false, refetchDocs }: Prop
       const pk = doc.primaryKey;
       console.debug('onClickDocumentDel', 'pk', pk);
       if (pk) {
-        openConfirmModal({
+        const modalId = 'deleteDocumentModal';
+        modals.open({
+          modalId,
           title: t('delete_document'),
           centered: true,
           children: (
-            <p>
-              {t('delete.tip') + ' '}
-              <strong>
-                {/* @ts-ignore */}
-                document ({pk}: {doc.content[pk]}) in index {doc.indexId}
-              </strong>
-              ?
-            </p>
+            <div className="flex flex-col gap-6">
+              <p>
+                {t('delete.tip') + ' '}
+                <strong>
+                  {/* @ts-ignore */}
+                  document ({pk}: {doc.content[pk]}) in index {doc.indexId}
+                </strong>
+                ?
+              </p>
+              <div className="flex gap-3">
+                <button
+                  className="btn sm solid danger flex-1"
+                  onClick={() => {
+                    // @ts-ignore
+                    removeDocumentsMutation.mutate({ indexId: doc.indexId, docId: [doc.content[pk]] });
+                    modals.close(modalId);
+                  }}
+                >
+                  {t('confirm')}
+                </button>
+                <button
+                  className="btn sm solid bw flex-1"
+                  onClick={() => {
+                    modals.close(modalId);
+                  }}
+                >
+                  {t('cancel')}
+                </button>
+              </div>
+            </div>
           ),
-          labels: { confirm: t('confirm'), cancel: t('cancel') },
-          onConfirm: () => {
-            // @ts-ignore
-            removeDocumentsMutation.mutate({ indexId: doc.indexId, docId: [doc.content[pk]] });
-          },
         });
       } else {
         toast.error(t('delete.require_primaryKey', { indexId: doc.indexId }));
@@ -101,7 +120,10 @@ export const DocumentList = ({ docs = [], showIndex = false, refetchDocs }: Prop
   const list = useMemo(() => {
     return docs.map((d, i) => {
       return (
-        <div className={` rounded-xl p-4 bg-brand-1 odd:bg-opacity-20 even:bg-opacity-10 group relative`} key={i}>
+        <div
+          className={`text-xs rounded-xl p-4 bg-brand-1 odd:bg-opacity-20 even:bg-opacity-10 group relative`}
+          key={i}
+        >
           <div
             className={clsx(`absolute right-3 top-3 opacity-95 badge outline sm bw cornered`, !showIndex && 'hidden')}
           >
@@ -118,11 +140,11 @@ export const DocumentList = ({ docs = [], showIndex = false, refetchDocs }: Prop
           <div
             className={`absolute right-0 bottom-0 opacity-95 invisible group-hover:visible p-2 flex items-center gap-2`}
           >
-            <button className={'btn xs font-normal outline info'} onClick={() => onClickDocumentUpdate(d)}>
-              {t('update')}
+            <button className={'btn xs light info'} onClick={() => onClickDocumentUpdate(d)}>
+              {t('common:update')}
             </button>
-            <button className={'btn xs font-normal outline danger'} onClick={() => onClickDocumentDel(d)}>
-              {t('delete')}
+            <button className={'btn xs light danger'} onClick={() => onClickDocumentDel(d)}>
+              {t('common:delete')}
             </button>
           </div>
         </div>

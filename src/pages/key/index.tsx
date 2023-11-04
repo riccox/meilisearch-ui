@@ -15,7 +15,7 @@ import { IconCheck, IconCopy } from '@tabler/icons-react';
 import { Footer } from '@/src/components/Footer';
 import { useForm } from '@mantine/form';
 import { useIndexes } from '@/src/hooks/useIndexes';
-import { openConfirmModal } from '@mantine/modals';
+import { modals } from '@mantine/modals';
 import { toast } from '@/src/utils/toast';
 import { useCurrentInstance } from '@/src/hooks/useCurrentInstance';
 import { useTranslation } from 'react-i18next';
@@ -100,17 +100,37 @@ function Keys() {
 
   const onClickDelKey = useCallback(
     (key: Key) => {
-      openConfirmModal({
+      const modalId = 'delKeyModal';
+      modals.open({
+        modalId,
         title: t('delete.title'),
         centered: true,
-        children: <p>{t('delete.tip')}</p>,
-        labels: { confirm: t('confirm'), cancel: t('cancel') },
-        confirmProps: { color: 'red' },
-        onConfirm: () => {
-          client.deleteKey(key.uid).finally(() => {
-            refreshKeys();
-          });
-        },
+        children: (
+          <div className="flex flex-col gap-6">
+            <p>{t('delete.tip')}</p>
+            <div className="flex gap-3">
+              <button
+                className="btn sm solid danger flex-1"
+                onClick={() => {
+                  client.deleteKey(key.uid).finally(() => {
+                    refreshKeys();
+                  });
+                  modals.close(modalId);
+                }}
+              >
+                {t('confirm')}
+              </button>
+              <button
+                className="btn sm solid bw flex-1"
+                onClick={() => {
+                  modals.close(modalId);
+                }}
+              >
+                {t('cancel')}
+              </button>
+            </div>
+          </div>
+        ),
       });
     },
     [client, refreshKeys, t]

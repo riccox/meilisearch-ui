@@ -5,7 +5,7 @@ import { FC, useCallback, useEffect, useMemo, useReducer } from 'react';
 import { IndexSettingConfigComponentProps } from '../..';
 import _ from 'lodash';
 import { IconCircleMinus, IconEdit, IconPlus } from '@tabler/icons-react';
-import { openConfirmModal } from '@mantine/modals';
+import { modals } from '@mantine/modals';
 import { Controller, useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 
@@ -74,17 +74,36 @@ export const Synonyms: FC<IndexSettingConfigComponentProps> = ({ client, classNa
   const onClickItemDel = useCallback(
     (key: string) => {
       console.debug('🚀 ~ file: Synonyms onClickItemDel', key);
-
-      openConfirmModal({
-        title: t('setting.index.config.remove_this.item'),
+      const modalId = 'removeItemModal';
+      modals.open({
+        modalId,
+        title: t('setting.index.config.remove_this_item'),
         centered: true,
-        children: <p>{t('setting.index.config.are_you_sure_you_want_to_remove_item', { item: key })}</p>,
-        labels: { confirm: t('confirm'), cancel: t('cancel') },
-        confirmProps: { color: 'red' },
-        onConfirm: async () => {
-          const updated = _.omit(query.data, [key]);
-          mutation.mutate(updated);
-        },
+        children: (
+          <div className="flex flex-col gap-6">
+            <p>{t('setting.index.config.are_you_sure_you_want_to_remove_item', { item: key })}</p>{' '}
+            <div className="flex gap-3">
+              <button
+                className="btn sm solid danger flex-1"
+                onClick={() => {
+                  const updated = _.omit(query.data, [key]);
+                  mutation.mutate(updated);
+                  modals.close(modalId);
+                }}
+              >
+                {t('confirm')}
+              </button>
+              <button
+                className="btn sm solid bw flex-1"
+                onClick={() => {
+                  modals.close(modalId);
+                }}
+              >
+                {t('cancel')}
+              </button>
+            </div>
+          </div>
+        ),
       });
     },
     [mutation, t, query.data]

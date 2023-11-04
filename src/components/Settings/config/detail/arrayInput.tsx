@@ -2,7 +2,7 @@ import clsx from 'clsx';
 import { useForm } from 'react-hook-form';
 import { IconPlus, IconCircleMinus, IconArrowUp, IconArrowDown } from '@tabler/icons-react';
 import { PropsWithoutRef, useCallback, useMemo, useState } from 'react';
-import { openConfirmModal } from '@mantine/modals';
+import { modals } from '@mantine/modals';
 import _ from 'lodash';
 import { arrayMove } from '@/src/utils/array';
 import { useTranslation } from 'react-i18next';
@@ -67,18 +67,37 @@ export function ArrayInput<V extends string>({
   const onClickItemDel = useCallback(
     (index: number) => {
       console.debug('🚀 ~ file: ArrayInput onClickItemDel', index);
-
-      openConfirmModal({
-        title: t('setting.index.config.remove_this.item'),
+      const modalId = 'removeItemModal';
+      modals.open({
+        modalId,
+        title: t('setting.index.config.remove_this_item'),
         centered: true,
-        children: <p>{t('setting.index.config.are_you_sure_you_want_to_remove_item', { item: array[index] })}</p>,
-        labels: { confirm: t('confirm'), cancel: t('cancel') },
-        confirmProps: { color: 'red' },
-        onConfirm: async () => {
-          const updated = _.without(array, array[index]);
-          setArray(updated);
-          onMutation(updated);
-        },
+        children: (
+          <div className="flex flex-col gap-6">
+            <p>{t('setting.index.config.are_you_sure_you_want_to_remove_item', { item: array[index] })}</p>{' '}
+            <div className="flex gap-3">
+              <button
+                className="btn sm solid danger flex-1"
+                onClick={() => {
+                  const updated = _.without(array, array[index]);
+                  setArray(updated);
+                  onMutation(updated);
+                  modals.close(modalId);
+                }}
+              >
+                {t('confirm')}
+              </button>
+              <button
+                className="btn sm solid bw flex-1"
+                onClick={() => {
+                  modals.close(modalId);
+                }}
+              >
+                {t('cancel')}
+              </button>
+            </div>
+          </div>
+        ),
       });
     },
     [array, onMutation, t]
@@ -86,7 +105,7 @@ export function ArrayInput<V extends string>({
 
   return useMemo(
     () => (
-      <div className={clsx(className, 'flex flex-col gap-2')}>
+      <div className={clsx(className, 'flex flex-col gap-6')}>
         {(isAdding ? array : defaultValue).map((item, i) => (
           <div
             key={i}
