@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.6.8](https://github.com/riccox/meilisearch-ui/compare/v0.6.7...v0.6.8) (2023-11-04)
+
+
+### Bug Fixes
+
+* confirm btn is not visible in modals gh-93. ([8f30187](https://github.com/riccox/meilisearch-ui/commit/8f301872183fdb4cc8711750fac3907467a3f65b))
+* document card btn translation text. ([8f30187](https://github.com/riccox/meilisearch-ui/commit/8f301872183fdb4cc8711750fac3907467a3f65b))
+
+
+### Performance Improvements
+
+* change document card font size. ([8f30187](https://github.com/riccox/meilisearch-ui/commit/8f301872183fdb4cc8711750fac3907467a3f65b))
+* document card btn style. ([8f30187](https://github.com/riccox/meilisearch-ui/commit/8f301872183fdb4cc8711750fac3907467a3f65b))
+
 ## [0.6.7](https://github.com/riccox/meilisearch-ui/compare/v0.6.6...v0.6.7) (2023-11-03)
 
 
