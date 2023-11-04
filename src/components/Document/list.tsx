@@ -1,4 +1,4 @@
-import { openConfirmModal } from '@mantine/modals';
+import { modals } from '@mantine/modals';
 import { useMeiliClient } from '@/src/hooks/useMeiliClient';
 import { showTaskErrorNotification, showTaskSubmitNotification } from '@/src/utils/text';
 import { toast } from '@/src/utils/toast';
@@ -62,24 +62,43 @@ export const DocumentList = ({ docs = [], showIndex = false, refetchDocs }: Prop
       const pk = doc.primaryKey;
       console.debug('onClickDocumentDel', 'pk', pk);
       if (pk) {
-        openConfirmModal({
+        const modalId = 'deleteDocumentModal';
+        modals.open({
+          modalId,
           title: t('delete_document'),
           centered: true,
           children: (
-            <p>
-              {t('delete.tip') + ' '}
-              <strong>
-                {/* @ts-ignore */}
-                document ({pk}: {doc.content[pk]}) in index {doc.indexId}
-              </strong>
-              ?
-            </p>
+            <div className="flex flex-col gap-6">
+              <p>
+                {t('delete.tip') + ' '}
+                <strong>
+                  {/* @ts-ignore */}
+                  document ({pk}: {doc.content[pk]}) in index {doc.indexId}
+                </strong>
+                ?
+              </p>
+              <div className="flex gap-3">
+                <button
+                  className="btn sm solid danger flex-1"
+                  onClick={() => {
+                    // @ts-ignore
+                    removeDocumentsMutation.mutate({ indexId: doc.indexId, docId: [doc.content[pk]] });
+                    modals.close(modalId);
+                  }}
+                >
+                  {t('confirm')}
+                </button>
+                <button
+                  className="btn sm solid bw flex-1"
+                  onClick={() => {
+                    modals.close(modalId);
+                  }}
+                >
+                  {t('cancel')}
+                </button>
+              </div>
+            </div>
           ),
-          labels: { confirm: t('confirm'), cancel: t('cancel') },
-          onConfirm: () => {
-            // @ts-ignore
-            removeDocumentsMutation.mutate({ indexId: doc.indexId, docId: [doc.content[pk]] });
-          },
         });
       } else {
         toast.error(t('delete.require_primaryKey', { indexId: doc.indexId }));

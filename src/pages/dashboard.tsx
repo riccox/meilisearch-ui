@@ -6,7 +6,7 @@ import { Footer } from '@/src/components/Footer';
 import { useForm } from '@mantine/form';
 import { IconBooks, IconCirclePlus, IconCircleX, IconKey, IconListCheck, IconPencilMinus } from '@tabler/icons-react';
 import { testConnection, validateKeysRouteAvailable } from '@/src/utils/conn';
-import { openConfirmModal } from '@mantine/modals';
+import { modals } from '@mantine/modals';
 import { getTimeText } from '@/src/utils/text';
 import _ from 'lodash';
 import { useNavigatePreCheck } from '@/src/hooks/useRoutePreCheck';
@@ -110,18 +110,38 @@ function Dashboard() {
 
   const onClickRemoveInstance = useCallback(
     (ins: Instance) => {
-      openConfirmModal({
+      const modalId = 'removeInsModal';
+      modals.open({
+        modalId,
         title: t('instance.remove.title'),
         centered: true,
         children: (
-          <p>
-            {t('instance.remove.tip')} ({ins.name})?
-          </p>
+          <div className="flex flex-col gap-6">
+            <p>
+              {t('instance.remove.tip')} ({ins.name})?
+            </p>
+            <div className="flex gap-3">
+              <button
+                className="btn sm solid danger flex-1"
+                onClick={() => {
+                  removeInstance(ins.id);
+
+                  modals.close(modalId);
+                }}
+              >
+                {t('confirm')}
+              </button>
+              <button
+                className="btn sm solid bw flex-1"
+                onClick={() => {
+                  modals.close(modalId);
+                }}
+              >
+                {t('cancel')}
+              </button>
+            </div>
+          </div>
         ),
-        labels: { confirm: t('confirm'), cancel: t('cancel') },
-        onConfirm: () => {
-          removeInstance(ins.id);
-        },
       });
     },
     [removeInstance, t]

@@ -18,7 +18,7 @@ import { MeiliSearch, Version } from 'meilisearch';
 import { useQuery } from '@tanstack/react-query';
 import { useInstanceStats } from '@/src/hooks/useInstanceStats';
 import _ from 'lodash';
-import { openConfirmModal } from '@mantine/modals';
+import { modals } from '@mantine/modals';
 import { getTimeText, showTaskSubmitNotification } from '@/src/utils/text';
 import { validateKeysRouteAvailable } from '@/src/utils/conn';
 import { useNavigatePreCheck } from '@/src/hooks/useRoutePreCheck';
@@ -80,17 +80,37 @@ export const Header: FC<Props> = ({ client, className }) => {
   }, [clipboard, currentInstance?.host]);
 
   const onClickDump = useCallback(() => {
-    openConfirmModal({
+    const modalId = 'createDumpModal';
+    modals.open({
+      modalId,
       title: t('instance:dump.dialog.title'),
       centered: true,
-      children: <p>{t('instance:dump.dialog.tip', { name: currentInstance.name })}</p>,
-      labels: { confirm: t('confirm'), cancel: t('cancel') },
-      confirmProps: { color: 'orange' },
-      onConfirm: () => {
-        client.createDump().then((value) => {
-          showTaskSubmitNotification(value);
-        });
-      },
+      children: (
+        <div className="flex flex-col gap-6">
+          <p>{t('instance:dump.dialog.tip', { name: currentInstance.name })}</p>
+          <div className="flex gap-3">
+            <button
+              className="btn sm solid warn flex-1"
+              onClick={() => {
+                client.createDump().then((value) => {
+                  showTaskSubmitNotification(value);
+                });
+                modals.close(modalId);
+              }}
+            >
+              {t('confirm')}
+            </button>
+            <button
+              className="btn sm solid bw flex-1"
+              onClick={() => {
+                modals.close(modalId);
+              }}
+            >
+              {t('cancel')}
+            </button>
+          </div>
+        </div>
+      ),
     });
   }, [client, currentInstance.name, t]);
 
