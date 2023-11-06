@@ -193,7 +193,7 @@ function Dashboard() {
 
             <div
               className="flex gap-5 items-center bg-violet-400 p-1 rounded-sm"
-              onClick={() => onClickInstance(instance, `/ins/${instance.id}/index`)}
+              onClick={() => onClickInstance(instance, `/instance/${instance.id}/index`)}
             >
               <Tooltip position={'bottom'} label={t('indexes')}>
                 <IconBooks size={24} />
@@ -202,7 +202,7 @@ function Dashboard() {
             </div>
             <div
               className="flex gap-5 items-center bg-blue-400 p-1 rounded-sm"
-              onClick={() => onClickInstance(instance, `/ins/${instance.id}/tasks`)}
+              onClick={() => onClickInstance(instance, `/instance/${instance.id}/tasks`)}
             >
               <Tooltip position={'bottom'} label={t('tasks')}>
                 <IconListCheck size={24} />
@@ -211,7 +211,7 @@ function Dashboard() {
             </div>
             <div
               className="flex gap-5 items-center bg-purple-400 p-1 rounded-sm"
-              onClick={() => onClickInstance(instance, `/ins/${instance.id}/keys`)}
+              onClick={() => onClickInstance(instance, `/instance/${instance.id}/keys`)}
             >
               <Tooltip position={'bottom'} label={t('keys')}>
                 <IconKey size={24} />
@@ -220,7 +220,7 @@ function Dashboard() {
             </div>
             <div
               className={`flex mt-10 justify-evenly items-center `}
-              onClick={() => onClickInstance(instance, `/ins/${instance.id}/index`)}
+              onClick={() => onClickInstance(instance, `/instance/${instance.id}/index`)}
             >
               <Button color={'indigo'} style={{ borderRadius: '30px', width: '80%', height: '50px' }}>
                 <IconArrowRight size={44} />

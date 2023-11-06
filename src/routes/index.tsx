@@ -27,7 +27,7 @@ export const AppRoutes = () => {
     >
       <Routes>
         <Route index element={<Dashboard />} />
-        <Route path="ins">
+        <Route path="instance">
           <Route path=":insId">
             <Route path="index" element={<IndexesLayout />}>
               <Route index element={<EmptyArea text={t('document:empty_area_tip')} />} />

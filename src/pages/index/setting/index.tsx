@@ -17,7 +17,7 @@ function SettingsPage() {
   const client = useMeiliClient();
 
   if (!indexId) {
-    navigate(`/ins/${currentInstance.id}/index`);
+    navigate(`/instance/${currentInstance.id}/index`);
   }
 
   const indexClient = useMemo(() => {

@@ -175,7 +175,7 @@ export const Header: FC<Props> = ({ client, className }) => {
           <div className="menu bottom-left">
             <p className="subtitle">{t('instance')}</p>
             <Link
-              to={`/ins/${currentInstance.id}/index`}
+              to={`/instance/${currentInstance.id}/index`}
               className="item text-sm flex items-center gap-2 "
               tabIndex={-1}
             >
@@ -185,7 +185,7 @@ export const Header: FC<Props> = ({ client, className }) => {
 
             <div
               onClick={() => {
-                navigate([`/ins/${currentInstance.id}/keys`], { currentInstance });
+                navigate([`/instance/${currentInstance.id}/keys`], { currentInstance });
               }}
               className="item text-sm flex items-center gap-2 hover:underline"
               tabIndex={-1}
@@ -194,7 +194,7 @@ export const Header: FC<Props> = ({ client, className }) => {
               <p>{t('keys')}</p>
             </div>
             <Link
-              to={`/ins/${currentInstance.id}/tasks`}
+              to={`/instance/${currentInstance.id}/tasks`}
               className="item text-sm flex items-center gap-2"
               tabIndex={-1}
             >
