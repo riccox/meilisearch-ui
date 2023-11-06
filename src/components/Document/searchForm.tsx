@@ -1,8 +1,8 @@
-import { useMemo } from 'react';
-import { Loader, NumberInput, TextInput, Tooltip } from '@mantine/core';
+import { NumberInput, TextInput, Tooltip } from '@mantine/core';
+import { UseFormReturnType } from '@mantine/form';
 import { IconAlignBoxLeftMiddle, IconArrowsSort, IconFilter, IconSearch } from '@tabler/icons-react';
 import clsx from 'clsx';
-import { UseFormReturnType } from '@mantine/form';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 type Props = {
@@ -16,24 +16,16 @@ type Props = {
     indexId?: string;
   }>;
   searchFormError: string | null;
-  onFormSubmit: () => void;
   submitBtnText: string;
   indexIdEnable?: boolean;
 };
 
-export const SearchForm = ({
-  isFetching = false,
-  searchForm,
-  searchFormError,
-  onFormSubmit,
-  submitBtnText,
-  indexIdEnable = false,
-}: Props) => {
+export const SearchForm = ({ searchForm, searchFormError, indexIdEnable = false }: Props) => {
   const { t } = useTranslation('document');
 
   return useMemo(
     () => (
-      <form className={`flex flex-col gap-2 `} onSubmit={onFormSubmit}>
+      <form className={`flex flex-col gap-2 `}>
         <div className={clsx('prompt danger ghost xs', !searchFormError && 'hidden')}>
           <div className="icon">
             <svg
@@ -93,21 +85,21 @@ export const SearchForm = ({
           </Tooltip>
         </div>
         <div className={`flex items-stretch gap-4`}>
-          <NumberInput radius="md" label={t('search.form.limit.label')} {...searchForm.getInputProps('limit')} />
-          <NumberInput radius="md" label={t('search.form.offset.label')} {...searchForm.getInputProps('offset')} />
-
-          {/* right btn group */}
-          <div className={`ml-auto mt-auto flex gap-x-4 items-center`}>
-            {isFetching && <Loader color="gray" size="sm" />}
-
-            {/* submit btn */}
-            <button type={'submit'} className={`btn solid primary bg-gradient-to-br from-[#c84e89] to-[#F15F79]`}>
-              {submitBtnText}
-            </button>
-          </div>
+          <NumberInput
+            radius="md"
+            label={t('search.form.limit.label')}
+            {...searchForm.getInputProps('limit')}
+            onChange={(value: any) => searchForm.setFieldValue('limit', parseInt(value))}
+          />
+          <NumberInput
+            radius="md"
+            label={t('search.form.offset.label')}
+            {...searchForm.getInputProps('offset')}
+            onChange={(value: any) => searchForm.setFieldValue('offset', parseInt(value))}
+          />
         </div>
       </form>
     ),
-    [indexIdEnable, isFetching, onFormSubmit, t, searchForm, searchFormError, submitBtnText]
+    [indexIdEnable, t, searchForm, searchFormError]
   );
 };

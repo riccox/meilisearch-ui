@@ -1,9 +1,10 @@
-import { Logo } from '@/src/components/Logo';
-import { useCallback, useMemo, useState } from 'react';
-import { defaultInstance, Instance, useAppStore } from '@/src/store';
-import { ActionIcon, Autocomplete, Button, Modal, PasswordInput, TextInput, Tooltip } from '@mantine/core';
-import { Footer } from '@/src/components/Footer';
-import { useForm } from '@mantine/form';
+import {Logo} from '@/src/components/Logo';
+import {useNavigatePreCheck} from '@/src/hooks/useRoutePreCheck';
+import {defaultInstance, Instance, useAppStore} from '@/src/store';
+import {testConnection, validateKeysRouteAvailable} from '@/src/utils/conn';
+import {Autocomplete, Button, Modal, PasswordInput, TextInput, Tooltip} from '@mantine/core';
+import {useForm} from '@mantine/form';
+import {modals} from '@mantine/modals';
 import {
   IconArrowRight,
   IconBooks,
@@ -11,20 +12,26 @@ import {
   IconCircleX,
   IconKey,
   IconListCheck,
-  IconPencilMinus,
+  IconPencilMinus
 } from '@tabler/icons-react';
-import { testConnection, validateKeysRouteAvailable } from '@/src/utils/conn';
-import { modals } from '@mantine/modals';
-import { getTimeText } from '@/src/utils/text';
 import _ from 'lodash';
-import { useNavigatePreCheck } from '@/src/hooks/useRoutePreCheck';
-import { useCurrentInstance } from '../hooks/useCurrentInstance';
-import { useTranslation } from 'react-i18next';
+import {useCallback, useMemo, useState} from 'react';
+import {useTranslation} from 'react-i18next';
+import {useCurrentInstance} from '../hooks/useCurrentInstance';
 
 const instanceCardClassName = `col-span-1 h-28 rounded-md`;
 
 function Dashboard() {
   const { t } = useTranslation('dashboard');
+
+  function isValidUrl(url: string) {
+    try {
+      new URL(url);
+      return true;
+    } catch (err) {
+      return false;
+    }
+  }
 
   const navigate = useNavigatePreCheck(([to], opt) => {
     console.debug('dashboard', 'navigate', to, opt?.currentInstance);
@@ -64,10 +71,7 @@ function Dashboard() {
         }
         return otherNames.includes(value) ? 'Name should be different from others' : null;
       },
-      host: (value: string) =>
-        /^(http(s):\/\/.)[-a-zA-Z0-9@:%._+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_+.~#?&//=]*)$/g.test(value)
-          ? null
-          : 'Invalid host',
+      host: (value: string) => (isValidUrl(value) ? null : 'Invalid host'),
     },
   });
 
