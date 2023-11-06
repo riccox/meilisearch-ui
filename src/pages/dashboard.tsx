@@ -1,5 +1,5 @@
 import { Logo } from '@/src/components/Logo';
-import { useCallback, useMemo, useState } from 'react';
+import { MouseEventHandler, useCallback, useMemo, useState } from 'react';
 import { defaultInstance, Instance, useAppStore } from '@/src/store';
 import { ActionIcon, Autocomplete, Modal, PasswordInput, TextInput, Tooltip } from '@mantine/core';
 import { Footer } from '@/src/components/Footer';
@@ -163,12 +163,6 @@ function Dashboard() {
               >
                 {instance.name}
               </p>
-              <p
-                className={`text-2xl font-bold cursor-pointer text-bw-800/50`}
-                onClick={() => onClickInstance(instance, `/ins/${instance.id}/index`)}
-              >
-                #{instance.id}
-              </p>
             </div>
             <div className={`flex gap-x-3`}>
               <Tooltip position={'left'} label={t('edit')}>
@@ -229,9 +223,8 @@ function Dashboard() {
 
   return (
     <div className="bg-mount full-page justify-center items-center gap-y-6">
-      <div className={`w-1/2 2xl:w-1/4 h-2/3 flex flex-col justify-center items-center gap-y-10`}>
+      <div className="w-1/2 2xl:w-1/4 h-2/3 flex flex-col justify-center items-center gap-y-10">
         <Logo />
-        <p className={`text-brand-2 font-bold xl:text-3xl text-xl w-screen text-center`}>{t('slogan')}</p>
         <div className={`grid grid-cols-1 gap-y-3 w-full p-1  overflow-y-scroll`}>
           {instancesList}
           <div
@@ -292,7 +285,6 @@ function Dashboard() {
           <button type="submit" className="btn primary outline w-full" disabled={isSubmitInstanceLoading}>
             {t('confirm')}
           </button>
-          <Footer />
         </form>
       </Modal>
     </div>

@@ -9,9 +9,6 @@
     "build:safe": "tsc && vite build",
     "preview": "vite preview"
   },
-  "repository": "https://github.com/riccox/meilisearch-ui",
-  "homepage": "https://github.com/riccox/meilisearch-ui#readme",
-  "author": "Ricco Xie <ricco@riccox.com> (https://ricco.riccox.com)",
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@hookform/resolvers": "^3.3.2",
