@@ -162,7 +162,7 @@ function Dashboard() {
       return (
         <div
           key={index}
-          className={`bg-background-light
+          className={`bg-background-light/90
                       flex flex-col justify-between
                       py-4 px-6 group
                       h-96 w-80

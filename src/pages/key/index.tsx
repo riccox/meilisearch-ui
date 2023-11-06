@@ -260,7 +260,7 @@ function Keys() {
         <div
           className={`flex-1 overflow-hidden bg-background-light 
         flex flex-col justify-start items-stretch
-        p-6 rounded-3xl gap-y-2`}
+        p-6 rounded-md gap-y-2`}
         >
           <div className={`flex justify-between items-center gap-x-6`}>
             <div className={`font-extrabold text-3xl`}>🗝️ {t('keys')}</div>

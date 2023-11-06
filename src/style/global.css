@@ -70,12 +70,14 @@
   }
 
   .bg-mount {
-    @apply bg-background-brand bg-fixed bg-cover;
+    @apply bg-fixed bg-cover;
+    background-image: linear-gradient(180deg, #35027a 0%, #0e0021 2100px, #0e0021 4500px);
   }
 
   /* rainbow rotate animated ring border */
   .rainbow-ring-rotate {
     @apply z-0 overflow-hidden relative;
+
     @apply bg-gradient-to-br from-brand-4 via-brand-5 to-brand-6 !important;
   }
 
