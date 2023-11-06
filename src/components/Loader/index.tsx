@@ -5,7 +5,7 @@ interface Props {
 
 export const Loader: FC<Props> = ({ size = 'md' }) => {
   return (
-    <div className={`${size} loader primary`}>
+    <div className={`${size} loader primary flex items-center justify-center`}>
       <div className="bar-bounce" />
     </div>
   );

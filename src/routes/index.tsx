@@ -18,13 +18,7 @@ import { useTranslation } from 'react-i18next';
 export const AppRoutes = () => {
   const { t } = useTranslation();
   return (
-    <Suspense
-      fallback={
-        <div className={`flex full-page justify-center items-center`}>
-          <Loader size={'xl'} />
-        </div>
-      }
-    >
+    <Suspense fallback={<Loader size="md" />}>
       <Routes>
         <Route index element={<Dashboard />} />
         <Route path="instance">

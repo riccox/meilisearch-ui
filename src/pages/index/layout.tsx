@@ -26,7 +26,7 @@ import { useTranslation } from 'react-i18next';
 // Register the required components
 echarts.use([TitleComponent, TooltipComponent, GridComponent, BarChart, CanvasRenderer]);
 
-function IndexesLayout() {
+export default function IndexesLayout() {
   const { t } = useTranslation('document');
   const currentInstance = useCurrentInstance();
   const navigate = useNavigate();
@@ -244,11 +244,10 @@ function IndexesLayout() {
       <div className="bg-mount full-page p-4 gap-2 !grid grid-cols-4 grid-rows-[repeat(10,_minmax(0,_1fr))]">
         <Header className="col-span-full" client={client} />
         <div
-          className={`col-span-1 row-[span_9_/_span_9] bg-background-light 
-        flex flex-col items-stretch p-6 rounded-md gap-y-2 overflow-hidden`}
+          className={`col-span-1 row-[span_9_/_span_9] bg-background-light flex flex-col items-stretch p-6 rounded-md gap-y-2 overflow-hidden`}
         >
           <div className={`flex justify-between items-center flex-wrap gap-2`}>
-            <div className={`font-extrabold text-xl`}>🦄 {t('indexes')}</div>
+            <div className={`font-extrabold text-xl`}>🗂️ {t('indexes')}</div>
 
             <ActionIcon variant={'transparent'} component={Link} to={`/instance/${currentInstance.id}/index/create`}>
               <IconSquareRoundedPlusFilled size={64} />
@@ -288,5 +287,3 @@ function IndexesLayout() {
     ]
   );
 }
-
-export default IndexesLayout;

@@ -46,20 +46,18 @@ export const SearchPage = ({ currentIndex }: Props) => {
     queryFn: async () => {
       return (await indexClient?.getRawInfo())?.primaryKey;
     },
-
     enabled: !!currentIndex,
   });
 
-  const searchDocumentsQuery = useQuery(
-   {queryKey: [
+  const searchDocumentsQuery = useQuery({
+    queryKey: [
       'searchDocuments',
       host,
       indexClient?.uid,
       // dependencies for the search refresh
       searchForm.values,
     ],
-    queryFn:
-    async ({ queryKey }) => {
+    queryFn: async ({ queryKey }) => {
       const { q, limit, offset, filter, sort } = { ...searchForm.values, ...(queryKey[3] as typeof searchForm.values) };
       // prevent app error from request param invalid
       if (searchForm.validate().hasErrors) return emptySearchResult;
@@ -89,10 +87,8 @@ export const SearchPage = ({ currentIndex }: Props) => {
         return emptySearchResult;
       }
     },
-    
-      enabled: !!currentIndex,
-    }
-  );
+    enabled: !!currentIndex,
+  });
 
   const onSearchSubmit = useCallback(async () => {
     await searchDocumentsQuery.refetch();
