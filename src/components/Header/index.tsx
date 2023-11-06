@@ -120,12 +120,13 @@ export const Header: FC<Props> = ({ client, className }) => {
         className={clsx(
           className,
           `bg-background-light
+          font-[Montserrat]
         flex justify-between items-center
-        p-2 rounded-3xl drop-shadow-xl z-20`
+        p-2 rounded-md drop-shadow-xl z-20`
         )}
       >
         <button
-          className="btn primary solid flex items-center gap-2 pill"
+          className="btn primary solid flex items-center gap-2 rounded-md"
           onClick={() => navigate(['/'], { currentInstance })}
         >
           <IconHomeBolt size={26} />
@@ -139,7 +140,7 @@ export const Header: FC<Props> = ({ client, className }) => {
           className={`!cursor-pointer hover:underline badge outline cornered lg success hidden 2xl:inline`}
           onClick={onClickHost}
         >
-          {t('host')}: {_.truncate(currentInstance?.host, { length: 40 })}
+          {_.truncate(currentInstance?.host, { length: 40 })}
         </span>
 
         <p className={`font-bold hidden xl:inline`}>

@@ -231,7 +231,7 @@ function IndexesLayout() {
     } else {
       return (
         <div className={`flex-1 flex justify-center items-center`}>
-          <Button radius={'xl'} size={'xl'} component={Link} to={`/instance/${currentInstance.id}/index/create`}>
+          <Button radius={'sm'} size={'xl'} component={Link} to={`/instance/${currentInstance.id}/index/create`}>
             {t('instance:create_index.label')}
           </Button>
         </div>
