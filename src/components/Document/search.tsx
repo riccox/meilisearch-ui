@@ -14,6 +14,7 @@ export const SearchPage = ({ currentIndex }: Props) => {
   const [searchFormError, setSearchFormError] = useState<string | null>(null);
   const [showSearchBar, setShowSearchBar] = useState(false);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const toggleSearch = () => {
     if (showSearchBar) {
       setShowSearchBar(false);
@@ -51,6 +52,6 @@ export const SearchPage = ({ currentIndex }: Props) => {
         </Suspense>
       </div>
     ),
-    [currentIndex, searchForm, searchFormError, t]
+    [currentIndex, searchForm, searchFormError, showSearchBar, t, toggleSearch]
   );
 };

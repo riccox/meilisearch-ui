@@ -2,14 +2,7 @@ import { DocumentList } from '@/src/components/Document/list';
 import { useCurrentInstance } from '@/src/hooks/useCurrentInstance';
 import { useMeiliClient } from '@/src/hooks/useMeiliClient';
 import { UseFormReturnType } from '@mantine/form';
-import {
-  IconArrowsUp,
-  IconArrowsUpDown,
-  IconCaretUpDown,
-  IconCaretUpDownFilled,
-  IconKeyboardHide,
-  IconSlideshow,
-} from '@tabler/icons-react';
+import { IconCaretUpDown } from '@tabler/icons-react';
 import { useQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
