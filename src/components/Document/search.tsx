@@ -12,6 +12,15 @@ type Props = {
 export const SearchPage = ({ currentIndex }: Props) => {
   const { t } = useTranslation('document');
   const [searchFormError, setSearchFormError] = useState<string | null>(null);
+  const [showSearchBar, setShowSearchBar] = useState(false);
+
+  const toggleSearch = () => {
+    if (showSearchBar) {
+      setShowSearchBar(false);
+    } else {
+      setShowSearchBar(true);
+    }
+  };
 
   const searchForm = useForm({
     initialValues: {
@@ -29,11 +38,16 @@ export const SearchPage = ({ currentIndex }: Props) => {
   return useMemo(
     () => (
       <div className={`h-full flex flex-col p-6 gap-4 overflow-hidden`}>
-        <div className={`rounded-lg p-4 border`}>
+        <div className={`rounded-lg p-4 border ${showSearchBar && 'hidden'}`}>
           <SearchForm searchForm={searchForm} searchFormError={searchFormError} submitBtnText={t('common:search')} />
         </div>
         <Suspense fallback={<Loader size="md" />}>
-          <SearchResult currentIndex={currentIndex} searchForm={searchForm} setError={setSearchFormError} />
+          <SearchResult
+            currentIndex={currentIndex}
+            searchForm={searchForm}
+            setError={setSearchFormError}
+            toggleSearchBar={toggleSearch}
+          />
         </Suspense>
       </div>
     ),

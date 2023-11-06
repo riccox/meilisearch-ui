@@ -2,6 +2,14 @@ import { DocumentList } from '@/src/components/Document/list';
 import { useCurrentInstance } from '@/src/hooks/useCurrentInstance';
 import { useMeiliClient } from '@/src/hooks/useMeiliClient';
 import { UseFormReturnType } from '@mantine/form';
+import {
+  IconArrowsUp,
+  IconArrowsUpDown,
+  IconCaretUpDown,
+  IconCaretUpDownFilled,
+  IconKeyboardHide,
+  IconSlideshow,
+} from '@tabler/icons-react';
 import { useQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -16,6 +24,7 @@ type Props = {
     sort: string;
   }>;
   setError: (error: string | null) => void;
+  toggleSearchBar: () => void;
 };
 
 const emptySearchResult = {
@@ -24,7 +33,7 @@ const emptySearchResult = {
   processingTimeMs: 0,
 };
 
-export default function SearchResult({ currentIndex, searchForm, setError }: Props) {
+export default function SearchResult({ currentIndex, searchForm, setError, toggleSearchBar }: Props) {
   const { t } = useTranslation('document');
   const currentInstance = useCurrentInstance();
   const host = currentInstance?.host;
@@ -87,11 +96,14 @@ export default function SearchResult({ currentIndex, searchForm, setError }: Pro
     <>
       <div className={`flex gap-x-4 justify-between items-baseline`}>
         <p className={`font-extrabold text-2xl`}>{t('search.results.label')} </p>
-        <div className={`flex gap-x-2 px-4 font-thin text-xs text-neutral-500`}>
+        <div className={`flex gap-x-2 px-4 font-thin text-lg text-neutral-500`}>
           <p>{t('search.results.total_hits', { estimatedTotalHits: searchDocumentsQuery.data?.estimatedTotalHits })}</p>
           <p>
             {t('search.results.processing_time', { processingTimeMs: searchDocumentsQuery.data?.processingTimeMs })}
           </p>
+          <button type="button" className="font-bold text-black p-1 rounded-md" onClick={toggleSearchBar}>
+            <IconCaretUpDown size={26} />
+          </button>
         </div>
       </div>
       <div className={`flex-1 flex flex-col gap-4 overflow-scroll`}>
