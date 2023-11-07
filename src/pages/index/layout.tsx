@@ -156,12 +156,12 @@ export default function IndexesLayout() {
               navigate(`/instance/${currentInstance.id}/index/${index.uid}`);
             }}
           >
-            <div className="flex gap-3">
-              <p className={`col-span-4 text-lg font-bold`}>{uid}</p>
+            <div className="flex gap-5">
+              <p className={`text-lg font-bold whitespace-nowrap`}>{uid}</p>
               {indexStat?.isIndexing && (
                 <span className={'tooltip bw bottom'} data-tooltip={t('indexing_tip')}>
                   <Badge size="md" variant="filled">
-                    <div className={`flex flex-nowrap`}>
+                    <div className={`flex gap-2 flex-nowrap`}>
                       <IconAlertTriangle size={16} />
                       <div>{t('indexing')}...</div>
                     </div>
