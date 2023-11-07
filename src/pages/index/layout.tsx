@@ -156,7 +156,19 @@ export default function IndexesLayout() {
               navigate(`/instance/${currentInstance.id}/index/${index.uid}`);
             }}
           >
-            <p className={`col-span-4 text-lg font-bold`}>{uid}</p>
+            <div className="flex gap-3">
+              <p className={`col-span-4 text-lg font-bold`}>{uid}</p>
+              {indexStat?.isIndexing && (
+                <span className={'tooltip bw bottom'} data-tooltip={t('indexing_tip')}>
+                  <Badge size="md" variant="filled">
+                    <div className={`flex flex-nowrap`}>
+                      <IconAlertTriangle size={16} />
+                      <div>{t('indexing')}...</div>
+                    </div>
+                  </Badge>
+                </span>
+              )}
+            </div>
             <div className={`col-span-4 flex justify-end gap-x-2 items-center`}>
               <span className={`mr-auto badge outline sm primary`}>
                 {t('count')}: {indexStat?.numberOfDocuments ?? 0}
@@ -214,16 +226,6 @@ export default function IndexesLayout() {
                   <IconAdjustments size={24} />
                 </ActionIcon>
               </span>
-              {indexStat?.isIndexing && (
-                <span className={'tooltip bw bottom'} data-tooltip={t('indexing_tip')}>
-                  <Badge size="lg" variant="filled">
-                    <div className={`flex flex-nowrap`}>
-                      <IconAlertTriangle />
-                      <div>{t('indexing')}...</div>
-                    </div>
-                  </Badge>
-                </span>
-              )}
             </div>
           </div>
         );
