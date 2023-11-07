@@ -11,7 +11,7 @@ COPY . .
 # Installing dependencies
 RUN pnpm install
 
-EXPOSE 24900
+EXPOSE 3000
 
 # Running the app
 CMD ["pnpm", "run", "start"]
