@@ -46,7 +46,6 @@ export const MultiIndexSearch = () => {
             };
           }
         }
-
         return data || [];
       } catch (err) {
         return [];

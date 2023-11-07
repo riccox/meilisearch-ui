@@ -71,6 +71,7 @@ export const SearchForm = ({ searchForm, searchFormError, indexIdEnable = false 
             className={`flex-1`}
             label={t('search.form.filter.label')}
             leftSection={<IconFilter size={16} />}
+            placeholder={"(genres = horror OR genres = mystery) AND director = 'Jordan Peele'"}
             radius="md"
             {...searchForm.getInputProps('filter')}
           />
@@ -78,6 +79,7 @@ export const SearchForm = ({ searchForm, searchFormError, indexIdEnable = false 
             <TextInput
               className={`flex-1`}
               label={t('search.form.sort.label')}
+              placeholder={'price:asc , author:desc'}
               leftSection={<IconArrowsSort size={16} />}
               radius="md"
               {...searchForm.getInputProps('sort')}

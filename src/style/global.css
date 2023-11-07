@@ -77,7 +77,6 @@
   /* rainbow rotate animated ring border */
   .rainbow-ring-rotate {
     @apply z-0 overflow-hidden relative;
-
     @apply bg-gradient-to-br from-brand-4 via-brand-5 to-brand-6 !important;
   }
 
