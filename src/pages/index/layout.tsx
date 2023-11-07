@@ -157,7 +157,7 @@ export default function IndexesLayout() {
             }}
           >
             <div className="flex gap-5">
-              <p className={`text-lg font-bold whitespace-nowrap`}>{uid}</p>
+              <span className={`text-lg font-bold whitespace-nowrap`}>{uid}</span>
               {indexStat?.isIndexing && (
                 <span className={'tooltip bw bottom'} data-tooltip={t('indexing_tip')}>
                   <Badge size="md" variant="filled">
