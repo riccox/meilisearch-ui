@@ -255,7 +255,7 @@ function Keys() {
 
   return useMemo(
     () => (
-      <div className="bg-mount full-page items-stretch p-5 gap-4">
+      <div className="bg-mount full-page items-stretch p-3 gap-3">
         <Header client={client} />
         <div
           className={`flex-1 overflow-hidden bg-background-light 
@@ -324,7 +324,7 @@ function Keys() {
           centered
           lockScroll
           size="lg"
-          radius="lg"
+          radius="md"
           shadow="xl"
           padding="xl"
           opened={isCreateKeyModalOpen}
@@ -335,23 +335,23 @@ function Keys() {
             <TextInput
               autoFocus
               radius="md"
-              size={'lg'}
+              size={'md'}
               label={<p className={'text-brand-5 pb-2 text-lg'}>{t('name')}</p>}
-              placeholder="just name your key"
+              placeholder="Just name your key"
               {...form.getInputProps('name')}
             />
             <TextInput
               autoFocus
               radius="md"
-              size={'lg'}
+              size={'md'}
               label={<p className={'text-brand-5 pb-2 text-lg'}>{t('description')}</p>}
-              placeholder="just describe your key"
+              placeholder="Just describe your key"
               {...form.getInputProps('description')}
             />{' '}
             <Tooltip position={'bottom-start'} label={t('form.indexes.tip')}>
               <MultiSelect
                 radius="md"
-                size={'lg'}
+                size={'md'}
                 label={<p className={'text-brand-5 pb-2 text-lg'}>{t('props.indexes')}</p>}
                 placeholder={t('form.indexes.placeholder')}
                 searchable
@@ -362,7 +362,7 @@ function Keys() {
             <Tooltip position={'bottom-start'} label={t('form.actions.tip')}>
               <MultiSelect
                 radius="md"
-                size={'lg'}
+                size={'md'}
                 label={<p className={'text-brand-5 pb-2 text-lg'}>{t('props.actions')}</p>}
                 placeholder={t('form.actions.placeholder')}
                 searchable
@@ -470,9 +470,10 @@ function Keys() {
             </Tooltip>
             <Tooltip position={'bottom-start'} label={t('form.expiresAt.tip')}>
               <TextInput
+                type={'datetime-local'}
                 placeholder={t('form.expiresAt.placeholder')}
                 radius="md"
-                size={'lg'}
+                size={'md'}
                 label={<p className={'text-brand-5 pb-2 text-lg'}>{t('expired_at')}</p>}
                 {...form.getInputProps('expiresAt')}
               />

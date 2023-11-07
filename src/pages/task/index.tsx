@@ -128,7 +128,7 @@ function Tasks() {
 
   return useMemo(
     () => (
-      <div className="bg-mount full-page items-stretch p-5 gap-4">
+      <div className="bg-mount full-page items-stretch p-3 gap-3">
         <Header client={client} />
         <div
           className={`flex-1 overflow-hidden bg-background-light 

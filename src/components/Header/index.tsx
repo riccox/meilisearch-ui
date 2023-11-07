@@ -119,10 +119,7 @@ export const Header: FC<Props> = ({ client, className }) => {
       <div
         className={clsx(
           className,
-          `bg-background-light
-          font-[Montserrat]
-        flex justify-between items-center
-        p-2 rounded-md drop-shadow-xl z-20`
+          `bg-background-light  flex justify-between items-center p-2 rounded-md drop-shadow-xl z-20`
         )}
       >
         <button
