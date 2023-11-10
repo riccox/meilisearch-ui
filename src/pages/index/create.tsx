@@ -74,7 +74,7 @@ export const CreateIndex = () => {
                 {...form.getInputProps('primaryKey')}
               />
             </Tooltip>
-            <Button type="submit" radius={'xl'} size={'lg'} variant="light" loading={isSubmitLoading}>
+            <Button type="submit" radius={'md'} size={'lg'} variant="light" loading={isSubmitLoading}>
               {t('create_index.label')}
             </Button>
           </form>

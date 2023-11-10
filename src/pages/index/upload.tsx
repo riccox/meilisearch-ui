@@ -39,7 +39,7 @@ export const UploadDoc = () => {
   const host = currentInstance?.host;
 
   const addDocumentsForm = useForm<{
-    documents: object[] | File;
+    documents: any;
   }>({
     initialValues: {
       documents: [],
@@ -153,7 +153,7 @@ export const UploadDoc = () => {
   );
 
   const onAddDocumentsJsonEditorUpdate = useCallback(
-    (value: string = '[]') => addDocumentsForm.setFieldValue('documents', JSON.parse(value)),
+    (value: string = '[]') => addDocumentsForm.setFieldValue('documents', value),
     [addDocumentsForm]
   );
 
