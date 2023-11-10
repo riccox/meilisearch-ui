@@ -1,8 +1,8 @@
-import { SearchForm } from '@/src/components/Document/searchForm';
+import { SearchForm } from '@/src/components/Document/SearchForm';
 import SearchResult from '@/src/components/Document/SearchResult';
 import { Loader } from '@/src/components/Loader';
 import { useForm } from '@mantine/form';
-import { Suspense, useMemo, useState } from 'react';
+import { Suspense, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 type Props = {
@@ -30,9 +30,6 @@ export const SearchPage = ({ currentIndex }: Props) => {
       limit: 20,
       filter: '',
       sort: '',
-    },
-    validate: {
-      limit: (value: number) => (value < 500 ? null : t('search.form.limit.validation_error')),
     },
   });
 

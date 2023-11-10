@@ -1,10 +1,10 @@
-import { DocumentList } from '@/src/components/Document/list';
+import DocumentList from '@/src/components/Document/DocumentList';
 import { useCurrentInstance } from '@/src/hooks/useCurrentInstance';
 import { useMeiliClient } from '@/src/hooks/useMeiliClient';
 import { UseFormReturnType } from '@mantine/form';
 import { IconCaretUpDown } from '@tabler/icons-react';
 import { useQuery } from '@tanstack/react-query';
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 type Props = {
@@ -45,17 +45,14 @@ export default function SearchResult({ currentIndex, searchForm, setError, toggl
   });
 
   const searchDocumentsQuery = useQuery({
-    queryKey: [
-      'searchDocuments',
-      host,
-      indexClient?.uid,
-      // dependencies for the search refresh
-      searchForm.values,
-    ],
+    queryKey: ['searchDocuments', host, indexClient?.uid, searchForm.values],
     queryFn: async ({ queryKey }) => {
       const { q, limit, offset, filter, sort } = { ...searchForm.values, ...(queryKey[3] as typeof searchForm.values) };
-      // prevent app error from request param invalid
-      if (searchForm.validate().hasErrors) return emptySearchResult;
+
+      if (limit > 500) {
+        setError('Limit must be less than 500');
+        return emptySearchResult;
+      }
       try {
         const data = await indexClient!.search(q, {
           limit,

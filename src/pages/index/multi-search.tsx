@@ -1,4 +1,4 @@
-import { DocumentList } from '@/src/components/Document/list';
+import DocumentList from '@/src/components/Document/DocumentList';
 import { MultiSearchQueries } from '@/src/components/Document/multi-search/queries';
 import { EmptyArea } from '@/src/components/EmptyArea';
 import { Header } from '@/src/components/Header';

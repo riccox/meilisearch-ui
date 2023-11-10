@@ -1,14 +1,14 @@
-'use client';
 import { FC } from 'react';
 import { SUPPORTED_LANGUAGE, SUPPORTED_LANGUAGE_LOCALIZED } from '../utils/i18n';
 import clsx from 'clsx';
 import _ from 'lodash';
 import { useTranslation } from 'react-i18next';
+
 interface Props {
   className?: string;
 }
 
-export const LangSelector: FC<Props> = ({ className = '' }) => {
+export const LangSelector: FC<Props> = ({ className }) => {
   const { i18n } = useTranslation();
 
   return (
@@ -21,7 +21,9 @@ export const LangSelector: FC<Props> = ({ className = '' }) => {
       }}
     >
       {_.entries(SUPPORTED_LANGUAGE_LOCALIZED).map(([k, v]) => (
-        <option value={k}>{v}</option>
+        <option key={k} value={k}>
+          {v}
+        </option>
       ))}
     </select>
   );

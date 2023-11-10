@@ -26,7 +26,7 @@ import { toast } from 'sonner';
 import { useCurrentInstance } from '@/src/hooks/useCurrentInstance';
 import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
-import { LangSelector } from '../lang';
+import { LangSelector } from '../LangSelector';
 
 interface Props {
   className?: string;
@@ -152,7 +152,7 @@ export const Header: FC<Props> = ({ client, className }) => {
           {t('status.label')}: {health ? t('status.available') : t('unknown')}
         </span>
 
-        <LangSelector className="font-medium" />
+        <LangSelector className="font-medium" key={crypto.randomUUID()} />
 
         <HoverCard withinPortal shadow="lg" radius={'lg'} transitionProps={{ transition: 'fade' }}>
           <HoverCard.Target>

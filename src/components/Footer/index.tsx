@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import { LangSelector } from '../lang';
+import { LangSelector } from '../LangSelector';
 
 interface Props {
   className?: string;

@@ -18,7 +18,7 @@ interface Props {
   refetchDocs: () => void;
 }
 
-export const DocumentList = ({ docs = [], showIndex = false, refetchDocs }: Props) => {
+export default function DocumentList({ docs = [], showIndex = false, refetchDocs }: Props) {
   const { t } = useTranslation('document');
   const client = useMeiliClient();
   const [isEditDocumentsModalOpen, setIsEditDocumentsModalOpen] = useState(false);
@@ -169,7 +169,7 @@ export const DocumentList = ({ docs = [], showIndex = false, refetchDocs }: Prop
           }}
           centered
           lockScroll
-          radius="lg"
+          radius="md"
           shadow="xl"
           padding="xl"
           size="xl"
@@ -198,4 +198,4 @@ export const DocumentList = ({ docs = [], showIndex = false, refetchDocs }: Prop
     ),
     [editingDocument, t, isEditDocumentsModalOpen, list, onEditDocumentJsonEditorUpdate, onSubmitDocumentUpdate]
   );
-};
+}

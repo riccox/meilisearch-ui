@@ -1,7 +1,7 @@
 import { useParams } from 'react-router-dom';
 import { EmptyArea } from '@/src/components/EmptyArea';
 import { Suspense, useMemo } from 'react';
-import { SearchPage } from '@/src/components/Document/search';
+import { SearchPage } from '@/src/components/Document/SearchPage';
 import { useTranslation } from 'react-i18next';
 import { Loader } from '@/src/components/Loader';
 
