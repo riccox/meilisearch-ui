@@ -4,7 +4,7 @@ import { useMeiliClient } from '@/src/hooks/useMeiliClient';
 import { UseFormReturnType } from '@mantine/form';
 import { IconCaretUpDown } from '@tabler/icons-react';
 import { useQuery } from '@tanstack/react-query';
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 
 type Props = {
@@ -50,7 +50,7 @@ export default function SearchResult({ currentIndex, searchForm, setError, toggl
       const { q, limit, offset, filter, sort } = { ...searchForm.values, ...(queryKey[3] as typeof searchForm.values) };
 
       if (limit > 500) {
-        setError('Limit must be less than 500');
+        await setTimeout(() => setError('Limit must be less than 500'), 100);
         return emptySearchResult;
       }
       try {

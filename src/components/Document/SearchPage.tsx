@@ -2,7 +2,7 @@ import { SearchForm } from '@/src/components/Document/SearchForm';
 import SearchResult from '@/src/components/Document/SearchResult';
 import { Loader } from '@/src/components/Loader';
 import { useForm } from '@mantine/form';
-import { Suspense, useEffect, useMemo, useState } from 'react';
+import { Suspense, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 type Props = {
