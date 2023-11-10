@@ -10,7 +10,7 @@ import MonacoEditor from '@monaco-editor/react';
 import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 
-type Doc = { indexId: string; content: object; primaryKey: string };
+type Doc = { indexId: string; content: any; primaryKey: string };
 
 interface Props {
   docs?: Doc[];
@@ -113,7 +113,7 @@ export default function DocumentList({ docs = [], showIndex = false, refetchDocs
   }, []);
 
   const onEditDocumentJsonEditorUpdate = useCallback(
-    (value: string = '[]') => setEditingDocument((prev) => ({ ...prev!, content: JSON.parse(value) })),
+    (value: string = '[]') => setEditingDocument((prev) => ({ ...prev!, content: value })),
     []
   );
 
@@ -153,8 +153,13 @@ export default function DocumentList({ docs = [], showIndex = false, refetchDocs
   }, [docs, showIndex, onClickDocumentUpdate, onClickDocumentDel, t]);
 
   const onSubmitDocumentUpdate = useCallback(() => {
-    editingDocument &&
-      editDocumentMutation.mutate({ indexId: editingDocument.indexId, docs: [editingDocument.content] });
+    try {
+      JSON.parse(editingDocument!.content);
+      editingDocument &&
+        editDocumentMutation.mutate({ indexId: editingDocument.indexId, docs: [editingDocument.content] });
+    } catch {
+      showTaskErrorNotification('Invalid JSON');
+    }
   }, [editDocumentMutation, editingDocument]);
 
   return useMemo(
