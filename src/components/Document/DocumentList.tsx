@@ -182,10 +182,10 @@ export default function DocumentList({ docs = [], showIndex = false, refetchDocs
           title={<p className={`font-bold text-lg`}>{t('edit_document')}</p>}
         >
           <div className={`flex flex-col gap-y-4 w-full`}>
-            <div className={`border rounded-xl p-2`}>
+            <div className={`border rounded-md p-2`}>
               <MonacoEditor
                 language="json"
-                className="h-80"
+                className="h-100"
                 defaultValue={JSON.stringify(editingDocument?.content ?? {}, null, 2)}
                 options={{
                   automaticLayout: true,
@@ -194,7 +194,7 @@ export default function DocumentList({ docs = [], showIndex = false, refetchDocs
                 onChange={onEditDocumentJsonEditorUpdate}
               ></MonacoEditor>
             </div>
-            <Button onClick={onSubmitDocumentUpdate} radius={'xl'} size={'lg'} variant="light">
+            <Button onClick={onSubmitDocumentUpdate} radius={'md'} size={'md'} variant="light">
               {t('submit')}
             </Button>
           </div>
