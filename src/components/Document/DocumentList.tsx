@@ -27,7 +27,7 @@ export default function DocumentList({ docs = [], showIndex = false, refetchDocs
   const editDocumentMutation = useMutation({
     mutationKey: ['editDocument'],
     mutationFn: async ({ indexId, docs }: { indexId: string; docs: object[] }) => {
-      return await client.index(indexId).updateDocuments(docs);
+      return await client.index(indexId).addDocuments(docs);
     },
 
     onSuccess: (t) => {
@@ -154,9 +154,9 @@ export default function DocumentList({ docs = [], showIndex = false, refetchDocs
 
   const onSubmitDocumentUpdate = useCallback(() => {
     try {
-      JSON.parse(editingDocument!.content);
+      console.debug('onSubmitDocumentUpdate', JSON.parse(editingDocument!.content));
       editingDocument &&
-        editDocumentMutation.mutate({ indexId: editingDocument.indexId, docs: [editingDocument.content] });
+        editDocumentMutation.mutate({ indexId: editingDocument.indexId, docs: [JSON.parse(editingDocument.content)] });
     } catch {
       showTaskErrorNotification('Invalid JSON');
     }
