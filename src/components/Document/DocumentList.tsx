@@ -27,7 +27,7 @@ export default function DocumentList({ docs = [], showIndex = false, refetchDocs
   const editDocumentMutation = useMutation({
     mutationKey: ['editDocument'],
     mutationFn: async ({ indexId, docs }: { indexId: string; docs: object[] }) => {
-      return await client.index(indexId).addDocuments(docs);
+      return await client.index(indexId).updateDocuments(docs);
     },
 
     onSuccess: (t) => {
