@@ -9,7 +9,7 @@ RUN npm install -g pnpm
 COPY . .
 
 # Installing dependencies
-RUN pnpm install --prod --frozen-lockfile
+RUN pnpm install --frozen-lockfile
 
 EXPOSE 3000
 
