@@ -185,7 +185,7 @@ export default function DocumentList({ docs = [], showIndex = false, refetchDocs
             <div className={`border rounded-md p-2`}>
               <MonacoEditor
                 language="json"
-                className="h-100"
+                className="h-96"
                 defaultValue={JSON.stringify(editingDocument?.content ?? {}, null, 2)}
                 options={{
                   automaticLayout: true,
