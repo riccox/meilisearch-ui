@@ -39,7 +39,7 @@ export const UploadDoc = () => {
   const host = currentInstance?.host;
 
   const addDocumentsForm = useForm<{
-    documents: any;
+    documents: any | object[] | File;
   }>({
     initialValues: {
       documents: [],
@@ -118,9 +118,17 @@ export const UploadDoc = () => {
 
   const onAddDocumentsSubmit = useCallback(
     async (val: typeof addDocumentsForm.values) => {
-      await addDocumentsMutation.mutate(val.documents);
+      try {
+        if (val.documents instanceof File) {
+          await addDocumentsMutation.mutate(val.documents);
+        } else {
+          await addDocumentsMutation.mutate(JSON.parse(val.documents));
+        }
+      } catch {
+        toast.error(t('toast.fail', { msg: 'Failed to Upload documents' }));
+      }
     },
-    [addDocumentsForm, addDocumentsMutation]
+    [addDocumentsForm, addDocumentsMutation, t]
   );
 
   const onImportAreaClick = useCallback(async () => {
