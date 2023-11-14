@@ -21,7 +21,9 @@ export const LangSelector: FC<Props> = ({ className = '' }) => {
       }}
     >
       {_.entries(SUPPORTED_LANGUAGE_LOCALIZED).map(([k, v]) => (
-        <option value={k}>{v}</option>
+        <option value={k} key={v}>
+          {v}
+        </option>
       ))}
     </select>
   );

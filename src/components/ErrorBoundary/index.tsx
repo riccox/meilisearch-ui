@@ -1,7 +1,7 @@
 import type { FC, ReactNode } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
 
-import { LayoutFallback } from './Fallback';
+import { AppFallback, LayoutFallback } from './Fallback';
 import type { ErrorFallbackProps } from './Fallback/ErrorFallbackProps';
 
 type ErrorBoundaryProps = {
@@ -13,7 +13,7 @@ type ErrorBoundaryProps = {
 export const ReactErrorBoundary: FC<ErrorBoundaryProps> = ({ children, onReset, FallbackComponent }) => {
   return (
     /* eslint-disable react/jsx-handler-names */
-    <ErrorBoundary FallbackComponent={FallbackComponent || LayoutFallback} onReset={onReset}>
+    <ErrorBoundary FallbackComponent={FallbackComponent || AppFallback} onReset={onReset}>
       {children}
     </ErrorBoundary>
   );
