@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.9](https://github.com/riccox/meilisearch-ui/compare/v0.6.8...v0.6.9) (2023-11-14)
+
+
+### Bug Fixes
+
+* error boundary app fallback alert. ([9865ac5](https://github.com/riccox/meilisearch-ui/commit/9865ac5f30ce5df8d89114da1bf1a86b57edda79))
+
 ## [0.6.8](https://github.com/riccox/meilisearch-ui/compare/v0.6.7...v0.6.8) (2023-11-04)
 
 
