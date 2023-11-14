@@ -1,8 +1,9 @@
 name: docker-build-release
 
 on:
-  release:
-    types: [ published ]
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+'
 
 env:
   REGISTRY_IMAGE: riccoxie/meilisearch-ui
