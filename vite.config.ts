@@ -16,7 +16,7 @@ export default defineConfig(({ mode }) => {
     },
     server: {
       host: true,
-      port: 24900,
+      port: 3000,
     },
     build: {
       rollupOptions: {

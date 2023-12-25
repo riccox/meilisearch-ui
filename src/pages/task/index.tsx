@@ -89,7 +89,7 @@ function Tasks() {
         return (
           <div
             key={task.uid}
-            className={`cursor-pointer overflow-hidden p-3 rounded-xl flex flex-col justify-between gap-y-2
+            className={`cursor-pointer overflow-hidden p-3 rounded-md flex flex-col justify-between gap-y-2
            bg-brand-1 hover:bg-opacity-30 hover:ring ring-brand-4 bg-opacity-20`}
             onClick={() => onClickDetail(task)}
           >
@@ -128,12 +128,12 @@ function Tasks() {
 
   return useMemo(
     () => (
-      <div className="bg-mount full-page items-stretch p-5 gap-4">
+      <div className="bg-mount full-page items-stretch p-3 gap-3">
         <Header client={client} />
         <div
           className={`flex-1 overflow-hidden bg-background-light 
         flex flex-col justify-start items-stretch
-        p-6 rounded-3xl gap-y-2`}
+        p-6 rounded-md gap-y-2`}
         >
           <div className={`flex justify-between items-center gap-x-6`}>
             <div className={`font-extrabold text-3xl`}>✅ {t('tasks')}</div>

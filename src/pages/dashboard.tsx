@@ -1,22 +1,37 @@
-import { Logo } from '@/src/components/Logo';
-import { useCallback, useMemo, useState } from 'react';
-import { defaultInstance, Instance, useAppStore } from '@/src/store';
-import { ActionIcon, Autocomplete, Modal, PasswordInput, TextInput, Tooltip } from '@mantine/core';
-import { Footer } from '@/src/components/Footer';
-import { useForm } from '@mantine/form';
-import { IconBooks, IconCirclePlus, IconCircleX, IconKey, IconListCheck, IconPencilMinus } from '@tabler/icons-react';
-import { testConnection, validateKeysRouteAvailable } from '@/src/utils/conn';
-import { modals } from '@mantine/modals';
-import { getTimeText } from '@/src/utils/text';
+import {Logo} from '@/src/components/Logo';
+import {useNavigatePreCheck} from '@/src/hooks/useRoutePreCheck';
+import {defaultInstance, Instance, useAppStore} from '@/src/store';
+import {testConnection, validateKeysRouteAvailable} from '@/src/utils/conn';
+import {Autocomplete, Button, Modal, PasswordInput, TextInput, Tooltip} from '@mantine/core';
+import {useForm} from '@mantine/form';
+import {modals} from '@mantine/modals';
+import {
+  IconArrowRight,
+  IconBooks,
+  IconCirclePlus,
+  IconCircleX,
+  IconKey,
+  IconListCheck,
+  IconPencilMinus
+} from '@tabler/icons-react';
 import _ from 'lodash';
-import { useNavigatePreCheck } from '@/src/hooks/useRoutePreCheck';
-import { useCurrentInstance } from '../hooks/useCurrentInstance';
-import { useTranslation } from 'react-i18next';
+import {useCallback, useMemo, useState} from 'react';
+import {useTranslation} from 'react-i18next';
+import {useCurrentInstance} from '../hooks/useCurrentInstance';
 
-const instanceCardClassName = `col-span-1 h-28 rounded-lg`;
+const instanceCardClassName = `col-span-1 h-28 rounded-md`;
 
 function Dashboard() {
   const { t } = useTranslation('dashboard');
+
+  function isValidUrl(url: string) {
+    try {
+      new URL(url);
+      return true;
+    } catch (err) {
+      return false;
+    }
+  }
 
   const navigate = useNavigatePreCheck(([to], opt) => {
     console.debug('dashboard', 'navigate', to, opt?.currentInstance);
@@ -56,12 +71,7 @@ function Dashboard() {
         }
         return otherNames.includes(value) ? 'Name should be different from others' : null;
       },
-      host: (value: string) =>
-        /(https?:\/\/)?(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()!@:%_+.~#?&//=]*)/.test(
-          value
-        )
-          ? null
-          : 'Invalid host',
+      host: (value: string) => (isValidUrl(value) ? null : 'Invalid host'),
     },
   });
 
@@ -152,75 +162,74 @@ function Dashboard() {
       return (
         <div
           key={index}
-          className={`bg-background-light flex flex-col justify-between py-4 px-6 group
-      hover:ring-brand-4 hover:ring-2 ${instanceCardClassName}`}
+          className={`bg-background-light/90
+                      flex flex-col justify-between
+                      py-4 px-6 group
+                      h-96 w-80
+                      hover:ring-brand-4 hover:ring-2
+                      ${instanceCardClassName}`}
         >
-          <div className={`flex justify-between items-center`}>
-            <div className="flex items-center gap-2">
-              <p
-                className={`text-2xl font-bold group-hover:underline cursor-pointer`}
-                onClick={() => onClickInstance(instance, `/ins/${instance.id}/index`)}
-              >
-                {instance.name}
-              </p>
-              <p
-                className={`text-2xl font-bold cursor-pointer text-bw-800/50`}
-                onClick={() => onClickInstance(instance, `/ins/${instance.id}/index`)}
-              >
-                #{instance.id}
-              </p>
-            </div>
-            <div className={`flex gap-x-3`}>
+          <p className={`text-2xl font-bold cursor-pointer capitalize text-center`}>{instance.name}</p>
+
+          <div className={`grid  gap-2`}>
+            <div
+              className="flex gap-5 items-center bg-yellow-400 p-1 rounded-sm"
+              onClick={() => {
+                setInstanceEditing(() => ({ ...instance }));
+                instanceForm.setValues(() => ({ ...instance }));
+                setInstanceFormType('edit');
+                setIsInstanceFormModalOpen(true);
+              }}
+            >
               <Tooltip position={'left'} label={t('edit')}>
-                <ActionIcon
-                  variant="light"
-                  color="yellow"
-                  onClick={() => {
-                    setInstanceEditing(() => ({ ...instance }));
-                    instanceForm.setValues(() => ({ ...instance }));
-                    setInstanceFormType(() => 'edit');
-                    setIsInstanceFormModalOpen(() => true);
-                  }}
-                >
-                  <IconPencilMinus size={24} />
-                </ActionIcon>
+                <IconPencilMinus size={24} />
               </Tooltip>
-              <ActionIcon variant="light" onClick={() => onClickRemoveInstance(instance)}>
-                <IconCircleX size={24} />
-              </ActionIcon>
+              <p>{t('edit')}</p>
             </div>
-          </div>
-          <div className={`w-full flex justify-end items-center gap-x-3`}>
-            <p className={`mr-auto text-neutral-500 text-sm`}>
-              {t('instance.updated_at')} {getTimeText(instance.updatedTime)}
-            </p>
-            <Tooltip position={'bottom'} label={t('indexes')}>
-              <ActionIcon
-                variant="light"
-                color="violet"
-                onClick={() => onClickInstance(instance, `/ins/${instance.id}/index`)}
-              >
+
+            <div
+              className="flex gap-5 items-center bg-red-400 p-1 rounded-sm"
+              onClick={() => onClickRemoveInstance(instance)}
+            >
+              <IconCircleX size={24} />
+              <p>{'Remove'}</p>
+            </div>
+
+            <div
+              className="flex gap-5 items-center bg-violet-400 p-1 rounded-sm"
+              onClick={() => onClickInstance(instance, `/instance/${instance.id}/index`)}
+            >
+              <Tooltip position={'bottom'} label={t('indexes')}>
                 <IconBooks size={24} />
-              </ActionIcon>
-            </Tooltip>
-            <Tooltip position={'bottom'} label={t('tasks')}>
-              <ActionIcon
-                variant="light"
-                color="blue"
-                onClick={() => onClickInstance(instance, `/ins/${instance.id}/tasks`)}
-              >
+              </Tooltip>
+              <p>{t('indexes')}</p>
+            </div>
+            <div
+              className="flex gap-5 items-center bg-blue-400 p-1 rounded-sm"
+              onClick={() => onClickInstance(instance, `/instance/${instance.id}/tasks`)}
+            >
+              <Tooltip position={'bottom'} label={t('tasks')}>
                 <IconListCheck size={24} />
-              </ActionIcon>
-            </Tooltip>
-            <Tooltip position={'bottom'} label={t('keys')}>
-              <ActionIcon
-                variant="light"
-                color="grape"
-                onClick={() => onClickInstance(instance, `/ins/${instance.id}/keys`)}
-              >
+              </Tooltip>
+              <p>{t('tasks')}</p>
+            </div>
+            <div
+              className="flex gap-5 items-center bg-purple-400 p-1 rounded-sm"
+              onClick={() => onClickInstance(instance, `/instance/${instance.id}/keys`)}
+            >
+              <Tooltip position={'bottom'} label={t('keys')}>
                 <IconKey size={24} />
-              </ActionIcon>
-            </Tooltip>
+              </Tooltip>
+              <p>{t('keys')}</p>
+            </div>
+            <div
+              className={`flex mt-10 justify-evenly items-center `}
+              onClick={() => onClickInstance(instance, `/instance/${instance.id}/index`)}
+            >
+              <Button color={'indigo'} style={{ borderRadius: '30px', width: '80%', height: '50px' }}>
+                <IconArrowRight size={44} />
+              </Button>
+            </div>
           </div>
         </div>
       );
@@ -229,33 +238,29 @@ function Dashboard() {
 
   return (
     <div className="bg-mount full-page justify-center items-center gap-y-6">
-      <div className={`w-1/2 2xl:w-1/4 h-2/3 flex flex-col justify-center items-center gap-y-10`}>
+      <div className="w-1/2 2xl:w-1/4 flex flex-col justify-center items-center gap-y-10">
         <Logo />
-        <p className={`text-brand-2 font-bold xl:text-3xl text-xl w-screen text-center`}>{t('slogan')}</p>
-        <div className={`grid grid-cols-1 gap-y-3 w-full p-1  overflow-y-scroll`}>
-          {instancesList}
-          <div
-            onClick={() => {
-              setInstanceFormType('create');
-              setIsInstanceFormModalOpen(true);
-            }}
-            className={`${instanceCardClassName}
+        <div className={`flex gap-4`}>{instancesList}</div>
+        <div
+          onClick={() => {
+            setInstanceFormType('create');
+            setIsInstanceFormModalOpen(true);
+          }}
+          className={`${instanceCardClassName}
             flex justify-center items-center 
+            w-80 py-5
             hover:cursor-pointer hover:opacity-80 hover:border-neutral-200 hover:border-2 
             bg-neutral-500 bg-opacity-30 border border-neutral-500 border-dashed`}
-          >
-            <IconCirclePlus color={'white'} opacity={0.5} size={48} />
-          </div>
+        >
+          <IconCirclePlus color={'white'} opacity={0.5} size={48} />
         </div>
       </div>
-      <Footer className={`!text-white`} />
-
       <Modal
         opened={isInstanceFormModalOpen}
         onClose={() => setIsInstanceFormModalOpen(false)}
         centered
         lockScroll
-        radius="lg"
+        radius="md"
         shadow="xl"
         padding="xl"
         withCloseButton={false}
@@ -270,29 +275,25 @@ function Dashboard() {
             placeholder={t('instance.form.name.placeholder')}
             {...instanceForm.getInputProps('name')}
           />
-          <Tooltip position={'bottom-start'} multiline label={t('instance.form.host.tip')}>
-            <Autocomplete
-              radius="md"
-              size={'lg'}
-              label={<p className={'text-brand-5 pb-2 text-lg'}>{t('instance.form.host.label')}</p>}
-              placeholder="http://127.0.0.1:7700"
-              data={instances.map((i) => i.host)}
-              {...instanceForm.getInputProps('host')}
-            />
-          </Tooltip>
-          <Tooltip position={'bottom-start'} multiline label={t('instance.form.api_key.tip')}>
-            <PasswordInput
-              placeholder="masterKey"
-              radius="md"
-              size={'lg'}
-              label={<p className={'text-brand-5 pb-2 text-lg'}>{t('instance.form.api_key.label')}</p>}
-              {...instanceForm.getInputProps('apiKey')}
-            />
-          </Tooltip>
+          <Autocomplete
+            radius="md"
+            type={'url'}
+            size={'lg'}
+            label={<p className={'text-brand-5 pb-2 text-lg'}>{t('instance.form.host.label')}</p>}
+            placeholder="http://127.0.0.1:7700"
+            {...instanceForm.getInputProps('host')}
+          />
+
+          <PasswordInput
+            placeholder="masterKey"
+            radius="md"
+            size={'lg'}
+            label={<p className={'text-brand-5 pb-2 text-lg'}>{t('instance.form.api_key.label')}</p>}
+            {...instanceForm.getInputProps('apiKey')}
+          />
           <button type="submit" className="btn primary outline w-full" disabled={isSubmitInstanceLoading}>
             {t('confirm')}
           </button>
-          <Footer />
         </form>
       </Modal>
     </div>

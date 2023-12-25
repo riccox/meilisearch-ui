@@ -1,6 +1,5 @@
 import type { FC } from 'react';
-import { Copyright } from '@/src/components/Footer/Copyright';
-import { LangSelector } from '../lang';
+import { LangSelector } from '../LangSelector';
 
 interface Props {
   className?: string;
@@ -9,11 +8,6 @@ interface Props {
 export const Footer: FC<Props> = ({ className = '' }) => {
   return (
     <div className={`${className} gap-x-2 flex justify-center w-full text-neutral-400 text-xs`}>
-      <Copyright />-
-      <a className={`hover:underline`} href={`//github.com/riccox/meilisearch-ui`} target="_blank" rel="noreferrer">
-        Github
-      </a>
-      -
       <LangSelector />
     </div>
   );

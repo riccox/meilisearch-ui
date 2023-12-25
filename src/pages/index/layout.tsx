@@ -26,7 +26,7 @@ import { useTranslation } from 'react-i18next';
 // Register the required components
 echarts.use([TitleComponent, TooltipComponent, GridComponent, BarChart, CanvasRenderer]);
 
-function IndexesLayout() {
+export default function IndexesLayout() {
   const { t } = useTranslation('document');
   const currentInstance = useCurrentInstance();
   const navigate = useNavigate();
@@ -148,15 +148,27 @@ function IndexesLayout() {
           <div
             key={index.uid}
             className={clsx(
-              `group cursor-pointer p-3 rounded-xl grid grid-cols-4 gap-y-2
+              `group cursor-pointer p-3 rounded-md grid grid-cols-4 gap-y-2
            bg-brand-1 hover:bg-opacity-40 bg-opacity-20`,
               searchParams.get('index') === uid && 'ring ring-brand-4'
             )}
             onClick={() => {
-              navigate(`/ins/${currentInstance.id}/index/${index.uid}`);
+              navigate(`/instance/${currentInstance.id}/index/${index.uid}`);
             }}
           >
-            <p className={`col-span-4 text-lg font-bold`}>{uid}</p>
+            <div className="flex gap-5">
+              <span className={`text-lg font-bold whitespace-nowrap`}>{uid}</span>
+              {indexStat?.isIndexing && (
+                <span className={'tooltip bw bottom'} data-tooltip={t('indexing_tip')}>
+                  <Badge size="md" variant="filled">
+                    <div className={`flex gap-2 flex-nowrap`}>
+                      <IconAlertTriangle size={16} />
+                      <div>{t('indexing')}...</div>
+                    </div>
+                  </Badge>
+                </span>
+              )}
+            </div>
             <div className={`col-span-4 flex justify-end gap-x-2 items-center`}>
               <span className={`mr-auto badge outline sm primary`}>
                 {t('count')}: {indexStat?.numberOfDocuments ?? 0}
@@ -174,7 +186,7 @@ function IndexesLayout() {
                   onClick={
                     ((e) => {
                       e.stopPropagation();
-                      navigate(`/ins/${currentInstance.id}/index/${index.uid}/upload`);
+                      navigate(`/instance/${currentInstance.id}/index/${index.uid}/upload`);
                     }) as MouseEventHandler<HTMLButtonElement>
                   }
                 >
@@ -207,23 +219,13 @@ function IndexesLayout() {
                   onClick={
                     ((e) => {
                       e.stopPropagation();
-                      navigate(`/ins/${currentInstance.id}/index/${index.uid}/settings`);
+                      navigate(`/instance/${currentInstance.id}/index/${index.uid}/settings`);
                     }) as MouseEventHandler<HTMLButtonElement>
                   }
                 >
                   <IconAdjustments size={24} />
                 </ActionIcon>
               </span>
-              {indexStat?.isIndexing && (
-                <span className={'tooltip bw bottom'} data-tooltip={t('indexing_tip')}>
-                  <Badge size="lg" variant="filled">
-                    <div className={`flex flex-nowrap`}>
-                      <IconAlertTriangle />
-                      <div>{t('indexing')}...</div>
-                    </div>
-                  </Badge>
-                </span>
-              )}
             </div>
           </div>
         );
@@ -231,7 +233,7 @@ function IndexesLayout() {
     } else {
       return (
         <div className={`flex-1 flex justify-center items-center`}>
-          <Button radius={'xl'} size={'xl'} component={Link} to={`/ins/${currentInstance.id}/index/create`}>
+          <Button radius={'sm'} size={'xl'} component={Link} to={`/instance/${currentInstance.id}/index/create`}>
             {t('instance:create_index.label')}
           </Button>
         </div>
@@ -244,13 +246,12 @@ function IndexesLayout() {
       <div className="bg-mount full-page p-4 gap-2 !grid grid-cols-4 grid-rows-[repeat(10,_minmax(0,_1fr))]">
         <Header className="col-span-full" client={client} />
         <div
-          className={`col-span-1 row-[span_9_/_span_9] bg-background-light 
-        flex flex-col items-stretch p-6 rounded-3xl gap-y-2 overflow-hidden`}
+          className={`col-span-1 row-[span_9_/_span_9] bg-background-light flex flex-col items-stretch p-6 rounded-md gap-y-2 overflow-hidden`}
         >
           <div className={`flex justify-between items-center flex-wrap gap-2`}>
-            <div className={`font-extrabold text-xl`}>🦄 {t('indexes')}</div>
+            <div className={`font-extrabold text-xl`}>🗂️ {t('indexes')}</div>
 
-            <ActionIcon variant={'transparent'} component={Link} to={`/ins/${currentInstance.id}/index/create`}>
+            <ActionIcon variant={'transparent'} component={Link} to={`/instance/${currentInstance.id}/index/create`}>
               <IconSquareRoundedPlusFilled size={64} />
             </ActionIcon>
           </div>
@@ -260,7 +261,7 @@ function IndexesLayout() {
             {indexList}
           </div>
         </div>
-        <div className={`col-span-3 row-[span_9_/_span_9] bg-background-light rounded-3xl overflow-hidden`}>
+        <div className={`col-span-3 row-[span_9_/_span_9] bg-background-light rounded-md overflow-hidden`}>
           <Outlet context={{ refreshIndexes: () => indexesQuery.refetch() }} />
         </div>
         <Modal
@@ -288,5 +289,3 @@ function IndexesLayout() {
     ]
   );
 }
-
-export default IndexesLayout;

@@ -6,6 +6,9 @@ module.exports = {
   theme: {
     extend: {
       colors: theme.colors,
+      fontFamily: {
+        sans: ['Lexend Deca', 'Montserrat', 'sans-serif'],
+      },
     },
   },
   plugins: [

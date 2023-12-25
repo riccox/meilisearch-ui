@@ -27,7 +27,7 @@ export const DangerZone: FC<
     onSuccess: (t) => {
       showTaskSubmitNotification(t);
       refreshIndexes();
-      navigate(`/ins/${currentInstance.id}/index`);
+      navigate(`/instance/${currentInstance.id}/index`);
     },
     onSettled: () => {
       hiddenRequestLoader();

@@ -10,7 +10,7 @@ import MonacoEditor from '@monaco-editor/react';
 import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 
-type Doc = { indexId: string; content: object; primaryKey: string };
+type Doc = { indexId: string; content: any; primaryKey: string };
 
 interface Props {
   docs?: Doc[];
@@ -18,7 +18,7 @@ interface Props {
   refetchDocs: () => void;
 }
 
-export const DocumentList = ({ docs = [], showIndex = false, refetchDocs }: Props) => {
+export default function DocumentList({ docs = [], showIndex = false, refetchDocs }: Props) {
   const { t } = useTranslation('document');
   const client = useMeiliClient();
   const [isEditDocumentsModalOpen, setIsEditDocumentsModalOpen] = useState(false);
@@ -113,7 +113,7 @@ export const DocumentList = ({ docs = [], showIndex = false, refetchDocs }: Prop
   }, []);
 
   const onEditDocumentJsonEditorUpdate = useCallback(
-    (value: string = '[]') => setEditingDocument((prev) => ({ ...prev!, content: JSON.parse(value) })),
+    (value: string = '[]') => setEditingDocument((prev) => ({ ...prev!, content: value })),
     []
   );
 
@@ -153,8 +153,13 @@ export const DocumentList = ({ docs = [], showIndex = false, refetchDocs }: Prop
   }, [docs, showIndex, onClickDocumentUpdate, onClickDocumentDel, t]);
 
   const onSubmitDocumentUpdate = useCallback(() => {
-    editingDocument &&
-      editDocumentMutation.mutate({ indexId: editingDocument.indexId, docs: [editingDocument.content] });
+    try {
+      console.debug('onSubmitDocumentUpdate', JSON.parse(editingDocument!.content));
+      editingDocument &&
+        editDocumentMutation.mutate({ indexId: editingDocument.indexId, docs: [JSON.parse(editingDocument.content)] });
+    } catch {
+      showTaskErrorNotification('Invalid JSON');
+    }
   }, [editDocumentMutation, editingDocument]);
 
   return useMemo(
@@ -169,7 +174,7 @@ export const DocumentList = ({ docs = [], showIndex = false, refetchDocs }: Prop
           }}
           centered
           lockScroll
-          radius="lg"
+          radius="md"
           shadow="xl"
           padding="xl"
           size="xl"
@@ -177,10 +182,10 @@ export const DocumentList = ({ docs = [], showIndex = false, refetchDocs }: Prop
           title={<p className={`font-bold text-lg`}>{t('edit_document')}</p>}
         >
           <div className={`flex flex-col gap-y-4 w-full`}>
-            <div className={`border rounded-xl p-2`}>
+            <div className={`border rounded-md p-2`}>
               <MonacoEditor
                 language="json"
-                className="h-80"
+                className="h-96"
                 defaultValue={JSON.stringify(editingDocument?.content ?? {}, null, 2)}
                 options={{
                   automaticLayout: true,
@@ -189,7 +194,7 @@ export const DocumentList = ({ docs = [], showIndex = false, refetchDocs }: Prop
                 onChange={onEditDocumentJsonEditorUpdate}
               ></MonacoEditor>
             </div>
-            <Button onClick={onSubmitDocumentUpdate} radius={'xl'} size={'lg'} variant="light">
+            <Button onClick={onSubmitDocumentUpdate} radius={'md'} size={'md'} variant="light">
               {t('submit')}
             </Button>
           </div>
@@ -198,4 +203,4 @@ export const DocumentList = ({ docs = [], showIndex = false, refetchDocs }: Prop
     ),
     [editingDocument, t, isEditDocumentsModalOpen, list, onEditDocumentJsonEditorUpdate, onSubmitDocumentUpdate]
   );
-};
+}

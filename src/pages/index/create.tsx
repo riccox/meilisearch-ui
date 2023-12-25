@@ -30,6 +30,7 @@ export const CreateIndex = () => {
       setIsSubmitLoading(true);
       let task;
       try {
+        console.info('>>> ' + values.primaryKey + values.uid);
         task = await client.createIndex(values.uid, { primaryKey: values.primaryKey });
         console.info(task);
       } catch (e) {
@@ -70,10 +71,10 @@ export const CreateIndex = () => {
                 placeholder={t('create_index.form.primaryKey.placeholder')}
                 radius="md"
                 size={'lg'}
-                {...form.getInputProps('apiKey')}
+                {...form.getInputProps('primaryKey')}
               />
             </Tooltip>
-            <Button type="submit" radius={'xl'} size={'lg'} variant="light" loading={isSubmitLoading}>
+            <Button type="submit" radius={'md'} size={'lg'} variant="light" loading={isSubmitLoading}>
               {t('create_index.label')}
             </Button>
           </form>

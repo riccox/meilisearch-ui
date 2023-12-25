@@ -18,16 +18,10 @@ import { useTranslation } from 'react-i18next';
 export const AppRoutes = () => {
   const { t } = useTranslation();
   return (
-    <Suspense
-      fallback={
-        <div className={`flex full-page justify-center items-center`}>
-          <Loader size={'xl'} />
-        </div>
-      }
-    >
+    <Suspense fallback={<Loader size="md" />}>
       <Routes>
         <Route index element={<Dashboard />} />
-        <Route path="ins">
+        <Route path="instance">
           <Route path=":insId">
             <Route path="index" element={<IndexesLayout />}>
               <Route index element={<EmptyArea text={t('document:empty_area_tip')} />} />
