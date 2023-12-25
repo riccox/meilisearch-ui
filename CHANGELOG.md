@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.10](https://github.com/riccox/meilisearch-ui/compare/v0.6.9...v0.6.10) (2023-12-25)
+
+
+### Bug Fixes
+
+* gh-100 locales not loaded when using base path. ([8c1b1cf](https://github.com/riccox/meilisearch-ui/commit/8c1b1cf7b4686baf78db62dcebd68b966287e812))
+
 ## [0.6.9](https://github.com/riccox/meilisearch-ui/compare/v0.6.8...v0.6.9) (2023-11-14)
 
 
