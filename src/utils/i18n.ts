@@ -1,7 +1,7 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
-import Backend from 'i18next-http-backend';
 import LanguageDetector from 'i18next-browser-languagedetector';
+import resourcesToBackend from 'i18next-resources-to-backend';
 
 export const SUPPORTED_LANGUAGES = ['en', 'zh'] as const;
 export type SUPPORTED_LANGUAGE = (typeof SUPPORTED_LANGUAGES)[number];
@@ -22,7 +22,8 @@ export const NAMESPACES = [
 ] as const;
 
 i18n
-  .use(Backend)
+  // .use(Backend)
+  .use(resourcesToBackend((language: string, namespace: string) => import(`../locales/${language}/${namespace}.json`)))
   .use(LanguageDetector)
   .use(initReactI18next) // passes i18n down to react-i18next
   .init({
@@ -30,10 +31,6 @@ i18n
     fallbackLng: SUPPORTED_LANGUAGES[0],
     ns: NAMESPACES,
     fallbackNS: NAMESPACES[0],
-    backend: {
-      // fs backend options
-      loadPath: '/locales/{{lng}}/{{ns}}.json',
-    },
     interpolation: {
       escapeValue: false, // react already safes from xss
     },
