@@ -6,6 +6,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useMeiliClient } from '@/src/hooks/useMeiliClient';
 import { useCurrentInstance } from '@/src/hooks/useCurrentInstance';
 import { useTranslation } from 'react-i18next';
+import useDebounce from 'ahooks/lib/useDebounce';
 
 const emptySearchResult = {
   hits: [],
@@ -50,28 +51,34 @@ export const SearchPage = ({ currentIndex }: Props) => {
     enabled: !!currentIndex,
   });
 
-  const searchDocumentsQuery = useQuery(
-   {queryKey: [
-      'searchDocuments',
-      host,
-      indexClient?.uid,
-      // dependencies for the search refresh
-      searchForm.values,
-    ],
-    queryFn:
-    async ({ queryKey }) => {
-      const { q, limit, offset, filter, sort } = { ...searchForm.values, ...(queryKey[3] as typeof searchForm.values) };
+  // use debounced values as dependencies for the search refresh
+  const debouncedSearchFormValue = useDebounce(searchForm.values, { wait: 450 });
+
+  const searchDocumentsQuery = useQuery({
+    queryKey: ['searchDocuments', host, indexClient?.uid, debouncedSearchFormValue],
+    queryFn: async ({ queryKey }) => {
+      const {
+        q,
+        limit,
+        offset,
+        filter,
+        sort = '',
+      } = { ...searchForm.values, ...(queryKey[3] as typeof searchForm.values) };
       // prevent app error from request param invalid
       if (searchForm.validate().hasErrors) return emptySearchResult;
+
+      // search sorting expression
+      const sortExpressions: string[] =
+        (sort.match(/(([\w\.]+)|(_geoPoint\([\d\.,\s]+\))){1}\:((asc)|(desc))/g) as string[]) || [];
+
+      console.log('search sorting expression', sort, sortExpressions);
+
       try {
         const data = await indexClient!.search(q, {
           limit,
           offset,
           filter,
-          sort: sort
-            .split(',')
-            .filter((v) => v.trim().length > 0)
-            .map((v) => v.trim()),
+          sort: sortExpressions.map((v) => v.trim()),
         });
         // clear error message if results are running normally
         setSearchFormError(null);
@@ -89,10 +96,9 @@ export const SearchPage = ({ currentIndex }: Props) => {
         return emptySearchResult;
       }
     },
-    
-      enabled: !!currentIndex,
-    }
-  );
+
+    enabled: !!currentIndex,
+  });
 
   const onSearchSubmit = useCallback(async () => {
     await searchDocumentsQuery.refetch();
