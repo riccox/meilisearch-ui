@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.11](https://github.com/riccox/meilisearch-ui/compare/v0.6.10...v0.6.11) (2024-01-08)
+
+
+### Bug Fixes
+
+* gh-103  _geoPoint sort expression. ([e78095d](https://github.com/riccox/meilisearch-ui/commit/e78095d5a3e5e0574e236bc9447b3cce7375cbf6))
+
 ## [0.6.10](https://github.com/riccox/meilisearch-ui/compare/v0.6.9...v0.6.10) (2023-12-25)
 
 
