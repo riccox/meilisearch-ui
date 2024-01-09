@@ -32,7 +32,7 @@ function IndexesLayout() {
   const navigate = useNavigate();
   const client = useMeiliClient();
   const stats = useInstanceStats(client);
-  const [indexes, indexesQuery] = useIndexes(client);
+  const [indexes, indexesQuery] = useIndexes(client, { limit: 1000 });
   const [searchParams] = useSearchParams();
   const [isFieldDistributionDetailModalOpen, setIsFieldDistributionDetailModalOpen] = useState(false);
   const [fieldDistributionDetailChartIndex, setFieldDistributionDetailChartIndex] = useState<Index>(indexes[0]);
