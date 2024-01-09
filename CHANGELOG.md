@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.12](https://github.com/riccox/meilisearch-ui/compare/v0.6.11...v0.6.12) (2024-01-09)
+
+
+### Bug Fixes
+
+* set index list limit to 1000. ([f58e0d6](https://github.com/riccox/meilisearch-ui/commit/f58e0d6a0bc7989d7d4e3ff86b14ca6ee1f266cc))
+
 ## [0.6.11](https://github.com/riccox/meilisearch-ui/compare/v0.6.10...v0.6.11) (2024-01-08)
 
 
