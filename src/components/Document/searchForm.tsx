@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { Loader, NumberInput, TextInput, Tooltip } from '@mantine/core';
+import { NumberInput, TextInput, Tooltip } from '@mantine/core';
 import { IconAlignBoxLeftMiddle, IconArrowsSort, IconFilter, IconSearch } from '@tabler/icons-react';
 import clsx from 'clsx';
 import { UseFormReturnType } from '@mantine/form';
@@ -98,8 +98,6 @@ export const SearchForm = ({
 
           {/* right btn group */}
           <div className={`ml-auto mt-auto flex gap-x-4 items-center`}>
-            {isFetching && <Loader color="gray" size="sm" />}
-
             {/* submit btn */}
             <button type={'submit'} className={`btn solid primary bg-gradient-to-br from-[#c84e89] to-[#F15F79]`}>
               {submitBtnText}
@@ -108,6 +106,6 @@ export const SearchForm = ({
         </div>
       </form>
     ),
-    [indexIdEnable, isFetching, onFormSubmit, t, searchForm, searchFormError, submitBtnText]
+    [indexIdEnable, onFormSubmit, t, searchForm, searchFormError, submitBtnText]
   );
 };

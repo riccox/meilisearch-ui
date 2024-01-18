@@ -14,6 +14,7 @@ import { EmptyArea } from '../components/EmptyArea';
 import { UploadDoc } from '../pages/index/upload';
 import { MultiIndexSearch } from '../pages/index/multi-search';
 import { useTranslation } from 'react-i18next';
+import { Lazy } from '../components/lazy';
 
 export const AppRoutes = () => {
   const { t } = useTranslation();
@@ -33,7 +34,14 @@ export const AppRoutes = () => {
               <Route index element={<EmptyArea text={t('document:empty_area_tip')} />} />
               <Route path="create" element={<CreateIndex />} />
               <Route path=":indexId">
-                <Route index element={<Documents />} />
+                <Route
+                  index
+                  element={
+                    <Lazy className={`h-full`}>
+                      <Documents />
+                    </Lazy>
+                  }
+                />
                 <Route path="settings" element={<Settings />} />
                 <Route path="upload" element={<UploadDoc />} />
               </Route>

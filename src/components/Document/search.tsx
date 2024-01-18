@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { DocumentList } from '@/src/components/Document/list';
 import { SearchBar } from '@/src/components/Document/searchBar';
 import { useForm } from '@mantine/form';
@@ -7,6 +7,7 @@ import { useMeiliClient } from '@/src/hooks/useMeiliClient';
 import { useCurrentInstance } from '@/src/hooks/useCurrentInstance';
 import { useTranslation } from 'react-i18next';
 import useDebounce from 'ahooks/lib/useDebounce';
+import { Loader } from '../Loader';
 
 const emptySearchResult = {
   hits: [],
@@ -55,7 +56,7 @@ export const SearchPage = ({ currentIndex }: Props) => {
   const debouncedSearchFormValue = useDebounce(searchForm.values, { wait: 450 });
 
   const searchDocumentsQuery = useQuery({
-    queryKey: ['searchDocuments', host, indexClient?.uid, debouncedSearchFormValue],
+    queryKey: ['searchDocuments', host, indexClient?.uid],
     queryFn: async ({ queryKey }) => {
       const {
         q,
@@ -63,7 +64,7 @@ export const SearchPage = ({ currentIndex }: Props) => {
         offset,
         filter,
         sort = '',
-      } = { ...searchForm.values, ...(queryKey[3] as typeof searchForm.values) };
+      } = { ...searchForm.values, ...(debouncedSearchFormValue as typeof searchForm.values) };
       // prevent app error from request param invalid
       if (searchForm.validate().hasErrors) return emptySearchResult;
 
@@ -71,7 +72,7 @@ export const SearchPage = ({ currentIndex }: Props) => {
       const sortExpressions: string[] =
         (sort.match(/(([\w\.]+)|(_geoPoint\([\d\.,\s]+\))){1}\:((asc)|(desc))/g) as string[]) || [];
 
-      console.log('search sorting expression', sort, sortExpressions);
+      console.debug('search sorting expression', sort, sortExpressions);
 
       try {
         const data = await indexClient!.search(q, {
@@ -104,6 +105,13 @@ export const SearchPage = ({ currentIndex }: Props) => {
     await searchDocumentsQuery.refetch();
   }, [searchDocumentsQuery]);
 
+  // use this to refresh search when typing, DO NOT use useQuery dependencies (will cause unknown rerender error).
+  useEffect(() => {
+    searchDocumentsQuery.refetch();
+    // prevent infinite recursion rerender.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [debouncedSearchFormValue]);
+
   return useMemo(
     () => (
       <div className={`h-full flex flex-col p-6 gap-4 overflow-hidden`}>
@@ -127,14 +135,20 @@ export const SearchPage = ({ currentIndex }: Props) => {
         </div>
         {/* Doc List */}
         <div className={`flex-1 flex flex-col gap-4 overflow-scroll`}>
-          <DocumentList
-            docs={searchDocumentsQuery.data?.hits.map((i) => ({
-              indexId: currentIndex,
-              content: i,
-              primaryKey: indexPrimaryKeyQuery.data!,
-            }))}
-            refetchDocs={searchDocumentsQuery.refetch}
-          />
+          {searchDocumentsQuery.isFetching ? (
+            <div className={`flex-1 flex justify-center items-center`}>
+              <Loader size={'md'} />
+            </div>
+          ) : (
+            <DocumentList
+              docs={searchDocumentsQuery.data?.hits.map((i) => ({
+                indexId: currentIndex,
+                content: i,
+                primaryKey: indexPrimaryKeyQuery.data!,
+              }))}
+              refetchDocs={searchDocumentsQuery.refetch}
+            />
+          )}
         </div>
       </div>
     ),
