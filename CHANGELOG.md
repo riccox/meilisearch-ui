@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.6.13](https://github.com/riccox/meilisearch-ui/compare/v0.6.12...v0.6.13) (2024-01-18)
+
+
+### Bug Fixes
+
+* gh-107 rename stroke-width to strokeWidth. ([d971f53](https://github.com/riccox/meilisearch-ui/commit/d971f531868b0c1dca18816057e16c06a6b9b470))
+
+
+### Performance Improvements
+
+* search loading experience. ([79d2661](https://github.com/riccox/meilisearch-ui/commit/79d2661e1140aaa7cc4af8d6276dda07ed46d7ba))
+
 ## [0.6.12](https://github.com/riccox/meilisearch-ui/compare/v0.6.11...v0.6.12) (2024-01-09)
 
 
