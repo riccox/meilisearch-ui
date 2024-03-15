@@ -1,4 +1,11 @@
 {
+  "host": "主机",
+  "status": {
+    "label": "状态",
+    "available": "可用"
+  },
+  "db_size": "数据库大小",
+  "meili_version": "Meili 版本",
   "all_documents_delete": {
     "dialog": {
       "content": "您正在删除索引<strong>{{uid}}</strong>的所有文档。\n此操作非常重要，需要您确认。\n请点击以下按钮之一继续。",

@@ -1,11 +1,11 @@
-import { Header } from '@/src/components/Header';
+import { Header } from '@/components/Header';
 import { MouseEventHandler, useCallback, useMemo, useState } from 'react';
 import { ActionIcon, Badge, Button, Modal } from '@mantine/core';
-import { useIndexes } from '@/src/hooks/useIndexes';
-import { useInstanceStats } from '@/src/hooks/useInstanceStats';
-import { Link, Outlet, useNavigate, useSearchParams } from 'react-router-dom';
+import { useIndexes } from '@/hooks/useIndexes';
+import { useInstanceStats } from '@/hooks/useInstanceStats';
+import { Link, Outlet, useNavigate, useSearchParams } from '@tanstack/react-router';
 import { Index } from 'meilisearch';
-import { useMeiliClient } from '@/src/hooks/useMeiliClient';
+import { useMeiliClient } from '@/hooks/useMeiliClient';
 import {
   IconAbacus,
   IconAdjustments,
@@ -20,7 +20,7 @@ import { BarChart } from 'echarts/charts'; // import components, all suffixed wi
 import { GridComponent, TitleComponent, TooltipComponent } from 'echarts/components'; // Import renderer, note that introducing the CanvasRenderer or SVGRenderer is a required step
 import { CanvasRenderer } from 'echarts/renderers'; // Register the required components
 import _ from 'lodash';
-import { useCurrentInstance } from '@/src/hooks/useCurrentInstance';
+import { useCurrentInstance } from '@/hooks/useCurrentInstance';
 import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 // Register the required components
@@ -149,8 +149,8 @@ function IndexesLayout() {
             key={index.uid}
             className={clsx(
               `group cursor-pointer p-3 rounded-xl grid grid-cols-4 gap-y-2
-           bg-brand-1 hover:bg-opacity-40 bg-opacity-20`,
-              searchParams.get('index') === uid && 'ring ring-brand-4'
+           bg-primary-100 hover:bg-opacity-40 bg-opacity-20`,
+              searchParams.get('index') === uid && 'ring ring-primary-100'
             )}
             onClick={() => {
               navigate(`/ins/${currentInstance.id}/index/${index.uid}`);
@@ -170,7 +170,7 @@ function IndexesLayout() {
               >
                 <ActionIcon
                   variant="light"
-                  color={'brand'}
+                  color={'primary'}
                   onClick={
                     ((e) => {
                       e.stopPropagation();
@@ -188,7 +188,7 @@ function IndexesLayout() {
               >
                 <ActionIcon
                   variant="light"
-                  color={'brand'}
+                  color={'primary'}
                   onClick={
                     ((e) => {
                       e.stopPropagation();
@@ -203,7 +203,7 @@ function IndexesLayout() {
               <span data-tooltip={t('settings')} className="tooltip bw left group-hover:visible invisible">
                 <ActionIcon
                   variant="light"
-                  color={'brand'}
+                  color={'primary'}
                   onClick={
                     ((e) => {
                       e.stopPropagation();

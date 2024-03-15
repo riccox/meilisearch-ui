@@ -1,7 +1,7 @@
 import type { FC, ReactNode } from 'react';
 
-import { ReactErrorBoundary } from '@/src/components/ErrorBoundary';
-import { AppFallback } from '@/src/components/ErrorBoundary/Fallback';
+import { ReactErrorBoundary } from '@/components/ErrorBoundary';
+import { AppFallback } from '@/components/ErrorBoundary/Fallback';
 
 type Props = {
   children: ReactNode;

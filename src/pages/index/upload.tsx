@@ -1,17 +1,17 @@
 import { DragEventHandler, useCallback, useMemo, useRef, useState } from 'react';
-import { useMeiliClient } from '@/src/hooks/useMeiliClient';
-import { useNavigate, useOutletContext, useParams } from 'react-router-dom';
-import { useCurrentInstance } from '@/src/hooks/useCurrentInstance';
-import { toast } from '@/src/utils/toast';
+import { useMeiliClient } from '@/hooks/useMeiliClient';
+import { useNavigate, useOutletContext, useParams } from '@tanstack/react-router';
+import { useCurrentInstance } from '@/hooks/useCurrentInstance';
+import { toast } from '@/utils/toast';
 import { useForm } from '@mantine/form';
 import { useMutation } from '@tanstack/react-query';
 import { EnqueuedTask } from 'meilisearch';
 import _ from 'lodash';
-import { showTaskErrorNotification, showTaskSubmitNotification } from '@/src/utils/text';
+import { showTaskErrorNotification, showTaskSubmitNotification } from '@/utils/text';
 import MonacoEditor from '@monaco-editor/react';
 import clsx from 'clsx';
 import { IconCopy } from '@tabler/icons-react';
-import { hiddenRequestLoader, showRequestLoader } from '@/src/utils/loader';
+import { hiddenRequestLoader, showRequestLoader } from '@/utils/loader';
 import { useTranslation } from 'react-i18next';
 
 export const UploadDoc = () => {

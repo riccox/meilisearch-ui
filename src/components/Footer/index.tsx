@@ -1,5 +1,5 @@
 import type { FC } from 'react';
-import { Copyright } from '@/src/components/Footer/Copyright';
+import { Copyright } from '@/components/Footer/Copyright';
 import { LangSelector } from '../lang';
 
 interface Props {

@@ -1,10 +1,10 @@
 import { useMemo } from 'react';
-import { useMeiliClient } from '@/src/hooks/useMeiliClient';
-import { useNavigate, useOutletContext, useParams } from 'react-router-dom';
-import { BaseInfo } from '@/src/components/Settings/baseInfo';
-import { DangerZone } from '@/src/components/Settings/dangerZone';
-import { IndexConfiguration } from '@/src/components/Settings/config';
-import { useCurrentInstance } from '@/src/hooks/useCurrentInstance';
+import { useMeiliClient } from '@/hooks/useMeiliClient';
+import { useNavigate, useOutletContext, useParams } from '@tanstack/react-router';
+import { BaseInfo } from '@/components/Settings/baseInfo';
+import { DangerZone } from '@/components/Settings/dangerZone';
+import { IndexConfiguration } from '@/components/Settings/config';
+import { useCurrentInstance } from '@/hooks/useCurrentInstance';
 import { useTranslation } from 'react-i18next';
 
 function SettingsPage() {

@@ -1,17 +1,17 @@
 import './index.css';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Code, Modal, Select, TextInput } from '@mantine/core';
-import { useMeiliClient } from '@/src/hooks/useMeiliClient';
+import { useMeiliClient } from '@/hooks/useMeiliClient';
 import { Task, TasksResults } from 'meilisearch';
-import { EmptyArea } from '@/src/components/EmptyArea';
+import { EmptyArea } from '@/components/EmptyArea';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import Fuse from 'fuse.js';
-import { Header } from '@/src/components/Header';
-import { getTimeText, stringifyJsonPretty, TaskThemes } from '@/src/utils/text';
+import { Header } from '@/components/Header';
+import { getTimeText, stringifyJsonPretty, TaskThemes } from '@/utils/text';
 import _ from 'lodash';
 import { useDebounceFn } from 'ahooks';
-import { hiddenRequestLoader, showRequestLoader } from '@/src/utils/loader';
-import { useCurrentInstance } from '@/src/hooks/useCurrentInstance';
+import { hiddenRequestLoader, showRequestLoader } from '@/utils/loader';
+import { useCurrentInstance } from '@/hooks/useCurrentInstance';
 import { useTranslation } from 'react-i18next';
 
 function Tasks() {
@@ -90,7 +90,7 @@ function Tasks() {
           <div
             key={task.uid}
             className={`cursor-pointer overflow-hidden p-3 rounded-xl flex flex-col justify-between gap-y-2
-           bg-brand-1 hover:bg-opacity-30 hover:ring ring-brand-4 bg-opacity-20`}
+           bg-primary-100 hover:bg-opacity-30 hover:ring ring-primary-100 bg-opacity-20`}
             onClick={() => onClickDetail(task)}
           >
             <div className={`flex items-center gap-2`}>

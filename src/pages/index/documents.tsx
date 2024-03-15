@@ -1,7 +1,7 @@
-import { useParams } from 'react-router-dom';
-import { EmptyArea } from '@/src/components/EmptyArea';
+import { useParams } from '@tanstack/react-router';
+import { EmptyArea } from '@/components/EmptyArea';
 import { useMemo } from 'react';
-import { SearchPage } from '@/src/components/Document/search';
+import { SearchPage } from '@/components/Document/search';
 import { useTranslation } from 'react-i18next';
 
 export const Documents = () => {
