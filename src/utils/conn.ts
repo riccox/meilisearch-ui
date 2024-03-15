@@ -1,7 +1,7 @@
-import { hiddenConnectionTestLoader, showConnectionTestLoader } from '@/src/utils/loader';
+import { hiddenConnectionTestLoader, showConnectionTestLoader } from '@/utils/loader';
 import { Config, MeiliSearch } from 'meilisearch';
 import _ from 'lodash';
-import { WarningPageData } from '@/src/store';
+import { WarningPageData } from '@/store';
 import { toast } from './toast';
 import i18n from './i18n';
 

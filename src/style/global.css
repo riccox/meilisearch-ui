@@ -6,7 +6,7 @@
   :root {
     font-size: 17px;
     font-synthesis: none;
-    @apply font-mono selection:bg-brand-2 selection:bg-opacity-50;
+    @apply font-mono selection:bg-primary-200 selection:bg-opacity-50;
 
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
@@ -24,7 +24,6 @@
   body {
     @apply h-full w-full m-0 p-0 border-0 align-baseline  !important;
     @apply transition-colors duration-300 ease-in-out;
-    @apply bg-background-brand;
     min-width: 320px;
     min-height: 100vh;
   }
@@ -70,14 +69,14 @@
   }
 
   .bg-mount {
-    @apply bg-background-brand bg-fixed bg-cover;
+    @apply bg-secondary-800 bg-fixed bg-cover;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 900'%3E%3Cpolygon fill='%23ff5caa' points='957 450 539 900 1396 900'/%3E%3Cpolygon fill='%23ff4e62' points='957 450 872.9 900 1396 900'/%3E%3Cpolygon fill='%23f55cb8' points='-60 900 398 662 816 900'/%3E%3Cpolygon fill='%23f9377d' points='337 900 398 662 816 900'/%3E%3Cpolygon fill='%23e75fc5' points='1203 546 1552 900 876 900'/%3E%3Cpolygon fill='%23e82c9a' points='1203 546 1552 900 1162 900'/%3E%3Cpolygon fill='%23d763d1' points='641 695 886 900 367 900'/%3E%3Cpolygon fill='%23ca34b6' points='587 900 641 695 886 900'/%3E%3Cpolygon fill='%23c468dd' points='1710 900 1401 632 1096 900'/%3E%3Cpolygon fill='%239d45d0' points='1710 900 1401 632 1365 900'/%3E%3Cpolygon fill='%23ad6de7' points='1210 900 971 687 725 900'/%3E%3Cpolygon fill='%234f55e3' points='943 900 1210 900 971 687'/%3E%3C/svg%3E");
   }
 
   /* rainbow rotate animated ring border */
   .rainbow-ring-rotate {
     @apply z-0 overflow-hidden relative;
-    @apply bg-gradient-to-br from-brand-4 via-brand-5 to-brand-6 !important;
+    @apply bg-gradient-to-br from-primary-400 via-primary-500 to-primary-600 !important;
   }
 
   @keyframes rainbow-ring-rotate {
@@ -90,7 +89,7 @@
     content: '';
     width: 200%;
     height: 200%;
-    @apply absolute -z-20 -left-1/2 -top-1/2 bg-brand-1 bg-no-repeat;
+    @apply absolute -z-20 -left-1/2 -top-1/2 bg-primary-100 bg-no-repeat;
     background-image: linear-gradient(#3f5efb, #fc466b), linear-gradient(#833ab4, #fd1d1d, #fcb045);
     animation: rainbow-ring-rotate 4s linear infinite;
   }

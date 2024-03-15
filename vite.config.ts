@@ -1,6 +1,10 @@
+// vite.config.ts
 import { defineConfig, loadEnv } from 'vite';
 import path from 'path';
-import react from '@vitejs/plugin-react-swc'; // https://vitejs.dev/config/
+import react from '@vitejs/plugin-react-swc';
+import { TanStackRouterVite } from '@tanstack/router-vite-plugin';
+import tsconfigPaths from 'vite-tsconfig-paths';
+import SemiPlugin from './src/lib/semi';
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
@@ -8,10 +12,17 @@ export default defineConfig(({ mode }) => {
   console.debug('print current base path', env.BASE_PATH);
   return {
     base: env.BASE_PATH || '/',
-    plugins: [react()],
+    plugins: [
+      tsconfigPaths({ root: './' }),
+      react(),
+      TanStackRouterVite(),
+      SemiPlugin({
+        theme: '@semi-bot/semi-theme-meilisearch',
+      }),
+    ],
     resolve: {
       alias: {
-        '@': path.resolve(__dirname, './'),
+        '@': path.resolve(__dirname, './src'),
       },
     },
     server: {

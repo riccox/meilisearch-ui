@@ -1,9 +1,9 @@
-import { DocumentList } from '@/src/components/Document/list';
-import { MultiSearchQueries } from '@/src/components/Document/multi-search/queries';
-import { EmptyArea } from '@/src/components/EmptyArea';
-import { Header } from '@/src/components/Header';
-import { useCurrentInstance } from '@/src/hooks/useCurrentInstance';
-import { useMeiliClient } from '@/src/hooks/useMeiliClient';
+import { DocumentList } from '@/components/Document/list';
+import { MultiSearchQueries } from '@/components/Document/multi-search/queries';
+import { EmptyArea } from '@/components/EmptyArea';
+import { Header } from '@/components/Header';
+import { useCurrentInstance } from '@/hooks/useCurrentInstance';
+import { useMeiliClient } from '@/hooks/useMeiliClient';
 import { useQuery } from '@tanstack/react-query';
 import { MultiSearchQuery, MultiSearchResult } from 'meilisearch';
 import { useMemo, useReducer } from 'react';

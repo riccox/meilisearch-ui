@@ -26,7 +26,7 @@ export const useMeiliClient = () => {
     }
     const conn = new MeiliSearch({ ...currentInstance });
     try {
-      console.info('useMeilisearchClient', 'test connection');
+      console.debug('useMeilisearchClient', 'test connection');
       await conn.getStats();
       setClient(conn);
     } catch (err) {

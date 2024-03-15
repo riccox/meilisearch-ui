@@ -1,23 +1,23 @@
 import './index.css';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { ActionIcon, CopyButton, Modal, MultiSelect, Table, TextInput, Tooltip } from '@mantine/core';
-import { useMeiliClient } from '@/src/hooks/useMeiliClient';
+import { useMeiliClient } from '@/hooks/useMeiliClient';
 import { Key } from 'meilisearch';
-import { EmptyArea } from '@/src/components/EmptyArea';
+import { EmptyArea } from '@/components/EmptyArea';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import Fuse from 'fuse.js';
-import { Header } from '@/src/components/Header';
-import { getTimeText } from '@/src/utils/text';
+import { Header } from '@/components/Header';
+import { getTimeText } from '@/utils/text';
 import _ from 'lodash';
 import { useDebounceFn } from 'ahooks';
-import { hiddenRequestLoader, showRequestLoader } from '@/src/utils/loader';
+import { hiddenRequestLoader, showRequestLoader } from '@/utils/loader';
 import { IconCheck, IconCopy } from '@tabler/icons-react';
-import { Footer } from '@/src/components/Footer';
+import { Footer } from '@/components/Footer';
 import { useForm } from '@mantine/form';
-import { useIndexes } from '@/src/hooks/useIndexes';
+import { useIndexes } from '@/hooks/useIndexes';
 import { modals } from '@mantine/modals';
-import { toast } from '@/src/utils/toast';
-import { useCurrentInstance } from '@/src/hooks/useCurrentInstance';
+import { toast } from '@/utils/toast';
+import { useCurrentInstance } from '@/hooks/useCurrentInstance';
 import { useTranslation } from 'react-i18next';
 
 function Keys() {
@@ -336,7 +336,7 @@ function Keys() {
               autoFocus
               radius="md"
               size={'lg'}
-              label={<p className={'text-brand-5 pb-2 text-lg'}>{t('name')}</p>}
+              label={<p className={'text-primary-100 pb-2 text-lg'}>{t('name')}</p>}
               placeholder="just name your key"
               {...form.getInputProps('name')}
             />
@@ -344,7 +344,7 @@ function Keys() {
               autoFocus
               radius="md"
               size={'lg'}
-              label={<p className={'text-brand-5 pb-2 text-lg'}>{t('description')}</p>}
+              label={<p className={'text-primary-100 pb-2 text-lg'}>{t('description')}</p>}
               placeholder="just describe your key"
               {...form.getInputProps('description')}
             />{' '}
@@ -352,7 +352,7 @@ function Keys() {
               <MultiSelect
                 radius="md"
                 size={'lg'}
-                label={<p className={'text-brand-5 pb-2 text-lg'}>{t('props.indexes')}</p>}
+                label={<p className={'text-primary-100 pb-2 text-lg'}>{t('props.indexes')}</p>}
                 placeholder={t('form.indexes.placeholder')}
                 searchable
                 data={indexes.map((i) => i.uid)}
@@ -363,7 +363,7 @@ function Keys() {
               <MultiSelect
                 radius="md"
                 size={'lg'}
-                label={<p className={'text-brand-5 pb-2 text-lg'}>{t('props.actions')}</p>}
+                label={<p className={'text-primary-100 pb-2 text-lg'}>{t('props.actions')}</p>}
                 placeholder={t('form.actions.placeholder')}
                 searchable
                 rightSection={
@@ -473,7 +473,7 @@ function Keys() {
                 placeholder={t('form.expiresAt.placeholder')}
                 radius="md"
                 size={'lg'}
-                label={<p className={'text-brand-5 pb-2 text-lg'}>{t('expired_at')}</p>}
+                label={<p className={'text-primary-100 pb-2 text-lg'}>{t('expired_at')}</p>}
                 {...form.getInputProps('expiresAt')}
               />
             </Tooltip>

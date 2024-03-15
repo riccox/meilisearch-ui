@@ -1,0 +1,132 @@
+{
+  "fieldDistribution": {
+    "label": "字段分布",
+    "subtitle": "转到有关 Field Distribution 的官方文档"
+  },
+  "count": "文档计数",
+  "add_documents": "添加文档",
+  "indexing": "索引中",
+  "indexing_tip": "此索引正在为文档编制索引，设置与搜索结果现在可能显示不正确!",
+  "empty_area_tip": "选择索引 或 在左侧创建索引 以开始",
+  "delete_document": "删除文档",
+  "delete": {
+    "tip": "是否确实要删除这个",
+    "require_primaryKey": "文档删除需要索引 {{indexId}} 中存在有效的primaryKey"
+  },
+  "edit_document": "编辑文档",
+  "search": {
+    "form": {
+      "limit": {
+        "label": "限制结果数",
+        "validation_error": "为了此面板的性能，限制此搜索结果数（＜500）"
+      },
+      "indexId": {
+        "placeholder": "输入目标索引id"
+      },
+      "q": {
+        "placeholder": "输入搜索词..."
+      },
+      "filter": {
+        "label": "过滤器"
+      },
+      "offset": {
+        "label": "偏移"
+      },
+      "sort": {
+        "label": "排序",
+        "tip": "使用半角逗号（','）分隔多个排序表达式"
+      }
+    },
+    "results": {
+      "label": "搜索结果",
+      "total_hits": "总计返回 {{estimatedTotalHits}} 条结果",
+      "processing_time": "用时 {{processingTimeMs}} ms"
+    }
+  },
+  "all_documents_delete": {
+    "dialog": {
+      "content": "您正在删除索引<strong>{{uid}}</strong>的所有文档。\n此操作非常重要，需要您确认。\n请点击以下按钮之一继续。",
+      "title": "请确认您的操作"
+    },
+    "label": "删除所有文档"
+  },
+  "primaryKey": "主键",
+  "setting": {
+    "index": {
+      "config": {
+        "are_you_sure_you_want_to_remove_item": "您确定要删除\"{{item}}\"吗？",
+        "displayedAttributes": {
+          "description": "添加到displayedAttributes列表的属性将显示在搜索结果中。displayedAttributes只影响搜索终端点，对GET文档终端点没有影响。\n默认情况下，displayedAttributes数组等于数据集中的所有字段。这个行为由值[\"*\"]表示。"
+        },
+        "distinctAttribute": {
+          "description": "distinct属性是一个字段，其值在返回的文档中始终是唯一的。",
+          "input": {
+            "tip": "留空以将重置为默认值。"
+          }
+        },
+        "faceting": {
+          "description": "使用Meilisearch，您可以创建分面搜索界面。此设置允许您定义facets搜索参数返回的最大值数量。",
+          "max_values_per_facet": "每个维度的最大值"
+        },
+        "filterableAttributes": {
+          "description": "filterableAttributes列表中的属性可以用作过滤器或分面。"
+        },
+        "label": "索引配置",
+        "pagination": {
+          "description": "为了保护您的数据库免受恶意抓取，Meilisearch默认每次搜索限制返回1000个结果。该设置允许您配置每次搜索返回的最大结果数。\n\"maxTotalHits\"优先于搜索参数，如limit、offset、hitsPerPage和page。\n例如，如果您将maxTotalHits设置为100，则无论offset配置的值如何，您都无法访问超过100个的搜索结果。",
+          "max_total_hits": "最大总命中次数"
+        },
+        "rankingRules": {
+          "description": "排名规则是根据某些标准对搜索结果进行排名的内置规则。它们按照在rankingRules数组中出现的顺序依次应用。"
+        },
+        "re_index_tip": "更新 {{attribute}} 将重新索引索引中的所有文档，这可能需要一些时间。我们建议先更新索引设置，然后再添加文档，这样可以减少内存的消耗。",
+        "remove_this_item": "删除此项",
+        "searchableAttributes": {
+          "description": "与可搜索属性列表中的属性关联的值将被搜索以匹配查询词。列表的顺序还确定了属性的排名顺序。\n 默认情况下，可搜索属性数组等于数据集中的所有字段。该行为由值[\"*\"]表示。"
+        },
+        "sortableAttributes": {
+          "description": "使用排序搜索参数对搜索结果进行排序时可以使用的属性。"
+        },
+        "stopWords": {
+          "description": "将添加到停用词列表中的单词在以后的搜索查询中被忽略。",
+          "tip": "停用词与数据集中使用的语言密切相关。例如，大多数包含英文文档的数据集中会有无数次出现的\"the\"和\"of\"。而意大利语数据集则会受益于忽略诸如\"a\"、\"la\"或\"il\"等词语。"
+        },
+        "synonyms": {
+          "description": "synonyms对象包含单词及其对应的同义词。在Meilisearch中，同义词被视为与其关联的单词相等，用于计算搜索结果。",
+          "synonymsWords": {
+            "add": "添加同义词",
+            "tip": "点击以移除"
+          },
+          "dialog": {
+            "synonymsKey": "同义词关键词",
+            "title": {
+              "add": "添加同义词",
+              "update": "更新同义词"
+            }
+          }
+        },
+        "typoTolerance": {
+          "description": "拼写容错功能可以帮助用户在搜索查询中包含拼写错误或错别字时找到相关结果。该设置允许您配置错别字的最小词长，并且可以针对特定单词或属性禁用拼写容错功能。",
+          "disableOnAttributes": "禁用属性",
+          "disableOnWords": "禁用敏感词",
+          "enabled": "启用",
+          "minWordSizeForTypos": "拼写错误的最小字数"
+        },
+        "visualization": "可视化"
+      },
+      "danger_zone": "危险区域",
+      "edit": {
+        "form": {
+          "primaryKey": {
+            "learn_more": "🔎 查找有关主键的官方文档",
+            "placeholder": "所有文档中必须包含字段",
+            "tip": "注意：当索引中存在文档时，无法更改主键。",
+            "validation_error": "无效的主键"
+          }
+        }
+      },
+      "index_info": "索引信息"
+    }
+  },
+  "not_found": "未找到索引"
+}

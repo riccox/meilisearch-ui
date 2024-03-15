@@ -1,9 +1,9 @@
-import { useAppStore, WarningPageData } from '@/src/store';
-import { NavigateOptions, To, useNavigate } from 'react-router-dom';
+import { useAppStore, WarningPageData } from '@/store';
+import { useNavigate, UseNavigateResult } from '@tanstack/react-router';
 import { useCallback } from 'react';
 
-export type NavigateFuncParams = [To, NavigateOptions?] | [number];
-export type NavigateFunc = (params: [To, NavigateOptions?] | [number], opt?: any) => void;
+export type NavigateFuncParams = Parameters<UseNavigateResult<string>>[0];
+export type NavigateFunc = (params: NavigateFuncParams, opt?: any) => void;
 
 export const useNavigatePreCheck = (
   pre: (params: NavigateFuncParams, opt?: any) => null | WarningPageData
@@ -17,10 +17,9 @@ export const useNavigatePreCheck = (
       const preFuncRes = pre(params, opt);
       if (preFuncRes !== null) {
         setWarningPageData(preFuncRes);
-        navigate('/warning');
+        navigate({ to: '/warning' });
       } else {
-        // @ts-ignore
-        navigate(...params);
+        navigate(params ?? {});
       }
     },
     [navigate, pre, setWarningPageData]

@@ -1,28 +1,28 @@
 import { Button } from '@mantine/core';
-import { useNavigate } from 'react-router-dom';
-import { Footer } from '@/src/components/Footer';
-import { Logo } from '@/src/components/Logo';
-import { useAppStore } from '@/src/store';
+import { createFileRoute, useRouter } from '@tanstack/react-router';
+import { Footer } from '@/components/Footer';
+import { Logo } from '@/components/Logo';
+import { useAppStore } from '@/store';
 import { useTranslation } from 'react-i18next';
 
 function Warning() {
-  const navigate = useNavigate();
+  const { history } = useRouter();
   const { t } = useTranslation('sys');
   const warningPageData = useAppStore((state) => state.warningPageData);
   return (
     <div className="full-page bg-mount gap-y-10 justify-center items-center">
       <div className={'flex gap-6 items-center'}>
         <Logo />
-        <h1 className={'text-4xl font-bold text-brand-4'}>{t('warning')}</h1>
+        <h1 className={'text-4xl font-bold text-primary-100'}>{t('warning')}</h1>
       </div>
       {warningPageData?.prompt && (
-        <p className={`text-brand-2 font-semibold text-base whitespace-pre-line`}>{warningPageData.prompt}</p>
+        <p className={`text-primary-100 font-semibold text-base whitespace-pre-line`}>{warningPageData.prompt}</p>
       )}
       <div className="flex gap-3">
         <Button color={'orange'} onClick={() => window.location.assign(window.location.origin)}>
           {t('reload')}
         </Button>
-        <Button variant={'gradient'} color={'blue'} onClick={() => navigate(-1)}>
+        <Button variant={'gradient'} color={'blue'} onClick={() => history.back()}>
           {t('back')}
         </Button>
       </div>
@@ -31,4 +31,6 @@ function Warning() {
   );
 }
 
-export default Warning;
+export const Route = createFileRoute('/warning')({
+  component: Warning,
+});

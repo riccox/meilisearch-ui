@@ -1,7 +1,7 @@
 import { modals } from '@mantine/modals';
-import { useMeiliClient } from '@/src/hooks/useMeiliClient';
-import { showTaskErrorNotification, showTaskSubmitNotification } from '@/src/utils/text';
-import { toast } from '@/src/utils/toast';
+import { useMeiliClient } from '@/hooks/useMeiliClient';
+import { showTaskErrorNotification, showTaskSubmitNotification } from '@/utils/text';
+import { toast } from '@/utils/toast';
 import { useMutation } from '@tanstack/react-query';
 import { useCallback, useMemo, useState } from 'react';
 import ReactJson from 'react-json-view';
@@ -121,7 +121,7 @@ export const DocumentList = ({ docs = [], showIndex = false, refetchDocs }: Prop
     return docs.map((d, i) => {
       return (
         <div
-          className={`text-xs rounded-xl p-4 bg-brand-1 odd:bg-opacity-20 even:bg-opacity-10 group relative`}
+          className={`text-xs rounded-xl p-4 bg-primary-100 odd:bg-opacity-20 even:bg-opacity-10 group relative`}
           key={i}
         >
           <div

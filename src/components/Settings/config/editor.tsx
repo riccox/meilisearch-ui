@@ -1,7 +1,7 @@
 import { FC, useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { hiddenRequestLoader, showRequestLoader } from '@/src/utils/loader';
-import { showTaskSubmitNotification } from '@/src/utils/text';
+import { hiddenRequestLoader, showRequestLoader } from '@/utils/loader';
+import { showTaskSubmitNotification } from '@/utils/text';
 import { Settings } from 'meilisearch';
 import { IndexSettingConfigComponentProps } from '..';
 import MonacoEditor from '@monaco-editor/react';

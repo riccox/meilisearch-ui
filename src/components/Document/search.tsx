@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { DocumentList } from '@/src/components/Document/list';
-import { SearchBar } from '@/src/components/Document/searchBar';
+import { DocumentList } from '@/components/Document/list';
+import { SearchBar } from '@/components/Document/searchBar';
 import { useForm } from '@mantine/form';
 import { useQuery } from '@tanstack/react-query';
-import { useMeiliClient } from '@/src/hooks/useMeiliClient';
-import { useCurrentInstance } from '@/src/hooks/useCurrentInstance';
+import { useMeiliClient } from '@/hooks/useMeiliClient';
+import { useCurrentInstance } from '@/hooks/useCurrentInstance';
 import { useTranslation } from 'react-i18next';
 import useDebounce from 'ahooks/lib/useDebounce';
 import { Loader } from '../Loader';
