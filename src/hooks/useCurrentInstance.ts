@@ -1,13 +1,13 @@
-import { Instance, useAppStore } from '@/src/store';
+import { Instance, useAppStore } from '@/store';
 import _ from 'lodash';
 import { toast } from '../utils/toast';
-import { useParams } from 'react-router-dom';
+import { useParams } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
 
 export const useCurrentInstance = () => {
   const { t } = useTranslation('instance');
-  let { insId } = useParams();
-  const currentInstance = useAppStore((state) => state.instances.find((i) => i.id === parseInt(insId || '0')));
+  let { insID } = useParams({ strict: false }) as { insID: string };
+  const currentInstance = useAppStore((state) => state.instances.find((i) => i.id === parseInt(insID || '0')));
 
   if (currentInstance && _.isEmpty(currentInstance)) {
     toast.error(`${t('not_found')} 🤥`);

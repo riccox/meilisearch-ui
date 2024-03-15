@@ -1,11 +1,11 @@
 import { FC, useCallback, useMemo, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from '@tanstack/react-router';
 import { Text } from '@mantine/core';
 import { useMutation } from '@tanstack/react-query';
-import { hiddenRequestLoader, showRequestLoader } from '@/src/utils/loader';
-import { showTaskSubmitNotification } from '@/src/utils/text';
+import { hiddenRequestLoader, showRequestLoader } from '@/utils/loader';
+import { showTaskSubmitNotification } from '@/utils/text';
 import { IndexSettingComponentProps } from '.';
-import { useCurrentInstance } from '@/src/hooks/useCurrentInstance';
+import { useCurrentInstance } from '@/hooks/useCurrentInstance';
 import { useTranslation } from 'react-i18next';
 import clsx from 'clsx';
 

@@ -1,11 +1,11 @@
 {
-  "all_documents_delete": {
-    "dialog": {
-      "content": "You are <strong>deleting all documents</strong> of index <strong>{{uid}}</strong>.\nThis action is so important that you are required to confirm it.\nPlease click one of these buttons to proceed.",
-      "title": "Please confirm your action"
-    },
-    "label": "Delete All Documents"
+  "host": "Host",
+  "status": {
+    "label": "Status",
+    "available": "Available"
   },
+  "db_size": "DB Size",
+  "meili_version": "Meili Version",
   "connection_failed": "Connection fail, go check your config! 🤥",
   "create_index": {
     "form": {
@@ -36,83 +36,5 @@
     "label": "Delete This Index"
   },
   "no_master_key_error": "Meilisearch is running without a master key.\nTo access this API endpoint, you must have set a master key at launch.",
-  "not_found": "Instance not found",
-  "primaryKey": "Primary Key",
-  "setting": {
-    "index": {
-      "config": {
-        "are_you_sure_you_want_to_remove_item": "Are you sure you want to remove \"{{item}}\" ?",
-        "displayedAttributes": {
-          "description": "The attributes added to the displayedAttributes list appear in search results. displayedAttributes only affects the search endpoints. It has no impact on the GET documents endpoint.\nBy default, the displayedAttributes array is equal to all fields in your dataset. This behavior is represented by the value [\"*\"]."
-        },
-        "distinctAttribute": {
-          "description": "The distinct attribute is a field whose value will always be unique in the returned documents.",
-          "input": {
-            "tip": "leave empty to reset the distinct attribute of an index to its default value."
-          }
-        },
-        "faceting": {
-          "description": "With Meilisearch, you can create faceted search interfaces. This setting allows you to define the maximum number of values returned by the facets search parameter.",
-          "max_values_per_facet": "Max values per facet"
-        },
-        "filterableAttributes": {
-          "description": "Attributes in the filterableAttributes list can be used as filters or facets."
-        },
-        "label": "Index Configuration",
-        "pagination": {
-          "description": "To protect your database from malicious scraping, Meilisearch has a default limit of 1000 results per search. This setting allows you to configure the maximum number of results returned per search.\n'maxTotalHits' takes priority over search parameters such as limit, offset, hitsPerPage, and page.\nFor example, if you set maxTotalHits to 100, you will not be able to access search results beyond 100 no matter the value configured for offset.",
-          "max_total_hits": "Max total hits"
-        },
-        "rankingRules": {
-          "description": "Ranking rules are built-in rules that rank search results according to certain criteria. They are applied in the same order in which they appear in the rankingRules array."
-        },
-        "re_index_tip": "Updating {{attribute}} will re-index all documents in the index, which can take some time. We recommend updating your index settings first and then adding documents as this reduces RAM consumption.",
-        "remove_this_item": "Remove this item",
-        "searchableAttributes": {
-          "description": "The values associated with attributes in the searchableAttributes list are searched for matching query words. The order of the list also determines the attribute ranking order. <br /> By default, the searchableAttributes array is equal to all fields in your dataset. This behavior is represented by the value [\"*\"]."
-        },
-        "sortableAttributes": {
-          "description": "Attributes that can be used when sorting search results using the sort search parameter."
-        },
-        "stopWords": {
-          "description": "Words added to the stopWords list are ignored in future search queries.",
-          "tip": "Stop words are strongly related to the language used in your dataset. For example, most datasets containing English documents will have countless occurrences of 'the' and 'of'. Italian datasets, instead, will benefit from ignoring words like 'a', 'la', or 'il'."
-        },
-        "synonyms": {
-          "description": "The synonyms object contains words and their respective synonyms. A synonym in Meilisearch is considered equal to its associated word for the purposes of calculating search results.",
-          "synonymsWords": {
-            "add": "Add a synonyms word",
-            "tip": "Click to remove"
-          },
-          "dialog": {
-            "synonymsKey": "Synonyms Key",
-            "title": {
-              "add": "Add Synonyms",
-              "update": "Update Synonyms"
-            }
-          }
-        },
-        "typoTolerance": {
-          "description": "Typo tolerance helps users find relevant results even when their search queries contain spelling mistakes or typos. This setting allows you to configure the minimum word size for typos and disable typo tolerance for specific words or attributes.",
-          "disableOnAttributes": "Disable On Attributes",
-          "disableOnWords": "Disable On Words",
-          "enabled": "Enabled",
-          "minWordSizeForTypos": "Min word size for typos"
-        },
-        "visualization": "Visualization"
-      },
-      "danger_zone": "Danger Zone",
-      "edit": {
-        "form": {
-          "primaryKey": {
-            "learn_more": "🔎 Look up official docs about primary-key",
-            "placeholder": "field must be present in all documents",
-            "tip": "NOTE: Primary key cannot be changed while documents are present in the index.",
-            "validation_error": "Invalid primary key"
-          }
-        }
-      },
-      "index_info": "Index Info"
-    }
-  }
+  "not_found": "Instance not found"
 }

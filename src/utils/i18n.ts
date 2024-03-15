@@ -16,6 +16,7 @@ export const NAMESPACES = [
   'key',
   'upload',
   'document',
+  'index',
   'instance',
   'header',
   'sys',

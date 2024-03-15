@@ -1,21 +1,24 @@
 import type { FC, ReactNode } from 'react';
-import { MantineProvider } from '@mantine/core';
-import theme from '@/src/style/theme.json';
+import { MantineColorsTuple, MantineProvider } from '@mantine/core';
+import theme from '@/style/theme.json';
 import _ from 'lodash';
 import { ModalsProvider } from '@mantine/modals';
 import '@mantine/core/styles.css';
+import { NextUIProvider } from '@nextui-org/react';
 
 type Props = {
   children: ReactNode;
 };
 
-export const MantineUIProvider: FC<Props> = ({ children }) => {
+export const UIProvider: FC<Props> = ({ children }) => {
   return (
     <MantineProvider
       theme={{
-        // @ts-ignore
-        colors: _.pick(theme.colors, 'brand'),
-        primaryColor: 'brand',
+        colors: _.transform(_.pick(theme.colors, ['primary', 'secondary']), (result, value, key) => {
+          result || (result = {});
+          result[key] = Object.values(value) as unknown as MantineColorsTuple;
+        }),
+        primaryColor: 'primary',
       }}
     >
       <ModalsProvider
@@ -30,7 +33,7 @@ export const MantineUIProvider: FC<Props> = ({ children }) => {
           },
         }}
       >
-        {children}
+        <NextUIProvider>{children}</NextUIProvider>
       </ModalsProvider>
     </MantineProvider>
   );
