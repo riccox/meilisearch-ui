@@ -1,4 +1,4 @@
-FROM node:18-slim
+FROM node:18-slim AS build
 
 # Setting working directory.
 WORKDIR /opt/meilisearch-ui
@@ -11,7 +11,14 @@ COPY . .
 # Installing dependencies
 RUN pnpm install
 
-EXPOSE 24900
+# Build the app
+RUN npm run build
 
-# Running the app
-CMD ["pnpm", "run", "start"]
+# -------
+FROM nginx
+
+COPY --from=build /opt/meilisearch-ui/dist /usr/share/nginx/html
+
+RUN sed -i 's/80/24900/g' /etc/nginx/conf.d/default.conf
+
+EXPOSE 24900
