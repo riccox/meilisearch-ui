@@ -1,4 +1,11 @@
 {
+  "host": "Host",
+  "status": {
+    "label": "Status",
+    "available": "Available"
+  },
+  "db_size": "DB Size",
+  "meili_version": "Meili Version",
   "all_documents_delete": {
     "dialog": {
       "content": "You are <strong>deleting all documents</strong> of index <strong>{{uid}}</strong>.\nThis action is so important that you are required to confirm it.\nPlease click one of these buttons to proceed.",

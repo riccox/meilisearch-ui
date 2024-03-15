@@ -4,7 +4,7 @@ import { IconPlus, IconCircleMinus, IconArrowUp, IconArrowDown } from '@tabler/i
 import { PropsWithoutRef, useCallback, useMemo, useState } from 'react';
 import { modals } from '@mantine/modals';
 import _ from 'lodash';
-import { arrayMove } from '@/src/utils/array';
+import { arrayMove } from '@/utils/array';
 import { useTranslation } from 'react-i18next';
 
 export function ArrayInput<V extends string>({

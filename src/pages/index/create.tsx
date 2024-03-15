@@ -2,10 +2,10 @@ import { Button, TextInput, Tooltip } from '@mantine/core';
 import { useCallback, useMemo, useState } from 'react';
 import { useForm } from '@mantine/form';
 import _ from 'lodash';
-import { useMeiliClient } from '@/src/hooks/useMeiliClient';
-import { showTaskSubmitNotification } from '@/src/utils/text';
-import { useOutletContext } from 'react-router-dom';
-import { toast } from '@/src/utils/toast';
+import { useMeiliClient } from '@/hooks/useMeiliClient';
+import { showTaskSubmitNotification } from '@/utils/text';
+import { useOutletContext } from '@tanstack/react-router';
+import { toast } from '@/utils/toast';
 import { useTranslation } from 'react-i18next';
 
 export const CreateIndex = () => {

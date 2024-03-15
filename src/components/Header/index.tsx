@@ -11,19 +11,19 @@ import {
   IconListCheck,
   IconSettings,
 } from '@tabler/icons-react';
-import { Link } from 'react-router-dom';
+import { Link } from '@tanstack/react-router';
 import { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import { useClipboard } from '@mantine/hooks';
 import { MeiliSearch, Version } from 'meilisearch';
 import { useQuery } from '@tanstack/react-query';
-import { useInstanceStats } from '@/src/hooks/useInstanceStats';
+import { useInstanceStats } from '@/hooks/useInstanceStats';
 import _ from 'lodash';
 import { modals } from '@mantine/modals';
-import { getTimeText, showTaskSubmitNotification } from '@/src/utils/text';
-import { validateKeysRouteAvailable } from '@/src/utils/conn';
-import { useNavigatePreCheck } from '@/src/hooks/useRoutePreCheck';
+import { getTimeText, showTaskSubmitNotification } from '@/utils/text';
+import { validateKeysRouteAvailable } from '@/utils/conn';
+import { useNavigatePreCheck } from '@/hooks/useRoutePreCheck';
 import { toast } from 'sonner';
-import { useCurrentInstance } from '@/src/hooks/useCurrentInstance';
+import { useCurrentInstance } from '@/hooks/useCurrentInstance';
 import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
 import { LangSelector } from '../lang';
@@ -36,8 +36,8 @@ interface Props {
 export const Header: FC<Props> = ({ client, className }) => {
   const { t } = useTranslation('header');
   const currentInstance = useCurrentInstance();
-  const navigate = useNavigatePreCheck(([to], opt) => {
-    if (typeof to === 'string' && /\/keys$/.test(to)) {
+  const navigate = useNavigatePreCheck((params, opt) => {
+    if (typeof params.to === 'string' && /\/keys$/.test(params.to)) {
       // check before keys page (no masterKey will cause error)
       return validateKeysRouteAvailable(opt?.currentInstance?.apiKey);
     }
@@ -126,7 +126,7 @@ export const Header: FC<Props> = ({ client, className }) => {
       >
         <button
           className="btn primary solid flex items-center gap-2 pill"
-          onClick={() => navigate(['/'], { currentInstance })}
+          onClick={() => navigate({ to: '/' }, { currentInstance })}
         >
           <IconHomeBolt size={26} />
           <p>{t('home')}</p>
@@ -185,7 +185,7 @@ export const Header: FC<Props> = ({ client, className }) => {
 
             <div
               onClick={() => {
-                navigate([`/ins/${currentInstance.id}/keys`], { currentInstance });
+                navigate({ to: `/ins/${currentInstance.id}/keys` }, { currentInstance });
               }}
               className="item text-sm flex items-center gap-2 hover:underline"
               tabIndex={-1}

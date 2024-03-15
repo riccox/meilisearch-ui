@@ -1,59 +1,310 @@
-import { Route, Routes } from 'react-router-dom';
-import NotFound from '@/src/pages/404';
-import Dashboard from '@/src/pages/dashboard';
-import IndexesLayout from '@/src/pages/index/layout';
-import { Documents } from '@/src/pages/index/documents';
-import { Suspense } from 'react';
-import { Loader } from '@/src/components/Loader';
-import { CreateIndex } from '@/src/pages/index/create';
-import Tasks from '@/src/pages/task';
-import Keys from '@/src/pages/key';
-import Settings from '@/src/pages/index/setting';
-import Warning from '@/src/pages/warning';
-import { EmptyArea } from '../components/EmptyArea';
-import { UploadDoc } from '../pages/index/upload';
-import { MultiIndexSearch } from '../pages/index/multi-search';
+import { Logo } from '@/components/Logo';
+import { useCallback, useMemo, useState } from 'react';
+import { defaultInstance, Instance, useAppStore } from '@/store';
+import { ActionIcon, Autocomplete, Modal, PasswordInput, TextInput, Tooltip } from '@mantine/core';
+import { Footer } from '@/components/Footer';
+import { useForm } from '@mantine/form';
+import { IconBooks, IconCirclePlus, IconCircleX, IconKey, IconListCheck, IconPencilMinus } from '@tabler/icons-react';
+import { testConnection, validateKeysRouteAvailable } from '@/utils/conn';
+import { modals } from '@mantine/modals';
+import { getTimeText } from '@/utils/text';
+import _ from 'lodash';
+import { useNavigatePreCheck } from '@/hooks/useRoutePreCheck';
+import { useCurrentInstance } from '../hooks/useCurrentInstance';
 import { useTranslation } from 'react-i18next';
-import { Lazy } from '../components/lazy';
+import { createFileRoute } from '@tanstack/react-router';
+import { Button } from '@douyinfe/semi-ui';
 
-export const AppRoutes = () => {
-  const { t } = useTranslation();
-  return (
-    <Suspense
-      fallback={
-        <div className={`flex full-page justify-center items-center`}>
-          <Loader size={'xl'} />
-        </div>
-      }
-    >
-      <Routes>
-        <Route index element={<Dashboard />} />
-        <Route path="ins">
-          <Route path=":insId">
-            <Route path="index" element={<IndexesLayout />}>
-              <Route index element={<EmptyArea text={t('document:empty_area_tip')} />} />
-              <Route path="create" element={<CreateIndex />} />
-              <Route path=":indexId">
-                <Route
-                  index
-                  element={
-                    <Lazy className={`h-full`}>
-                      <Documents />
-                    </Lazy>
-                  }
-                />
-                <Route path="settings" element={<Settings />} />
-                <Route path="upload" element={<UploadDoc />} />
-              </Route>
-            </Route>
-            <Route path="tasks" element={<Tasks />} />
-            <Route path="keys" element={<Keys />} />
-            <Route path="multi-search" element={<MultiIndexSearch />} />
-          </Route>
-        </Route>
-        <Route path="warning" element={<Warning />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
-    </Suspense>
+const instanceCardClassName = `col-span-1 h-28 rounded-lg`;
+
+function Dashboard() {
+  const { t } = useTranslation('dashboard');
+
+  const navigate = useNavigatePreCheck((params, opt) => {
+    console.debug('dashboard', 'navigate', params.to, opt?.currentInstance);
+    if (typeof params.to === 'string' && /\/keys$/.test(params.to)) {
+      // check before keys page (no masterKey will cause error)
+      return validateKeysRouteAvailable(opt?.currentInstance?.apiKey);
+    }
+    return null;
+  });
+
+  const currentInstance = useCurrentInstance();
+  const addInstance = useAppStore((state) => state.addInstance);
+  const editInstance = useAppStore((state) => state.editInstance);
+  const removeInstance = useAppStore((state) => state.removeInstance);
+  const instances = useAppStore((state) => state.instances);
+  const [instanceFormType, setInstanceFormType] = useState<'create' | 'edit'>('create');
+  const [instanceEditing, setInstanceEditing] = useState<Instance>();
+  const [isInstanceFormModalOpen, setIsInstanceFormModalOpen] = useState(false);
+  const [isSubmitInstanceLoading, setIsSubmitInstanceLoading] = useState(false);
+
+  const instanceForm = useForm({
+    initialValues: {
+      ...defaultInstance,
+      host: currentInstance?.host ?? defaultInstance.host,
+      apiKey: currentInstance?.apiKey ?? defaultInstance.apiKey,
+    },
+    validate: {
+      name: (value: string) => {
+        let otherNames: string[] = [];
+        switch (instanceFormType) {
+          case 'create':
+            otherNames = instances.map((i) => i.name);
+            break;
+          case 'edit':
+            otherNames = instances.map((i) => i.name).filter((n) => n !== instanceEditing!.name);
+            break;
+        }
+        return otherNames.includes(value) ? 'Name should be different from others' : null;
+      },
+      host: (value: string) =>
+        /(https?:\/\/)?(www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()!@:%_+.~#?&//=]*)/.test(
+          value
+        )
+          ? null
+          : 'Invalid host',
+    },
+  });
+
+  const onSubmitInstance = useCallback(
+    async (values: typeof instanceForm.values) => {
+      // button loading
+      setIsSubmitInstanceLoading(true);
+      // normalize host string
+      const cfg: typeof instanceForm.values = {
+        ...values,
+        host: `${/^(https?:\/\/)/.test(values.host) ? '' : 'http://'}${values.host}`,
+      };
+      // remove empty apikey
+      cfg.apiKey = _.isEmpty(cfg.apiKey) ? undefined : cfg.apiKey;
+      // do connection check
+      testConnection({ ...cfg })
+        .finally(() => {
+          setIsSubmitInstanceLoading(false);
+        })
+        .then(() => {
+          switch (instanceFormType) {
+            case 'create':
+              addInstance({ ...cfg });
+              break;
+            case 'edit':
+              editInstance(instanceEditing!.id, { ...cfg });
+              break;
+          }
+          setIsInstanceFormModalOpen(false);
+        });
+    },
+    [instanceForm, instanceFormType, addInstance, editInstance, instanceEditing]
   );
-};
+
+  const onClickInstance = useCallback(
+    (ins: Instance, to?: string) => {
+      // do connection test before next step
+      testConnection({ ...ins }).then(() => {
+        if (to) {
+          navigate({ to }, { currentInstance: ins });
+        }
+      });
+    },
+    [navigate]
+  );
+
+  const onClickRemoveInstance = useCallback(
+    (ins: Instance) => {
+      const modalId = 'removeInsModal';
+      modals.open({
+        modalId,
+        title: t('instance.remove.title'),
+        centered: true,
+        children: (
+          <div className="flex flex-col gap-6">
+            <p>
+              {t('instance.remove.tip')} ({ins.name})?
+            </p>
+            <div className="flex gap-3">
+              <Button
+                block
+                theme="solid"
+                type="danger"
+                onClick={() => {
+                  removeInstance(ins.id);
+
+                  modals.close(modalId);
+                }}
+              >
+                {t('confirm')}
+              </Button>
+              <Button
+                block
+                theme="solid"
+                type="secondary"
+                onClick={() => {
+                  modals.close(modalId);
+                }}
+              >
+                {t('cancel')}
+              </Button>
+            </div>
+          </div>
+        ),
+      });
+    },
+    [removeInstance, t]
+  );
+
+  const instancesList = useMemo(() => {
+    return instances.map((instance, index) => {
+      return (
+        <div
+          key={index}
+          className={`bg-white flex flex-col justify-between py-4 px-6 group
+      hover:ring-primary-100 hover:ring-2 ${instanceCardClassName}`}
+        >
+          <div className={`flex justify-between items-center`}>
+            <div className="flex items-center gap-2">
+              <p
+                className={`text-2xl font-bold group-hover:underline cursor-pointer`}
+                onClick={() => onClickInstance(instance, `/ins/${instance.id}`)}
+              >
+                {instance.name}
+              </p>
+              <p
+                className={`text-2xl font-bold cursor-pointer text-bw-800/50`}
+                onClick={() => onClickInstance(instance, `/ins/${instance.id}`)}
+              >
+                #{instance.id}
+              </p>
+            </div>
+            <div className={`flex gap-x-3`}>
+              <Tooltip position={'left'} label={t('edit')}>
+                <ActionIcon
+                  variant="light"
+                  color="yellow"
+                  onClick={() => {
+                    setInstanceEditing(() => ({ ...instance }));
+                    instanceForm.setValues(() => ({ ...instance }));
+                    setInstanceFormType(() => 'edit');
+                    setIsInstanceFormModalOpen(() => true);
+                  }}
+                >
+                  <IconPencilMinus size={24} />
+                </ActionIcon>
+              </Tooltip>
+              <ActionIcon variant="light" onClick={() => onClickRemoveInstance(instance)}>
+                <IconCircleX size={24} />
+              </ActionIcon>
+            </div>
+          </div>
+          <div className={`w-full flex justify-end items-center gap-x-3`}>
+            <p className={`mr-auto text-neutral-500 text-sm`}>
+              {t('instance.updated_at')} {getTimeText(instance.updatedTime)}
+            </p>
+            <Tooltip position={'bottom'} label={t('indexes')}>
+              <ActionIcon
+                variant="light"
+                color="violet"
+                onClick={() => onClickInstance(instance, `/ins/${instance.id}/index`)}
+              >
+                <IconBooks size={24} />
+              </ActionIcon>
+            </Tooltip>
+            <Tooltip position={'bottom'} label={t('tasks')}>
+              <ActionIcon
+                variant="light"
+                color="blue"
+                onClick={() => onClickInstance(instance, `/ins/${instance.id}/tasks`)}
+              >
+                <IconListCheck size={24} />
+              </ActionIcon>
+            </Tooltip>
+            <Tooltip position={'bottom'} label={t('keys')}>
+              <ActionIcon
+                variant="light"
+                color="grape"
+                onClick={() => onClickInstance(instance, `/ins/${instance.id}/keys`)}
+              >
+                <IconKey size={24} />
+              </ActionIcon>
+            </Tooltip>
+          </div>
+        </div>
+      );
+    });
+  }, [instanceForm, instances, onClickInstance, onClickRemoveInstance, t]);
+
+  return (
+    <div className="bg-mount full-page justify-center items-center gap-y-6">
+      <div className={`w-1/2 2xl:w-1/4 h-2/3 flex flex-col justify-center items-center gap-y-10`}>
+        <Logo className="size-20" />
+        <p className={`text-primary-100 font-bold xl:text-3xl text-xl w-screen text-center`}>{t('slogan')}</p>
+        <div className={`grid grid-cols-1 gap-y-3 w-full p-1  overflow-y-scroll`}>
+          {instancesList}
+          <div
+            onClick={() => {
+              setInstanceFormType('create');
+              setIsInstanceFormModalOpen(true);
+            }}
+            className={`${instanceCardClassName}
+            flex justify-center items-center 
+            hover:cursor-pointer hover:opacity-80 hover:border-neutral-200 hover:border-2 
+            bg-neutral-500 bg-opacity-30 border border-neutral-500 border-dashed`}
+          >
+            <IconCirclePlus color={'white'} opacity={0.5} size={48} />
+          </div>
+        </div>
+      </div>
+      <Footer className={`!text-white`} />
+
+      <Modal
+        opened={isInstanceFormModalOpen}
+        onClose={() => setIsInstanceFormModalOpen(false)}
+        centered
+        lockScroll
+        radius="lg"
+        shadow="xl"
+        padding="xl"
+        withCloseButton={false}
+      >
+        <p className={`text-center font-semibold text-lg`}>{t(`instance.form.title.${instanceFormType}`)}</p>
+        <form className={`flex flex-col gap-y-6 w-full`} onSubmit={instanceForm.onSubmit(onSubmitInstance)}>
+          <TextInput
+            autoFocus
+            radius="md"
+            size={'lg'}
+            label={<p className={'text-primary-100 pb-2 text-lg'}>{t('instance.form.name.label')}</p>}
+            placeholder={t('instance.form.name.placeholder')}
+            {...instanceForm.getInputProps('name')}
+          />
+          <Tooltip position={'bottom-start'} multiline label={t('instance.form.host.tip')}>
+            <Autocomplete
+              radius="md"
+              size={'lg'}
+              label={<p className={'text-primary-100 pb-2 text-lg'}>{t('instance.form.host.label')}</p>}
+              placeholder="http://127.0.0.1:7700"
+              data={instances.map((i) => i.host)}
+              {...instanceForm.getInputProps('host')}
+            />
+          </Tooltip>
+          <Tooltip position={'bottom-start'} multiline label={t('instance.form.api_key.tip')}>
+            <PasswordInput
+              placeholder="masterKey"
+              radius="md"
+              size={'lg'}
+              label={<p className={'text-primary-100 pb-2 text-lg'}>{t('instance.form.api_key.label')}</p>}
+              {...instanceForm.getInputProps('apiKey')}
+            />
+          </Tooltip>
+          <Button htmlType="submit" theme="solid" size="large" disabled={isSubmitInstanceLoading}>
+            {t('confirm')}
+          </Button>
+          <Footer />
+        </form>
+      </Modal>
+    </div>
+  );
+}
+
+export const Route = createFileRoute('/')({
+  component: Dashboard,
+});
