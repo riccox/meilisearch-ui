@@ -18,7 +18,8 @@
     "baseUrl": "./",
     "paths": {
       "@/*": ["./*"]
-    }
+    },
+    "types": ["vite-plugin-pwa/client"]
   },
   "include": ["src"],
   "exclude": ["node_modules"],

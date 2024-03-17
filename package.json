@@ -7,7 +7,8 @@
     "start": "vite",
     "build": "vite build",
     "build:safe": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "generate-pwa-assets": "pwa-assets-generator"
   },
   "repository": "https://github.com/riccox/meilisearch-ui",
   "homepage": "https://github.com/riccox/meilisearch-ui#readme",
@@ -54,6 +55,7 @@
     "@types/qs": "^6.9.9",
     "@types/react": "^18.2.34",
     "@types/react-dom": "^18.2.14",
+    "@vite-pwa/assets-generator": "^0.2.4",
     "@vitejs/plugin-react-swc": "^3.4.0",
     "autoprefixer": "^10.4.15",
     "eslint": "8.47.0",
@@ -63,7 +65,9 @@
     "prettier": "^3.0.3",
     "tailwindcss": "^3.3.3",
     "typescript": "5.1.6",
-    "vite": "^4.5.0"
+    "vite": "^4.5.0",
+    "vite-plugin-pwa": "^0.19.4",
+    "workbox-window": "^7.0.0"
   },
   "version": "0.6.13",
   "main": "index.js",
