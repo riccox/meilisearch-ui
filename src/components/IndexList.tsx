@@ -2,7 +2,7 @@
 import { useCurrentInstance } from '@/hooks/useCurrentInstance';
 import { useInstanceStats } from '@/hooks/useInstanceStats';
 import { Pagination, Tag, Tooltip } from '@douyinfe/semi-ui';
-import { Button, Card, CardBody } from '@nextui-org/react';
+import { Card, CardBody } from '@nextui-org/react';
 import { IconAlertTriangle } from '@tabler/icons-react';
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { Link } from '@tanstack/react-router';
@@ -11,6 +11,7 @@ import MeiliSearch from 'meilisearch';
 import { FC, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useImmer } from 'use-immer';
+import { CreateIndexButton } from './createIndex';
 
 interface Props {
   className?: string;
@@ -67,11 +68,9 @@ export const IndexList: FC<Props> = ({ className = '', client }) => {
       <div className="flex flex-col gap-y-2 flex-1">
         <div className="flex justify-between">
           <div className="text-2xl font-bold">{t('common:indexes')}</div>
-          <Button size="sm" color="primary">
-            {t('common:create')}
-          </Button>
+          <CreateIndexButton afterMutation={() => query.refetch()} />
         </div>
-        <div className="grid grid-cols-6 gap-3 place-content-start place-items-start p-8">
+        <div className="grid grid-cols-6 gap-6 place-content-start place-items-start p-6">
           {listData?.map((item) => {
             return (
               <Card
