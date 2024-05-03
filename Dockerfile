@@ -18,7 +18,6 @@ RUN npm run build
 FROM nginx
 
 COPY --from=build /opt/meilisearch-ui/dist /usr/share/nginx/html
-
-RUN sed -i 's/80/24900/g' /etc/nginx/conf.d/default.conf
+COPY nginx.conf /etc/nginx/nginx.conf
 
 EXPOSE 24900
