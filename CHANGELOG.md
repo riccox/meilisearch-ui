@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.14](https://github.com/riccox/meilisearch-ui/compare/v0.6.13...v0.6.14) (2024-05-08)
+
+
+### Bug Fixes
+
+* add nginx config to prevent 404 on page refresh ([ae8b497](https://github.com/riccox/meilisearch-ui/commit/ae8b497c5f218a21d773719af501fb0c4a3f37fc))
+
 ## [0.6.13](https://github.com/riccox/meilisearch-ui/compare/v0.6.12...v0.6.13) (2024-01-18)
 
 
