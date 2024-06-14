@@ -89,11 +89,10 @@ pnpm run dev
 
 ## Built with ♥
 
-- [Sira Design](https://sira-design.party)
 - React v18
 - TypeScript
 - Vite
-- ReactRouter v6
+- ReactRouter
 - Mantine
 - Zustand
 - Tailwind CSS

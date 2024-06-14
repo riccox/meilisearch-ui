@@ -57,6 +57,10 @@ export const SearchPage = ({ currentIndex }: Props) => {
 
   const searchDocumentsQuery = useQuery({
     queryKey: ['searchDocuments', host, indexClient?.uid],
+    refetchInterval: false,
+    refetchOnMount: true,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: true,
     queryFn: async ({ queryKey }) => {
       const {
         q,
