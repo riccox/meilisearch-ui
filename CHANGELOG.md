@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.6.16](https://github.com/riccox/meilisearch-ui/compare/v0.6.15...v0.6.16) (2024-06-14)
+
+
+### Performance Improvements
+
+* disable auto refresh. (gh-123) ([881f4db](https://github.com/riccox/meilisearch-ui/commit/881f4dbb066a89589515bfe26bbef547a77de2b4))
+
 ## [0.6.15](https://github.com/riccox/meilisearch-ui/compare/v0.6.14...v0.6.15) (2024-05-08)
 
 
