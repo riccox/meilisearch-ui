@@ -61,26 +61,44 @@ const InsInsIDLayoutIndexIndexUIDIndexRoute =
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
     '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
     '/warning': {
+      id: '/warning'
+      path: '/warning'
+      fullPath: '/warning'
       preLoaderRoute: typeof WarningImport
       parentRoute: typeof rootRoute
     }
     '/ins/$insID': {
+      id: '/ins/$insID'
+      path: '/ins/$insID'
+      fullPath: '/ins/$insID'
       preLoaderRoute: typeof InsInsIDImport
       parentRoute: typeof rootRoute
     }
     '/ins/$insID/_layout': {
+      id: '/ins/$insID/_layout'
+      path: '/ins/$insID'
+      fullPath: '/ins/$insID'
       preLoaderRoute: typeof InsInsIDLayoutImport
       parentRoute: typeof InsInsIDRoute
     }
     '/ins/$insID/_layout/': {
+      id: '/ins/$insID/_layout/'
+      path: '/'
+      fullPath: '/ins/$insID/'
       preLoaderRoute: typeof InsInsIDLayoutIndexImport
       parentRoute: typeof InsInsIDLayoutImport
     }
     '/ins/$insID/_layout/index/$indexUID/': {
+      id: '/ins/$insID/_layout/index/$indexUID/'
+      path: '/index/$indexUID'
+      fullPath: '/ins/$insID/index/$indexUID'
       preLoaderRoute: typeof InsInsIDLayoutIndexIndexUIDIndexImport
       parentRoute: typeof InsInsIDLayoutImport
     }
@@ -89,15 +107,58 @@ declare module '@tanstack/react-router' {
 
 // Create and export the route tree
 
-export const routeTree = rootRoute.addChildren([
+export const routeTree = rootRoute.addChildren({
   IndexRoute,
   WarningRoute,
-  InsInsIDRoute.addChildren([
-    InsInsIDLayoutRoute.addChildren([
+  InsInsIDRoute: InsInsIDRoute.addChildren({
+    InsInsIDLayoutRoute: InsInsIDLayoutRoute.addChildren({
       InsInsIDLayoutIndexRoute,
       InsInsIDLayoutIndexIndexUIDIndexRoute,
-    ]),
-  ]),
-])
+    }),
+  }),
+})
 
 /* prettier-ignore-end */
+
+/* ROUTE_MANIFEST_START
+{
+  "routes": {
+    "__root__": {
+      "filePath": "__root.tsx",
+      "children": [
+        "/",
+        "/warning",
+        "/ins/$insID"
+      ]
+    },
+    "/": {
+      "filePath": "index.tsx"
+    },
+    "/warning": {
+      "filePath": "warning.tsx"
+    },
+    "/ins/$insID": {
+      "filePath": "ins/$insID",
+      "children": [
+        "/ins/$insID/_layout"
+      ]
+    },
+    "/ins/$insID/_layout": {
+      "filePath": "ins/$insID/_layout.tsx",
+      "parent": "/ins/$insID",
+      "children": [
+        "/ins/$insID/_layout/",
+        "/ins/$insID/_layout/index/$indexUID/"
+      ]
+    },
+    "/ins/$insID/_layout/": {
+      "filePath": "ins/$insID/_layout/index.tsx",
+      "parent": "/ins/$insID/_layout"
+    },
+    "/ins/$insID/_layout/index/$indexUID/": {
+      "filePath": "ins/$insID/_layout/index/$indexUID/index.tsx",
+      "parent": "/ins/$insID/_layout"
+    }
+  }
+}
+ROUTE_MANIFEST_END */

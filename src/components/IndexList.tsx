@@ -74,10 +74,12 @@ export const IndexList: FC<Props> = ({ className = '', client }) => {
           {listData?.map((item) => {
             return (
               <Card
+                key={item.uid}
                 as={Link}
                 to={item.href}
                 isHoverable
                 fullWidth
+                shadow="sm"
                 className="col-span-3 laptop:col-span-2 hover:no-underline h-fit"
               >
                 <CardBody className="space-y-2">

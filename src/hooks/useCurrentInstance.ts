@@ -6,7 +6,7 @@ import { useTranslation } from 'react-i18next';
 
 export const useCurrentInstance = () => {
   const { t } = useTranslation('instance');
-  let { insID } = useParams({ strict: false });
+  let { insID } = useParams({ strict: false }) as { insID: string };
   const currentInstance = useAppStore((state) => state.instances.find((i) => i.id === parseInt(insID || '0')));
 
   if (currentInstance && _.isEmpty(currentInstance)) {
