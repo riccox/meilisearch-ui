@@ -77,10 +77,9 @@ export const IndexList: FC<Props> = ({ className = '', client }) => {
                 key={item.uid}
                 as={Link}
                 to={item.href}
-                isHoverable
                 fullWidth
                 shadow="sm"
-                className="col-span-3 laptop:col-span-2 hover:no-underline h-fit"
+                className="col-span-3 laptop:col-span-2 hover:no-underline h-fit hover:outline-primary-400/80 hover:outline outline-2"
               >
                 <CardBody className="space-y-2">
                   <h1 className="text-large">{item.uid}</h1>
