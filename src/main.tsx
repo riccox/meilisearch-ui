@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import 'virtual:uno.css';
 import './style/global.css';
+import '@arco-design/web-react/dist/css/arco.css';
 import './utils/i18n';
 import { AppProvider } from '@/providers';
 import { RouterProvider, createRouter } from '@tanstack/react-router';
