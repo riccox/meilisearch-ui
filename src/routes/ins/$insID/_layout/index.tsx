@@ -1,6 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
-import { Descriptions, Tag, Typography } from '@douyinfe/semi-ui';
+import { Descriptions, Tag } from '@douyinfe/semi-ui';
 import { useCurrentInstance } from '@/hooks/useCurrentInstance';
 import { useMeiliClient } from '@/hooks/useMeiliClient';
 import { useInstanceStats } from '@/hooks/useInstanceStats';
@@ -10,6 +10,9 @@ import { getTimeText } from '@/utils/text';
 import _ from 'lodash';
 import { useInstanceHealth } from '@/hooks/useInstanceHealth';
 import { IndexList } from '@/components/IndexList';
+import { TitleWithUnderline } from '@/components/title';
+import { Tooltip } from '@arco-design/web-react';
+import { InsFormModal } from '@/components/instanceFormModal';
 
 function InsDash() {
   const { t } = useTranslation('instance');
@@ -42,10 +45,14 @@ function InsDash() {
   return (
     <main className="flex-1 grid grid-cols-4 overflow-scroll max-h-fit">
       <div className="p-4 laptop:col-start-2 laptop:col-end-4 col-start-1 col-end-5 flex flex-col gap-4">
-        <Typography.Title
-          heading={1}
-          className="text-bold"
-        >{`#${currentInstance.id} ${currentInstance.name}`}</Typography.Title>
+        <div flex flex-row gap-4 items-baseline>
+          <TitleWithUnderline>{`#${currentInstance.id} ${currentInstance.name}`}</TitleWithUnderline>
+          <InsFormModal ins={currentInstance} type="edit">
+            <Tooltip content={t('edit')} position="right" mini>
+              <div className="i-lucide:edit w-1em h-1em cursor-pointer"></div>
+            </Tooltip>
+          </InsFormModal>
+        </div>
         <Descriptions className="" align="left" data={insDescriptionsData} />
         <IndexList client={client} />
       </div>

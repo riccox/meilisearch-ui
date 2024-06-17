@@ -36,5 +36,28 @@
     "label": "Delete This Index"
   },
   "no_master_key_error": "Meilisearch is running without a master key.\nTo access this API endpoint, you must have set a master key at launch.",
-  "not_found": "Instance not found"
+  "not_found": "Instance not found",
+  "updated_at": "Updated at",
+  "form": {
+    "title": {
+      "create": "Add a new instance",
+      "edit": "Edit instance"
+    },
+    "name": {
+      "label": "Name",
+      "placeholder": "name your instance, should be different from others"
+    },
+    "host": {
+      "label": "Host",
+      "tip": "Remember enable CORS in your instance server for this ui domain first"
+    },
+    "api_key": {
+      "label": "Api Key",
+      "tip": "Don't care! Your instance config will only be store in your local browser"
+    }
+  },
+  "remove": {
+    "title": "Remove this instance",
+    "tip": "Are you sure you want to remove this instance"
+  }
 }

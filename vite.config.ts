@@ -5,8 +5,8 @@ import react from '@vitejs/plugin-react-swc';
 import { TanStackRouterVite } from '@tanstack/router-vite-plugin';
 import tsconfigPaths from 'vite-tsconfig-paths';
 import SemiPlugin from './src/lib/semi';
+import UnoCSS from 'unocss/vite';
 
-// https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
   console.debug('print current base path', env.BASE_PATH);
@@ -15,6 +15,7 @@ export default defineConfig(({ mode }) => {
     plugins: [
       tsconfigPaths({ root: './' }),
       react(),
+      UnoCSS(),
       TanStackRouterVite(),
       SemiPlugin({
         theme: '@semi-bot/semi-theme-meilisearch',
