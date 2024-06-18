@@ -17,7 +17,12 @@ import { Route as WarningImport } from './routes/warning'
 import { Route as IndexImport } from './routes/index'
 import { Route as InsInsIDLayoutImport } from './routes/ins/$insID/_layout'
 import { Route as InsInsIDLayoutIndexImport } from './routes/ins/$insID/_layout/index'
+import { Route as InsInsIDLayoutTasksImport } from './routes/ins/$insID/_layout/tasks'
+import { Route as InsInsIDLayoutKeysImport } from './routes/ins/$insID/_layout/keys'
 import { Route as InsInsIDLayoutIndexIndexUIDIndexImport } from './routes/ins/$insID/_layout/index/$indexUID/index'
+import { Route as InsInsIDLayoutIndexIndexUIDSettingImport } from './routes/ins/$insID/_layout/index/$indexUID/setting'
+import { Route as InsInsIDLayoutIndexIndexUIDFieldDistributionImport } from './routes/ins/$insID/_layout/index/$indexUID/fieldDistribution'
+import { Route as InsInsIDLayoutIndexIndexUIDDocumentsImport } from './routes/ins/$insID/_layout/index/$indexUID/documents'
 
 // Create Virtual Routes
 
@@ -50,9 +55,37 @@ const InsInsIDLayoutIndexRoute = InsInsIDLayoutIndexImport.update({
   getParentRoute: () => InsInsIDLayoutRoute,
 } as any)
 
+const InsInsIDLayoutTasksRoute = InsInsIDLayoutTasksImport.update({
+  path: '/tasks',
+  getParentRoute: () => InsInsIDLayoutRoute,
+} as any)
+
+const InsInsIDLayoutKeysRoute = InsInsIDLayoutKeysImport.update({
+  path: '/keys',
+  getParentRoute: () => InsInsIDLayoutRoute,
+} as any)
+
 const InsInsIDLayoutIndexIndexUIDIndexRoute =
   InsInsIDLayoutIndexIndexUIDIndexImport.update({
     path: '/index/$indexUID/',
+    getParentRoute: () => InsInsIDLayoutRoute,
+  } as any)
+
+const InsInsIDLayoutIndexIndexUIDSettingRoute =
+  InsInsIDLayoutIndexIndexUIDSettingImport.update({
+    path: '/index/$indexUID/setting',
+    getParentRoute: () => InsInsIDLayoutRoute,
+  } as any)
+
+const InsInsIDLayoutIndexIndexUIDFieldDistributionRoute =
+  InsInsIDLayoutIndexIndexUIDFieldDistributionImport.update({
+    path: '/index/$indexUID/fieldDistribution',
+    getParentRoute: () => InsInsIDLayoutRoute,
+  } as any)
+
+const InsInsIDLayoutIndexIndexUIDDocumentsRoute =
+  InsInsIDLayoutIndexIndexUIDDocumentsImport.update({
+    path: '/index/$indexUID/documents',
     getParentRoute: () => InsInsIDLayoutRoute,
   } as any)
 
@@ -88,11 +121,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof InsInsIDLayoutImport
       parentRoute: typeof InsInsIDRoute
     }
+    '/ins/$insID/_layout/keys': {
+      id: '/ins/$insID/_layout/keys'
+      path: '/keys'
+      fullPath: '/ins/$insID/keys'
+      preLoaderRoute: typeof InsInsIDLayoutKeysImport
+      parentRoute: typeof InsInsIDLayoutImport
+    }
+    '/ins/$insID/_layout/tasks': {
+      id: '/ins/$insID/_layout/tasks'
+      path: '/tasks'
+      fullPath: '/ins/$insID/tasks'
+      preLoaderRoute: typeof InsInsIDLayoutTasksImport
+      parentRoute: typeof InsInsIDLayoutImport
+    }
     '/ins/$insID/_layout/': {
       id: '/ins/$insID/_layout/'
       path: '/'
       fullPath: '/ins/$insID/'
       preLoaderRoute: typeof InsInsIDLayoutIndexImport
+      parentRoute: typeof InsInsIDLayoutImport
+    }
+    '/ins/$insID/_layout/index/$indexUID/documents': {
+      id: '/ins/$insID/_layout/index/$indexUID/documents'
+      path: '/index/$indexUID/documents'
+      fullPath: '/ins/$insID/index/$indexUID/documents'
+      preLoaderRoute: typeof InsInsIDLayoutIndexIndexUIDDocumentsImport
+      parentRoute: typeof InsInsIDLayoutImport
+    }
+    '/ins/$insID/_layout/index/$indexUID/fieldDistribution': {
+      id: '/ins/$insID/_layout/index/$indexUID/fieldDistribution'
+      path: '/index/$indexUID/fieldDistribution'
+      fullPath: '/ins/$insID/index/$indexUID/fieldDistribution'
+      preLoaderRoute: typeof InsInsIDLayoutIndexIndexUIDFieldDistributionImport
+      parentRoute: typeof InsInsIDLayoutImport
+    }
+    '/ins/$insID/_layout/index/$indexUID/setting': {
+      id: '/ins/$insID/_layout/index/$indexUID/setting'
+      path: '/index/$indexUID/setting'
+      fullPath: '/ins/$insID/index/$indexUID/setting'
+      preLoaderRoute: typeof InsInsIDLayoutIndexIndexUIDSettingImport
       parentRoute: typeof InsInsIDLayoutImport
     }
     '/ins/$insID/_layout/index/$indexUID/': {
@@ -112,7 +180,12 @@ export const routeTree = rootRoute.addChildren({
   WarningRoute,
   InsInsIDRoute: InsInsIDRoute.addChildren({
     InsInsIDLayoutRoute: InsInsIDLayoutRoute.addChildren({
+      InsInsIDLayoutKeysRoute,
+      InsInsIDLayoutTasksRoute,
       InsInsIDLayoutIndexRoute,
+      InsInsIDLayoutIndexIndexUIDDocumentsRoute,
+      InsInsIDLayoutIndexIndexUIDFieldDistributionRoute,
+      InsInsIDLayoutIndexIndexUIDSettingRoute,
       InsInsIDLayoutIndexIndexUIDIndexRoute,
     }),
   }),
@@ -147,12 +220,37 @@ export const routeTree = rootRoute.addChildren({
       "filePath": "ins/$insID/_layout.tsx",
       "parent": "/ins/$insID",
       "children": [
+        "/ins/$insID/_layout/keys",
+        "/ins/$insID/_layout/tasks",
         "/ins/$insID/_layout/",
+        "/ins/$insID/_layout/index/$indexUID/documents",
+        "/ins/$insID/_layout/index/$indexUID/fieldDistribution",
+        "/ins/$insID/_layout/index/$indexUID/setting",
         "/ins/$insID/_layout/index/$indexUID/"
       ]
     },
+    "/ins/$insID/_layout/keys": {
+      "filePath": "ins/$insID/_layout/keys.tsx",
+      "parent": "/ins/$insID/_layout"
+    },
+    "/ins/$insID/_layout/tasks": {
+      "filePath": "ins/$insID/_layout/tasks.tsx",
+      "parent": "/ins/$insID/_layout"
+    },
     "/ins/$insID/_layout/": {
       "filePath": "ins/$insID/_layout/index.tsx",
+      "parent": "/ins/$insID/_layout"
+    },
+    "/ins/$insID/_layout/index/$indexUID/documents": {
+      "filePath": "ins/$insID/_layout/index/$indexUID/documents.tsx",
+      "parent": "/ins/$insID/_layout"
+    },
+    "/ins/$insID/_layout/index/$indexUID/fieldDistribution": {
+      "filePath": "ins/$insID/_layout/index/$indexUID/fieldDistribution.tsx",
+      "parent": "/ins/$insID/_layout"
+    },
+    "/ins/$insID/_layout/index/$indexUID/setting": {
+      "filePath": "ins/$insID/_layout/index/$indexUID/setting.tsx",
       "parent": "/ins/$insID/_layout"
     },
     "/ins/$insID/_layout/index/$indexUID/": {
