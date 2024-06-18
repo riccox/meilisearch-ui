@@ -82,7 +82,7 @@ export const InsFormModal: FC<Props> = ({ className = '', children, type = 'crea
       <Drawer.Trigger data-state={visible ? 'open' : 'closed'}>{children}</Drawer.Trigger>
       <Drawer.Portal>
         <Drawer.Overlay className="fixed inset-0 bg-black/40" />
-        <Drawer.Content className={cn(className, 'bg-zinc-100 rounded-t-6 mt-24 fixed bottom-0 left-0 right-0')}>
+        <Drawer.Content className={cn(className, 'bg-zinc-100 rounded-t-6 mt-24 fixed bottom-0 left-0 right-0 z-10')}>
           <form
             className={`flex flex-col gap-y-6 w-full p-4 bg-white flex-1 rounded-t-6`}
             onSubmit={form.handleSubmit(onSubmitInstance)}

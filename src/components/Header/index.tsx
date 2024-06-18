@@ -154,7 +154,7 @@ export const Header: FC<Props> = ({ client, className }) => {
           {t('status.label')}: {health ? t('status.available') : t('unknown')}
         </span>
 
-        <LangSelector className="font-medium" />
+        <LangSelector className="font-semibold" />
 
         <HoverCard withinPortal shadow="lg" radius={'lg'} transitionProps={{ transition: 'fade' }}>
           <HoverCard.Target>
