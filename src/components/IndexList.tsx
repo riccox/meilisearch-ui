@@ -2,7 +2,7 @@
 import { useCurrentInstance } from '@/hooks/useCurrentInstance';
 import { useInstanceStats } from '@/hooks/useInstanceStats';
 import { Pagination, Tag, Tooltip } from '@douyinfe/semi-ui';
-import { Card, CardBody } from '@nextui-org/react';
+import { Card, CardBody, CardHeader } from '@nextui-org/react';
 import { IconAlertTriangle } from '@tabler/icons-react';
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { Link } from '@tanstack/react-router';
@@ -70,7 +70,7 @@ export const IndexList: FC<Props> = ({ className = '', client }) => {
           <div className="text-2xl font-bold">{t('common:indexes')}</div>
           <CreateIndexButton afterMutation={() => query.refetch()} />
         </div>
-        <div className="grid grid-cols-6 gap-6 place-content-start place-items-start p-6">
+        <div className="grid grid-cols-6 gap-5 place-content-start place-items-start py-3">
           {listData?.map((item) => {
             return (
               <Card
@@ -79,10 +79,14 @@ export const IndexList: FC<Props> = ({ className = '', client }) => {
                 to={item.href}
                 fullWidth
                 shadow="sm"
-                className="col-span-3 laptop:col-span-2 hover:no-underline h-fit hover:outline-primary-400/80 hover:outline outline-2"
+                className=" group col-span-3 laptop:col-span-2 hover:no-underline h-fit hover:outline-primary-400/80 outline outline-2 outline-transparent"
               >
+                <CardHeader>
+                  <div className="text-xl px-1 group-hover:underline underline-primary underline-offset-3">
+                    {item.uid}
+                  </div>
+                </CardHeader>
                 <CardBody className="space-y-2">
-                  <h1 className="text-large">{item.uid}</h1>
                   <div className="flex">
                     <Tag size="small" color="cyan" className={`mr-auto`}>
                       {t('count')}: {item.numberOfDocuments ?? 0}

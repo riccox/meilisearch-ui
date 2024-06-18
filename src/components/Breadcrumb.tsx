@@ -7,7 +7,19 @@ export const DashBreadcrumb = () => {
   const { t } = useTranslation();
 
   const insRoute = matchRoute({ to: '/ins/$insID', fuzzy: true }) as unknown as { insID: string };
+  const insKeysRoute = matchRoute({ to: '/ins/$insID/keys', fuzzy: true }) as unknown as { insID: string };
+  const insTasksRoute = matchRoute({ to: '/ins/$insID/tasks', fuzzy: true }) as unknown as { insID: string };
   const indexRoute = matchRoute({ to: '/ins/$insID/index/$indexUID', fuzzy: true }) as unknown as { indexUID: string };
+  const indexDocsRoute = matchRoute({ to: '/ins/$insID/index/$indexUID/documents', fuzzy: true }) as unknown as {
+    indexUID: string;
+  };
+  const indexSettingRoute = matchRoute({ to: '/ins/$insID/index/$indexUID/setting', fuzzy: true }) as unknown as {
+    indexUID: string;
+  };
+  const fieldDistributionRoute = matchRoute({
+    to: '/ins/$insID/index/$indexUID/fieldDistribution',
+    fuzzy: true,
+  }) as unknown as { indexUID: string };
 
   return (
     <Breadcrumbs color="primary" variant="light">
@@ -15,10 +27,27 @@ export const DashBreadcrumb = () => {
       {insRoute && (
         <BreadcrumbItem href={`/ins/${insRoute.insID}`}>{`${t('common:instance')} #${insRoute.insID}`}</BreadcrumbItem>
       )}
+      {insKeysRoute && <BreadcrumbItem href={`/ins/${insRoute.insID}/keys`}>{`${t('common:keys')}`}</BreadcrumbItem>}
+      {insTasksRoute && <BreadcrumbItem href={`/ins/${insRoute.insID}/tasks`}>{`${t('common:tasks')}`}</BreadcrumbItem>}
       {indexRoute && (
         <BreadcrumbItem
           href={`/ins/${insRoute.insID}/index/${indexRoute.indexUID}`}
         >{`${t('common:indexes')}: ${indexRoute.indexUID}`}</BreadcrumbItem>
+      )}
+      {indexDocsRoute && (
+        <BreadcrumbItem
+          href={`/ins/${insRoute.insID}/index/${indexRoute.indexUID}/documents`}
+        >{`${t('documents')}`}</BreadcrumbItem>
+      )}
+      {indexSettingRoute && (
+        <BreadcrumbItem
+          href={`/ins/${insRoute.insID}/index/${indexRoute.indexUID}/setting`}
+        >{`${t('settings')}`}</BreadcrumbItem>
+      )}
+      {fieldDistributionRoute && (
+        <BreadcrumbItem
+          href={`/ins/${insRoute.insID}/index/${indexRoute.indexUID}/fieldDistribution`}
+        >{`${t('index:fieldDistribution.label')}`}</BreadcrumbItem>
       )}
     </Breadcrumbs>
   );

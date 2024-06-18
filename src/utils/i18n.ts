@@ -54,3 +54,12 @@ i18n
   });
 
 export default i18n;
+
+export const lang2Locale = (lang: SUPPORTED_LANGUAGE): string => {
+  switch (lang) {
+    case 'en':
+      return '🇺🇸';
+    case 'zh':
+      return '🇨🇳';
+  }
+};
