@@ -5,6 +5,10 @@
     "actions": "Actions"
   },
   "form": {
+    "title": {
+      "create": "Create Key",
+      "edit": "Update Key"
+    },
     "name": {
       "placeholder": "name your key"
     },

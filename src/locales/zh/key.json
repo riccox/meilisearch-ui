@@ -5,6 +5,10 @@
     "actions": "行为"
   },
   "form": {
+    "title": {
+      "create": "新增密钥",
+      "edit": "更新密钥"
+    },
     "name": {
       "placeholder": "命名你的密钥"
     },
