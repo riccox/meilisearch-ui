@@ -31,6 +31,8 @@
   "updated_at": "更新于",
   "expired_at": "过期于",
   "learn_more": "更多",
+  "type": "类型",
+  "status": "状态",
   "toast": {
     "fail": "失败, {{msg}}"
   }

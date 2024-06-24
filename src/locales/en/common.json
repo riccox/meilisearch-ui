@@ -31,6 +31,8 @@
   "updated_at": "Updated At",
   "expired_at": "Expired At",
   "learn_more": "Learn more",
+  "type": "Type",
+  "status": "Status",
   "toast": {
     "fail": "Fail, {{msg}}"
   }

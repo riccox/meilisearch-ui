@@ -268,7 +268,7 @@ export const KeyForm: FC<Props> = ({ className = '', type = 'create', data, afte
         />
       </Tooltip>
       <Button type="submit" variant="solid" size="sm" color="primary" disabled={isSubmitLoading}>
-        {t('create.submit')}
+        {t(`common:submit`)}
       </Button>
       <Footer />
     </form>
