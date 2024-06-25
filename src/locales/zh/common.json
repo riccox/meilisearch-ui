@@ -33,6 +33,7 @@
   "learn_more": "更多",
   "type": "类型",
   "status": "状态",
+  "dashboard": "仪表盘",
   "toast": {
     "fail": "失败, {{msg}}"
   }

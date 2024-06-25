@@ -33,6 +33,7 @@
   "learn_more": "Learn more",
   "type": "Type",
   "status": "Status",
+  "dashboard": "Dashboard",
   "toast": {
     "fail": "Fail, {{msg}}"
   }
