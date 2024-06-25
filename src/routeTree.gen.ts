@@ -19,14 +19,17 @@ import { Route as InsInsIDLayoutImport } from './routes/ins/$insID/_layout'
 import { Route as InsInsIDLayoutIndexImport } from './routes/ins/$insID/_layout/index'
 import { Route as InsInsIDLayoutTasksImport } from './routes/ins/$insID/_layout/tasks'
 import { Route as InsInsIDLayoutKeysImport } from './routes/ins/$insID/_layout/keys'
-import { Route as InsInsIDLayoutIndexIndexUIDIndexImport } from './routes/ins/$insID/_layout/index/$indexUID/index'
-import { Route as InsInsIDLayoutIndexIndexUIDSettingImport } from './routes/ins/$insID/_layout/index/$indexUID/setting'
-import { Route as InsInsIDLayoutIndexIndexUIDFieldDistributionImport } from './routes/ins/$insID/_layout/index/$indexUID/fieldDistribution'
-import { Route as InsInsIDLayoutIndexIndexUIDDocumentsImport } from './routes/ins/$insID/_layout/index/$indexUID/documents'
+import { Route as InsInsIDLayoutIndexIndexUIDLayoutImport } from './routes/ins/$insID/_layout/index/$indexUID/_layout'
+import { Route as InsInsIDLayoutIndexIndexUIDLayoutIndexImport } from './routes/ins/$insID/_layout/index/$indexUID/_layout/index'
+import { Route as InsInsIDLayoutIndexIndexUIDLayoutSettingImport } from './routes/ins/$insID/_layout/index/$indexUID/_layout/setting'
+import { Route as InsInsIDLayoutIndexIndexUIDLayoutDocumentsImport } from './routes/ins/$insID/_layout/index/$indexUID/_layout/documents'
 
 // Create Virtual Routes
 
 const InsInsIDImport = createFileRoute('/ins/$insID')()
+const InsInsIDLayoutIndexIndexUIDImport = createFileRoute(
+  '/ins/$insID/_layout/index/$indexUID',
+)()
 
 // Create/Update Routes
 
@@ -65,28 +68,34 @@ const InsInsIDLayoutKeysRoute = InsInsIDLayoutKeysImport.update({
   getParentRoute: () => InsInsIDLayoutRoute,
 } as any)
 
-const InsInsIDLayoutIndexIndexUIDIndexRoute =
-  InsInsIDLayoutIndexIndexUIDIndexImport.update({
-    path: '/index/$indexUID/',
+const InsInsIDLayoutIndexIndexUIDRoute =
+  InsInsIDLayoutIndexIndexUIDImport.update({
+    path: '/index/$indexUID',
     getParentRoute: () => InsInsIDLayoutRoute,
   } as any)
 
-const InsInsIDLayoutIndexIndexUIDSettingRoute =
-  InsInsIDLayoutIndexIndexUIDSettingImport.update({
-    path: '/index/$indexUID/setting',
-    getParentRoute: () => InsInsIDLayoutRoute,
+const InsInsIDLayoutIndexIndexUIDLayoutRoute =
+  InsInsIDLayoutIndexIndexUIDLayoutImport.update({
+    id: '/_layout',
+    getParentRoute: () => InsInsIDLayoutIndexIndexUIDRoute,
   } as any)
 
-const InsInsIDLayoutIndexIndexUIDFieldDistributionRoute =
-  InsInsIDLayoutIndexIndexUIDFieldDistributionImport.update({
-    path: '/index/$indexUID/fieldDistribution',
-    getParentRoute: () => InsInsIDLayoutRoute,
+const InsInsIDLayoutIndexIndexUIDLayoutIndexRoute =
+  InsInsIDLayoutIndexIndexUIDLayoutIndexImport.update({
+    path: '/',
+    getParentRoute: () => InsInsIDLayoutIndexIndexUIDLayoutRoute,
   } as any)
 
-const InsInsIDLayoutIndexIndexUIDDocumentsRoute =
-  InsInsIDLayoutIndexIndexUIDDocumentsImport.update({
-    path: '/index/$indexUID/documents',
-    getParentRoute: () => InsInsIDLayoutRoute,
+const InsInsIDLayoutIndexIndexUIDLayoutSettingRoute =
+  InsInsIDLayoutIndexIndexUIDLayoutSettingImport.update({
+    path: '/setting',
+    getParentRoute: () => InsInsIDLayoutIndexIndexUIDLayoutRoute,
+  } as any)
+
+const InsInsIDLayoutIndexIndexUIDLayoutDocumentsRoute =
+  InsInsIDLayoutIndexIndexUIDLayoutDocumentsImport.update({
+    path: '/documents',
+    getParentRoute: () => InsInsIDLayoutIndexIndexUIDLayoutRoute,
   } as any)
 
 // Populate the FileRoutesByPath interface
@@ -142,33 +151,40 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof InsInsIDLayoutIndexImport
       parentRoute: typeof InsInsIDLayoutImport
     }
-    '/ins/$insID/_layout/index/$indexUID/documents': {
-      id: '/ins/$insID/_layout/index/$indexUID/documents'
-      path: '/index/$indexUID/documents'
-      fullPath: '/ins/$insID/index/$indexUID/documents'
-      preLoaderRoute: typeof InsInsIDLayoutIndexIndexUIDDocumentsImport
-      parentRoute: typeof InsInsIDLayoutImport
-    }
-    '/ins/$insID/_layout/index/$indexUID/fieldDistribution': {
-      id: '/ins/$insID/_layout/index/$indexUID/fieldDistribution'
-      path: '/index/$indexUID/fieldDistribution'
-      fullPath: '/ins/$insID/index/$indexUID/fieldDistribution'
-      preLoaderRoute: typeof InsInsIDLayoutIndexIndexUIDFieldDistributionImport
-      parentRoute: typeof InsInsIDLayoutImport
-    }
-    '/ins/$insID/_layout/index/$indexUID/setting': {
-      id: '/ins/$insID/_layout/index/$indexUID/setting'
-      path: '/index/$indexUID/setting'
-      fullPath: '/ins/$insID/index/$indexUID/setting'
-      preLoaderRoute: typeof InsInsIDLayoutIndexIndexUIDSettingImport
-      parentRoute: typeof InsInsIDLayoutImport
-    }
-    '/ins/$insID/_layout/index/$indexUID/': {
-      id: '/ins/$insID/_layout/index/$indexUID/'
+    '/ins/$insID/_layout/index/$indexUID': {
+      id: '/ins/$insID/_layout/index/$indexUID'
       path: '/index/$indexUID'
       fullPath: '/ins/$insID/index/$indexUID'
-      preLoaderRoute: typeof InsInsIDLayoutIndexIndexUIDIndexImport
+      preLoaderRoute: typeof InsInsIDLayoutIndexIndexUIDImport
       parentRoute: typeof InsInsIDLayoutImport
+    }
+    '/ins/$insID/_layout/index/$indexUID/_layout': {
+      id: '/ins/$insID/_layout/index/$indexUID/_layout'
+      path: '/index/$indexUID'
+      fullPath: '/ins/$insID/index/$indexUID'
+      preLoaderRoute: typeof InsInsIDLayoutIndexIndexUIDLayoutImport
+      parentRoute: typeof InsInsIDLayoutIndexIndexUIDRoute
+    }
+    '/ins/$insID/_layout/index/$indexUID/_layout/documents': {
+      id: '/ins/$insID/_layout/index/$indexUID/_layout/documents'
+      path: '/documents'
+      fullPath: '/ins/$insID/index/$indexUID/documents'
+      preLoaderRoute: typeof InsInsIDLayoutIndexIndexUIDLayoutDocumentsImport
+      parentRoute: typeof InsInsIDLayoutIndexIndexUIDLayoutImport
+    }
+    '/ins/$insID/_layout/index/$indexUID/_layout/setting': {
+      id: '/ins/$insID/_layout/index/$indexUID/_layout/setting'
+      path: '/setting'
+      fullPath: '/ins/$insID/index/$indexUID/setting'
+      preLoaderRoute: typeof InsInsIDLayoutIndexIndexUIDLayoutSettingImport
+      parentRoute: typeof InsInsIDLayoutIndexIndexUIDLayoutImport
+    }
+    '/ins/$insID/_layout/index/$indexUID/_layout/': {
+      id: '/ins/$insID/_layout/index/$indexUID/_layout/'
+      path: '/'
+      fullPath: '/ins/$insID/index/$indexUID/'
+      preLoaderRoute: typeof InsInsIDLayoutIndexIndexUIDLayoutIndexImport
+      parentRoute: typeof InsInsIDLayoutIndexIndexUIDLayoutImport
     }
   }
 }
@@ -183,10 +199,15 @@ export const routeTree = rootRoute.addChildren({
       InsInsIDLayoutKeysRoute,
       InsInsIDLayoutTasksRoute,
       InsInsIDLayoutIndexRoute,
-      InsInsIDLayoutIndexIndexUIDDocumentsRoute,
-      InsInsIDLayoutIndexIndexUIDFieldDistributionRoute,
-      InsInsIDLayoutIndexIndexUIDSettingRoute,
-      InsInsIDLayoutIndexIndexUIDIndexRoute,
+      InsInsIDLayoutIndexIndexUIDRoute:
+        InsInsIDLayoutIndexIndexUIDRoute.addChildren({
+          InsInsIDLayoutIndexIndexUIDLayoutRoute:
+            InsInsIDLayoutIndexIndexUIDLayoutRoute.addChildren({
+              InsInsIDLayoutIndexIndexUIDLayoutDocumentsRoute,
+              InsInsIDLayoutIndexIndexUIDLayoutSettingRoute,
+              InsInsIDLayoutIndexIndexUIDLayoutIndexRoute,
+            }),
+        }),
     }),
   }),
 })
@@ -223,10 +244,7 @@ export const routeTree = rootRoute.addChildren({
         "/ins/$insID/_layout/keys",
         "/ins/$insID/_layout/tasks",
         "/ins/$insID/_layout/",
-        "/ins/$insID/_layout/index/$indexUID/documents",
-        "/ins/$insID/_layout/index/$indexUID/fieldDistribution",
-        "/ins/$insID/_layout/index/$indexUID/setting",
-        "/ins/$insID/_layout/index/$indexUID/"
+        "/ins/$insID/_layout/index/$indexUID"
       ]
     },
     "/ins/$insID/_layout/keys": {
@@ -241,21 +259,33 @@ export const routeTree = rootRoute.addChildren({
       "filePath": "ins/$insID/_layout/index.tsx",
       "parent": "/ins/$insID/_layout"
     },
-    "/ins/$insID/_layout/index/$indexUID/documents": {
-      "filePath": "ins/$insID/_layout/index/$indexUID/documents.tsx",
-      "parent": "/ins/$insID/_layout"
+    "/ins/$insID/_layout/index/$indexUID": {
+      "filePath": "ins/$insID/_layout/index/$indexUID",
+      "parent": "/ins/$insID/_layout",
+      "children": [
+        "/ins/$insID/_layout/index/$indexUID/_layout"
+      ]
     },
-    "/ins/$insID/_layout/index/$indexUID/fieldDistribution": {
-      "filePath": "ins/$insID/_layout/index/$indexUID/fieldDistribution.tsx",
-      "parent": "/ins/$insID/_layout"
+    "/ins/$insID/_layout/index/$indexUID/_layout": {
+      "filePath": "ins/$insID/_layout/index/$indexUID/_layout.tsx",
+      "parent": "/ins/$insID/_layout/index/$indexUID",
+      "children": [
+        "/ins/$insID/_layout/index/$indexUID/_layout/documents",
+        "/ins/$insID/_layout/index/$indexUID/_layout/setting",
+        "/ins/$insID/_layout/index/$indexUID/_layout/"
+      ]
     },
-    "/ins/$insID/_layout/index/$indexUID/setting": {
-      "filePath": "ins/$insID/_layout/index/$indexUID/setting.tsx",
-      "parent": "/ins/$insID/_layout"
+    "/ins/$insID/_layout/index/$indexUID/_layout/documents": {
+      "filePath": "ins/$insID/_layout/index/$indexUID/_layout/documents.tsx",
+      "parent": "/ins/$insID/_layout/index/$indexUID/_layout"
     },
-    "/ins/$insID/_layout/index/$indexUID/": {
-      "filePath": "ins/$insID/_layout/index/$indexUID/index.tsx",
-      "parent": "/ins/$insID/_layout"
+    "/ins/$insID/_layout/index/$indexUID/_layout/setting": {
+      "filePath": "ins/$insID/_layout/index/$indexUID/_layout/setting.tsx",
+      "parent": "/ins/$insID/_layout/index/$indexUID/_layout"
+    },
+    "/ins/$insID/_layout/index/$indexUID/_layout/": {
+      "filePath": "ins/$insID/_layout/index/$indexUID/_layout/index.tsx",
+      "parent": "/ins/$insID/_layout/index/$indexUID/_layout"
     }
   }
 }
