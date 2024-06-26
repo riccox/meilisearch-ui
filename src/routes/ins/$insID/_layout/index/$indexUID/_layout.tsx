@@ -1,7 +1,5 @@
 import { Link, Outlet, createFileRoute } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
-import { Statistic } from '@arco-design/web-react';
-import { Descriptions, Tag } from '@douyinfe/semi-ui';
 import { useMeiliClient } from '@/hooks/useMeiliClient';
 import { ReactNode, Suspense, useMemo } from 'react';
 import { Copyable } from '@/components/Copyable';
@@ -10,7 +8,8 @@ import { useCurrentIndex } from '@/hooks/useCurrentIndex';
 import { Loader } from '@/components/Loader';
 import { TitleWithUnderline } from '@/components/title';
 import { useInstanceStats } from '@/hooks/useInstanceStats';
-import { Button, Tooltip } from '@nextui-org/react';
+import { Button } from '@nextui-org/react';
+import { IndexPrimaryKey } from '@/components/indexPrimaryKey';
 
 const InfoRow = ({ value, label }: { label: string; value: ReactNode }) => {
   return (
@@ -40,7 +39,16 @@ function IndexDash() {
             <InfoRow label="UID" value={<Copyable>{currentIndex.index?.uid || ''}</Copyable>} />
             <InfoRow label={t('common:updated_at')} value={getTimeText(currentIndex.index?.updatedAt)} />
             {currentIndex.index && (
-              <InfoRow label={t('primaryKey')} value={<Copyable>{currentIndex.index.primaryKey as string}</Copyable>} />
+              <InfoRow
+                label={t('primaryKey')}
+                value={
+                  <IndexPrimaryKey
+                    afterMutation={() => {
+                      window.location.reload();
+                    }}
+                  />
+                }
+              />
             )}
             <div flex flex-col gap-3 items-stretch>
               <Link to="" from="/ins/$insID/index/$indexUID">
