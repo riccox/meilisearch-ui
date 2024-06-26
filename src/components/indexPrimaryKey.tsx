@@ -6,22 +6,20 @@ import { showTaskSubmitNotification } from '@/utils/text';
 import { toast } from '@/utils/toast';
 import { useTranslation } from 'react-i18next';
 import { Input, Modal, Tooltip } from '@douyinfe/semi-ui';
-import { Button } from '@nextui-org/react';
+import { Copyable } from './Copyable';
+import { useCurrentIndex } from '@/hooks/useCurrentIndex';
 
 type Props = {
   afterMutation: () => void;
 };
 
-export const CreateIndexButton = ({ afterMutation }: Props) => {
-  const { t } = useTranslation('instance');
+export const IndexPrimaryKey = ({ afterMutation }: Props) => {
+  const { t } = useTranslation('index');
   const client = useMeiliClient();
+  const currentIndex = useCurrentIndex(client);
   const form = useForm({
     initialValues: {
-      uid: '',
-      primaryKey: undefined,
-    },
-    validate: {
-      uid: (value: string) => (/[\da-zA-Z-_]+/.test(value) ? null : t('create_index.form.uid.validation_error')),
+      primaryKey: currentIndex.index.primaryKey,
     },
   });
 
@@ -35,11 +33,11 @@ export const CreateIndexButton = ({ afterMutation }: Props) => {
     form.reset();
   };
 
-  const onCreateSubmit = useCallback(
+  const onSubmit = useCallback(
     async (values: typeof form.values) => {
       let task;
       try {
-        task = await client.createIndex(values.uid, { primaryKey: values.primaryKey });
+        task = await currentIndex.index.update({ primaryKey: values.primaryKey });
         console.info(task);
         if (!_.isEmpty(task)) {
           showTaskSubmitNotification(task);
@@ -55,47 +53,34 @@ export const CreateIndexButton = ({ afterMutation }: Props) => {
 
   return (
     <>
-      <Button
-        size="sm"
-        color="primary"
-        onClick={() => {
-          showDialog();
-        }}
-      >
-        {t('common:create')}
-      </Button>
+      <div flex gap-1 items-center>
+        <Copyable>{currentIndex.index.primaryKey as string}</Copyable>
+        <div
+          className="i-lucide:edit w-1em h-1em cursor-pointer hover:scale-90 transition"
+          onClick={() => {
+            showDialog();
+          }}
+        ></div>
+      </div>
       <Modal
         centered
         footerFill
         visible={visible}
-        title={t('create_index.label')}
-        okText={t('create_index.label')}
+        title={t('update') + t('primaryKey')}
+        okText={t('submit')}
         cancelText={t('common:cancel')}
         afterClose={() => {
           closeDialog();
         }}
         onOk={async () => {
-          await onCreateSubmit(form.values);
+          await onSubmit(form.values);
           closeDialog();
         }}
         onCancel={closeDialog}
       >
         <form className={`pt-3 space-y-3`}>
-          <Tooltip position={'bottomLeft'} content={t('create_index.form.uid.tip')}>
-            <Input
-              autoFocus
-              addonBefore="UID"
-              placeholder={t('create_index.form.uid.placeholder')}
-              required
-              {...form.getInputProps('uid')}
-            />
-          </Tooltip>
           <Tooltip position={'bottomLeft'} content={t('create_index.form.primaryKey.tip')}>
-            <Input
-              addonBefore={t('create_index.form.primaryKey.label')}
-              placeholder={t('create_index.form.primaryKey.placeholder')}
-              {...form.getInputProps('primaryKey')}
-            />
+            <Input addonBefore={t('primaryKey')} {...form.getInputProps('primaryKey')} />
           </Tooltip>
         </form>
       </Modal>
