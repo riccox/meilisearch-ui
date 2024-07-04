@@ -7,6 +7,7 @@ import { FieldDistribution } from 'meilisearch';
 import { useTranslation } from 'react-i18next';
 import ReactECharts from 'echarts-for-react';
 import { Statistic } from '@arco-design/web-react';
+import { LoaderPage } from '@/components/loader';
 
 const Page = () => {
   const { t } = useTranslation('index');
@@ -89,4 +90,5 @@ const Page = () => {
 
 export const Route = createFileRoute('/ins/$insID/_layout/index/$indexUID/_layout/')({
   component: Page,
+  pendingComponent: LoaderPage,
 });

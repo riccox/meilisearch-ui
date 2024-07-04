@@ -1,3 +1,4 @@
+import { LoaderPage } from '@/components/loader';
 import { useCurrentInstance } from '@/hooks/useCurrentInstance';
 import { useMeiliClient } from '@/hooks/useMeiliClient';
 import { hiddenRequestLoader, showRequestLoader } from '@/utils/loader';
@@ -175,4 +176,5 @@ const Page = () => {
 
 export const Route = createFileRoute('/ins/$insID/_layout/tasks')({
   component: Page,
+  pendingComponent: LoaderPage,
 });

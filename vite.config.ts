@@ -30,6 +30,11 @@ export default defineConfig(({ mode }) => {
       host: true,
       port: 24900,
     },
+    css: {
+      modules: {
+        localsConvention: 'camelCaseOnly',
+      },
+    },
     build: {
       rollupOptions: {
         output: {
