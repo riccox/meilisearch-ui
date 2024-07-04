@@ -16,14 +16,10 @@ export const DashBreadcrumb = () => {
   const indexSettingRoute = matchRoute({ to: '/ins/$insID/index/$indexUID/setting', fuzzy: true }) as unknown as {
     indexUID: string;
   };
-  const fieldDistributionRoute = matchRoute({
-    to: '/ins/$insID/index/$indexUID/fieldDistribution',
-    fuzzy: true,
-  }) as unknown as { indexUID: string };
 
   return (
     <Breadcrumbs color="primary" variant="light">
-      <BreadcrumbItem href="/">🏠</BreadcrumbItem>
+      <BreadcrumbItem href={import.meta.env.BASE_URL ?? '/'}>🏠</BreadcrumbItem>
       {insRoute && (
         <BreadcrumbItem href={`/ins/${insRoute.insID}`}>{`${t('common:instance')} #${insRoute.insID}`}</BreadcrumbItem>
       )}
@@ -43,11 +39,6 @@ export const DashBreadcrumb = () => {
         <BreadcrumbItem
           href={`/ins/${insRoute.insID}/index/${indexRoute.indexUID}/setting`}
         >{`${t('settings')}`}</BreadcrumbItem>
-      )}
-      {fieldDistributionRoute && (
-        <BreadcrumbItem
-          href={`/ins/${insRoute.insID}/index/${indexRoute.indexUID}/fieldDistribution`}
-        >{`${t('index:fieldDistribution.label')}`}</BreadcrumbItem>
       )}
     </Breadcrumbs>
   );

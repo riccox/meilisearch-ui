@@ -13,7 +13,7 @@ export const useCurrentInstance = () => {
     toast.error(`${t('not_found')} 🤥`);
     console.debug('useCurrentInstance', 'Instance lost');
     // do not use useNavigate, because maybe in first render
-    window.location.assign(import.meta.env.BASE_URL);
+    window.location.assign(import.meta.env.BASE_URL ?? '/');
   }
 
   return currentInstance as Instance;

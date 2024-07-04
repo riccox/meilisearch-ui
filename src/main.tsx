@@ -12,6 +12,8 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { routeTree } from './routeTree.gen';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { NotFound } from './components/404';
+import { Loader } from './components/loader';
+import { Logo } from './components/Logo';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -34,6 +36,15 @@ const router = createRouter({
     queryClient,
   },
   defaultPreload: 'intent',
+  defaultPendingComponent: () => (
+    <div className="h-dvh flex justify-center items-center">
+      <div className="flex gap-6 items-center">
+        <Logo className=" shrink" />
+        <div className="my-2 min-h-10 w-0.5 bg-neutral-300"></div>
+        <Loader />
+      </div>
+    </div>
+  ),
   // Since we're using React Query, we don't want loader calls to ever be stale
   // This will ensure that the loader is always called when the route is preloaded or visited
   defaultPreloadStaleTime: 0,

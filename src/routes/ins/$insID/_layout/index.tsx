@@ -15,6 +15,7 @@ import { Tooltip } from '@arco-design/web-react';
 import { InsFormModal } from '@/components/instanceFormModal';
 import { Button } from '@nextui-org/react';
 import { DumpButton } from '@/components/dump';
+import { LoaderPage } from '@/components/loader';
 
 function InsDash() {
   const { t } = useTranslation('instance');
@@ -80,4 +81,5 @@ function InsDash() {
 
 export const Route = createFileRoute('/ins/$insID/_layout/')({
   component: InsDash,
+  pendingComponent: LoaderPage,
 });
