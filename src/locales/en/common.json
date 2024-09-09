@@ -1,6 +1,6 @@
 {
-  "empty": "Empty!",
-  "or": "OR",
+  "empty": "Empty",
+  "or": "or",
   "unknown": "Unknown",
   "uploading": "Uploading",
   "search": "Search",
@@ -30,11 +30,12 @@
   "created_at": "Created At",
   "updated_at": "Updated At",
   "expired_at": "Expired At",
-  "learn_more": "Learn more",
+  "learn_more": "Learn More",
   "type": "Type",
   "status": "Status",
   "dashboard": "Dashboard",
+  "version": "Version",
   "toast": {
-    "fail": "Fail, {{msg}}"
+    "fail": "Failed, {{msg}}"
   }
 }

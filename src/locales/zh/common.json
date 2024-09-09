@@ -34,6 +34,7 @@
   "type": "类型",
   "status": "状态",
   "dashboard": "仪表盘",
+  "version": "版本",
   "toast": {
     "fail": "失败, {{msg}}"
   }
