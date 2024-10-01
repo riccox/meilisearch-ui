@@ -25,7 +25,7 @@ const Page = () => {
             title={<div className="text-1rem text-black font-bold">{t('count')}</div>}
             value={stats?.indexes[currentIndex.index.uid].numberOfDocuments}
             countUp
-            loading={!stats?.indexes[currentIndex.index.uid].numberOfDocuments}
+            loading={!stats?.indexes[currentIndex.index.uid]}
             styleValue={{ color: 'green' }}
             groupSeparator
           />
