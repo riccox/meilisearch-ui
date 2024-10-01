@@ -151,7 +151,7 @@ const Page = () => {
                 centered: true,
                 footer: null,
                 content: (
-                  <Descriptions>
+                  <Descriptions className="pb-3">
                     <Descriptions.Item itemKey="UID">{record.uid}</Descriptions.Item>
                     <Descriptions.Item itemKey={t('description')}>{record.description}</Descriptions.Item>
                     <Descriptions.Item itemKey={t('created_at')}>{getTimeText(record.createdAt)}</Descriptions.Item>
