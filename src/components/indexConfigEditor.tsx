@@ -90,7 +90,12 @@ export const IndexConfigEditor: FC<{
     () => (
       <div className={cn(className, 'p-1')}>
         <div className={`flex items-center gap-4 w-full pb-2`}>
-          <p className={`text-xl font-medium mr-auto`}>JSON {t('setting.index.config.label')}</p>
+          <div className={`text-xl font-medium mr-auto flex items-center gap-2`}>
+            <p>JSON {t('setting.index.config.label')}</p>
+            <a href="https://www.meilisearch.com/docs/reference/api/settings" target={'_blank'} rel="noreferrer">
+              <div className="i-lucide:circle-help w-1em h-1em text-neutral-400"></div>
+            </a>
+          </div>
           {!isSettingsEditing && (
             <Button
               variant="flat"
