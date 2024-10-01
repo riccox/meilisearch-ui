@@ -9,6 +9,9 @@
       "create": "Create Key",
       "edit": "Update Key"
     },
+    "uid": {
+      "placeholder": "leave empty to generate a random uid by meilisearch"
+    },
     "name": {
       "placeholder": "name your key"
     },
