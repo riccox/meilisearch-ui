@@ -9,6 +9,9 @@
       "create": "新增密钥",
       "edit": "更新密钥"
     },
+    "uid": {
+      "placeholder": "留空以通过 Meilisearch 生成随机 uid"
+    },
     "name": {
       "placeholder": "命名你的密钥"
     },

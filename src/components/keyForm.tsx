@@ -1,5 +1,5 @@
 'use client';
-import { FC, ReactNode, useCallback, useState } from 'react';
+import { FC, useCallback, useState } from 'react';
 import { Footer } from './Footer';
 import { useTranslation } from 'react-i18next';
 import { Controller, useForm } from 'react-hook-form';
@@ -71,6 +71,24 @@ export const KeyForm: FC<Props> = ({ className = '', type = 'create', data, afte
 
       <Controller
         control={form.control}
+        name="uid"
+        rules={{
+          required: false,
+        }}
+        render={({ field }) => (
+          <label>
+            UID
+            <Input
+              disabled={formType === 'edit'}
+              placeholder={t('form.uid.placeholder')}
+              value={field.value}
+              onChange={(str) => field.onChange(str)}
+            />
+          </label>
+        )}
+      />
+      <Controller
+        control={form.control}
         name="name"
         rules={{
           required: true,
@@ -115,6 +133,7 @@ export const KeyForm: FC<Props> = ({ className = '', type = 'create', data, afte
             <label>
               {t('props.indexes')}
               <Select
+                disabled={formType === 'edit'}
                 className="w-full"
                 multiple
                 defaultValue={[]}
@@ -143,6 +162,7 @@ export const KeyForm: FC<Props> = ({ className = '', type = 'create', data, afte
             <label>
               {t('props.actions')}
               <Select
+                disabled={formType === 'edit'}
                 className="w-full"
                 multiple
                 defaultValue={[]}
@@ -252,6 +272,7 @@ export const KeyForm: FC<Props> = ({ className = '', type = 'create', data, afte
             <label>
               {t('expired_at')}
               <DatePicker
+                disabled={formType === 'edit'}
                 className="w-full"
                 position="top"
                 zIndex={5000}
