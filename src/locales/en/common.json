@@ -35,6 +35,7 @@
   "status": "Status",
   "dashboard": "Dashboard",
   "version": "Version",
+  "none": "None",
   "toast": {
     "fail": "Failed, {{msg}}"
   }

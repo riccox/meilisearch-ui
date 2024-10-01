@@ -54,7 +54,11 @@ export const IndexPrimaryKey = ({ afterMutation }: Props) => {
   return (
     <>
       <div flex gap-1 items-center>
-        <Copyable>{currentIndex.index.primaryKey as string}</Copyable>
+        {currentIndex.index.primaryKey ? (
+          <Copyable>{currentIndex.index.primaryKey as string}</Copyable>
+        ) : (
+          t('common:none')
+        )}
         <div
           className="i-lucide:edit w-1em h-1em cursor-pointer hover:scale-90 transition"
           onClick={() => {
