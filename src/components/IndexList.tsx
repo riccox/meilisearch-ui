@@ -79,12 +79,10 @@ export const IndexList: FC<Props> = ({ className = '', client }) => {
                 to={item.href}
                 fullWidth
                 shadow="sm"
-                className=" group col-span-3 laptop:col-span-2 hover:no-underline h-fit hover:outline-primary-400/80 outline outline-2 outline-transparent"
+                className="col-span-3 laptop:col-span-2 hover:no-underline h-fit hover:outline-primary-400/80 outline outline-2 outline-transparent"
               >
                 <CardHeader>
-                  <div className="text-xl px-1 group-hover:underline underline-primary underline-offset-3">
-                    {item.uid}
-                  </div>
+                  <div className="text-xl px-1">{item.uid}</div>
                 </CardHeader>
                 <CardBody className="space-y-2">
                   <div className="flex">

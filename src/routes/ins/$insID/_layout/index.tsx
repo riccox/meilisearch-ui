@@ -60,12 +60,12 @@ function InsDash() {
           <Descriptions className="flex-1" align="left" data={insDescriptionsData} />
           <div flex flex-col gap-3 items-start>
             <Link to="keys" from="/ins/$insID">
-              <Button color="warning" variant="light" size="sm">
+              <Button variant="light" size="sm">
                 <div className="i-lucide:key w-1em h-1em"></div> {t('keys')}
               </Button>
             </Link>
             <Link to="tasks" from="/ins/$insID">
-              <Button color="success" variant="light" size="sm">
+              <Button variant="light" size="sm">
                 <div className="i-lucide:workflow w-1em h-1em"></div>
                 {t('tasks')}
               </Button>
