@@ -1,6 +1,7 @@
 import { useMatchRoute } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
 import { Breadcrumbs, BreadcrumbItem } from '@nextui-org/react';
+import { useAppStore } from '@/store';
 
 export const DashBreadcrumb = () => {
   const matchRoute = useMatchRoute();
@@ -17,11 +18,15 @@ export const DashBreadcrumb = () => {
     indexUID: string;
   };
 
+  const currentInstance = useAppStore((state) => state.instances.find((i) => i.id === parseInt(insRoute.insID)));
+
   return (
     <Breadcrumbs color="primary" variant="light">
       <BreadcrumbItem href={import.meta.env.BASE_URL ?? '/'}>🏠</BreadcrumbItem>
       {insRoute && (
-        <BreadcrumbItem href={`/ins/${insRoute.insID}`}>{`${t('common:instance')} #${insRoute.insID}`}</BreadcrumbItem>
+        <BreadcrumbItem
+          href={`/ins/${insRoute.insID}`}
+        >{`#${insRoute.insID} ${t('common:instance')} ${currentInstance?.name}`}</BreadcrumbItem>
       )}
       {insKeysRoute && <BreadcrumbItem href={`/ins/${insRoute.insID}/keys`}>{`${t('common:keys')}`}</BreadcrumbItem>}
       {insTasksRoute && <BreadcrumbItem href={`/ins/${insRoute.insID}/tasks`}>{`${t('common:tasks')}`}</BreadcrumbItem>}
