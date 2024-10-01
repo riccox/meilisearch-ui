@@ -52,7 +52,7 @@
       "tip": "Remember enable CORS in your instance server for this ui domain first"
     },
     "api_key": {
-      "label": "Api Key",
+      "label": "API Key",
       "tip": "Don't care! Your instance config will only be store in your local browser"
     }
   },
