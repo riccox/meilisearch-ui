@@ -1,6 +1,6 @@
 'use client';
 import { FC } from 'react';
-import { SUPPORTED_LANGUAGE, SUPPORTED_LANGUAGE_LOCALIZED, lang2Locale } from '../utils/i18n';
+import { SUPPORTED_LANGUAGE, SUPPORTED_LANGUAGE_LOCALIZED } from '../utils/i18n';
 import _ from 'lodash';
 import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/cn';
@@ -23,7 +23,6 @@ export const LangSelector: FC<Props> = ({ className = '' }) => {
     >
       {_.entries(SUPPORTED_LANGUAGE_LOCALIZED).map(([k, v]) => (
         <option value={k} key={v}>
-          {lang2Locale(k as SUPPORTED_LANGUAGE)}
           {v}
         </option>
       ))}

@@ -55,11 +55,14 @@ i18n
 
 export default i18n;
 
-export const lang2Locale = (lang: SUPPORTED_LANGUAGE): string => {
+import zh_CN from '@douyinfe/semi-ui/lib/es/locale/source/zh_CN';
+import en_US from '@douyinfe/semi-ui/lib/es/locale/source/en_US';
+
+export const lang2SemiLocale = (lang?: SUPPORTED_LANGUAGE) => {
   switch (lang) {
-    case 'en':
-      return '🇺🇸';
     case 'zh':
-      return '🇨🇳';
+      return zh_CN;
+    default:
+      return en_US;
   }
 };
