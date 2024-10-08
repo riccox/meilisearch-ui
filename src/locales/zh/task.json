@@ -7,6 +7,12 @@
     "placeholder": "搜索任务"
   },
   "filter": {
+    "index": {
+      "placeholder": "过滤索引UID"
+    },
+    "enqueuedAt": {
+      "label": "入列时间"
+    },
     "type": {
       "placeholder": "过滤任务类型"
     },

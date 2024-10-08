@@ -3,7 +3,7 @@ import { useCurrentInstance } from '@/hooks/useCurrentInstance';
 import { useMeiliClient } from '@/hooks/useMeiliClient';
 import { hiddenRequestLoader, showRequestLoader } from '@/utils/loader';
 import { getTimeText } from '@/utils/text';
-import { Modal, Select, Table } from '@douyinfe/semi-ui';
+import { DatePicker, Modal, Select, Table, TagInput } from '@douyinfe/semi-ui';
 import { ColumnProps } from '@douyinfe/semi-ui/lib/es/table';
 import { Button } from '@nextui-org/react';
 import { useQuery } from '@tanstack/react-query';
@@ -143,6 +143,24 @@ const Page = () => {
     <div className="flex-1 overflow-scroll max-h-fit">
       <main className="p-4 flex flex-col gap-4">
         <div className={`flex justify-end items-center gap-4`}>
+          <TagInput
+            className="flex-1"
+            placeholder={t('filter.index.placeholder')}
+            onChange={(value) => {
+              updateState({ indexUids: value });
+            }}
+          />
+          <div className="flex items-center gap-2">
+            <label className="text-sm text-nowrap">{t('filter.enqueuedAt.label')}</label>
+            <DatePicker
+              type="dateTimeRange"
+              onChange={(value) => {
+                if (value) {
+                  updateState({ beforeEnqueuedAt: (value as Date[])[1], afterEnqueuedAt: (value as Date[])[1] });
+                }
+              }}
+            />
+          </div>
           <Select
             placeholder={t('filter.type.placeholder')}
             optionList={_.entries(t('type', { returnObjects: true }) as Record<string, string>).map(([k, v]) => ({
@@ -152,7 +170,6 @@ const Page = () => {
             multiple
             onChange={(value) => {
               updateState({ types: (value as TaskTypes[]) || undefined });
-              console.log(value);
             }}
           />
           <Select

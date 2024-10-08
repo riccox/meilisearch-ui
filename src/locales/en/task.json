@@ -7,6 +7,12 @@
     "placeholder": "Search tasks"
   },
   "filter": {
+    "index": {
+      "placeholder": "Filter Index UID"
+    },
+    "enqueuedAt": {
+      "label": "Enqueued At"
+    },
     "type": {
       "placeholder": "Filter Task Type"
     },
