@@ -36,7 +36,7 @@ export default defineConfig(({ mode }) => {
       SemiPlugin({
         theme: '@semi-bot/semi-theme-meilisearch',
       }),
-      gitHashPlugin(), // 添加我们的新插件
+      gitHashPlugin(),
     ],
     resolve: {
       alias: {

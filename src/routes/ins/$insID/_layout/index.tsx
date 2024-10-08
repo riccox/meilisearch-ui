@@ -16,6 +16,8 @@ import { InsFormModal } from '@/components/instanceFormModal';
 import { Button } from '@nextui-org/react';
 import { DumpButton } from '@/components/dump';
 import { LoaderPage } from '@/components/loader';
+import { isSingletonMode } from '@/utils/conn';
+import { Footer } from '@/components/Footer';
 
 function InsDash() {
   const { t } = useTranslation('instance');
@@ -46,16 +48,18 @@ function InsDash() {
   }, [currentInstance.host, currentInstance.updatedTime, isHealth, stats?.databaseSize, t]);
 
   return (
-    <div className="flex-1 grid grid-cols-4 overflow-scroll max-h-fit">
+    <div className="flex-1 grid grid-cols-4 overflow-scroll">
       <main className="p-4 laptop:col-start-2 laptop:col-end-4 col-start-1 col-end-5 flex flex-col gap-4">
-        <div flex flex-row gap-4 items-baseline>
-          <TitleWithUnderline>{`#${currentInstance.id} ${currentInstance.name}`}</TitleWithUnderline>
-          <InsFormModal ins={currentInstance} type="edit">
-            <Tooltip content={t('edit')} position="right" mini>
-              <div className="i-lucide:edit w-1em h-1em cursor-pointer hover:scale-90 transition"></div>
-            </Tooltip>
-          </InsFormModal>
-        </div>
+        {!isSingletonMode() && (
+          <div flex flex-row gap-4 items-baseline>
+            <TitleWithUnderline>{`#${currentInstance.id} ${currentInstance.name}`}</TitleWithUnderline>
+            <InsFormModal ins={currentInstance} type="edit">
+              <Tooltip content={t('edit')} position="right" mini>
+                <div className="i-lucide:edit w-1em h-1em cursor-pointer hover:scale-90 transition"></div>
+              </Tooltip>
+            </InsFormModal>
+          </div>
+        )}
         <div flex>
           <Descriptions className="flex-1" align="left" data={insDescriptionsData} />
           <div flex flex-col gap-3 items-start>
@@ -75,6 +79,7 @@ function InsDash() {
         </div>
         <IndexList client={client} />
       </main>
+      <Footer className="col-span-full mt-auto mb-3" />
     </div>
   );
 }

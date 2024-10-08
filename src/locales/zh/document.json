@@ -4,6 +4,7 @@
     "subtitle": "转到有关 Field Distribution 的官方文档"
   },
   "count": "文档计数",
+  "upload_documents": "上传文档",
   "add_documents": "添加文档",
   "indexing": "索引中",
   "indexing_tip": "此索引正在为文档编制索引，设置与搜索结果现在可能显示不正确!",

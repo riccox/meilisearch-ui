@@ -10,13 +10,15 @@ function Warning() {
   const { t } = useTranslation('sys');
   const warningPageData = useAppStore((state) => state.warningPageData);
   return (
-    <div className="full-page bg-mount gap-y-10 justify-center items-center">
+    <div className="full-page bg-night gap-y-10 justify-center items-center">
       <div className={'flex gap-6 items-center'}>
         <Logo />
         <h1 className={'text-4xl font-bold text-primary-100'}>{t('warning')}</h1>
       </div>
       {warningPageData?.prompt && (
-        <p className={`text-primary-100 font-semibold text-base whitespace-pre-line`}>{warningPageData.prompt}</p>
+        <p className={`text-primary-100 font-semibold text-base whitespace-pre-line text-balance text-center`}>
+          {warningPageData.prompt}
+        </p>
       )}
       <div className="flex gap-3">
         <Button color={'orange'} onClick={() => window.location.assign(window.location.origin)}>

@@ -8,5 +8,6 @@
   "for_large_documents": "For large documents",
   "release_to_upload_documents": "Release to Upload Documents",
   "drag_and_drop_a_file_here": "Drag & Drop A {{- type}} File Here",
-  "browse_file": "Browse File"
+  "browse_file": "Browse File",
+  "documents_json_array_requirement": "Added documents should be JSON Array whose length > 0"
 }

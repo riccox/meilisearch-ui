@@ -8,7 +8,7 @@ export const Version: FC = () => {
   const gitHash = __GIT_HASH__ || 'unknown';
 
   return (
-    <span>
+    <span className="text-nowrap">
       {t('common:version')}: {gitHash.slice(0, 7)}
     </span>
   );

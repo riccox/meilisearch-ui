@@ -48,6 +48,7 @@ export const useAppStore = create<State>()(
                 ...cfg,
                 updatedTime: new Date(),
                 // calculate next ins id
+                // start from 1, id 0 is reserved for singleton mode
                 id: (_.maxBy(get().instances, 'id')?.id || 0) + 1,
               });
             })
