@@ -1,7 +1,7 @@
 import { hiddenConnectionTestLoader, showConnectionTestLoader } from '@/utils/loader';
 import { Config, MeiliSearch } from 'meilisearch';
 import _ from 'lodash';
-import { WarningPageData } from '@/store';
+import { Instance, WarningPageData } from '@/store';
 import { toast } from './toast';
 import i18n from './i18n';
 
@@ -41,5 +41,27 @@ export const validateKeysRouteAvailable = (apiKey?: string): null | WarningPageD
     };
   } else {
     return null;
+  }
+};
+
+/**
+ * check is singleton mode
+ */
+export const isSingletonMode = (): boolean => {
+  return import.meta.env.VITE_SINGLETON_MODE === 'true';
+};
+/**
+ * get singleton mode config
+ */
+export const getSingletonCfg = (): false | Instance => {
+  if (isSingletonMode()) {
+    return {
+      id: 0,
+      name: '',
+      host: import.meta.env.VITE_SINGLETON_HOST,
+      apiKey: import.meta.env.VITE_SINGLETON_API_KEY,
+    };
+  } else {
+    return false;
   }
 };

@@ -22,7 +22,8 @@ import { Route as InsInsIDLayoutKeysImport } from './routes/ins/$insID/_layout/k
 import { Route as InsInsIDLayoutIndexIndexUIDLayoutImport } from './routes/ins/$insID/_layout/index/$indexUID/_layout'
 import { Route as InsInsIDLayoutIndexIndexUIDLayoutIndexImport } from './routes/ins/$insID/_layout/index/$indexUID/_layout/index'
 import { Route as InsInsIDLayoutIndexIndexUIDLayoutSettingImport } from './routes/ins/$insID/_layout/index/$indexUID/_layout/setting'
-import { Route as InsInsIDLayoutIndexIndexUIDLayoutDocumentsImport } from './routes/ins/$insID/_layout/index/$indexUID/_layout/documents'
+import { Route as InsInsIDLayoutIndexIndexUIDLayoutDocumentsIndexImport } from './routes/ins/$insID/_layout/index/$indexUID/_layout/documents/index'
+import { Route as InsInsIDLayoutIndexIndexUIDLayoutDocumentsUploadImport } from './routes/ins/$insID/_layout/index/$indexUID/_layout/documents/upload'
 
 // Create Virtual Routes
 
@@ -92,9 +93,15 @@ const InsInsIDLayoutIndexIndexUIDLayoutSettingRoute =
     getParentRoute: () => InsInsIDLayoutIndexIndexUIDLayoutRoute,
   } as any)
 
-const InsInsIDLayoutIndexIndexUIDLayoutDocumentsRoute =
-  InsInsIDLayoutIndexIndexUIDLayoutDocumentsImport.update({
-    path: '/documents',
+const InsInsIDLayoutIndexIndexUIDLayoutDocumentsIndexRoute =
+  InsInsIDLayoutIndexIndexUIDLayoutDocumentsIndexImport.update({
+    path: '/documents/',
+    getParentRoute: () => InsInsIDLayoutIndexIndexUIDLayoutRoute,
+  } as any)
+
+const InsInsIDLayoutIndexIndexUIDLayoutDocumentsUploadRoute =
+  InsInsIDLayoutIndexIndexUIDLayoutDocumentsUploadImport.update({
+    path: '/documents/upload',
     getParentRoute: () => InsInsIDLayoutIndexIndexUIDLayoutRoute,
   } as any)
 
@@ -165,13 +172,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof InsInsIDLayoutIndexIndexUIDLayoutImport
       parentRoute: typeof InsInsIDLayoutIndexIndexUIDRoute
     }
-    '/ins/$insID/_layout/index/$indexUID/_layout/documents': {
-      id: '/ins/$insID/_layout/index/$indexUID/_layout/documents'
-      path: '/documents'
-      fullPath: '/ins/$insID/index/$indexUID/documents'
-      preLoaderRoute: typeof InsInsIDLayoutIndexIndexUIDLayoutDocumentsImport
-      parentRoute: typeof InsInsIDLayoutIndexIndexUIDLayoutImport
-    }
     '/ins/$insID/_layout/index/$indexUID/_layout/setting': {
       id: '/ins/$insID/_layout/index/$indexUID/_layout/setting'
       path: '/setting'
@@ -184,6 +184,20 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/ins/$insID/index/$indexUID/'
       preLoaderRoute: typeof InsInsIDLayoutIndexIndexUIDLayoutIndexImport
+      parentRoute: typeof InsInsIDLayoutIndexIndexUIDLayoutImport
+    }
+    '/ins/$insID/_layout/index/$indexUID/_layout/documents/upload': {
+      id: '/ins/$insID/_layout/index/$indexUID/_layout/documents/upload'
+      path: '/documents/upload'
+      fullPath: '/ins/$insID/index/$indexUID/documents/upload'
+      preLoaderRoute: typeof InsInsIDLayoutIndexIndexUIDLayoutDocumentsUploadImport
+      parentRoute: typeof InsInsIDLayoutIndexIndexUIDLayoutImport
+    }
+    '/ins/$insID/_layout/index/$indexUID/_layout/documents/': {
+      id: '/ins/$insID/_layout/index/$indexUID/_layout/documents/'
+      path: '/documents'
+      fullPath: '/ins/$insID/index/$indexUID/documents'
+      preLoaderRoute: typeof InsInsIDLayoutIndexIndexUIDLayoutDocumentsIndexImport
       parentRoute: typeof InsInsIDLayoutIndexIndexUIDLayoutImport
     }
   }
@@ -203,9 +217,10 @@ export const routeTree = rootRoute.addChildren({
         InsInsIDLayoutIndexIndexUIDRoute.addChildren({
           InsInsIDLayoutIndexIndexUIDLayoutRoute:
             InsInsIDLayoutIndexIndexUIDLayoutRoute.addChildren({
-              InsInsIDLayoutIndexIndexUIDLayoutDocumentsRoute,
               InsInsIDLayoutIndexIndexUIDLayoutSettingRoute,
               InsInsIDLayoutIndexIndexUIDLayoutIndexRoute,
+              InsInsIDLayoutIndexIndexUIDLayoutDocumentsUploadRoute,
+              InsInsIDLayoutIndexIndexUIDLayoutDocumentsIndexRoute,
             }),
         }),
     }),
@@ -270,14 +285,11 @@ export const routeTree = rootRoute.addChildren({
       "filePath": "ins/$insID/_layout/index/$indexUID/_layout.tsx",
       "parent": "/ins/$insID/_layout/index/$indexUID",
       "children": [
-        "/ins/$insID/_layout/index/$indexUID/_layout/documents",
         "/ins/$insID/_layout/index/$indexUID/_layout/setting",
-        "/ins/$insID/_layout/index/$indexUID/_layout/"
+        "/ins/$insID/_layout/index/$indexUID/_layout/",
+        "/ins/$insID/_layout/index/$indexUID/_layout/documents/upload",
+        "/ins/$insID/_layout/index/$indexUID/_layout/documents/"
       ]
-    },
-    "/ins/$insID/_layout/index/$indexUID/_layout/documents": {
-      "filePath": "ins/$insID/_layout/index/$indexUID/_layout/documents.tsx",
-      "parent": "/ins/$insID/_layout/index/$indexUID/_layout"
     },
     "/ins/$insID/_layout/index/$indexUID/_layout/setting": {
       "filePath": "ins/$insID/_layout/index/$indexUID/_layout/setting.tsx",
@@ -285,6 +297,14 @@ export const routeTree = rootRoute.addChildren({
     },
     "/ins/$insID/_layout/index/$indexUID/_layout/": {
       "filePath": "ins/$insID/_layout/index/$indexUID/_layout/index.tsx",
+      "parent": "/ins/$insID/_layout/index/$indexUID/_layout"
+    },
+    "/ins/$insID/_layout/index/$indexUID/_layout/documents/upload": {
+      "filePath": "ins/$insID/_layout/index/$indexUID/_layout/documents/upload.tsx",
+      "parent": "/ins/$insID/_layout/index/$indexUID/_layout"
+    },
+    "/ins/$insID/_layout/index/$indexUID/_layout/documents/": {
+      "filePath": "ins/$insID/_layout/index/$indexUID/_layout/documents/index.tsx",
       "parent": "/ins/$insID/_layout/index/$indexUID/_layout"
     }
   }

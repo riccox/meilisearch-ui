@@ -28,14 +28,8 @@
       "title": "创建一份 Dump"
     }
   },
-  "index_delete": {
-    "dialog": {
-      "content": "您正在删除索引{{uid}}。\n此操作非常重要，需要您确认。\n请点击以下按钮之一继续。",
-      "title": "请确认您的操作"
-    },
-    "label": "删除此索引"
-  },
   "no_master_key_error": "Meilisearch 正在没有设置主密钥的情况下运行。\n若要访问此API端点，您必须在启动时设置主密钥。",
+  "singleton_cfg_not_found": "检测到单例模式连接失败！\n正在没有有效实例配置的情况下运行，您必须在启动之前设置正确的实例环境配置",
   "not_found": "未找到实例",
   "updated_at": "更新于",
   "form": {

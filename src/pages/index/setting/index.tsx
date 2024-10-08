@@ -38,7 +38,7 @@ function SettingsPage() {
         <div className={`flex-1 flex flex-col gap-2 px-4 py-2 overflow-scroll`}>
           <BaseInfo {...{ host, client: indexClient }} />
           <IndexConfiguration {...{ host, client: indexClient }} />
-          <DangerZone refreshIndexes={outletContext.refreshIndexes} {...{ host, client: indexClient }} />
+          <DangerZone afterMutation={outletContext.refreshIndexes} {...{ host, client: indexClient }} />
         </div>
       </div>
     ),

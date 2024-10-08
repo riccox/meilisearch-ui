@@ -36,6 +36,7 @@
   "dashboard": "Dashboard",
   "version": "Version",
   "none": "None",
+  "singleton_mode": "Singleton Mode",
   "toast": {
     "fail": "Failed, {{msg}}"
   }

@@ -4,12 +4,12 @@ import { Instance, useAppStore } from '@/store';
 import { ActionIcon, Tooltip } from '@mantine/core';
 import { Footer } from '@/components/Footer';
 import { IconBooks, IconCirclePlus, IconCircleX, IconKey, IconListCheck, IconPencilMinus } from '@tabler/icons-react';
-import { testConnection, validateKeysRouteAvailable } from '@/utils/conn';
+import { isSingletonMode, testConnection, validateKeysRouteAvailable } from '@/utils/conn';
 import { modals } from '@mantine/modals';
 import { getTimeText } from '@/utils/text';
 import { useNavigatePreCheck } from '@/hooks/useRoutePreCheck';
 import { useTranslation } from 'react-i18next';
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute, redirect } from '@tanstack/react-router';
 import { Button } from '@douyinfe/semi-ui';
 import { InsFormModal } from '@/components/instanceFormModal';
 
@@ -183,4 +183,14 @@ function Dashboard() {
 
 export const Route = createFileRoute('/')({
   component: Dashboard,
+  beforeLoad: async ({}) => {
+    if (isSingletonMode()) {
+      throw redirect({
+        to: '/ins/$insID',
+        params: {
+          insID: '0',
+        },
+      });
+    }
+  },
 });

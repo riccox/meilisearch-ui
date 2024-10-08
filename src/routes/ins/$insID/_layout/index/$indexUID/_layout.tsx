@@ -51,7 +51,7 @@ function IndexDash() {
           )}
           <div flex flex-col gap-3 items-stretch>
             <Link to="" from="/ins/$insID/index/$indexUID">
-              <Button fullWidth color="primary" variant="light" size="sm">
+              <Button fullWidth variant="light" size="sm">
                 <div className="flex justify-start items-center w-full gap-2">
                   <div className="i-lucide:square-kanban w-1em h-1em"></div>
                   <div>{t('dashboard')}</div>
@@ -59,7 +59,7 @@ function IndexDash() {
               </Button>
             </Link>
             <Link to="documents" from="/ins/$insID/index/$indexUID">
-              <Button fullWidth color="success" variant="light" size="sm">
+              <Button fullWidth variant="light" size="sm">
                 <div className="flex justify-start items-center w-full gap-2">
                   <div className="i-lucide:book-text w-1em h-1em"></div>
                   <div>{t('documents')}</div>
@@ -67,10 +67,18 @@ function IndexDash() {
               </Button>
             </Link>
             <Link to="setting" from="/ins/$insID/index/$indexUID">
-              <Button fullWidth color="secondary" variant="light" size="sm">
+              <Button fullWidth variant="light" size="sm">
                 <div className="flex justify-start items-center w-full gap-2">
                   <div className="i-lucide:settings w-1em h-1em"></div>
                   <div>{t('settings')}</div>
+                </div>
+              </Button>
+            </Link>
+            <Link to="documents/upload" from="/ins/$insID/index/$indexUID">
+              <Button fullWidth variant="light" size="sm">
+                <div className="flex justify-start items-center w-full gap-2">
+                  <div className="i-lucide:upload w-1em h-1em"></div>
+                  <div>{t('document:upload_documents')}</div>
                 </div>
               </Button>
             </Link>

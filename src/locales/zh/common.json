@@ -36,6 +36,7 @@
   "dashboard": "仪表盘",
   "version": "版本",
   "none": "暂无",
+  "singleton_mode": "单实例模式",
   "toast": {
     "fail": "失败, {{msg}}"
   }

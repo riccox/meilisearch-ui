@@ -50,6 +50,13 @@
     },
     "label": "Delete All Documents"
   },
+  "index_delete": {
+    "dialog": {
+      "content": "You are <strong>deleting index {{uid}}</strong>.\nThis action is so important that you are required to confirm it.\nPlease click one of these buttons to proceed.",
+      "title": "Please confirm your action"
+    },
+    "label": "Delete This Index"
+  },
   "primaryKey": "Primary Key",
   "setting": {
     "index": {

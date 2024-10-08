@@ -1,6 +1,4 @@
 import { DragEventHandler, useCallback, useMemo, useRef, useState } from 'react';
-import { useMeiliClient } from '@/hooks/useMeiliClient';
-import { useNavigate, useOutletContext, useParams } from '@tanstack/react-router';
 import { useCurrentInstance } from '@/hooks/useCurrentInstance';
 import { toast } from '@/utils/toast';
 import { useForm } from '@mantine/form';
@@ -9,34 +7,29 @@ import { EnqueuedTask } from 'meilisearch';
 import _ from 'lodash';
 import { showTaskErrorNotification, showTaskSubmitNotification } from '@/utils/text';
 import MonacoEditor from '@monaco-editor/react';
-import clsx from 'clsx';
 import { IconCopy } from '@tabler/icons-react';
 import { hiddenRequestLoader, showRequestLoader } from '@/utils/loader';
 import { useTranslation } from 'react-i18next';
+import { useMeiliClient } from '@/hooks/useMeiliClient';
+import { useCurrentIndex } from '@/hooks/useCurrentIndex';
+import { createFileRoute } from '@tanstack/react-router';
+import { LoaderPage } from '@/components/loader';
+import { Tag } from '@douyinfe/semi-ui';
+import { Tooltip } from '@arco-design/web-react';
+import { Button } from '@nextui-org/react';
+import { cn } from '@/lib/cn';
 
-export const UploadDoc = () => {
+const UploadDoc = () => {
   const { t } = useTranslation('upload');
-  const outletContext = useOutletContext<{ refreshIndexes: () => void }>();
 
   const [dragAreaState, setDragAreaState] = useState<'leave' | 'over' | 'uploading'>('leave');
   const editorRef = useRef<any>(null);
   const currentInstance = useCurrentInstance();
-  const apiKey = currentInstance?.apiKey;
-  const { indexId } = useParams();
-
-  const currentIndex = useMemo(() => indexId?.trim(), [indexId]);
-  const navigate = useNavigate();
   const client = useMeiliClient();
-
-  if (!indexId) {
-    navigate(`/ins/${currentInstance.id}/index`);
-  }
-
-  const indexClient = useMemo(() => {
-    return client.index(indexId ?? '');
-  }, [client, indexId]);
+  const currentIndex = useCurrentIndex(client);
 
   const host = currentInstance?.host;
+  const apiKey = currentInstance?.apiKey;
 
   const addDocumentsForm = useForm<{
     documents: object[] | File;
@@ -49,7 +42,7 @@ export const UploadDoc = () => {
         if (value instanceof File ? value.size > 0 : value.length > 0) {
           return null;
         } else {
-          const msg = 'Added documents should be JSON Array whose length > 0';
+          const msg = t('documents_json_array_requirement');
           toast.error(msg);
           return msg;
         }
@@ -58,9 +51,8 @@ export const UploadDoc = () => {
   });
 
   const addDocumentsMutation = useMutation({
-    mutationKey: ['addDocuments', host, indexClient?.uid],
     mutationFn: async (variables: object[] | File) => {
-      const url = new URL(`/indexes/${currentIndex}/documents`, host);
+      const url = new URL(`/indexes/${currentIndex.index.uid}/documents`, host);
       const response = await fetch(url, {
         method: 'POST',
         headers: {
@@ -78,8 +70,6 @@ export const UploadDoc = () => {
     onSuccess: (t) => {
       showTaskSubmitNotification(t);
       addDocumentsForm.reset();
-      // refresh the document counter
-      outletContext.refreshIndexes();
     },
     onError: (error) => {
       console.error(error);
@@ -160,32 +150,17 @@ export const UploadDoc = () => {
   return useMemo(
     () => (
       <div
-        className={`overflow-hidden fill bg-background-light 
-        flex flex-col items-stretch
-        p-6 rounded-3xl gap-y-4`}
+        className={`overflow-hidden fill 
+        flex flex-col items-stretch rounded-3xl gap-4`}
       >
-        <div className={`flex justify-between items-center gap-x-6`}>
-          <div className={`font-extrabold text-3xl`}>
-            💽 {t('title')}({indexId})
-          </div>
-        </div>
-        <div className={`flex-1 flex gap-2 p-4 overflow-hidden`}>
-          <div className={`flex-1 flex flex-col gap-y-4`}>
-            <div className="flex justify-between items-center">
-              <div className={'only-one-line'}>
-                <span className="pr-2">{t('input_by_editor')}</span>
-                <span className={`badge sm light info`}>{t('manually_type_in')}</span>
-              </div>
-              <span
-                data-tooltip={t('click_to_paste_clipboard_content_if_it_is_valid_json')}
-                className="tooltip bw left"
-              >
-                <IconCopy
-                  className="cursor-pointer"
-                  style={{ transform: 'scale(-1, 1)' }}
-                  onClick={() => pasteClipboardJSON()}
-                />
-              </span>
+        <div className={`flex-1 flex gap-4 p-4 overflow-hidden`}>
+          <div className={`flex-1 flex flex-col gap-4`}>
+            <div className="flex items-center gap-2">
+              <span>{t('input_by_editor')}</span>
+              <Tag size="small">{t('manually_type_in')}</Tag>
+              <Tooltip content={t('click_to_paste_clipboard_content_if_it_is_valid_json')} position="bottom">
+                <IconCopy className="cursor-pointer" size={'1em'} onClick={() => pasteClipboardJSON()} />
+              </Tooltip>
             </div>
             <form
               className={`flex-1 flex flex-col gap-y-4 overflow-hidden`}
@@ -207,27 +182,26 @@ export const UploadDoc = () => {
                   }}
                 ></MonacoEditor>
               </div>
-              <button type="submit" className="btn light solid success w-full">
+              <Button type="submit" color="success">
                 {t('submit')}
-              </button>
+              </Button>
             </form>
           </div>
-          <div className="divider vertical"></div>
           <div className="flex-1 flex flex-col gap-y-4">
-            <div className={'only-one-line'}>
+            <div className={'only-one-line flex items-center'}>
               <span className="pr-2">{t('import_json_file')}</span>
-              <span className={`badge sm light info`}>{t('for_large_documents')}</span>
+              <Tag size="small">{t('for_large_documents')}</Tag>
             </div>
             <div
-              className={clsx(
+              className={cn(
                 'flex-1 flex flex-col justify-center items-center gap-4',
-                'rounded-2xl !border-4 border-dashed  border-info-700',
+                'rounded-2xl !border-4 border-dashed  border-neutral-500',
                 'transition-colors duration-500',
                 'drag-json-file-area',
                 dragAreaState !== 'uploading' ? 'cursor-pointer' : 'cursor-not-allowed',
                 {
-                  ['border-success-700']: dragAreaState === 'over',
-                  ['border-danger-700']: dragAreaState === 'uploading',
+                  ['border-green-600']: dragAreaState === 'over',
+                  ['border-rose-600']: dragAreaState === 'uploading',
                 }
               )}
               onClick={() => onImportAreaClick()}
@@ -255,20 +229,18 @@ export const UploadDoc = () => {
                 )}
               </h6>
               <span>{t('or')}</span>
-              <button
-                className={clsx('btn outline info', {
-                  ['!success']: dragAreaState === 'over',
-                  ['!danger']: dragAreaState === 'uploading',
-                })}
+              <Button
+                variant="bordered"
+                color={dragAreaState === 'over' ? 'success' : dragAreaState === 'uploading' ? 'danger' : 'default'}
                 disabled={dragAreaState === 'uploading'}
               >
                 {t('browse_file')}
-              </button>
+              </Button>
               <input
                 type="file"
                 id="documents-json-file-selector"
                 accept=".json"
-                hidden
+                className="hidden"
                 multiple={false}
                 min={1}
                 max={1}
@@ -281,7 +253,6 @@ export const UploadDoc = () => {
     [
       addDocumentsForm,
       dragAreaState,
-      indexId,
       onAddDocumentsJsonEditorUpdate,
       onAddDocumentsSubmit,
       onImportAreaClick,
@@ -291,3 +262,8 @@ export const UploadDoc = () => {
     ]
   );
 };
+
+export const Route = createFileRoute('/ins/$insID/_layout/index/$indexUID/_layout/documents/upload')({
+  component: UploadDoc,
+  pendingComponent: LoaderPage,
+});

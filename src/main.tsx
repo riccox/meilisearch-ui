@@ -31,6 +31,7 @@ const queryClient = new QueryClient({
 // Create a new router instance
 const router = createRouter({
   routeTree,
+  // why not use import.meta.env.BASE_PATH? ref: https://cn.vite.dev/guide/env-and-mode.html#env-variables
   basepath: import.meta.env.BASE_URL || '/',
   context: {
     queryClient,
@@ -39,7 +40,7 @@ const router = createRouter({
   defaultPendingComponent: () => (
     <div className="h-dvh flex justify-center items-center">
       <div className="flex gap-6 items-center">
-        <Logo className=" shrink" />
+        <Logo className="shrink" />
         <div className="my-2 min-h-10 w-0.5 bg-neutral-300"></div>
         <Loader />
       </div>

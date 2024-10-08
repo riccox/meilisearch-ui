@@ -28,14 +28,8 @@
       "title": "Create a new dump"
     }
   },
-  "index_delete": {
-    "dialog": {
-      "content": "You are <strong>deleting index {{uid}}</strong>.\nThis action is so important that you are required to confirm it.\nPlease click one of these buttons to proceed.",
-      "title": "Please confirm your action"
-    },
-    "label": "Delete This Index"
-  },
   "no_master_key_error": "Meilisearch is running without a master key.\nTo access this API endpoint, you must have set a master key at launch.",
+  "singleton_cfg_not_found": "Singleton mode detected! Connection fail!\nRunning with invalid instance config, you must have set correct instance env config before launch.",
   "not_found": "Instance not found",
   "updated_at": "Updated at",
   "form": {

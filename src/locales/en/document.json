@@ -4,6 +4,7 @@
     "subtitle": "Go to official docs about “Field Distribution”"
   },
   "count": "Count",
+  "upload_documents": "Upload documents",
   "add_documents": "Add documents",
   "indexing": "Indexing",
   "indexing_tip": "This index is indexing documents, setting & search results may be incorrect now!",

@@ -1,33 +1,33 @@
-import { FC, useCallback, useMemo, useState } from 'react';
+import { FC, useMemo } from 'react';
 import { useNavigate } from '@tanstack/react-router';
-import { Text } from '@mantine/core';
 import { useMutation } from '@tanstack/react-query';
 import { hiddenRequestLoader, showRequestLoader } from '@/utils/loader';
 import { showTaskSubmitNotification } from '@/utils/text';
-import { IndexSettingComponentProps } from '.';
 import { useCurrentInstance } from '@/hooks/useCurrentInstance';
 import { useTranslation } from 'react-i18next';
-import clsx from 'clsx';
+import { useMeiliClient } from '@/hooks/useMeiliClient';
+import { useCurrentIndex } from '@/hooks/useCurrentIndex';
+import { Modal } from '@douyinfe/semi-ui';
+import { Button } from '@nextui-org/react';
 
-export const DangerZone: FC<
-  IndexSettingComponentProps & {
-    refreshIndexes: () => void;
-  }
-> = ({ refreshIndexes, host, client }) => {
-  const { t } = useTranslation('instance');
+export const DangerZone: FC<{
+  afterMutation: () => void;
+}> = ({ afterMutation }) => {
+  const { t } = useTranslation('index');
   const navigate = useNavigate();
-
   const currentInstance = useCurrentInstance();
+  const client = useMeiliClient();
+  const currentIndex = useCurrentIndex(client);
+
   const delIndexMutation = useMutation({
-    mutationKey: ['delIndex', host, client.uid],
     mutationFn: async () => {
       showRequestLoader();
-      return await client.delete();
+      return await currentIndex.index.delete();
     },
     onSuccess: (t) => {
       showTaskSubmitNotification(t);
-      refreshIndexes();
-      navigate(`/ins/${currentInstance.id}/index`);
+      afterMutation();
+      navigate({ to: `/ins/${currentInstance.id}` });
     },
     onSettled: () => {
       hiddenRequestLoader();
@@ -35,119 +35,79 @@ export const DangerZone: FC<
   });
 
   const delIndexAllDocumentsMutation = useMutation({
-    mutationKey: ['delIndexAllDocuments', host, client.uid],
     mutationFn: async () => {
       showRequestLoader();
-      return await client.deleteAllDocuments();
+      return await currentIndex.index.deleteAllDocuments();
     },
     onSuccess: (t) => {
       showTaskSubmitNotification(t);
-      refreshIndexes();
+      afterMutation();
     },
     onSettled: () => {
       hiddenRequestLoader();
     },
   });
 
-  const [isDeleteIndexConfirmModalShow, setIsDeleteIndexConfirmModalShow] = useState(false);
-  const [isDeleteAllDocsConfirmModalShow, setIsDeleteAllDocsConfirmModalShow] = useState(false);
-
-  const onClickDeleteIndex = useCallback(() => {
-    setIsDeleteIndexConfirmModalShow(true);
-  }, []);
-  const onClickDeleteAllDocuments = useCallback(() => {
-    console.log('onClickDeleteAllDocuments');
-
-    setIsDeleteAllDocsConfirmModalShow(true);
-  }, []);
-
   return useMemo(
     () => (
-      <div className={`bg-danger-300 has-border py-2 px-3 rounded-lg`}>
-        <p className={`text-danger-900 text-xl font-bold font-sans py-1`}>{t('setting.index.danger_zone')}</p>
+      <div className={`bg-rose-200 p-3 rounded-lg space-y-2`}>
+        <p className={`text-rose-900 text-lg font-bold`}>{t('setting.index.danger_zone')}</p>
         <div className={`flex flex-col items-start gap-4`}>
           <div className={`flex items-center gap-x-2`}>
-            <button className={'danger btn solid sm'} onClick={onClickDeleteAllDocuments}>
+            <Button
+              variant="solid"
+              color="danger"
+              size="sm"
+              onClick={() => {
+                Modal.confirm({
+                  title: t('index_delete.dialog.title'),
+                  centered: true,
+                  content: (
+                    <span
+                      dangerouslySetInnerHTML={{
+                        __html: t('index_delete.dialog.content', { uid: currentIndex.index.uid }),
+                      }}
+                    ></span>
+                  ),
+                  onOk: async () => {
+                    return delIndexMutation.mutate();
+                  },
+                  okText: t('confirm'),
+                  cancelText: t('cancel'),
+                });
+              }}
+            >
               {t('all_documents_delete.label')}
-            </button>
-            <button className={'danger btn solid sm'} onClick={onClickDeleteIndex}>
+            </Button>
+            <Button
+              variant="solid"
+              color="danger"
+              size="sm"
+              onClick={() => {
+                return Modal.confirm({
+                  title: t('all_documents_delete.dialog.title'),
+                  centered: true,
+                  content: (
+                    <span
+                      dangerouslySetInnerHTML={{
+                        __html: t('all_documents_delete.dialog.content', { uid: currentIndex.index.uid }),
+                      }}
+                    ></span>
+                  ),
+                  onOk: async () => {
+                    return delIndexAllDocumentsMutation.mutate();
+                  },
+                  okText: t('confirm'),
+                  cancelText: t('cancel'),
+                });
+              }}
+            >
               {t('index_delete.label')}
-            </button>
-            <div>
-              <label className="modal-overlay"></label>
-              {/* delete index confirm modal */}
-              <div className={clsx('modal flex flex-col gap-5', isDeleteIndexConfirmModalShow && 'show')}>
-                <h2 className="text-xl">{t('index_delete.dialog.title')}</h2>
-                <Text
-                  size="sm"
-                  dangerouslySetInnerHTML={{ __html: t('index_delete.dialog.content', { uid: client.uid }) }}
-                ></Text>
-
-                <div className="flex gap-3">
-                  <button
-                    className="btn solid danger flex-1"
-                    onClick={() => {
-                      delIndexMutation.mutate();
-                      setIsDeleteIndexConfirmModalShow(false);
-                    }}
-                  >
-                    {t('confirm')}
-                  </button>
-                  <button
-                    className="btn solid bw flex-1"
-                    onClick={() => {
-                      setIsDeleteIndexConfirmModalShow(false);
-                    }}
-                  >
-                    {t('cancel')}
-                  </button>
-                </div>
-              </div>
-            </div>
-            <div>
-              <label className="modal-overlay"></label>
-              {/* delete all docs confirm modal */}
-              <div className={clsx('modal flex flex-col gap-5', isDeleteAllDocsConfirmModalShow && 'show')}>
-                <h2 className="text-xl">{t('all_documents_delete.dialog.title')}</h2>
-                <Text
-                  size="sm"
-                  dangerouslySetInnerHTML={{ __html: t('all_documents_delete.dialog.content', { uid: client.uid }) }}
-                ></Text>
-
-                <div className="flex gap-3">
-                  <button
-                    className="btn solid danger flex-1"
-                    onClick={() => {
-                      delIndexAllDocumentsMutation.mutate();
-                      setIsDeleteAllDocsConfirmModalShow(false);
-                    }}
-                  >
-                    {t('confirm')}
-                  </button>
-                  <button
-                    className="btn solid bw flex-1"
-                    onClick={() => {
-                      setIsDeleteAllDocsConfirmModalShow(false);
-                    }}
-                  >
-                    {t('cancel')}
-                  </button>
-                </div>
-              </div>
-            </div>
+            </Button>
           </div>
         </div>
       </div>
     ),
-    [
-      t,
-      onClickDeleteAllDocuments,
-      onClickDeleteIndex,
-      isDeleteIndexConfirmModalShow,
-      client.uid,
-      isDeleteAllDocsConfirmModalShow,
-      delIndexMutation,
-      delIndexAllDocumentsMutation,
-    ]
+    [t, delIndexMutation, delIndexAllDocumentsMutation]
   );
 };

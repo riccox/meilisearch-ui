@@ -1,6 +1,5 @@
 'use client';
 import { FC, useCallback, useState } from 'react';
-import { Footer } from './Footer';
 import { useTranslation } from 'react-i18next';
 import { Controller, useForm } from 'react-hook-form';
 import { Button, Tooltip } from '@nextui-org/react';
@@ -291,7 +290,6 @@ export const KeyForm: FC<Props> = ({ className = '', type = 'create', data, afte
       <Button type="submit" variant="solid" size="sm" color="primary" disabled={isSubmitLoading}>
         {t(`common:submit`)}
       </Button>
-      <Footer />
     </form>
   );
 };
