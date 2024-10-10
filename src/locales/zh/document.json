@@ -45,6 +45,11 @@
     "results": {
       "label": "搜索结果",
       "download": "下载搜索结果集(JSON格式)",
+      "type": {
+        "json": "JSON",
+        "table": "表格",
+        "grid": "网格"
+      },
       "total_hits": "总计返回 {{estimatedTotalHits}} 条结果",
       "processing_time": "用时 {{processingTimeMs}} ms"
     }
