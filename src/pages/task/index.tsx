@@ -35,7 +35,7 @@ function Tasks() {
       showRequestLoader();
       return await client.getTasks(pageParam);
     },
-    getNextPageParam: (lastPage, pages) => ({ from: lastPage.next }),
+    getNextPageParam: (lastPage) => ({ from: lastPage.next }),
   });
 
   useEffect(() => {

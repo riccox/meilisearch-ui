@@ -4,7 +4,7 @@ import { LoaderPage } from '@/components/loader';
 
 function InsLayout() {
   return (
-    <div className="full-page flex flex-col">
+    <div className="full-page">
       <Header />
       <Outlet />
     </div>

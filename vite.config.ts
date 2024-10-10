@@ -2,17 +2,17 @@
 import { defineConfig, loadEnv, Plugin } from 'vite';
 import path from 'path';
 import react from '@vitejs/plugin-react-swc';
-import { TanStackRouterVite } from '@tanstack/router-vite-plugin';
+import { TanStackRouterVite } from '@tanstack/router-plugin/vite';
 import tsconfigPaths from 'vite-tsconfig-paths';
 import SemiPlugin from './src/lib/semi';
 import UnoCSS from 'unocss/vite';
 import { execSync } from 'child_process';
 
-// 创建一个插件来注入 Git hash
+// Plugin to get Git hash
 function gitHashPlugin(): Plugin {
   return {
     name: 'git-hash-plugin',
-    config: (config) => {
+    config: () => {
       const hash = execSync('git rev-parse HEAD').toString().trim();
       return {
         define: {

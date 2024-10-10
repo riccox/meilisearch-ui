@@ -18,7 +18,7 @@ export const SortableAttributes: FC<IndexSettingConfigComponentProps> = ({
   const query = useQuery({
     queryKey: ['getSortableAttributes', host, client.uid],
 
-    async queryFn(ctx) {
+    async queryFn() {
       return await client.getSortableAttributes();
     },
   });

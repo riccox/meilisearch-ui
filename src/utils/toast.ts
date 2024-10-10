@@ -1,6 +1,7 @@
 import React from 'react';
 import { toast as sonner } from 'sonner';
 
+// eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace Toast {
   export type ID = string | number;
   export type Content = string | React.ReactNode;
@@ -12,7 +13,7 @@ export namespace Toast {
   export type LoadingParams<T> = Params & {
     label?: Content;
     success?: Content | ((data: T) => Content);
-    error?: Content | ((error: any) => Content);
+    error?: Content | ((error: unknown) => Content);
   };
 }
 

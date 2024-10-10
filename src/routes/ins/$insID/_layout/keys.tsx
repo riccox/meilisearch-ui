@@ -11,7 +11,6 @@ import { Button, Tooltip } from '@nextui-org/react';
 import { IconCheck, IconCopy } from '@tabler/icons-react';
 import { useQuery } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
-import _ from 'lodash';
 import { Key } from 'meilisearch';
 import { useCallback, useEffect, useReducer } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -142,7 +141,7 @@ const Page = () => {
       title: t('actions'),
       dataIndex: 'operate',
       render: (_, record) => (
-        <div flex items-center gap-2>
+        <div className="flex items-center gap-2">
           <Button
             size="sm"
             onClick={() => {

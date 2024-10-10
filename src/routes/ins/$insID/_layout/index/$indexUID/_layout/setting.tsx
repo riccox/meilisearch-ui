@@ -1,5 +1,4 @@
 import { createFileRoute } from '@tanstack/react-router';
-import _ from 'lodash';
 import { IndexConfigEditor } from '@/components/indexConfigEditor';
 import { Loader } from '@/components/loader';
 import { DangerZone } from '@/components/Settings/dangerZone';

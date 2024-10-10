@@ -36,6 +36,7 @@ export const showTaskSubmitNotification = (task: EnqueuedTask): void => {
   TaskStatusToast[task.status](getTaskSubmitMessage(task));
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const showTaskErrorNotification = (err: any): void => {
   TaskStatusToast.failed(`Task Fail: ${err.toString()}`);
 };

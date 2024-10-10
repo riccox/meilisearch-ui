@@ -4,6 +4,7 @@ import { IconAlignBoxLeftMiddle, IconArrowsSort, IconFilter, IconSearch } from '
 import clsx from 'clsx';
 import { UseFormReturnType } from '@mantine/form';
 import { useTranslation } from 'react-i18next';
+import { Button } from '@nextui-org/react';
 
 type Props = {
   isFetching?: boolean;
@@ -22,7 +23,6 @@ type Props = {
 };
 
 export const SearchForm = ({
-  isFetching = false,
   searchForm,
   searchFormError,
   onFormSubmit,
@@ -99,9 +99,9 @@ export const SearchForm = ({
           {/* right btn group */}
           <div className={`ml-auto mt-auto flex gap-x-4 items-center`}>
             {/* submit btn */}
-            <button type={'submit'} className={`btn solid primary bg-gradient-to-br from-[#c84e89] to-[#F15F79]`}>
+            <Button type={'submit'} size={'sm'} color={'primary'}>
               {submitBtnText}
-            </button>
+            </Button>
           </div>
         </div>
       </form>

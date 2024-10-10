@@ -51,7 +51,7 @@ function InsDash() {
     <div className="flex-1 grid grid-cols-4 overflow-scroll">
       <main className="p-4 laptop:col-start-2 laptop:col-end-4 col-start-1 col-end-5 flex flex-col gap-4">
         {!isSingletonMode() && (
-          <div flex flex-row gap-4 items-baseline>
+          <div className="flex flex-row gap-4 items-baseline">
             <TitleWithUnderline>{`#${currentInstance.id} ${currentInstance.name}`}</TitleWithUnderline>
             <InsFormModal ins={currentInstance} type="edit">
               <Tooltip content={t('edit')} position="right" mini>
@@ -60,9 +60,9 @@ function InsDash() {
             </InsFormModal>
           </div>
         )}
-        <div flex>
+        <div className="flex">
           <Descriptions className="flex-1" align="left" data={insDescriptionsData} />
-          <div flex flex-col gap-3 items-start>
+          <div className="flex flex-col gap-3 items-start">
             <Link to="keys" from="/ins/$insID">
               <Button variant="light" size="sm">
                 <div className="i-lucide:key w-1em h-1em"></div> {t('keys')}

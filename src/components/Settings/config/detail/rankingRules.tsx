@@ -13,7 +13,7 @@ export const RankingRules: FC<IndexSettingConfigComponentProps> = ({ client, cla
   const query = useQuery({
     queryKey: ['getRankingRules', host, client.uid],
 
-    async queryFn(ctx) {
+    async queryFn() {
       return await client.getRankingRules();
     },
   });

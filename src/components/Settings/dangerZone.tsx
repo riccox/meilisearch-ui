@@ -108,6 +108,6 @@ export const DangerZone: FC<{
         </div>
       </div>
     ),
-    [t, delIndexMutation, delIndexAllDocumentsMutation]
+    [t, currentIndex.index.uid, delIndexMutation, delIndexAllDocumentsMutation]
   );
 };

@@ -12,7 +12,6 @@ type ErrorBoundaryProps = {
 
 export const ReactErrorBoundary: FC<ErrorBoundaryProps> = ({ children, onReset, FallbackComponent }) => {
   return (
-    /* eslint-disable react/jsx-handler-names */
     <ErrorBoundary FallbackComponent={FallbackComponent || AppFallback} onReset={onReset}>
       {children}
     </ErrorBoundary>

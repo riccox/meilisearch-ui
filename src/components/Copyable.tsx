@@ -14,6 +14,7 @@ export const Copyable: FC<Props> = ({ className = '', children }) => {
 
   return (
     <Typography.Paragraph
+      className={className}
       copyable={{
         onCopy: () => toast.success(t('common:copied')),
         icon: <IconCopy size={'0.95em'} className=" text-current" />,
