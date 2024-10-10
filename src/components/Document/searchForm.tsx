@@ -1,13 +1,14 @@
 import { useMemo } from 'react';
-import { NumberInput, TextInput, Tooltip } from '@mantine/core';
+import { NumberInput, TextInput } from '@mantine/core';
 import { IconAlignBoxLeftMiddle, IconArrowsSort, IconFilter, IconSearch } from '@tabler/icons-react';
 import clsx from 'clsx';
 import { UseFormReturnType } from '@mantine/form';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@nextui-org/react';
+import { Switch, Tooltip } from '@douyinfe/semi-ui';
 
 type Props = {
-  isFetching?: boolean;
+  isFetching: boolean;
   searchForm: UseFormReturnType<{
     q: string;
     offset: number;
@@ -18,6 +19,7 @@ type Props = {
   }>;
   searchFormError: string | null;
   onFormSubmit: () => void;
+  onAutoRefreshChange: (value: boolean) => void;
   submitBtnText: string;
   indexIdEnable?: boolean;
 };
@@ -28,6 +30,8 @@ export const SearchForm = ({
   onFormSubmit,
   submitBtnText,
   indexIdEnable = false,
+  isFetching,
+  onAutoRefreshChange,
 }: Props) => {
   const { t } = useTranslation('document');
 
@@ -82,7 +86,7 @@ export const SearchForm = ({
             radius="md"
             {...searchForm.getInputProps('filter')}
           />
-          <Tooltip position={'bottom-start'} label={t('search.form.sort.tip')}>
+          <Tooltip content={t('search.form.sort.tip')}>
             <TextInput
               className={`flex-1`}
               label={t('search.form.sort.label')}
@@ -98,6 +102,14 @@ export const SearchForm = ({
 
           {/* right btn group */}
           <div className={`ml-auto mt-auto flex gap-x-4 items-center`}>
+            <Tooltip position="bottom" content={t('search.form.autoRefresh.tip')}>
+              <div className="flex items-center gap-2">
+                <label className="text-sm" defaultChecked={false}>
+                  {t('search.form.autoRefresh.label')}
+                </label>
+                <Switch loading={isFetching} onChange={(v) => onAutoRefreshChange(v)}></Switch>
+              </div>
+            </Tooltip>
             {/* submit btn */}
             <Button type={'submit'} size={'sm'} color={'primary'}>
               {submitBtnText}
@@ -106,6 +118,6 @@ export const SearchForm = ({
         </div>
       </form>
     ),
-    [indexIdEnable, onFormSubmit, t, searchForm, searchFormError, submitBtnText]
+    [onFormSubmit, searchFormError, indexIdEnable, t, searchForm, isFetching, submitBtnText, onAutoRefreshChange]
   );
 };
