@@ -1,14 +1,5 @@
 {
-  "fieldDistribution": {
-    "label": "字段分布",
-    "subtitle": "转到有关 Field Distribution 的官方文档"
-  },
-  "count": "文档计数",
   "upload_documents": "上传文档",
-  "add_documents": "添加文档",
-  "indexing": "索引中",
-  "indexing_tip": "此索引正在为文档编制索引，设置与搜索结果现在可能显示不正确!",
-  "empty_area_tip": "选择索引 或 在左侧创建索引 以开始",
   "delete_document": "删除文档",
   "delete": {
     "tip": "是否确实要<strong>删除索引 {{indexId}} 中这个主键为 {{primaryKey}} 的文档</strong>?",
