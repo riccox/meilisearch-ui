@@ -2,60 +2,34 @@
 
 ## [0.7.0](https://github.com/riccox/meilisearch-ui/compare/v0.6.16...v0.7.0) (2024-10-10)
 
+### Design
+
+This version rebuilt most parts of this panel into a brand new design.
 
 ### Features
 
 * add auto refresh search switch. ([1a276aa](https://github.com/riccox/meilisearch-ui/commit/1a276aa14adc4a2a7240ff320f4890a42644ee7f))
-* add create index button. ([792b658](https://github.com/riccox/meilisearch-ui/commit/792b658e452cd6cdfbcb2e4a27bd79af7cd86dea))
-* add ins & index action buttons. ([98d01cd](https://github.com/riccox/meilisearch-ui/commit/98d01cdb6a48c9818bd5e121ebc9f94977e17163))
-* add ins form modal drag tag style. ([98d01cd](https://github.com/riccox/meilisearch-ui/commit/98d01cdb6a48c9818bd5e121ebc9f94977e17163))
 * add search result download btn. ([4140c94](https://github.com/riccox/meilisearch-ui/commit/4140c94ba6377ebf8da6aac1d4be3de09bd905c6))
-* add semi ui & NextUI. ([792b658](https://github.com/riccox/meilisearch-ui/commit/792b658e452cd6cdfbcb2e4a27bd79af7cd86dea))
 * add singleton mode support. ([eab7baf](https://github.com/riccox/meilisearch-ui/commit/eab7bafb192aeeb4687b6d42e593b2f2f4c2858b))
 * add version component into footer. ([168c1e3](https://github.com/riccox/meilisearch-ui/commit/168c1e3ac6e645a4acb7d75c547446f87e55ff59))
-* build dump creation button. ([98d01cd](https://github.com/riccox/meilisearch-ui/commit/98d01cdb6a48c9818bd5e121ebc9f94977e17163))
-* build fieldDistribution page. ([d818599](https://github.com/riccox/meilisearch-ui/commit/d818599cfb63174d47488b31fa22193b794ed65f))
-* build index settings page. ([c0212f0](https://github.com/riccox/meilisearch-ui/commit/c0212f0ce6e1da628e142714baddb97fce2731a9))
-* build keys page. ([cfe2158](https://github.com/riccox/meilisearch-ui/commit/cfe2158365ded8749841ea6d9b01595cc0855636))
-* build tasks page. ([f294274](https://github.com/riccox/meilisearch-ui/commit/f2942744580caf9b8e07326b914628305f1d19f8))
-* init some function pages with their header links. ([98d01cd](https://github.com/riccox/meilisearch-ui/commit/98d01cdb6a48c9818bd5e121ebc9f94977e17163))
-* ins header add links. ([3cb49c2](https://github.com/riccox/meilisearch-ui/commit/3cb49c20b1d900ef70c8c5af2ca8c91935f3b7b1))
-* instance dashboard new design. ([792b658](https://github.com/riccox/meilisearch-ui/commit/792b658e452cd6cdfbcb2e4a27bd79af7cd86dea))
-* integrate UnoCSS. ([bc0eb85](https://github.com/riccox/meilisearch-ui/commit/bc0eb85e31eb232cc7c61c4fe048bcaa6d883316))
 * key form add uid option. ([53bc58c](https://github.com/riccox/meilisearch-ui/commit/53bc58cdf6b308343093e3a41c2d7da14016e7d3))
-* loader rebuilt. ([650ad4d](https://github.com/riccox/meilisearch-ui/commit/650ad4d7c4ca4596440f792a3a523159f7fd9bb9))
 * rebuild index page layout. ([d818599](https://github.com/riccox/meilisearch-ui/commit/d818599cfb63174d47488b31fa22193b794ed65f))
 * rebuilt instance form modal. ([bc0eb85](https://github.com/riccox/meilisearch-ui/commit/bc0eb85e31eb232cc7c61c4fe048bcaa6d883316))
-* remove sira ui. ([792b658](https://github.com/riccox/meilisearch-ui/commit/792b658e452cd6cdfbcb2e4a27bd79af7cd86dea))
 * support multiple search docs list styles. ([444d496](https://github.com/riccox/meilisearch-ui/commit/444d496fe8c21215932c02fc7e2012695e22f2bd))
 * task list add index UID & enqueuedAt filters. ([98f3878](https://github.com/riccox/meilisearch-ui/commit/98f38789fc360ef42afdf9775f9af650a52abece))
-* use tan-stack router. ([792b658](https://github.com/riccox/meilisearch-ui/commit/792b658e452cd6cdfbcb2e4a27bd79af7cd86dea))
-
 
 ### Bug Fixes
 
-* dashboard instance link. ([849c662](https://github.com/riccox/meilisearch-ui/commit/849c6628b53ef9ab03eb5ee2d48c05d6d32c6964))
 * index overview numberOfDocuments stats. ([9611b24](https://github.com/riccox/meilisearch-ui/commit/9611b249b41a12a6374c71f2ef269bcfa22b1a65))
-* ins form reset after submit. ([9193053](https://github.com/riccox/meilisearch-ui/commit/91930534be1e7035707f1a930298a1b98482f87d))
-* ins form validation logic. ([5dc8b18](https://github.com/riccox/meilisearch-ui/commit/5dc8b18f0d71e19ddfc2605f3f3e14655bf54a5a))
-* key form submit button text. ([f294274](https://github.com/riccox/meilisearch-ui/commit/f2942744580caf9b8e07326b914628305f1d19f8))
-* lost some index config i18n text. ([5acddfd](https://github.com/riccox/meilisearch-ui/commit/5acddfdd449fa2822c6d6835d46f06bb0cd19154))
 
 
 ### Performance Improvements
 
 * add footer app version. ([8824c0d](https://github.com/riccox/meilisearch-ui/commit/8824c0d14528076193f35244fcb1b211c479d15e))
 * add nav breadcrumb ins name display. ([e071664](https://github.com/riccox/meilisearch-ui/commit/e071664c8c66748b3eea84c8de0b804e12b71682))
-* add Semi components i18n support. ([e06aa0d](https://github.com/riccox/meilisearch-ui/commit/e06aa0df86f3562420cd7173f4ebf2802a1d0bee))
-* adjust download search results btn text. ([20a4e3d](https://github.com/riccox/meilisearch-ui/commit/20a4e3d9e7e2c24e04df51e5800c607638acf744))
-* adjust index page content layout width. ([aa6064e](https://github.com/riccox/meilisearch-ui/commit/aa6064efac868ac5660e0b7cab3087580ed34c2e))
 * disabled un-editable options in edit key form. ([53bc58c](https://github.com/riccox/meilisearch-ui/commit/53bc58cdf6b308343093e3a41c2d7da14016e7d3))
 * improved index list card style. ([98d01cd](https://github.com/riccox/meilisearch-ui/commit/98d01cdb6a48c9818bd5e121ebc9f94977e17163))
 * improved lang selector style. ([98d01cd](https://github.com/riccox/meilisearch-ui/commit/98d01cdb6a48c9818bd5e121ebc9f94977e17163))
-* index config editor add help link. ([9083c90](https://github.com/riccox/meilisearch-ui/commit/9083c90fec3a16c02637b6603cb5c79cc2333325))
-* index primary key comp. ([444c434](https://github.com/riccox/meilisearch-ui/commit/444c434c8f5576c4fc867d257933fdb6f1d212d4))
-* some ui styles. ([084735d](https://github.com/riccox/meilisearch-ui/commit/084735dd0e449f670f1828b93087548071f1b657))
-* text trans. ([b7927cc](https://github.com/riccox/meilisearch-ui/commit/b7927cc84013b33c6e89e03a373fc95cb9a8c5cd))
 
 ## [0.6.16](https://github.com/riccox/meilisearch-ui/compare/v0.6.15...v0.6.16) (2024-06-14)
 
