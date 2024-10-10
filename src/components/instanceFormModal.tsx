@@ -66,9 +66,10 @@ export const InsFormModal: FC<Props> = ({ className = '', children, type = 'crea
           }
           // close modal
           setVisible(false);
+          form.reset();
         });
     },
-    [instanceFormType, addInstance, editInstance, instanceEditing]
+    [instanceFormType, form, addInstance, editInstance, instanceEditing]
   );
 
   return (
