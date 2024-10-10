@@ -16,7 +16,7 @@ type Props = {
   onFormSubmit: () => void;
 };
 
-export const SearchBar = ({ isFetching = false, searchForm, searchFormError, onFormSubmit }: Props) => {
+export const SearchFormBar = ({ isFetching = false, searchForm, searchFormError, onFormSubmit }: Props) => {
   const { t } = useTranslation('document');
   return useMemo(
     () => (

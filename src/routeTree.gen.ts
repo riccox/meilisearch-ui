@@ -205,27 +205,177 @@ declare module '@tanstack/react-router' {
 
 // Create and export the route tree
 
-export const routeTree = rootRoute.addChildren({
-  IndexRoute,
-  WarningRoute,
-  InsInsIDRoute: InsInsIDRoute.addChildren({
-    InsInsIDLayoutRoute: InsInsIDLayoutRoute.addChildren({
-      InsInsIDLayoutKeysRoute,
-      InsInsIDLayoutTasksRoute,
-      InsInsIDLayoutIndexRoute,
-      InsInsIDLayoutIndexIndexUIDRoute:
-        InsInsIDLayoutIndexIndexUIDRoute.addChildren({
-          InsInsIDLayoutIndexIndexUIDLayoutRoute:
-            InsInsIDLayoutIndexIndexUIDLayoutRoute.addChildren({
-              InsInsIDLayoutIndexIndexUIDLayoutSettingRoute,
-              InsInsIDLayoutIndexIndexUIDLayoutIndexRoute,
-              InsInsIDLayoutIndexIndexUIDLayoutDocumentsUploadRoute,
-              InsInsIDLayoutIndexIndexUIDLayoutDocumentsIndexRoute,
-            }),
-        }),
-    }),
-  }),
-})
+interface InsInsIDLayoutIndexIndexUIDLayoutRouteChildren {
+  InsInsIDLayoutIndexIndexUIDLayoutSettingRoute: typeof InsInsIDLayoutIndexIndexUIDLayoutSettingRoute
+  InsInsIDLayoutIndexIndexUIDLayoutIndexRoute: typeof InsInsIDLayoutIndexIndexUIDLayoutIndexRoute
+  InsInsIDLayoutIndexIndexUIDLayoutDocumentsUploadRoute: typeof InsInsIDLayoutIndexIndexUIDLayoutDocumentsUploadRoute
+  InsInsIDLayoutIndexIndexUIDLayoutDocumentsIndexRoute: typeof InsInsIDLayoutIndexIndexUIDLayoutDocumentsIndexRoute
+}
+
+const InsInsIDLayoutIndexIndexUIDLayoutRouteChildren: InsInsIDLayoutIndexIndexUIDLayoutRouteChildren =
+  {
+    InsInsIDLayoutIndexIndexUIDLayoutSettingRoute:
+      InsInsIDLayoutIndexIndexUIDLayoutSettingRoute,
+    InsInsIDLayoutIndexIndexUIDLayoutIndexRoute:
+      InsInsIDLayoutIndexIndexUIDLayoutIndexRoute,
+    InsInsIDLayoutIndexIndexUIDLayoutDocumentsUploadRoute:
+      InsInsIDLayoutIndexIndexUIDLayoutDocumentsUploadRoute,
+    InsInsIDLayoutIndexIndexUIDLayoutDocumentsIndexRoute:
+      InsInsIDLayoutIndexIndexUIDLayoutDocumentsIndexRoute,
+  }
+
+const InsInsIDLayoutIndexIndexUIDLayoutRouteWithChildren =
+  InsInsIDLayoutIndexIndexUIDLayoutRoute._addFileChildren(
+    InsInsIDLayoutIndexIndexUIDLayoutRouteChildren,
+  )
+
+interface InsInsIDLayoutIndexIndexUIDRouteChildren {
+  InsInsIDLayoutIndexIndexUIDLayoutRoute: typeof InsInsIDLayoutIndexIndexUIDLayoutRouteWithChildren
+}
+
+const InsInsIDLayoutIndexIndexUIDRouteChildren: InsInsIDLayoutIndexIndexUIDRouteChildren =
+  {
+    InsInsIDLayoutIndexIndexUIDLayoutRoute:
+      InsInsIDLayoutIndexIndexUIDLayoutRouteWithChildren,
+  }
+
+const InsInsIDLayoutIndexIndexUIDRouteWithChildren =
+  InsInsIDLayoutIndexIndexUIDRoute._addFileChildren(
+    InsInsIDLayoutIndexIndexUIDRouteChildren,
+  )
+
+interface InsInsIDLayoutRouteChildren {
+  InsInsIDLayoutKeysRoute: typeof InsInsIDLayoutKeysRoute
+  InsInsIDLayoutTasksRoute: typeof InsInsIDLayoutTasksRoute
+  InsInsIDLayoutIndexRoute: typeof InsInsIDLayoutIndexRoute
+  InsInsIDLayoutIndexIndexUIDRoute: typeof InsInsIDLayoutIndexIndexUIDRouteWithChildren
+}
+
+const InsInsIDLayoutRouteChildren: InsInsIDLayoutRouteChildren = {
+  InsInsIDLayoutKeysRoute: InsInsIDLayoutKeysRoute,
+  InsInsIDLayoutTasksRoute: InsInsIDLayoutTasksRoute,
+  InsInsIDLayoutIndexRoute: InsInsIDLayoutIndexRoute,
+  InsInsIDLayoutIndexIndexUIDRoute:
+    InsInsIDLayoutIndexIndexUIDRouteWithChildren,
+}
+
+const InsInsIDLayoutRouteWithChildren = InsInsIDLayoutRoute._addFileChildren(
+  InsInsIDLayoutRouteChildren,
+)
+
+interface InsInsIDRouteChildren {
+  InsInsIDLayoutRoute: typeof InsInsIDLayoutRouteWithChildren
+}
+
+const InsInsIDRouteChildren: InsInsIDRouteChildren = {
+  InsInsIDLayoutRoute: InsInsIDLayoutRouteWithChildren,
+}
+
+const InsInsIDRouteWithChildren = InsInsIDRoute._addFileChildren(
+  InsInsIDRouteChildren,
+)
+
+export interface FileRoutesByFullPath {
+  '/': typeof IndexRoute
+  '/warning': typeof WarningRoute
+  '/ins/$insID': typeof InsInsIDLayoutRouteWithChildren
+  '/ins/$insID/keys': typeof InsInsIDLayoutKeysRoute
+  '/ins/$insID/tasks': typeof InsInsIDLayoutTasksRoute
+  '/ins/$insID/': typeof InsInsIDLayoutIndexRoute
+  '/ins/$insID/index/$indexUID': typeof InsInsIDLayoutIndexIndexUIDLayoutRouteWithChildren
+  '/ins/$insID/index/$indexUID/setting': typeof InsInsIDLayoutIndexIndexUIDLayoutSettingRoute
+  '/ins/$insID/index/$indexUID/': typeof InsInsIDLayoutIndexIndexUIDLayoutIndexRoute
+  '/ins/$insID/index/$indexUID/documents/upload': typeof InsInsIDLayoutIndexIndexUIDLayoutDocumentsUploadRoute
+  '/ins/$insID/index/$indexUID/documents': typeof InsInsIDLayoutIndexIndexUIDLayoutDocumentsIndexRoute
+}
+
+export interface FileRoutesByTo {
+  '/': typeof IndexRoute
+  '/warning': typeof WarningRoute
+  '/ins/$insID': typeof InsInsIDLayoutIndexRoute
+  '/ins/$insID/keys': typeof InsInsIDLayoutKeysRoute
+  '/ins/$insID/tasks': typeof InsInsIDLayoutTasksRoute
+  '/ins/$insID/index/$indexUID': typeof InsInsIDLayoutIndexIndexUIDLayoutIndexRoute
+  '/ins/$insID/index/$indexUID/setting': typeof InsInsIDLayoutIndexIndexUIDLayoutSettingRoute
+  '/ins/$insID/index/$indexUID/documents/upload': typeof InsInsIDLayoutIndexIndexUIDLayoutDocumentsUploadRoute
+  '/ins/$insID/index/$indexUID/documents': typeof InsInsIDLayoutIndexIndexUIDLayoutDocumentsIndexRoute
+}
+
+export interface FileRoutesById {
+  __root__: typeof rootRoute
+  '/': typeof IndexRoute
+  '/warning': typeof WarningRoute
+  '/ins/$insID': typeof InsInsIDRouteWithChildren
+  '/ins/$insID/_layout': typeof InsInsIDLayoutRouteWithChildren
+  '/ins/$insID/_layout/keys': typeof InsInsIDLayoutKeysRoute
+  '/ins/$insID/_layout/tasks': typeof InsInsIDLayoutTasksRoute
+  '/ins/$insID/_layout/': typeof InsInsIDLayoutIndexRoute
+  '/ins/$insID/_layout/index/$indexUID': typeof InsInsIDLayoutIndexIndexUIDRouteWithChildren
+  '/ins/$insID/_layout/index/$indexUID/_layout': typeof InsInsIDLayoutIndexIndexUIDLayoutRouteWithChildren
+  '/ins/$insID/_layout/index/$indexUID/_layout/setting': typeof InsInsIDLayoutIndexIndexUIDLayoutSettingRoute
+  '/ins/$insID/_layout/index/$indexUID/_layout/': typeof InsInsIDLayoutIndexIndexUIDLayoutIndexRoute
+  '/ins/$insID/_layout/index/$indexUID/_layout/documents/upload': typeof InsInsIDLayoutIndexIndexUIDLayoutDocumentsUploadRoute
+  '/ins/$insID/_layout/index/$indexUID/_layout/documents/': typeof InsInsIDLayoutIndexIndexUIDLayoutDocumentsIndexRoute
+}
+
+export interface FileRouteTypes {
+  fileRoutesByFullPath: FileRoutesByFullPath
+  fullPaths:
+    | '/'
+    | '/warning'
+    | '/ins/$insID'
+    | '/ins/$insID/keys'
+    | '/ins/$insID/tasks'
+    | '/ins/$insID/'
+    | '/ins/$insID/index/$indexUID'
+    | '/ins/$insID/index/$indexUID/setting'
+    | '/ins/$insID/index/$indexUID/'
+    | '/ins/$insID/index/$indexUID/documents/upload'
+    | '/ins/$insID/index/$indexUID/documents'
+  fileRoutesByTo: FileRoutesByTo
+  to:
+    | '/'
+    | '/warning'
+    | '/ins/$insID'
+    | '/ins/$insID/keys'
+    | '/ins/$insID/tasks'
+    | '/ins/$insID/index/$indexUID'
+    | '/ins/$insID/index/$indexUID/setting'
+    | '/ins/$insID/index/$indexUID/documents/upload'
+    | '/ins/$insID/index/$indexUID/documents'
+  id:
+    | '__root__'
+    | '/'
+    | '/warning'
+    | '/ins/$insID'
+    | '/ins/$insID/_layout'
+    | '/ins/$insID/_layout/keys'
+    | '/ins/$insID/_layout/tasks'
+    | '/ins/$insID/_layout/'
+    | '/ins/$insID/_layout/index/$indexUID'
+    | '/ins/$insID/_layout/index/$indexUID/_layout'
+    | '/ins/$insID/_layout/index/$indexUID/_layout/setting'
+    | '/ins/$insID/_layout/index/$indexUID/_layout/'
+    | '/ins/$insID/_layout/index/$indexUID/_layout/documents/upload'
+    | '/ins/$insID/_layout/index/$indexUID/_layout/documents/'
+  fileRoutesById: FileRoutesById
+}
+
+export interface RootRouteChildren {
+  IndexRoute: typeof IndexRoute
+  WarningRoute: typeof WarningRoute
+  InsInsIDRoute: typeof InsInsIDRouteWithChildren
+}
+
+const rootRouteChildren: RootRouteChildren = {
+  IndexRoute: IndexRoute,
+  WarningRoute: WarningRoute,
+  InsInsIDRoute: InsInsIDRouteWithChildren,
+}
+
+export const routeTree = rootRoute
+  ._addFileChildren(rootRouteChildren)
+  ._addFileTypes<FileRouteTypes>()
 
 /* prettier-ignore-end */
 

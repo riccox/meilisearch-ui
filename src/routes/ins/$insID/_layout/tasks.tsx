@@ -107,7 +107,7 @@ const Page = () => {
       title: t('actions'),
       dataIndex: 'operate',
       render: (_, record) => (
-        <div flex items-center gap-2>
+        <div className="flex items-center gap-2">
           <Button
             size="sm"
             onClick={() => {

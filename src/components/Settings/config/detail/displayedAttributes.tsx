@@ -17,7 +17,7 @@ export const DisplayedAttributes: FC<IndexSettingConfigComponentProps> = ({
 
   const query = useQuery({
     queryKey: ['getDisplayedAttributes', host, client.uid],
-    async queryFn(ctx) {
+    async queryFn() {
       return await client.getDisplayedAttributes();
     },
   });

@@ -6,7 +6,7 @@ export const arrayMove = <T = unknown>(arr: T[], old_index: number, new_index: n
     new_index += arr.length;
   }
   if (new_index >= arr.length) {
-    var k = new_index - arr.length + 1;
+    let k = new_index - arr.length + 1;
     while (k--) {
       // @ts-ignore
       arr.push(undefined);

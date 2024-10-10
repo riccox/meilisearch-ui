@@ -9,7 +9,7 @@ import { useTranslation } from 'react-i18next';
 export const useCurrentIndex = (client: MeiliSearch) => {
   const { history } = useRouter();
   const { t, i18n } = useTranslation('index');
-  let { indexUID, insID } = useParams({ strict: false }) as { insID: string; indexUID: string };
+  const { indexUID, insID } = useParams({ strict: false }) as { insID: string; indexUID: string };
 
   const query = useSuspenseQuery({
     queryKey: ['index', insID, indexUID],
@@ -27,7 +27,7 @@ export const useCurrentIndex = (client: MeiliSearch) => {
       toast.error(`${t('not_found')} 🤥`);
       history.back();
     }
-  }, [history, query.data, query.isFetched, i18n.resolvedLanguage]);
+  }, [history, query.data, query.isFetched, i18n.resolvedLanguage, t]);
 
   return { index: query.data, ready, query };
 };

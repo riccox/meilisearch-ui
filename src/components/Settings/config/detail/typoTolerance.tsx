@@ -13,7 +13,7 @@ export const TypoTolerance: FC<IndexSettingConfigComponentProps> = ({ client, cl
   const query = useQuery({
     queryKey: ['getTypoTolerance', host, client.uid],
 
-    async queryFn(ctx) {
+    async queryFn() {
       return (await client.getTypoTolerance()) as TTypoTolerance;
     },
   });

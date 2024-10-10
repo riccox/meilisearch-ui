@@ -1,13 +1,13 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { DocumentList } from '@/components/Document/list';
-import { SearchBar } from '@/components/Document/searchBar';
+import { SearchFormBar } from '@/components/Document/searchBar';
 import { useForm } from '@mantine/form';
 import { useQuery } from '@tanstack/react-query';
 import { useMeiliClient } from '@/hooks/useMeiliClient';
 import { useCurrentInstance } from '@/hooks/useCurrentInstance';
 import { useTranslation } from 'react-i18next';
 import useDebounce from 'ahooks/lib/useDebounce';
-import { Loader } from '../Loader';
+import { Loader } from '../loader';
 
 const emptySearchResult = {
   hits: [],
@@ -19,7 +19,7 @@ type Props = {
   currentIndex: string;
 };
 
-export const SearchPage = ({ currentIndex }: Props) => {
+export const DocSearchPage = ({ currentIndex }: Props) => {
   const { t } = useTranslation('document');
   const [searchFormError, setSearchFormError] = useState<string | null>(null);
   const currentInstance = useCurrentInstance();
@@ -61,7 +61,7 @@ export const SearchPage = ({ currentIndex }: Props) => {
     refetchOnMount: true,
     refetchOnWindowFocus: false,
     refetchOnReconnect: true,
-    queryFn: async ({ queryKey }) => {
+    queryFn: async () => {
       const {
         q,
         limit,
@@ -118,17 +118,18 @@ export const SearchPage = ({ currentIndex }: Props) => {
 
   return useMemo(
     () => (
-      <div className={`h-full flex flex-col p-6 gap-4 overflow-hidden`}>
+      <div className={`h-full flex flex-col p-4 gap-4 overflow-hidden`}>
         {/* Search bar */}
-        <SearchBar
+        <SearchFormBar
           isFetching={searchDocumentsQuery.isFetching}
           searchForm={searchForm}
           searchFormError={searchFormError}
           onFormSubmit={searchForm.onSubmit(onSearchSubmit)}
         />
+        <div className="h-px w-full bg-neutral-200 scale-x-150"></div>
         <div className={`flex gap-x-4 justify-between items-baseline`}>
           <p className={`font-extrabold text-2xl`}>{t('search.results.label')} </p>
-          <div className={`flex gap-x-2 px-4 font-thin text-xs text-neutral-500`}>
+          <div className={`flex gap-2 px-4 font-light text-xs text-neutral-500`}>
             <p>
               {t('search.results.total_hits', { estimatedTotalHits: searchDocumentsQuery.data?.estimatedTotalHits })}
             </p>
@@ -138,10 +139,10 @@ export const SearchPage = ({ currentIndex }: Props) => {
           </div>
         </div>
         {/* Doc List */}
-        <div className={`flex-1 flex flex-col gap-4 overflow-scroll`}>
+        <div className={`flex flex-col gap-4 overflow-scroll`}>
           {searchDocumentsQuery.isFetching ? (
             <div className={`flex-1 flex justify-center items-center`}>
-              <Loader size={'md'} />
+              <Loader />
             </div>
           ) : (
             <DocumentList

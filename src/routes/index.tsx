@@ -183,7 +183,7 @@ function Dashboard() {
 
 export const Route = createFileRoute('/')({
   component: Dashboard,
-  beforeLoad: async ({}) => {
+  beforeLoad: async () => {
     if (isSingletonMode()) {
       throw redirect({
         to: '/ins/$insID',

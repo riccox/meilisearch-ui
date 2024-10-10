@@ -18,7 +18,7 @@ export const FilterableAttributes: FC<IndexSettingConfigComponentProps> = ({
 
   const query = useQuery({
     queryKey: ['getFilterableAttributes', host, client.uid],
-    async queryFn(ctx) {
+    async queryFn() {
       return await client.getFilterableAttributes();
     },
   });

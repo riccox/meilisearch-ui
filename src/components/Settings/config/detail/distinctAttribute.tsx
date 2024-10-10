@@ -13,7 +13,7 @@ export const DistinctAttribute: FC<IndexSettingConfigComponentProps> = ({ client
 
   const query = useQuery({
     queryKey: ['getDistinctAttribute', host, client.uid],
-    async queryFn(ctx) {
+    async queryFn() {
       return await client.getDistinctAttribute();
     },
   });

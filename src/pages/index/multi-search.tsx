@@ -8,6 +8,7 @@ import { useQuery } from '@tanstack/react-query';
 import { MultiSearchQuery, MultiSearchResult } from 'meilisearch';
 import { useMemo, useReducer } from 'react';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 type DocList = (MultiSearchResult<Record<string, any>> & { primaryKey?: string })[];
 
 type State = {
@@ -39,7 +40,7 @@ export const MultiIndexSearch = () => {
         const data: DocList = (await client!.multiSearch({ queries: state.queries })).results;
 
         if (data.length > 0) {
-          for (let i in data) {
+          for (const i in data) {
             data[i] = {
               ...data[i],
               primaryKey: (await client.index(data[i].indexUid).getRawInfo())!.primaryKey,
@@ -48,7 +49,7 @@ export const MultiIndexSearch = () => {
         }
 
         return data || [];
-      } catch (err) {
+      } catch {
         return [];
       }
     },

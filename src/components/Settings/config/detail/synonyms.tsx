@@ -40,7 +40,7 @@ export const Synonyms: FC<IndexSettingConfigComponentProps> = ({ client, classNa
   const query = useQuery({
     queryKey: ['getSynonyms', host, client.uid],
 
-    async queryFn(ctx) {
+    async queryFn() {
       return (await client.getSynonyms()) as TSynonyms;
     },
   });

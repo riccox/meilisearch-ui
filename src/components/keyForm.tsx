@@ -58,7 +58,7 @@ export const KeyForm: FC<Props> = ({ className = '', type = 'create', data, afte
       setIsSubmitLoading(false);
       afterSubmit();
     },
-    [formType, editing]
+    [formType, afterSubmit, client, editing]
   );
 
   return (
