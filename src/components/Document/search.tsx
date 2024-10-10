@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { DocumentList } from '@/components/Document/list';
-import { SearchFormBar } from '@/components/Document/searchBar';
 import { useForm } from '@mantine/form';
 import { useQuery } from '@tanstack/react-query';
 import { useMeiliClient } from '@/hooks/useMeiliClient';
@@ -8,6 +7,7 @@ import { useCurrentInstance } from '@/hooks/useCurrentInstance';
 import { useTranslation } from 'react-i18next';
 import useDebounce from 'ahooks/lib/useDebounce';
 import { Loader } from '../loader';
+import { SearchForm } from './searchForm';
 
 const emptySearchResult = {
   hits: [],
@@ -21,6 +21,7 @@ type Props = {
 
 export const DocSearchPage = ({ currentIndex }: Props) => {
   const { t } = useTranslation('document');
+  const [searchAutoRefresh, setSearchAutoRefresh] = useState<boolean>(false);
   const [searchFormError, setSearchFormError] = useState<string | null>(null);
   const currentInstance = useCurrentInstance();
   const host = currentInstance?.host;
@@ -57,10 +58,10 @@ export const DocSearchPage = ({ currentIndex }: Props) => {
 
   const searchDocumentsQuery = useQuery({
     queryKey: ['searchDocuments', host, indexClient?.uid],
-    refetchInterval: false,
-    refetchOnMount: true,
-    refetchOnWindowFocus: false,
-    refetchOnReconnect: true,
+    refetchInterval: searchAutoRefresh ? 7000 : false,
+    refetchOnMount: searchAutoRefresh,
+    refetchOnWindowFocus: searchAutoRefresh,
+    refetchOnReconnect: searchAutoRefresh,
     queryFn: async () => {
       const {
         q,
@@ -111,7 +112,7 @@ export const DocSearchPage = ({ currentIndex }: Props) => {
 
   // use this to refresh search when typing, DO NOT use useQuery dependencies (will cause unknown rerender error).
   useEffect(() => {
-    searchDocumentsQuery.refetch();
+    searchAutoRefresh && searchDocumentsQuery.refetch();
     // prevent infinite recursion rerender.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedSearchFormValue]);
@@ -120,12 +121,18 @@ export const DocSearchPage = ({ currentIndex }: Props) => {
     () => (
       <div className={`h-full flex flex-col p-4 gap-4 overflow-hidden`}>
         {/* Search bar */}
-        <SearchFormBar
-          isFetching={searchDocumentsQuery.isFetching}
-          searchForm={searchForm}
-          searchFormError={searchFormError}
-          onFormSubmit={searchForm.onSubmit(onSearchSubmit)}
-        />
+        <div className={`rounded-lg ${searchDocumentsQuery.isFetching ? 'rainbow-ring-rotate' : ''}`}>
+          <div className={`rounded-lg p-4 border`}>
+            <SearchForm
+              onAutoRefreshChange={(v) => setSearchAutoRefresh(v)}
+              isFetching={searchDocumentsQuery.isFetching}
+              searchForm={searchForm}
+              searchFormError={searchFormError}
+              onFormSubmit={searchForm.onSubmit(onSearchSubmit)}
+              submitBtnText={t('common:search')}
+            />
+          </div>
+        </div>
         <div className="h-px w-full bg-neutral-200 scale-x-150"></div>
         <div className={`flex gap-x-4 justify-between items-baseline`}>
           <p className={`font-extrabold text-2xl`}>{t('search.results.label')} </p>
