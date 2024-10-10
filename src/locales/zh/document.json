@@ -44,7 +44,7 @@
     },
     "results": {
       "label": "搜索结果",
-      "download": "下载搜索结果集(JSON格式)",
+      "download": "下载搜索结果",
       "type": {
         "json": "JSON",
         "table": "表格",

@@ -155,7 +155,7 @@ export const DocSearchPage = ({ currentIndex }: Props) => {
               size="small"
               onClick={() => exportToJSON(searchDocumentsQuery.data?.hits || emptySearchResult.hits, 'search-results')}
             >
-              {t('search.results.download')}
+              {t('search.results.download')} {`(${searchDocumentsQuery.data?.hits.length || 0})`}
             </Button>
             <p>
               {t('search.results.total_hits', { estimatedTotalHits: searchDocumentsQuery.data?.estimatedTotalHits })}

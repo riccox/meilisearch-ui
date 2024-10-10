@@ -44,7 +44,7 @@
     },
     "results": {
       "label": "Results",
-      "download": "Download results (JSON format)",
+      "download": "Download results",
       "type": {
         "json": "JSON",
         "table": "Table",
