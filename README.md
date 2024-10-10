@@ -80,6 +80,26 @@ Just one click the button below to deploy this app automatically
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Friccox%2Fmeilisearch-ui&project-name=meilisearch-ui)
 
+### Singleton mode
+
+See this [issue](https://github.com/riccox/meilisearch-ui/issues/43).
+
+If you want to use this app with only one meilisearch instance, you can enable the singleton mode by below config.
+
+Then you will directly jump to the instance page when you open this app.
+
+Just need to start this app with some env variables like below.
+
+```sh
+VITE_SINGLETON_MODE=true
+VITE_SINGLETON_HOST=http://localhost:27700
+VITE_SINGLETON_API_KEY=your-api-key
+```
+
+- `VITE_SINGLETON_MODE` tell this app to enable singleton mode.
+- `VITE_SINGLETON_HOST` is the meilisearch host url.
+- `VITE_SINGLETON_API_KEY` is the meilisearch master key.
+
 ## Development
 
 ```sh
