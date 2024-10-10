@@ -21,5 +21,13 @@
     "label": "删除所有文档"
   },
   "primaryKey": "主键",
-  "not_found": "未找到索引"
+  "not_found": "未找到索引",
+  "setting": {
+    "index": {
+      "config": {
+        "label": "索引配置"
+      },
+      "danger_zone": "危险区"
+    }
+  }
 }
