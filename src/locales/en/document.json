@@ -44,6 +44,7 @@
     },
     "results": {
       "label": "Results",
+      "download": "Download results (JSON format)",
       "total_hits": "total {{estimatedTotalHits}} hits",
       "processing_time": "in {{processingTimeMs}} ms"
     }

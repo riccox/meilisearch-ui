@@ -8,6 +8,8 @@ import { useTranslation } from 'react-i18next';
 import useDebounce from 'ahooks/lib/useDebounce';
 import { Loader } from '../loader';
 import { SearchForm } from './searchForm';
+import { Button } from '@douyinfe/semi-ui';
+import { exportToJSON } from '@/utils/file';
 
 const emptySearchResult = {
   hits: [],
@@ -134,9 +136,16 @@ export const DocSearchPage = ({ currentIndex }: Props) => {
           </div>
         </div>
         <div className="h-px w-full bg-neutral-200 scale-x-150"></div>
-        <div className={`flex gap-x-4 justify-between items-baseline`}>
-          <p className={`font-extrabold text-2xl`}>{t('search.results.label')} </p>
-          <div className={`flex gap-2 px-4 font-light text-xs text-neutral-500`}>
+        <div className={`flex gap-4 items-center`}>
+          <p className={`font-extrabold text-2xl`}>{t('search.results.label')}</p>
+          <Button
+            type="secondary"
+            size="small"
+            onClick={() => exportToJSON(searchDocumentsQuery.data?.hits || emptySearchResult.hits, 'search-results')}
+          >
+            {t('search.results.download')}
+          </Button>
+          <div className={`ml-auto flex gap-2 px-4 font-light text-xs text-neutral-500`}>
             <p>
               {t('search.results.total_hits', { estimatedTotalHits: searchDocumentsQuery.data?.estimatedTotalHits })}
             </p>
