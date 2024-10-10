@@ -1,13 +1,5 @@
 {
   "home": "主页",
-  "host": "主机",
-  "status": {
-    "label": "状态",
-    "available": "可用"
-  },
-  "db_size": "数据库大小: {{size}} MB",
-  "meili_version": "Meili 版本",
-  "change_instance": "更换实例",
   "support": "支持",
   "meilisearch_docs": "Meilisearch 文档",
   "issues": "报告问题",
