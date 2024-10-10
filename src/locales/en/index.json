@@ -21,5 +21,13 @@
     "label": "Delete This Index"
   },
   "primaryKey": "Primary Key",
-  "not_found": "Index Not Found"
+  "not_found": "Index Not Found",
+  "setting": {
+    "index": {
+      "config": {
+        "label": "Index Configuration"
+      },
+      "danger_zone": "Danger Zone"
+    }
+  }
 }
