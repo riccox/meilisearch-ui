@@ -1,13 +1,5 @@
 {
   "home": "Home",
-  "host": "Host",
-  "status": {
-    "label": "Status",
-    "available": "Available"
-  },
-  "db_size": "DB Size: {{size}} MB",
-  "meili_version": "Meili Version",
-  "change_instance": "Change instance",
   "support": "Support",
   "meilisearch_docs": "Meilisearch Docs",
   "issues": "Issues",
