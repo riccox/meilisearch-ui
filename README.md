@@ -8,7 +8,6 @@
 <a href="https://hub.docker.com/r/riccoxie/meilisearch-ui/tags" target="_blank">![Docker Image Version (latest semver)](https://img.shields.io/docker/v/riccoxie/meilisearch-ui?label=image%20version&sort=semver)</a>
 <a href="https://hub.docker.com/r/riccoxie/meilisearch-ui" target="_blank">![Docker Pulls](https://img.shields.io/docker/pulls/riccoxie/meilisearch-ui)</a>
 <a href="https://github.com/riccox/meilisearch-ui/blob/main/LICENSE">![license](https://img.shields.io/github/license/riccox/meilisearch-ui)</a>
-<a href="https://meilisearch-ui.riccox.com" target="_blank">![GitHub deployments](https://img.shields.io/github/deployments/riccox/meilisearch-ui/production?label=Demo On Vercel =vercel)</a>
 
 <a href="https://www.producthunt.com/posts/meilisearch-ui?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-meilisearch&#0045;ui" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=373175&theme=light" alt="Meilisearch&#0045;UI - Pretty&#0044;&#0032;simple&#0032;and&#0032;fast&#0032;meilisearch&#0032;admin&#0032;dashboard | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" /></a>
 
@@ -32,9 +31,15 @@
 
 🔒 Data is stored inside your browser
 
+📦 Docker image support
+
+🎱 Singleton mode support (easy to integrate with your own apps)
+
+🌐 I18n support (en, zh)
+
 ## Quick start
 
-> ⚠️ This app have not achieved responsive design, so mind that only use this app on desktop to gain better experience.
+> ⚠️ This app have not achieved responsive design totally, so mind that only use this app on desktop to gain better experience.
 
 ### CORS settings
 
@@ -84,23 +89,39 @@ cd meilisearch-ui
 
 pnpm install
 
-pnpm run dev
+pnpm dev
 ```
 
 ## Built with ♥
 
+- Meilisearch
+- Tanstack
 - React v18
+- Arco design
+- Semi UI
+- Mantine UI
+- Next UI
+- Radix UI
+- Tabler Icon
+- Lucide Icon
+- Monaco Editor for react
 - TypeScript
 - Vite
-- ReactRouter
-- Mantine
 - Zustand
-- Tailwind CSS
-- ReactErrorBoundary
+- TailwindCSS
+- React Error Boundary
 - Prettier
 - Fuse.js
-- echarts
+- Echarts
 - Lodash.js
 - Immer
+- Ahooks
+- Framer motion
 - react-json-view
 - Dayjs
+- I18Next
+- UnoCSS
+- qs
+- Sonner
+- Vaul
+- Zod
