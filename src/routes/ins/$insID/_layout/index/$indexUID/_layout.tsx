@@ -28,7 +28,7 @@ function IndexDash() {
 
   return useMemo(() => {
     return (
-      <div className="flex-1 grid grid-cols-4 laptop:grid-cols-6 overflow-hidden">
+      <div className="flex-1 grid grid-cols-5 laptop:grid-cols-7 overflow-hidden">
         <div className="p-4 flex flex-col gap-4 border-r">
           <TitleWithUnderline className="scale-90">{`${currentIndex.index?.uid}`}</TitleWithUnderline>
           <InfoRow label="UID" value={<Copyable>{currentIndex.index?.uid || ''}</Copyable>} />
