@@ -60,3 +60,33 @@ export const getTimeText = (
 export const stringifyJsonPretty = (json?: string | object | null) => {
   return JSON.stringify(json, undefined, 2);
 };
+
+export function isValidDateTime(str: string): Date | false {
+  if (dayjs(str).isValid()) {
+    if (/^\d+$/g.test(str) && str.length < 13) {
+      // unix timestamp
+      return dayjs.unix(parseInt(str)).toDate();
+    }
+    return dayjs(str).toDate();
+  } else {
+    return false;
+  }
+}
+
+export function isValidHttpUrl(str: string): boolean {
+  try {
+    const url = new URL(str);
+    return url.protocol === 'http:' || url.protocol === 'https:';
+  } catch {
+    return false;
+  }
+}
+
+export function isValidImgUrl(str: string): boolean {
+  try {
+    const url = new URL(str);
+    return (url.protocol === 'http:' || url.protocol === 'https:') && /\.(jpg|jpeg|png|gif|webp)$/.test(url.pathname);
+  } catch {
+    return false;
+  }
+}

@@ -45,6 +45,11 @@
     "results": {
       "label": "Results",
       "download": "Download results (JSON format)",
+      "type": {
+        "json": "JSON",
+        "table": "Table",
+        "grid": "Grid"
+      },
       "total_hits": "total {{estimatedTotalHits}} hits",
       "processing_time": "in {{processingTimeMs}} ms"
     }

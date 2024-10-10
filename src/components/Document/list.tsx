@@ -3,22 +3,29 @@ import { showTaskErrorNotification, showTaskSubmitNotification } from '@/utils/t
 import { toast } from '@/utils/toast';
 import { useMutation } from '@tanstack/react-query';
 import { useCallback, useMemo, useState } from 'react';
-import ReactJson from 'react-json-view';
 import MonacoEditor from '@monaco-editor/react';
-import clsx from 'clsx';
 import { useTranslation } from 'react-i18next';
-import { Button } from '@arco-design/web-react';
 import { Modal } from '@douyinfe/semi-ui';
+import { JSONItem } from './JSONItem';
+import { Table, TableProps } from '@arco-design/web-react';
+import { GridItem } from './GridItem';
+import { Button } from '@arco-design/web-react';
 
-type Doc = { indexId: string; content: object; primaryKey: string };
+export type Doc = { indexId: string; content: Record<string, unknown>; primaryKey: string };
+export type BaseDocItemProps = {
+  doc: Doc;
+  onClickDocumentUpdate: (doc: Doc) => void;
+  onClickDocumentDel: (doc: Doc) => void;
+};
+export type ListType = 'json' | 'table' | 'grid';
 
 interface Props {
+  type?: ListType;
   docs?: Doc[];
-  showIndex?: boolean;
   refetchDocs: () => void;
 }
 
-export const DocumentList = ({ docs = [], showIndex = false, refetchDocs }: Props) => {
+export const DocumentList = ({ docs = [], refetchDocs, type = 'json' }: Props) => {
   const { t } = useTranslation('document');
   const client = useMeiliClient();
   const [editingDocument, setEditingDocument] = useState<Doc>();
@@ -127,40 +134,81 @@ export const DocumentList = ({ docs = [], showIndex = false, refetchDocs }: Prop
     [editDocumentMutation, editingDocument, onEditDocumentJsonEditorUpdate, t]
   );
 
-  const list = useMemo(() => {
-    return docs.map((d, i) => {
-      return (
-        <div
-          className={`text-xs rounded-xl p-4 bg-primary-100 odd:bg-opacity-20 even:bg-opacity-10 group relative`}
-          key={i}
-        >
-          <div
-            className={clsx(`absolute right-3 top-3 opacity-95 badge outline sm bw cornered`, !showIndex && 'hidden')}
-          >
-            {d.indexId}
-          </div>
-          <ReactJson
-            name={false}
-            displayDataTypes={false}
-            displayObjectSize={false}
-            src={d.content}
-            collapsed={3}
-            collapseStringsAfterLength={50}
+  return useMemo(
+    () =>
+      type === 'table' ? (
+        <>
+          <Table
+            columns={([
+              ...new Set(
+                docs.reduce(
+                  (keys, obj) => {
+                    return keys.concat(Object.keys(obj.content));
+                  },
+                  [docs[0].primaryKey]
+                )
+              ),
+            ].map((i) => ({ title: i, dataIndex: i })) as TableProps['columns'])!.concat([
+              {
+                title: t('common:actions'),
+                fixed: 'right',
+                render: (_col, _record, index) => (
+                  <div className={`flex items-center gap-2`}>
+                    <Button
+                      type="secondary"
+                      size="mini"
+                      status="warning"
+                      onClick={() => onClickDocumentUpdate(docs[index])}
+                    >
+                      {t('common:update')}
+                    </Button>
+                    <Button
+                      type="secondary"
+                      size="mini"
+                      status="danger"
+                      onClick={() => onClickDocumentDel(docs[index])}
+                    >
+                      {t('common:delete')}
+                    </Button>
+                  </div>
+                ),
+              },
+            ])}
+            data={docs.map((d) => ({ ...d.content }))}
+            stripe
+            hover
+            virtualized
+            pagination={false}
+            size="small"
           />
-          <div
-            className={`absolute right-0 bottom-0 opacity-95 invisible group-hover:visible p-2 flex items-center gap-2`}
-          >
-            <Button type="secondary" size="mini" status="warning" onClick={() => onClickDocumentUpdate(d)}>
-              {t('common:update')}
-            </Button>
-            <Button type="secondary" size="mini" status="danger" onClick={() => onClickDocumentDel(d)}>
-              {t('common:delete')}
-            </Button>
-          </div>
+        </>
+      ) : type === 'grid' ? (
+        <div className="grid grid-cols-3 laptop:grid-cols-4 gap-3">
+          {docs.map((d, i) => {
+            return (
+              <GridItem
+                doc={d}
+                key={i}
+                onClickDocumentDel={onClickDocumentDel}
+                onClickDocumentUpdate={onClickDocumentUpdate}
+              />
+            );
+          })}
         </div>
-      );
-    });
-  }, [docs, showIndex, onClickDocumentUpdate, onClickDocumentDel, t]);
-
-  return useMemo(() => <>{list}</>, [list]);
+      ) : (
+        <>
+          {docs.map((d, i) => {
+            return (
+              <JSONItem
+                doc={d}
+                key={i}
+                onClickDocumentDel={onClickDocumentDel}
+                onClickDocumentUpdate={onClickDocumentUpdate}
+              />
+            );
+          })}
+        </>
+      ),
+    [docs, onClickDocumentDel, onClickDocumentUpdate, t, type]
+  );
 };

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { DocumentList } from '@/components/Document/list';
+import { DocumentList, ListType } from '@/components/Document/list';
 import { useForm } from '@mantine/form';
 import { useQuery } from '@tanstack/react-query';
 import { useMeiliClient } from '@/hooks/useMeiliClient';
@@ -8,7 +8,7 @@ import { useTranslation } from 'react-i18next';
 import useDebounce from 'ahooks/lib/useDebounce';
 import { Loader } from '../loader';
 import { SearchForm } from './searchForm';
-import { Button } from '@douyinfe/semi-ui';
+import { Button, Radio, RadioGroup } from '@douyinfe/semi-ui';
 import { exportToJSON } from '@/utils/file';
 
 const emptySearchResult = {
@@ -23,6 +23,7 @@ type Props = {
 
 export const DocSearchPage = ({ currentIndex }: Props) => {
   const { t } = useTranslation('document');
+  const [listType, setListType] = useState<ListType>('json');
   const [searchAutoRefresh, setSearchAutoRefresh] = useState<boolean>(false);
   const [searchFormError, setSearchFormError] = useState<string | null>(null);
   const currentInstance = useCurrentInstance();
@@ -138,14 +139,24 @@ export const DocSearchPage = ({ currentIndex }: Props) => {
         <div className="h-px w-full bg-neutral-200 scale-x-150"></div>
         <div className={`flex gap-4 items-center`}>
           <p className={`font-extrabold text-2xl`}>{t('search.results.label')}</p>
-          <Button
-            type="secondary"
-            size="small"
-            onClick={() => exportToJSON(searchDocumentsQuery.data?.hits || emptySearchResult.hits, 'search-results')}
+          <RadioGroup
+            type="button"
+            buttonSize="middle"
+            defaultValue={listType}
+            onChange={(e) => setListType(e.target.value)}
           >
-            {t('search.results.download')}
-          </Button>
-          <div className={`ml-auto flex gap-2 px-4 font-light text-xs text-neutral-500`}>
+            <Radio value={'json'}>JSON</Radio>
+            <Radio value={'table'}>{t('search.results.type.table')}</Radio>
+            <Radio value={'grid'}>{t('search.results.type.grid')}</Radio>
+          </RadioGroup>
+          <div className={`ml-auto flex items-center gap-3 px-4 font-light text-xs text-neutral-500`}>
+            <Button
+              type="secondary"
+              size="small"
+              onClick={() => exportToJSON(searchDocumentsQuery.data?.hits || emptySearchResult.hits, 'search-results')}
+            >
+              {t('search.results.download')}
+            </Button>
             <p>
               {t('search.results.total_hits', { estimatedTotalHits: searchDocumentsQuery.data?.estimatedTotalHits })}
             </p>
@@ -162,6 +173,7 @@ export const DocSearchPage = ({ currentIndex }: Props) => {
             </div>
           ) : (
             <DocumentList
+              type={listType}
               docs={searchDocumentsQuery.data?.hits.map((i) => ({
                 indexId: currentIndex,
                 content: i,
@@ -174,17 +186,18 @@ export const DocSearchPage = ({ currentIndex }: Props) => {
       </div>
     ),
     [
-      currentIndex,
-      t,
-      indexPrimaryKeyQuery.data,
-      onSearchSubmit,
-      searchDocumentsQuery.data?.estimatedTotalHits,
-      searchDocumentsQuery.data?.hits,
-      searchDocumentsQuery.data?.processingTimeMs,
       searchDocumentsQuery.isFetching,
+      searchDocumentsQuery.data?.estimatedTotalHits,
+      searchDocumentsQuery.data?.processingTimeMs,
+      searchDocumentsQuery.data?.hits,
       searchDocumentsQuery.refetch,
       searchForm,
       searchFormError,
+      onSearchSubmit,
+      t,
+      listType,
+      currentIndex,
+      indexPrimaryKeyQuery.data,
     ]
   );
 };
