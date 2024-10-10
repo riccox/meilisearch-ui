@@ -8,7 +8,7 @@ import SemiPlugin from './src/lib/semi';
 import UnoCSS from 'unocss/vite';
 import { execSync } from 'child_process';
 
-// 创建一个插件来注入 Git hash
+// Plugin to get Git hash
 function gitHashPlugin(): Plugin {
   return {
     name: 'git-hash-plugin',

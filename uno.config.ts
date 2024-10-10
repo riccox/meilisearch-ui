@@ -11,5 +11,4 @@ export default defineConfig({
       ...theme.colors,
     },
   },
-  transformers: [transformerAttributifyJsx()],
 });
