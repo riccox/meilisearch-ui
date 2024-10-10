@@ -36,6 +36,10 @@
       "sort": {
         "label": "Sort",
         "tip": "use half-width comma(',') to separate multi sort expression and order"
+      },
+      "autoRefresh": {
+        "label": "Auto Refresh",
+        "tip": "After turning it on, the search results will be automatically refreshed (every 7 seconds, when filter conditions change, when the network environment changes). This option will increase QPS. Please pay attention to paid instances!"
       }
     },
     "results": {
