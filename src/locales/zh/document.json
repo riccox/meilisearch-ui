@@ -11,7 +11,7 @@
   "empty_area_tip": "选择索引 或 在左侧创建索引 以开始",
   "delete_document": "删除文档",
   "delete": {
-    "tip": "是否确实要删除这个",
+    "tip": "是否确实要<strong>删除索引 {{indexId}} 中这个主键为 {{primaryKey}} 的文档</strong>?",
     "require_primaryKey": "文档删除需要索引 {{indexId}} 中存在有效的primaryKey"
   },
   "edit_document": "编辑文档",

@@ -11,7 +11,7 @@ export const Pagination: FC<IndexSettingConfigComponentProps> = ({ client, class
 
   const query = useQuery({
     queryKey: ['getPagination', host, client.uid],
-    async queryFn(ctx) {
+    async queryFn() {
       return (await client.getPagination()) as TPagination;
     },
   });

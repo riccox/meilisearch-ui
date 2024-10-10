@@ -11,8 +11,8 @@
   "empty_area_tip": "Select or Create a index on the left to start",
   "delete_document": "Delete document",
   "delete": {
-    "tip": "Are you sure you want to delete this",
-    "require_primaryKey": "Document deletion require the valid primaryKey in index {{indexId}}"
+    "tip": "Are you sure you want to <strong>delete this document from index {{indexId}} with primaryKey {{primaryKey}}?</strong>",
+    "require_primaryKey": "Document deletion require the valid primaryKey "
   },
   "edit_document": "Edit document",
   "search": {

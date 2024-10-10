@@ -48,12 +48,12 @@ export const IndexPrimaryKey = ({ afterMutation }: Props) => {
         toast.error(t('toast.fail', { msg: e as string }));
       }
     },
-    [client, form, t]
+    [afterMutation, currentIndex.index, form, t]
   );
 
   return (
     <>
-      <div flex gap-1 items-center>
+      <div className="flex gap-1 items-center">
         {currentIndex.index.primaryKey ? (
           <Copyable>{currentIndex.index.primaryKey as string}</Copyable>
         ) : (

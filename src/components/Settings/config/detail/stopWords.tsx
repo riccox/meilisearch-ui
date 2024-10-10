@@ -14,7 +14,7 @@ export const StopWords: FC<IndexSettingConfigComponentProps> = ({ client, classN
   const query = useQuery({
     queryKey: ['getStopWords', host, client.uid],
 
-    async queryFn(ctx) {
+    async queryFn() {
       return await client.getStopWords();
     },
   });

@@ -50,7 +50,7 @@ export const CreateIndexButton = ({ afterMutation }: Props) => {
         toast.error(t('toast.fail', { msg: e as string }));
       }
     },
-    [client, form, t]
+    [afterMutation, client, form, t]
   );
 
   return (

@@ -8,7 +8,7 @@ import { isSingletonMode } from '@/utils/conn';
 import { useAppStore } from '@/store';
 
 export const useMeiliClient = () => {
-  const { t, i18n } = useTranslation('instance');
+  const { t } = useTranslation('instance');
   const currentInstance = useCurrentInstance();
 
   const [client, setClient] = useState<MeiliSearch>(
@@ -57,7 +57,7 @@ export const useMeiliClient = () => {
         }
       }
     }
-  }, [currentInstance, i18n.resolvedLanguage]);
+  }, [currentInstance, setWarningPageData, t]);
 
   useEffect(() => {
     console.debug('useMeilisearchClient', 'rebuilt meili client');

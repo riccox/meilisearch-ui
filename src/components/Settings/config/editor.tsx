@@ -11,6 +11,7 @@ import { useTranslation } from 'react-i18next';
 export const Editor: FC<IndexSettingConfigComponentProps> = ({ client, host, className, toggleLoading }) => {
   const { t } = useTranslation('instance');
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const editorRef = useRef<any>(null);
   const [isSettingsEditing, setIsSettingsEditing] = useState<boolean>(false);
 

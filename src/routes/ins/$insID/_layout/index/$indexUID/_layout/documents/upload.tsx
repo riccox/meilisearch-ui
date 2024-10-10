@@ -23,6 +23,7 @@ const UploadDoc = () => {
   const { t } = useTranslation('upload');
 
   const [dragAreaState, setDragAreaState] = useState<'leave' | 'over' | 'uploading'>('leave');
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const editorRef = useRef<any>(null);
   const currentInstance = useCurrentInstance();
   const client = useMeiliClient();

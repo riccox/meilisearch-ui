@@ -7,21 +7,19 @@ import { getSingletonCfg, isSingletonMode } from '@/utils/conn';
 
 export const useCurrentInstance = () => {
   const { t } = useTranslation('instance');
-  if (!isSingletonMode()) {
-    let { insID } = useParams({ strict: false }) as { insID: string };
-    const currentInstance = useAppStore((state) => state.instances.find((i) => i.id === parseInt(insID || '1')));
+  const { insID } = useParams({ strict: false }) as { insID: string };
+  const currentInstance = useAppStore((state) => state.instances.find((i) => i.id === parseInt(insID || '1')));
+  const setWarningPageData = useAppStore((state) => state.setWarningPageData);
 
+  if (!isSingletonMode()) {
     if (currentInstance && _.isEmpty(currentInstance)) {
       toast.error(`${t('not_found')} 🤥`);
       console.debug('useCurrentInstance', 'Instance lost');
       // do not use useNavigate, because maybe in first render
       window.location.assign(import.meta.env.BASE_URL ?? '/');
     }
-
     return currentInstance as Instance;
   } else {
-    const setWarningPageData = useAppStore((state) => state.setWarningPageData);
-
     const currentInstance = getSingletonCfg();
     if (!currentInstance) {
       toast.error(`${t('not_found')} 🤥`);

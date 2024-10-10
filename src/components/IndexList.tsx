@@ -8,10 +8,11 @@ import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { Link } from '@tanstack/react-router';
 import _ from 'lodash';
 import MeiliSearch from 'meilisearch';
-import { FC, useEffect, useMemo } from 'react';
+import { FC, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useImmer } from 'use-immer';
 import { CreateIndexButton } from './createIndex';
+import { cn } from '@/lib/cn';
 
 interface Props {
   className?: string;
@@ -37,11 +38,6 @@ export const IndexList: FC<Props> = ({ className = '', client }) => {
     placeholderData: keepPreviousData,
   });
 
-  useEffect(() => {
-    if (query.isSuccess) {
-    }
-  }, [query.data, query.isSuccess]);
-
   const listData = useMemo(() => {
     return query.data?.results.map((index) => {
       const uid = index.uid;
@@ -65,7 +61,7 @@ export const IndexList: FC<Props> = ({ className = '', client }) => {
 
   return useMemo(
     () => (
-      <div className="flex flex-col gap-y-2 flex-1">
+      <div className={cn('flex flex-col gap-y-2 flex-1', className)}>
         <div className="flex justify-between">
           <div className="text-2xl font-bold">{t('common:indexes')}</div>
           <CreateIndexButton afterMutation={() => query.refetch()} />
@@ -118,6 +114,6 @@ export const IndexList: FC<Props> = ({ className = '', client }) => {
         </div>
       </div>
     ),
-    [listData, pagination.currentPage, query, state.limit, t, updateState]
+    [className, listData, pagination.currentPage, query, state.limit, t, updateState]
   );
 };

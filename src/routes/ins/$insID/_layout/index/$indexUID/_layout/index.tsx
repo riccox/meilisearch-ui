@@ -2,7 +2,6 @@ import { useCurrentIndex } from '@/hooks/useCurrentIndex';
 import { useInstanceStats } from '@/hooks/useInstanceStats';
 import { useMeiliClient } from '@/hooks/useMeiliClient';
 import { createFileRoute } from '@tanstack/react-router';
-import _ from 'lodash';
 import { FieldDistribution } from 'meilisearch';
 import { useTranslation } from 'react-i18next';
 import ReactECharts from 'echarts-for-react';
@@ -20,7 +19,7 @@ const Page = () => {
   return (
     <div className="grid grid-cols-6 h-full overflow-scroll">
       <main className="p-4 laptop:col-start-2 laptop:-col-end-2 col-start-1 -col-end-1 flex flex-col gap-4">
-        <div flex flex-col gap-4 px-1>
+        <div className="flex flex-col gap-4 px-1">
           <Statistic
             title={<div className="text-1rem text-black font-bold">{t('count')}</div>}
             value={stats?.indexes[currentIndex.index.uid].numberOfDocuments}
@@ -66,6 +65,7 @@ const Page = () => {
                     label: {
                       show: true,
                       position: 'inner',
+                      // eslint-disable-next-line @typescript-eslint/no-explicit-any
                       formatter: function (params: any) {
                         return `${params.name}(${params.value})`;
                       },

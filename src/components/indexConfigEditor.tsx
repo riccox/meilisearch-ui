@@ -17,6 +17,7 @@ export const IndexConfigEditor: FC<{
   const client = useMeiliClient();
   const currentIndex = useCurrentIndex(client);
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const editorRef = useRef<any>(null);
   const [isSettingsEditing, setIsSettingsEditing] = useState<boolean>(false);
 
@@ -154,11 +155,12 @@ export const IndexConfigEditor: FC<{
     [
       className,
       t,
-      indexSettingDisplayData,
       isSettingsEditing,
+      isLoading,
+      indexSettingDisplayData,
+      onSettingJsonEditorUpdate,
       onClickEditSettings,
       onSaveSettings,
-      onSettingJsonEditorUpdate,
       resetSettings,
     ]
   );
