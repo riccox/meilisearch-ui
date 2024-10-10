@@ -1,5 +1,36 @@
 # Changelog
 
+## [0.7.0](https://github.com/riccox/meilisearch-ui/compare/v0.6.16...v0.7.0) (2024-10-10)
+
+### Design
+
+This version rebuilt most parts of this panel into a brand new design.
+
+### Features
+
+* add auto refresh search switch. ([1a276aa](https://github.com/riccox/meilisearch-ui/commit/1a276aa14adc4a2a7240ff320f4890a42644ee7f))
+* add search result download btn. ([4140c94](https://github.com/riccox/meilisearch-ui/commit/4140c94ba6377ebf8da6aac1d4be3de09bd905c6))
+* add singleton mode support. ([eab7baf](https://github.com/riccox/meilisearch-ui/commit/eab7bafb192aeeb4687b6d42e593b2f2f4c2858b))
+* add version component into footer. ([168c1e3](https://github.com/riccox/meilisearch-ui/commit/168c1e3ac6e645a4acb7d75c547446f87e55ff59))
+* key form add uid option. ([53bc58c](https://github.com/riccox/meilisearch-ui/commit/53bc58cdf6b308343093e3a41c2d7da14016e7d3))
+* rebuild index page layout. ([d818599](https://github.com/riccox/meilisearch-ui/commit/d818599cfb63174d47488b31fa22193b794ed65f))
+* rebuilt instance form modal. ([bc0eb85](https://github.com/riccox/meilisearch-ui/commit/bc0eb85e31eb232cc7c61c4fe048bcaa6d883316))
+* support multiple search docs list styles. ([444d496](https://github.com/riccox/meilisearch-ui/commit/444d496fe8c21215932c02fc7e2012695e22f2bd))
+* task list add index UID & enqueuedAt filters. ([98f3878](https://github.com/riccox/meilisearch-ui/commit/98f38789fc360ef42afdf9775f9af650a52abece))
+
+### Bug Fixes
+
+* index overview numberOfDocuments stats. ([9611b24](https://github.com/riccox/meilisearch-ui/commit/9611b249b41a12a6374c71f2ef269bcfa22b1a65))
+
+
+### Performance Improvements
+
+* add footer app version. ([8824c0d](https://github.com/riccox/meilisearch-ui/commit/8824c0d14528076193f35244fcb1b211c479d15e))
+* add nav breadcrumb ins name display. ([e071664](https://github.com/riccox/meilisearch-ui/commit/e071664c8c66748b3eea84c8de0b804e12b71682))
+* disabled un-editable options in edit key form. ([53bc58c](https://github.com/riccox/meilisearch-ui/commit/53bc58cdf6b308343093e3a41c2d7da14016e7d3))
+* improved index list card style. ([98d01cd](https://github.com/riccox/meilisearch-ui/commit/98d01cdb6a48c9818bd5e121ebc9f94977e17163))
+* improved lang selector style. ([98d01cd](https://github.com/riccox/meilisearch-ui/commit/98d01cdb6a48c9818bd5e121ebc9f94977e17163))
+
 ## [0.6.16](https://github.com/riccox/meilisearch-ui/compare/v0.6.15...v0.6.16) (2024-06-14)
 
 
