@@ -1,14 +1,5 @@
 {
-  "fieldDistribution": {
-    "label": "Field Distribution",
-    "subtitle": "Go to official docs about “Field Distribution”"
-  },
-  "count": "Count",
   "upload_documents": "Upload documents",
-  "add_documents": "Add documents",
-  "indexing": "Indexing",
-  "indexing_tip": "This index is indexing documents, setting & search results may be incorrect now!",
-  "empty_area_tip": "Select or Create a index on the left to start",
   "delete_document": "Delete document",
   "delete": {
     "tip": "Are you sure you want to <strong>delete this document from index {{indexId}} with primaryKey {{primaryKey}}?</strong>",

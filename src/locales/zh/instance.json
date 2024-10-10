@@ -31,7 +31,6 @@
   "no_master_key_error": "Meilisearch 正在没有设置主密钥的情况下运行。\n若要访问此API端点，您必须在启动时设置主密钥。",
   "singleton_cfg_not_found": "检测到单例模式连接失败！\n正在没有有效实例配置的情况下运行，您必须在启动之前设置正确的实例环境配置",
   "not_found": "未找到实例",
-  "updated_at": "更新于",
   "form": {
     "title": {
       "create": "新增实例",
@@ -49,9 +48,5 @@
       "label": "API 密钥",
       "tip": "不用担心！你的数据只会储存在浏览器本地"
     }
-  },
-  "remove": {
-    "title": "移除这个实例",
-    "tip": "你真的希望移除这个实例"
   }
 }
