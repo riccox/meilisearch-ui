@@ -1,4 +1,4 @@
-FROM node:18-slim AS build
+FROM node:22 AS build
 
 # Setting working directory.
 WORKDIR /opt/meilisearch-ui
