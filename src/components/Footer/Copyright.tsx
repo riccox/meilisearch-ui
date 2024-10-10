@@ -6,7 +6,7 @@ export const Copyright: FC = () => {
   return (
     <div className={`text-nowrap`}>
       {t('powered_by') + ' '}
-      <a className={`hover:underline`} href={`https://ricco.riccox.com`} target="_blank" rel="noreferrer">
+      <a className={`hover:underline`} href={`https://riccox.com`} target="_blank" rel="noreferrer">
         Ricco Xie
       </a>
     </div>
