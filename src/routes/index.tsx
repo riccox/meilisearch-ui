@@ -128,7 +128,7 @@ function Dashboard() {
               <ActionIcon
                 variant="light"
                 color="violet"
-                onClick={() => onClickInstance(instance, `/ins/${instance.id}/index`)}
+                onClick={() => onClickInstance(instance, `/ins/${instance.id}`)}
               >
                 <IconBooks size={24} />
               </ActionIcon>
