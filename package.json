@@ -12,7 +12,7 @@
   },
   "repository": "https://github.com/riccox/meilisearch-ui",
   "homepage": "https://github.com/riccox/meilisearch-ui#readme",
-  "author": "Ricco Xie <ricco@riccox.com> (https://ricco.riccox.com)",
+  "author": "Ricco Xie <ricco@riccox.com> (https://riccox.com)",
   "dependencies": {
     "@arco-design/web-react": "^2.64.0",
     "@douyinfe/semi-ui": "^2.67.0",
