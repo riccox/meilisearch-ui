@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.7.1](https://github.com/riccox/meilisearch-ui/compare/v0.7.0...v0.7.1) (2024-10-10)
+
+
+### Continuous Integration
+
+* docker builder use node:22 with git folder. ([1131b24](https://github.com/riccox/meilisearch-ui/commit/1131b24e8cf8e6f6e10a2dd913603917eb8ec0fb))
+
 ## [0.7.0](https://github.com/riccox/meilisearch-ui/compare/v0.6.16...v0.7.0) (2024-10-10)
 
 ### Design
