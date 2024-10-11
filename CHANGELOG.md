@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.7.2](https://github.com/riccox/meilisearch-ui/compare/v0.7.1...v0.7.2) (2024-10-11)
+
+
+### Bug Fixes
+
+* disable insecure-requests Content-Security-Policy. ([177ba14](https://github.com/riccox/meilisearch-ui/commit/177ba146e84ca79904d90bbe5caf02f5d993d4c0))
+
 ## [0.7.1](https://github.com/riccox/meilisearch-ui/compare/v0.7.0...v0.7.1) (2024-10-10)
 
 
