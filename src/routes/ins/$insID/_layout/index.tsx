@@ -1,6 +1,6 @@
 import { Link, createFileRoute } from '@tanstack/react-router';
 import { useTranslation } from 'react-i18next';
-import { Descriptions, Tag } from '@douyinfe/semi-ui';
+import { Descriptions, Skeleton, Tag } from '@douyinfe/semi-ui';
 import { useCurrentInstance } from '@/hooks/useCurrentInstance';
 import { useMeiliClient } from '@/hooks/useMeiliClient';
 import { useInstanceStats } from '@/hooks/useInstanceStats';
@@ -38,14 +38,26 @@ function InsDash() {
       },
       {
         key: t('db_size'),
-        value: `${_.ceil((stats?.databaseSize ?? 0) / 1048576, 2)} MB`,
+        value: (
+          <Skeleton placeholder={<Skeleton.Title />} active loading={!stats?.databaseSize}>
+            {`${_.ceil((stats?.databaseSize ?? 0) / 1048576, 2)} MB`}
+          </Skeleton>
+        ),
       },
       {
         key: t('status.label'),
         value: isHealth ? <Tag color="green">{t('status.available')}</Tag> : <Tag color="amber">{t('unknown')}</Tag>,
       },
+      {
+        key: t('version.label'),
+        value: (
+          <Skeleton placeholder={<Skeleton.Title />} active loading={!stats?.version}>
+            <Tag>{stats?.version.pkgVersion}</Tag>
+          </Skeleton>
+        ),
+      },
     ];
-  }, [currentInstance.host, currentInstance.updatedTime, isHealth, stats?.databaseSize, t]);
+  }, [currentInstance.host, currentInstance.updatedTime, isHealth, stats?.databaseSize, stats?.version, t]);
 
   return (
     <div className="flex-1 grid grid-cols-4 overflow-scroll">

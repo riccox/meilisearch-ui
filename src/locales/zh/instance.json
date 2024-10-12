@@ -4,6 +4,9 @@
     "label": "状态",
     "available": "可用"
   },
+  "version": {
+    "label": "Meilisearch 版本"
+  },
   "db_size": "数据库大小",
   "meili_version": "Meili 版本",
   "connection_failed": "连接失败, 去检查你的配置! 🤥",

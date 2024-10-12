@@ -1,4 +1,4 @@
-import { MeiliSearch, Stats } from 'meilisearch';
+import { MeiliSearch, Stats, Version } from 'meilisearch';
 import { useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useCurrentInstance } from './useCurrentInstance';
@@ -6,12 +6,12 @@ import { useCurrentInstance } from './useCurrentInstance';
 export const useInstanceStats = (client: MeiliSearch) => {
   const currentInstance = useCurrentInstance();
   const host = currentInstance?.host;
-  const [stats, setStats] = useState<Stats>();
+  const [stats, setStats] = useState<Stats & { version: Version }>();
 
   const query = useQuery({
     queryKey: ['stats', host],
     queryFn: async () => {
-      return await client.getStats();
+      return { ...(await client.getStats()), version: await client.getVersion() };
     },
   });
 
