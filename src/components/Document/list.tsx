@@ -1,15 +1,18 @@
 import { useMeiliClient } from '@/hooks/useMeiliClient';
-import { showTaskErrorNotification, showTaskSubmitNotification } from '@/utils/text';
+import { showTaskErrorNotification, showTaskSubmitNotification, stringifyJsonPretty } from '@/utils/text';
 import { toast } from '@/utils/toast';
 import { useMutation } from '@tanstack/react-query';
 import { useCallback, useMemo, useState } from 'react';
 import MonacoEditor from '@monaco-editor/react';
 import { useTranslation } from 'react-i18next';
-import { Modal } from '@douyinfe/semi-ui';
 import { JSONItem } from './JSONItem';
 import { Table, TableProps } from '@arco-design/web-react';
 import { GridItem } from './GridItem';
 import { Button } from '@arco-design/web-react';
+import { Image, Modal } from '@douyinfe/semi-ui';
+import _ from 'lodash';
+import { Copyable } from '../Copyable';
+import { getTimeText, isValidDateTime, isValidImgUrl } from '@/utils/text';
 
 export type Doc = { indexId: string; content: Record<string, unknown>; primaryKey: string };
 export type BaseDocItemProps = {
@@ -24,6 +27,48 @@ interface Props {
   docs?: Doc[];
   refetchDocs: () => void;
 }
+
+export const ValueDisplay = ({
+  name,
+  value,
+  dateParser = true,
+}: {
+  name: string;
+  value: unknown;
+  dateParser?: boolean;
+}) => {
+  let str = _.toString(value).trim();
+
+  if (_.isObjectLike(value)) {
+    str = stringifyJsonPretty(value as object);
+  }
+
+  return (
+    <div
+      className="cursor-pointer"
+      onClick={() => {
+        Modal.info({
+          title: name,
+          centered: true,
+          content: (
+            <div className="grid gap-2">
+              <Copyable className="overflow-scroll whitespace-pre-wrap text-balance break-words">{str}</Copyable>
+              {isValidImgUrl(str) && <Image width={'100%'} src={str} />}
+            </div>
+          ),
+        });
+      }}
+    >
+      {dateParser && /^.*(date|time).*$/gim.test(name) && isValidDateTime(str) ? (
+        getTimeText(isValidDateTime(str) as Date)
+      ) : isValidImgUrl(str) ? (
+        <Image width={'100%'} src={str} preview={false} />
+      ) : (
+        _.truncate(str, { length: 20 })
+      )}
+    </div>
+  );
+};
 
 export const DocumentList = ({ docs = [], refetchDocs, type = 'json' }: Props) => {
   const { t } = useTranslation('document');
@@ -137,7 +182,7 @@ export const DocumentList = ({ docs = [], refetchDocs, type = 'json' }: Props) =
   return useMemo(
     () =>
       type === 'table' ? (
-        <>
+        <div>
           <Table
             columns={([
               ...new Set(
@@ -148,10 +193,20 @@ export const DocumentList = ({ docs = [], refetchDocs, type = 'json' }: Props) =
                   [docs[0].primaryKey]
                 )
               ),
-            ].map((i) => ({ title: i, dataIndex: i })) as TableProps['columns'])!.concat([
+            ].map((i) => ({
+              title: i,
+              dataIndex: i,
+              width: '10rem',
+              ellipsis: true,
+              render(_col, item) {
+                return <ValueDisplay name={i} value={item[i]} dateParser={false} />;
+              },
+            })) as TableProps['columns'])!.concat([
               {
                 title: t('common:actions'),
                 fixed: 'right',
+                align: 'center',
+                width: '8rem',
                 render: (_col, _record, index) => (
                   <div className={`flex items-center gap-2`}>
                     <Button
@@ -180,8 +235,9 @@ export const DocumentList = ({ docs = [], refetchDocs, type = 'json' }: Props) =
             virtualized
             pagination={false}
             size="small"
+            scroll={{ x: true, y: true }}
           />
-        </>
+        </div>
       ) : type === 'grid' ? (
         <div className="grid grid-cols-3 laptop:grid-cols-4 gap-3">
           {docs.map((d, i) => {
