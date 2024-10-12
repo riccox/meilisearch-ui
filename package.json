@@ -15,6 +15,7 @@
   "author": "Ricco Xie <ricco@riccox.com> (https://riccox.com)",
   "dependencies": {
     "@arco-design/web-react": "^2.64.0",
+    "@arco-themes/react-meilisearch": "^0.0.1",
     "@douyinfe/semi-ui": "^2.67.0",
     "@emotion/react": "^11.13.3",
     "@hookform/resolvers": "^3.9.0",

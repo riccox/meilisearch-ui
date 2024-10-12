@@ -7,17 +7,26 @@ import { IconAlertTriangle } from '@tabler/icons-react';
 import { keepPreviousData, useQuery } from '@tanstack/react-query';
 import { Link } from '@tanstack/react-router';
 import _ from 'lodash';
-import MeiliSearch from 'meilisearch';
+import MeiliSearch, { Index } from 'meilisearch';
 import { FC, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useImmer } from 'use-immer';
 import { CreateIndexButton } from './createIndex';
 import { cn } from '@/lib/cn';
+import Fuse from 'fuse.js';
+import { Input } from '@arco-design/web-react';
 
 interface Props {
   className?: string;
   client: MeiliSearch;
 }
+
+const fuse = new Fuse<Index>([], {
+  keys: ['uid', 'primaryKey'],
+  includeMatches: false,
+  includeScore: true,
+  shouldSort: true,
+});
 
 export const IndexList: FC<Props> = ({ className = '', client }) => {
   const { t } = useTranslation('index');
@@ -28,18 +37,29 @@ export const IndexList: FC<Props> = ({ className = '', client }) => {
   const [state, updateState] = useImmer({
     offset: 0,
     limit: 24,
+    query: '',
   });
 
   const query = useQuery({
     queryKey: ['indexList', host, state],
     queryFn: async () => {
-      return await client.getIndexes(state);
+      const res = await client.getIndexes(_.pick(state, ['offset', 'limit']));
+      fuse.setCollection(res.results || []);
+      return res;
     },
     placeholderData: keepPreviousData,
   });
 
+  const filteredData = useMemo(() => {
+    // empty string cause fuse.search return empty array.
+    if (state.query && state.query.trim().length > 0) {
+      return fuse.search(state.query).map((d) => d.item) || [];
+    }
+    return query.data?.results || [];
+  }, [query.data?.results, state.query]);
+
   const listData = useMemo(() => {
-    return query.data?.results.map((index) => {
+    return filteredData.map((index) => {
       const uid = index.uid;
       const indexStats = stats?.indexes[index.uid];
 
@@ -50,7 +70,7 @@ export const IndexList: FC<Props> = ({ className = '', client }) => {
         isIndexing: indexStats?.isIndexing,
       };
     });
-  }, [currentInstance.id, query.data?.results, stats?.indexes]);
+  }, [currentInstance.id, filteredData, stats?.indexes]);
 
   const pagination = useMemo(() => {
     return {
@@ -62,8 +82,21 @@ export const IndexList: FC<Props> = ({ className = '', client }) => {
   return useMemo(
     () => (
       <div className={cn('flex flex-col gap-y-2 flex-1', className)}>
-        <div className="flex justify-between">
-          <div className="text-2xl font-bold">{t('common:indexes')}</div>
+        <div className="flex items-center gap-4">
+          <div className="text-2xl font-bold text-nowrap">{t('common:indexes')}</div>
+          <Tooltip content={t('search.tip')}>
+            <div className="ml-auto !w-60">
+              <Input.Search
+                placeholder={t('common:search')}
+                defaultValue=""
+                onChange={(v) =>
+                  updateState((d) => {
+                    d.query = v;
+                  })
+                }
+              />
+            </div>
+          </Tooltip>
           <CreateIndexButton afterMutation={() => query.refetch()} />
         </div>
         <div className="grid grid-cols-6 gap-5 place-content-start place-items-start py-3">

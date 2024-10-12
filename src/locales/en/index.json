@@ -29,5 +29,8 @@
       },
       "danger_zone": "Danger Zone"
     }
+  },
+  "search": {
+    "tip": "Only the data presented on this page is searched here because Meilisearch does not provide a search interface for index lists!"
   }
 }

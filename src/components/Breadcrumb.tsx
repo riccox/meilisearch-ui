@@ -18,8 +18,6 @@ export const DashBreadcrumb = () => {
 
   const currentInstance = useAppStore((state) => state.instances.find((i) => i.id === parseInt(insRoute.insID)));
 
-  console.log(11, isSingletonMode());
-
   return (
     <Breadcrumbs color="primary" variant="light">
       {!isSingletonMode() && <BreadcrumbItem href={import.meta.env.BASE_URL ?? '/'}>🏠</BreadcrumbItem>}

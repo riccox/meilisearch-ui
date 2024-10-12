@@ -11,6 +11,9 @@ importers:
       '@arco-design/web-react':
         specifier: ^2.64.0
         version: 2.64.0(@types/react@18.3.11)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      '@arco-themes/react-meilisearch':
+        specifier: ^0.0.1
+        version: 0.0.1(@arco-design/web-react@2.64.0(@types/react@18.3.11)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))
       '@douyinfe/semi-ui':
         specifier: ^2.67.0
         version: 2.67.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -259,6 +262,11 @@ packages:
     peerDependencies:
       react: '>=16'
       react-dom: '>=16'
+
+  '@arco-themes/react-meilisearch@0.0.1':
+    resolution: {integrity: sha512-098NKyRJuigMUkY/oqErlZAsJs1ypMvZQI6cUIK9kS4Acun5LvCoGB46l1x7UJW6Mjn+jieVShchDHfADU0otA==, tarball: https://registry.npmjs.org/@arco-themes/react-meilisearch/-/react-meilisearch-0.0.1.tgz}
+    peerDependencies:
+      '@arco-design/web-react': ^2.64.0
 
   '@babel/code-frame@7.24.7':
     resolution: {integrity: sha512-BcYH1CVJBO9tvyIZ2jVeXgSIMvGZ2FDRvDdOIVQyuklNKSsx+eppDEBq/g47Ayw+RqNFE+URvOShmf+f/qwAlA==}
@@ -6027,6 +6035,10 @@ snapshots:
       shallowequal: 1.1.0
     transitivePeerDependencies:
       - '@types/react'
+
+  '@arco-themes/react-meilisearch@0.0.1(@arco-design/web-react@2.64.0(@types/react@18.3.11)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))':
+    dependencies:
+      '@arco-design/web-react': 2.64.0(@types/react@18.3.11)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
 
   '@babel/code-frame@7.24.7':
     dependencies:
