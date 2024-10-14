@@ -1,5 +1,24 @@
 # Changelog
 
+## [0.8.0](https://github.com/riccox/meilisearch-ui/compare/v0.7.2...v0.8.0) (2024-10-14)
+
+
+### Features
+
+* gh-133 display meilisearch instance version. ([4defa10](https://github.com/riccox/meilisearch-ui/commit/4defa1015072bdcae46e6d8e46139c867038cafd))
+* gh-134 add index list query filter. ([aad00fc](https://github.com/riccox/meilisearch-ui/commit/aad00fc9321c9f3709faf77c0336d141b7a41e4a))
+
+
+### Bug Fixes
+
+* gh-136 table nested json row content cause crush. ([05bb3ec](https://github.com/riccox/meilisearch-ui/commit/05bb3ec79533c29955fd184cb9e7c8adc523183c))
+
+
+### Performance Improvements
+
+* gh-135 field distribution chart only show top 10 fields. ([a05f970](https://github.com/riccox/meilisearch-ui/commit/a05f97008c9af0d5c5dec0dd942de4e4fbfd284a))
+* gh-137 add time ago component. ([dd02bd5](https://github.com/riccox/meilisearch-ui/commit/dd02bd5217f4a414ba08832729115ae796f2c465))
+
 ## [0.7.2](https://github.com/riccox/meilisearch-ui/compare/v0.7.1...v0.7.2) (2024-10-11)
 
 
