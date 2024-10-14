@@ -66,3 +66,12 @@ export const lang2SemiLocale = (lang?: SUPPORTED_LANGUAGE) => {
       return en_US;
   }
 };
+
+export const locale2DayjsLocale = (lang?: SUPPORTED_LANGUAGE) => {
+  switch (lang) {
+    case 'zh':
+      return 'zh-CN';
+    default:
+      return 'en';
+  }
+};

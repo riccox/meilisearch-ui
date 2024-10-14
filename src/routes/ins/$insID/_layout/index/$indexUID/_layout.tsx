@@ -3,12 +3,12 @@ import { useTranslation } from 'react-i18next';
 import { useMeiliClient } from '@/hooks/useMeiliClient';
 import { ReactNode, useMemo } from 'react';
 import { Copyable } from '@/components/Copyable';
-import { getTimeText } from '@/utils/text';
 import { useCurrentIndex } from '@/hooks/useCurrentIndex';
 import { LoaderPage } from '@/components/loader';
 import { TitleWithUnderline } from '@/components/title';
 import { Button } from '@nextui-org/react';
 import { IndexPrimaryKey } from '@/components/indexPrimaryKey';
+import { TimeAgo } from '@/components/timeago';
 
 const InfoRow = ({ value, label }: { label: string; value: ReactNode }) => {
   return (
@@ -32,7 +32,7 @@ function IndexDash() {
         <div className="p-4 flex flex-col gap-4 border-r">
           <TitleWithUnderline className="scale-90">{`${currentIndex.index?.uid}`}</TitleWithUnderline>
           <InfoRow label="UID" value={<Copyable>{currentIndex.index?.uid || ''}</Copyable>} />
-          <InfoRow label={t('common:updated_at')} value={getTimeText(currentIndex.index?.updatedAt)} />
+          <InfoRow label={t('common:updated_at')} value={<TimeAgo date={currentIndex.index?.updatedAt} />} />
           {currentIndex.index && (
             <InfoRow
               label={t('primaryKey')}

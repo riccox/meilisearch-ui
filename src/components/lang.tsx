@@ -1,9 +1,11 @@
 'use client';
-import { FC } from 'react';
-import { SUPPORTED_LANGUAGE, SUPPORTED_LANGUAGE_LOCALIZED } from '../utils/i18n';
+import { FC, useEffect } from 'react';
+import { locale2DayjsLocale, SUPPORTED_LANGUAGE, SUPPORTED_LANGUAGE_LOCALIZED } from '../utils/i18n';
 import _ from 'lodash';
 import { useTranslation } from 'react-i18next';
 import { cn } from '@/lib/cn';
+import dayjs from 'dayjs';
+import 'dayjs/locale/zh-cn';
 
 interface Props {
   className?: string;
@@ -11,7 +13,9 @@ interface Props {
 
 export const LangSelector: FC<Props> = ({ className = '' }) => {
   const { i18n } = useTranslation();
-
+  useEffect(() => {
+    dayjs.locale(locale2DayjsLocale(i18n.resolvedLanguage as SUPPORTED_LANGUAGE));
+  }, [i18n.resolvedLanguage]);
   return (
     <select
       value={i18n.resolvedLanguage}

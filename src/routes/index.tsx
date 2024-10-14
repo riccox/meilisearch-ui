@@ -6,12 +6,12 @@ import { Footer } from '@/components/Footer';
 import { IconBooks, IconCirclePlus, IconCircleX, IconKey, IconListCheck, IconPencilMinus } from '@tabler/icons-react';
 import { isSingletonMode, testConnection, validateKeysRouteAvailable } from '@/utils/conn';
 import { modals } from '@mantine/modals';
-import { getTimeText } from '@/utils/text';
 import { useNavigatePreCheck } from '@/hooks/useRoutePreCheck';
 import { useTranslation } from 'react-i18next';
 import { createFileRoute, redirect } from '@tanstack/react-router';
 import { Button } from '@douyinfe/semi-ui';
 import { InsFormModal } from '@/components/instanceFormModal';
+import { TimeAgo } from '@/components/timeago';
 
 const instanceCardClassName = `col-span-1 h-28 rounded-lg`;
 
@@ -121,8 +121,8 @@ function Dashboard() {
             </div>
           </div>
           <div className={`w-full flex justify-end items-center gap-x-3`}>
-            <p className={`mr-auto text-neutral-500 text-sm`}>
-              {t('instance.updated_at')} {getTimeText(instance.updatedTime)}
+            <p className={`mr-auto text-neutral-500 text-sm inline-flex gap-1`}>
+              {t('instance.updated_at')} <TimeAgo date={instance.updatedTime} />
             </p>
             <Tooltip position={'bottom'} label={t('indexes')}>
               <ActionIcon

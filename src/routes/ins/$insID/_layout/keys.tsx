@@ -1,5 +1,6 @@
 import { KeyForm } from '@/components/keyForm';
 import { LoaderPage } from '@/components/loader';
+import { TimeAgo } from '@/components/timeago';
 import { useCurrentInstance } from '@/hooks/useCurrentInstance';
 import { useMeiliClient } from '@/hooks/useMeiliClient';
 import { hiddenRequestLoader, showRequestLoader } from '@/utils/loader';
@@ -153,8 +154,12 @@ const Page = () => {
                   <Descriptions className="pb-3">
                     <Descriptions.Item itemKey="UID">{record.uid}</Descriptions.Item>
                     <Descriptions.Item itemKey={t('description')}>{record.description}</Descriptions.Item>
-                    <Descriptions.Item itemKey={t('created_at')}>{getTimeText(record.createdAt)}</Descriptions.Item>
-                    <Descriptions.Item itemKey={t('updated_at')}>{getTimeText(record.updatedAt)}</Descriptions.Item>
+                    <Descriptions.Item itemKey={t('created_at')}>
+                      <TimeAgo date={record.createdAt} />
+                    </Descriptions.Item>
+                    <Descriptions.Item itemKey={t('updated_at')}>
+                      <TimeAgo date={record.updatedAt} />
+                    </Descriptions.Item>
                   </Descriptions>
                 ),
               });

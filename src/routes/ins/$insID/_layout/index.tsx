@@ -6,7 +6,6 @@ import { useMeiliClient } from '@/hooks/useMeiliClient';
 import { useInstanceStats } from '@/hooks/useInstanceStats';
 import { useMemo } from 'react';
 import { Copyable } from '@/components/Copyable';
-import { getTimeText } from '@/utils/text';
 import _ from 'lodash';
 import { useInstanceHealth } from '@/hooks/useInstanceHealth';
 import { IndexList } from '@/components/IndexList';
@@ -18,6 +17,7 @@ import { DumpButton } from '@/components/dump';
 import { LoaderPage } from '@/components/loader';
 import { isSingletonMode } from '@/utils/conn';
 import { Footer } from '@/components/Footer';
+import { TimeAgo } from '@/components/timeago';
 
 function InsDash() {
   const { t } = useTranslation('instance');
@@ -34,7 +34,7 @@ function InsDash() {
       },
       {
         key: t('common:updated_at'),
-        value: getTimeText(currentInstance.updatedTime),
+        value: <TimeAgo date={currentInstance.updatedTime} />,
       },
       {
         key: t('db_size'),

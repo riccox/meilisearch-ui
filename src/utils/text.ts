@@ -1,6 +1,8 @@
 import { EnqueuedTask } from 'meilisearch';
 import dayjs from 'dayjs';
 import { toast } from './toast';
+import relativeTime from 'dayjs/plugin/relativeTime';
+dayjs.extend(relativeTime);
 
 export const getTaskSubmitMessage = (task: EnqueuedTask): string => {
   return `Task submit ${task.status}, task uid ${task.taskUid} 🚀`;
@@ -55,6 +57,10 @@ export const getTimeText = (
     return defaultText;
   }
   return dayjs(date).format(format);
+};
+
+export const getTimeAgo = (date: dayjs.ConfigType): string => {
+  return dayjs(date).fromNow();
 };
 
 export const stringifyJsonPretty = (json?: string | object | null) => {
