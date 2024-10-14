@@ -1,6 +1,7 @@
 {
   "fieldDistribution": {
     "label": "字段分布",
+    "tip": "仅展示前十个字段，按分布排序",
     "subtitle": "点我转到有关 Field Distribution 的官方文档"
   },
   "count": "文档计数",

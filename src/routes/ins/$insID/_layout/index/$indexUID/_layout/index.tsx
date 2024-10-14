@@ -32,7 +32,7 @@ const Page = () => {
         <ReactECharts
           option={{
             title: {
-              text: t('fieldDistribution.label'),
+              text: `${t('fieldDistribution.label')} (${t('fieldDistribution.tip')})`,
               textStyle: { fontSize: '1rem', color: 'black' },
               subtext: t('fieldDistribution.subtitle'),
               sublink: 'https://www.meilisearch.com/docs/reference/api/stats',
@@ -75,7 +75,10 @@ const Page = () => {
                     },
                   },
                 },
-                data: Object.entries(fieldDistribution).map(([k, v]) => ({ name: k, value: v })),
+                data: Object.entries(fieldDistribution)
+                  .map(([k, v]) => ({ name: k, value: v }))
+                  .sort((a, b) => b.value - a.value)
+                  .slice(0, 10),
               },
             ],
           }}
