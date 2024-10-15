@@ -102,6 +102,8 @@ VITE_SINGLETON_API_KEY=your-api-key
 
 ## Development
 
+> Install [pnpm](https://pnpm.io/installation) first.
+
 ```sh
 git clone git@github.com:riccox/meilisearch-ui.git
 
