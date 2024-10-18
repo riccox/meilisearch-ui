@@ -1,8 +1,9 @@
 import { LoaderPage } from '@/components/loader';
+import { TimeAgo } from '@/components/timeago';
 import { useCurrentInstance } from '@/hooks/useCurrentInstance';
 import { useMeiliClient } from '@/hooks/useMeiliClient';
 import { hiddenRequestLoader, showRequestLoader } from '@/utils/loader';
-import { getTimeText } from '@/utils/text';
+import { getDuration } from '@/utils/text';
 import { DatePicker, Modal, Select, Table, TagInput } from '@douyinfe/semi-ui';
 import { ColumnProps } from '@douyinfe/semi-ui/lib/es/table';
 import { Button } from '@nextui-org/react';
@@ -59,13 +60,11 @@ const Page = () => {
     {
       title: t('indexes'),
       dataIndex: 'indexUid',
-      width: 120,
       render: (_) => _ || '-',
     },
     {
       title: t('common:type'),
       dataIndex: 'type',
-      width: 120,
       render: (_) => t(`type.${_}`),
     },
     {
@@ -77,14 +76,17 @@ const Page = () => {
     {
       title: t('duration'),
       dataIndex: 'duration',
-      width: 120,
+      width: 200,
+      render: (_, item) => {
+        return `${getDuration(item.duration, 'millisecond')}ms`;
+      },
     },
     {
       title: t('enqueued_at'),
       dataIndex: 'enqueuedAt',
       width: 220,
       render: (_, item) => {
-        return getTimeText(item.enqueuedAt);
+        return <TimeAgo date={item.enqueuedAt} />;
       },
     },
     {
@@ -92,7 +94,7 @@ const Page = () => {
       dataIndex: 'startedAt',
       width: 220,
       render: (_, item) => {
-        return getTimeText(item.startedAt);
+        return <TimeAgo date={item.startedAt} />;
       },
     },
     {
@@ -100,14 +102,15 @@ const Page = () => {
       dataIndex: 'finishedAt',
       width: 220,
       render: (_, item) => {
-        return getTimeText(item.finishedAt);
+        return <TimeAgo date={item.finishedAt} />;
       },
     },
     {
       title: t('actions'),
-      dataIndex: 'operate',
+      fixed: 'right',
+      width: 150,
       render: (_, record) => (
-        <div className="flex items-center gap-2">
+        <div className="flex justify-center items-center gap-2">
           <Button
             size="sm"
             onClick={() => {

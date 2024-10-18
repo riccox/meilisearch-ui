@@ -2,7 +2,9 @@ import { EnqueuedTask } from 'meilisearch';
 import dayjs from 'dayjs';
 import { toast } from './toast';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import duration from 'dayjs/plugin/duration';
 dayjs.extend(relativeTime);
+dayjs.extend(duration);
 
 export const getTaskSubmitMessage = (task: EnqueuedTask): string => {
   return `Task submit ${task.status}, task uid ${task.taskUid} 🚀`;
@@ -61,6 +63,10 @@ export const getTimeText = (
 
 export const getTimeAgo = (date: dayjs.ConfigType): string => {
   return dayjs(date).fromNow();
+};
+
+export const getDuration = (date: string, unit: duration.DurationUnitType): string => {
+  return dayjs.duration(date).get(unit).toPrecision(5).toString();
 };
 
 export const stringifyJsonPretty = (json?: string | object | null) => {
