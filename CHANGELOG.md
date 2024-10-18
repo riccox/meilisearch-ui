@@ -1,5 +1,30 @@
 # Changelog
 
+## [0.9.0](https://github.com/riccox/meilisearch-ui/compare/v0.8.0...v0.9.0) (2024-10-18)
+
+
+### Features
+
+* gh-141 docs list item show special attributes badges. ([1adf33e](https://github.com/riccox/meilisearch-ui/commit/1adf33e62e415b4972aa63e7aea35600b7318f17))
+* gh-143 task list index UID support link to index page. ([0957322](https://github.com/riccox/meilisearch-ui/commit/095732221fa9e51bfa29fcc76a2bb106fd6a1f4a))
+* gh-145 index page side link to task page with index filter. ([674f4b0](https://github.com/riccox/meilisearch-ui/commit/674f4b0fcbc8e345715c0a88ebcba201df80315f))
+* gh-148 docs search page support form state bidirectional bind with search params. ([0f23b04](https://github.com/riccox/meilisearch-ui/commit/0f23b04664070b47f059644a77e9a3d90f5bd254))
+* gh-149 index list item add link buttons. ([6a79271](https://github.com/riccox/meilisearch-ui/commit/6a792712edffd856eefa323a533fce5de457a0ca))
+* remove task EnqueuedAt filter for unknown error. ([674f4b0](https://github.com/riccox/meilisearch-ui/commit/674f4b0fcbc8e345715c0a88ebcba201df80315f))
+
+
+### Bug Fixes
+
+* index UID title overflow. ([bba187d](https://github.com/riccox/meilisearch-ui/commit/bba187db273c5a72b814c5f11eb4a1d4e78622a1))
+* TimeAgo component valid date param. ([f601307](https://github.com/riccox/meilisearch-ui/commit/f601307bc07d54d2875013edace12708c8ae1688))
+
+
+### Performance Improvements
+
+* add meilisearch JS SDK version into footer. ([e4fcecd](https://github.com/riccox/meilisearch-ui/commit/e4fcecd36d48a4be9292894e77e4fd819e9fffd6))
+* gh-140 gh-144 task time display. ([3f62816](https://github.com/riccox/meilisearch-ui/commit/3f62816f84b80eb60e62277aaf9ebf8f7e469090))
+* tasks table layout width. ([3f62816](https://github.com/riccox/meilisearch-ui/commit/3f62816f84b80eb60e62277aaf9ebf8f7e469090))
+
 ## [0.8.0](https://github.com/riccox/meilisearch-ui/compare/v0.7.2...v0.8.0) (2024-10-14)
 
 
