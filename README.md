@@ -80,6 +80,20 @@ Just one click the button below to deploy this app automatically
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Friccox%2Fmeilisearch-ui&project-name=meilisearch-ui)
 
+## Configures
+
+### Base Path
+
+See this [issue](https://github.com/riccox/meilisearch-ui/issues/40).
+
+You can configure the base path of this app by setting the `BASE_PATH` environment variable.
+
+For example, if you want to deploy this app to the `/meilisearch-ui` path, you can set the `BASE_PATH` environment variable to `/meilisearch-ui`.
+
+```sh
+docker run -d --restart=always --name="meilisearch-ui" -p <your-port>:24900 -e BASE_PATH="/meilisearch-ui" riccoxie/meilisearch-ui:latest
+```
+
 ### Singleton mode
 
 See this [issue](https://github.com/riccox/meilisearch-ui/issues/43).
