@@ -62,6 +62,14 @@ function IndexDash() {
                 </div>
               </Button>
             </Link>
+            <Link to="../../tasks" search={{ indexUids: [currentIndex.index.uid] }} from="/ins/$insID/index/$indexUID">
+              <Button fullWidth variant="light" size="sm">
+                <div className="flex justify-start items-center w-full gap-2">
+                  <div className="i-lucide:workflow w-1em h-1em"></div>
+                  <div>{t('tasks')}</div>
+                </div>
+              </Button>
+            </Link>
             <Link to="setting" from="/ins/$insID/index/$indexUID">
               <Button fullWidth variant="light" size="sm">
                 <div className="flex justify-start items-center w-full gap-2">

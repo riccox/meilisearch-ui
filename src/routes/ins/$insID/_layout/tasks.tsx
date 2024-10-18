@@ -4,20 +4,31 @@ import { useCurrentInstance } from '@/hooks/useCurrentInstance';
 import { useMeiliClient } from '@/hooks/useMeiliClient';
 import { hiddenRequestLoader, showRequestLoader } from '@/utils/loader';
 import { getDuration } from '@/utils/text';
-import { DatePicker, Modal, Select, Table, TagInput } from '@douyinfe/semi-ui';
+import { Modal, Select, Table, TagInput } from '@douyinfe/semi-ui';
 import { ColumnProps } from '@douyinfe/semi-ui/lib/es/table';
 import { Button } from '@nextui-org/react';
 import { useQuery } from '@tanstack/react-query';
-import { createFileRoute, Link } from '@tanstack/react-router';
+import { createFileRoute, Link, useNavigate } from '@tanstack/react-router';
 import _ from 'lodash';
 import { TasksQuery, Task, TaskTypes, TaskStatus } from 'meilisearch';
 import { useEffect, useReducer } from 'react';
 import { useTranslation } from 'react-i18next';
 import ReactJson from 'react-json-view';
+import { z } from 'zod';
 
-type State = TasksQuery & Required<Pick<TasksQuery, 'limit' | 'from'>>;
+const searchSchema = z.object({
+  indexUids: z.string().array().optional(),
+  limit: z.number().positive().optional(),
+  from: z.number().nonnegative().optional(),
+  statuses: z.string().array().optional(),
+  types: z.string().array().optional(),
+});
+
+type State = Pick<TasksQuery, 'indexUids' | 'statuses' | 'types'> & Required<Pick<TasksQuery, 'limit' | 'from'>>;
 
 const Page = () => {
+  const navigate = useNavigate({ from: Route.fullPath });
+  const searchParams = Route.useSearch();
   const { t } = useTranslation('task');
   const client = useMeiliClient();
   const currentInstance = useCurrentInstance();
@@ -28,14 +39,23 @@ const Page = () => {
     (prev: State, next: Partial<State>) => {
       return { ...prev, ...next };
     },
-    { limit: 20, from: 0 } as State
+    { ...searchParams } as State
   );
+
+  useEffect(() => {
+    // update search params when state changed
+    navigate({
+      search: () => ({
+        ...state,
+      }),
+    });
+  }, [navigate, state]);
 
   const query = useQuery({
     queryKey: ['tasks', host, state],
     queryFn: async () => {
       showRequestLoader();
-      console.debug(client.config, state);
+      console.debug('getTasks', client.config, state);
       return await client.getTasks({
         ..._.omitBy(state, _.isEmpty),
       });
@@ -149,21 +169,11 @@ const Page = () => {
           <TagInput
             className="flex-1"
             placeholder={t('filter.index.placeholder')}
+            value={state.indexUids}
             onChange={(value) => {
               updateState({ indexUids: value });
             }}
           />
-          <div className="flex items-center gap-2">
-            <label className="text-sm text-nowrap">{t('filter.enqueuedAt.label')}</label>
-            <DatePicker
-              type="dateTimeRange"
-              onChange={(value) => {
-                if (value) {
-                  updateState({ beforeEnqueuedAt: (value as Date[])[1], afterEnqueuedAt: (value as Date[])[1] });
-                }
-              }}
-            />
-          </div>
           <Select
             placeholder={t('filter.type.placeholder')}
             optionList={_.entries(t('type', { returnObjects: true }) as Record<string, string>).map(([k, v]) => ({
@@ -171,6 +181,7 @@ const Page = () => {
               label: v,
             }))}
             multiple
+            value={state.types}
             onChange={(value) => {
               updateState({ types: (value as TaskTypes[]) || undefined });
             }}
@@ -182,6 +193,7 @@ const Page = () => {
               label: v,
             }))}
             multiple
+            value={state.statuses}
             onChange={(value) => {
               updateState({ statuses: (value as TaskStatus[]) || undefined });
             }}
@@ -197,4 +209,5 @@ const Page = () => {
 export const Route = createFileRoute('/ins/$insID/_layout/tasks')({
   component: Page,
   pendingComponent: LoaderPage,
+  validateSearch: searchSchema,
 });
