@@ -29,7 +29,10 @@
         "label": "Index Configuration"
       },
       "danger_zone": "Danger Zone"
-    }
+    },
+    "filterableAttributes": "Filterable Attributes",
+    "searchableAttributes": "Searchable Attributes",
+    "sortableAttributes": "Sortable Attributes"
   },
   "search": {
     "tip": "Only the data presented on this page is searched here because Meilisearch does not provide a search interface for index lists!"

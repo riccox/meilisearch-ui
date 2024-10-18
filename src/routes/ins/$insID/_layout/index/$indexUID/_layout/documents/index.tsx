@@ -9,7 +9,7 @@ const Page = () => {
   const client = useMeiliClient();
   const currentIndex = useCurrentIndex(client);
 
-  return useMemo(() => <DocSearchPage currentIndex={currentIndex.index.uid} />, [currentIndex.index.uid]);
+  return useMemo(() => <DocSearchPage currentIndex={currentIndex.index} />, [currentIndex.index]);
 };
 export const Route = createFileRoute('/ins/$insID/_layout/index/$indexUID/_layout/documents/')({
   component: Page,

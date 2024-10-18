@@ -1,7 +1,7 @@
 import { useMeiliClient } from '@/hooks/useMeiliClient';
 import { showTaskErrorNotification, showTaskSubmitNotification, stringifyJsonPretty } from '@/utils/text';
 import { toast } from '@/utils/toast';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { useCallback, useMemo, useState } from 'react';
 import MonacoEditor from '@monaco-editor/react';
 import { useTranslation } from 'react-i18next';
@@ -13,6 +13,9 @@ import { Image, Modal } from '@douyinfe/semi-ui';
 import _ from 'lodash';
 import { Copyable } from '../Copyable';
 import { getTimeText, isValidDateTime, isValidImgUrl } from '@/utils/text';
+import { Index } from 'meilisearch';
+import { useCurrentInstance } from '@/hooks/useCurrentInstance';
+import { AttrTags } from './AttrTags';
 
 export type Doc = { indexId: string; content: Record<string, unknown>; primaryKey: string };
 export type BaseDocItemProps = {
@@ -23,6 +26,7 @@ export type BaseDocItemProps = {
 export type ListType = 'json' | 'table' | 'grid';
 
 interface Props {
+  currentIndex: Index;
   type?: ListType;
   docs?: Doc[];
   refetchDocs: () => void;
@@ -70,10 +74,22 @@ export const ValueDisplay = ({
   );
 };
 
-export const DocumentList = ({ docs = [], refetchDocs, type = 'json' }: Props) => {
+export const DocumentList = ({ docs = [], refetchDocs, type = 'json', currentIndex }: Props) => {
   const { t } = useTranslation('document');
   const client = useMeiliClient();
   const [editingDocument, setEditingDocument] = useState<Doc>();
+  const currentInstance = useCurrentInstance();
+
+  const indexSettingsQuery = useQuery({
+    queryKey: ['indexSettings', currentInstance.host, currentIndex.uid],
+    queryFn: async () => {
+      return await currentIndex.getSettings();
+    },
+  });
+
+  const indexSettings = useMemo(() => {
+    return indexSettingsQuery.data;
+  }, [indexSettingsQuery.data]);
 
   const editDocumentMutation = useMutation({
     mutationFn: async ({ indexId, docs }: { indexId: string; docs: object[] }) => {
@@ -194,9 +210,14 @@ export const DocumentList = ({ docs = [], refetchDocs, type = 'json' }: Props) =
                 )
               ),
             ].map((i) => ({
-              title: i,
+              title: (
+                <div className="flex items-center gap-1">
+                  <p>{i}</p>
+                  {indexSettings && <AttrTags attr={i} indexSettings={indexSettings} />}
+                </div>
+              ),
               dataIndex: i,
-              width: '10rem',
+              width: '15rem',
               ellipsis: true,
               render(_col, item) {
                 return <ValueDisplay name={i} value={item[i]} dateParser={false} />;
@@ -245,6 +266,7 @@ export const DocumentList = ({ docs = [], refetchDocs, type = 'json' }: Props) =
               <GridItem
                 doc={d}
                 key={i}
+                indexSettings={indexSettings}
                 onClickDocumentDel={onClickDocumentDel}
                 onClickDocumentUpdate={onClickDocumentUpdate}
               />
@@ -265,6 +287,6 @@ export const DocumentList = ({ docs = [], refetchDocs, type = 'json' }: Props) =
           })}
         </>
       ),
-    [docs, onClickDocumentDel, onClickDocumentUpdate, t, type]
+    [docs, indexSettings, onClickDocumentDel, onClickDocumentUpdate, t, type]
   );
 };

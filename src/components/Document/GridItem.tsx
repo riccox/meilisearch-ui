@@ -2,8 +2,15 @@ import { Button } from '@arco-design/web-react';
 import { BaseDocItemProps, ValueDisplay } from './list';
 import { useTranslation } from 'react-i18next';
 import { Descriptions } from '@douyinfe/semi-ui';
+import { AttrTags } from './AttrTags';
+import { Settings } from 'meilisearch';
 
-export const GridItem = ({ doc, onClickDocumentDel, onClickDocumentUpdate }: BaseDocItemProps) => {
+export const GridItem = ({
+  doc,
+  onClickDocumentDel,
+  onClickDocumentUpdate,
+  indexSettings,
+}: BaseDocItemProps & { indexSettings?: Settings }) => {
   const { t } = useTranslation('document');
 
   return (
@@ -11,8 +18,14 @@ export const GridItem = ({ doc, onClickDocumentDel, onClickDocumentUpdate }: Bas
       className={`rounded-xl px-3 py-5 bg-primary-50/20 border border-transparent hover:border-primary group relative overflow-hidden`}
     >
       <Descriptions
+        align="center"
         data={Object.entries(doc.content).map(([k, v]) => ({
-          key: k,
+          key: (
+            <div className="flex justify-end items-center gap-1">
+              {indexSettings && <AttrTags attr={k} indexSettings={indexSettings} />}
+              <p>{k}</p>
+            </div>
+          ),
           value: <ValueDisplay name={k} value={v} />,
         }))}
       />

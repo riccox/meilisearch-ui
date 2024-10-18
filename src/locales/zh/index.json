@@ -29,7 +29,10 @@
         "label": "索引配置"
       },
       "danger_zone": "危险区"
-    }
+    },
+    "filterableAttributes": "可筛选属性",
+    "searchableAttributes": "可搜索属性",
+    "sortableAttributes": "可排序属性"
   },
   "search": {
     "tip": "此处仅搜索本页所展示的数据，这是因为 Meilisearch 并未提供对索引列表的搜索接口！"

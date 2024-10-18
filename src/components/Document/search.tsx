@@ -10,6 +10,7 @@ import { Loader } from '../loader';
 import { SearchForm } from './searchForm';
 import { Button, Radio, RadioGroup } from '@douyinfe/semi-ui';
 import { exportToJSON } from '@/utils/file';
+import { Index } from 'meilisearch';
 
 const emptySearchResult = {
   hits: [],
@@ -18,7 +19,7 @@ const emptySearchResult = {
 };
 
 type Props = {
-  currentIndex: string;
+  currentIndex: Index;
 };
 
 export const DocSearchPage = ({ currentIndex }: Props) => {
@@ -31,7 +32,7 @@ export const DocSearchPage = ({ currentIndex }: Props) => {
   const client = useMeiliClient();
 
   const indexClient = useMemo(() => {
-    return currentIndex ? client.index(currentIndex) : undefined;
+    return currentIndex ? client.index(currentIndex.uid) : undefined;
   }, [client, currentIndex]);
 
   const searchForm = useForm({
@@ -173,9 +174,10 @@ export const DocSearchPage = ({ currentIndex }: Props) => {
             </div>
           ) : (
             <DocumentList
+              currentIndex={currentIndex}
               type={listType}
               docs={searchDocumentsQuery.data?.hits.map((i) => ({
-                indexId: currentIndex,
+                indexId: currentIndex.uid,
                 content: i,
                 primaryKey: indexPrimaryKeyQuery.data!,
               }))}
