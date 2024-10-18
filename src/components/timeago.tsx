@@ -1,6 +1,7 @@
 'use client';
 import { cn } from '@/lib/cn';
 import { getTimeAgo, getTimeText } from '@/utils/text';
+import dayjs from 'dayjs';
 import { FC, useState } from 'react';
 interface Props {
   className?: string;
@@ -19,7 +20,7 @@ export const TimeAgo: FC<Props> = ({ className = '', date }) => {
         setIsHover(false);
       }}
     >
-      {date ? (isHover ? getTimeText(date) : getTimeAgo(date)) : '-'}
+      {date && dayjs(date).isValid() ? (isHover ? getTimeText(date) : getTimeAgo(date)) : '-'}
     </div>
   );
 };
