@@ -45,7 +45,7 @@
     "immer": "^10.1.1",
     "lodash": "^4.17.21",
     "lucide-react": "^0.451.0",
-    "meilisearch": "^0.44.1",
+    "meilisearch": "0.44.1",
     "qs": "^6.13.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",

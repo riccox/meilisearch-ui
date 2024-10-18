@@ -11,13 +11,12 @@ interface Props {
 
 export const Footer: FC<Props> = ({ className = '' }) => {
   return (
-    <div className={cn(`gap-2 flex justify-center items-center w-full text-neutral-400 text-xs`, className)}>
-      <Copyright /> -
-      <Version /> -
+    <div className={cn(`gap-4 flex justify-center items-center w-full text-neutral-400 text-xs`, className)}>
+      <Copyright />
+      <Version />
       <a className={`hover:underline`} href={`//github.com/riccox/meilisearch-ui`} target="_blank" rel="noreferrer">
         Github
       </a>
-      -
       <LangSelector />
       <Singleton />
     </div>
