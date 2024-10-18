@@ -16,6 +16,7 @@ import { cn } from '@/lib/cn';
 import Fuse from 'fuse.js';
 import { Input } from '@arco-design/web-react';
 import { EmptyArea } from './EmptyArea';
+import { TimeAgo } from './timeago';
 
 interface Props {
   className?: string;
@@ -70,6 +71,9 @@ export const IndexList: FC<Props> = ({ className = '', client }) => {
         numberOfDocuments: indexStats?.numberOfDocuments || 0,
         href: `/ins/${currentInstance.id}/index/${uid}`,
         isIndexing: indexStats?.isIndexing,
+        createdAt: index.createdAt,
+        updatedAt: index.updatedAt,
+        primaryKey: index.primaryKey,
       };
     });
   }, [currentInstance.id, filteredData, stats?.indexes]);
@@ -114,7 +118,19 @@ export const IndexList: FC<Props> = ({ className = '', client }) => {
                   <CardHeader as={Link} to={item.href}>
                     <div className="text-xl px-1">{item.uid}</div>
                   </CardHeader>
-                  <CardBody>
+                  <CardBody className="space-y-1">
+                    <div className="flex justify-between items-center text-neutral-500 text-xs px-1">
+                      {item.createdAt && (
+                        <p className={`inline-flex gap-1`}>
+                          {t('common:created_at')} <TimeAgo date={item.createdAt} />
+                        </p>
+                      )}
+                      {item.updatedAt && (
+                        <p className={`inline-flex gap-1`}>
+                          {t('common:updated_at')} <TimeAgo date={item.updatedAt} />
+                        </p>
+                      )}
+                    </div>
                     <div className="flex items-center justify-between">
                       <div className="flex gap-2">
                         <Tag size="small" color="cyan" className={`mr-auto`}>
