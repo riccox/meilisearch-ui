@@ -8,7 +8,7 @@ import { DatePicker, Modal, Select, Table, TagInput } from '@douyinfe/semi-ui';
 import { ColumnProps } from '@douyinfe/semi-ui/lib/es/table';
 import { Button } from '@nextui-org/react';
 import { useQuery } from '@tanstack/react-query';
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute, Link } from '@tanstack/react-router';
 import _ from 'lodash';
 import { TasksQuery, Task, TaskTypes, TaskStatus } from 'meilisearch';
 import { useEffect, useReducer } from 'react';
@@ -60,7 +60,7 @@ const Page = () => {
     {
       title: t('indexes'),
       dataIndex: 'indexUid',
-      render: (_) => _ || '-',
+      render: (val) => (val ? <Link to={`/ins/${currentInstance.id}/index/${val}`}>{val}</Link> : '-'),
     },
     {
       title: t('common:type'),
