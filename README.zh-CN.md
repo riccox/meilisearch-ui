@@ -1,6 +1,6 @@
 # Meilisearch-UI
 
-ENGLISH ｜ [中文](./README.zh-CN.md)
+中文 ｜ [ENGLISH](./README.md)
 
 <a href="https://github.com/riccox/meilisearch-ui/actions">![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/riccox/meilisearch-ui/docker-build-release.yaml)</a>
 <a href="https://github.com/riccox/meilisearch-ui/releases">![release](https://img.shields.io/github/v/release/riccox/meilisearch-ui?display_name=release)</a>
@@ -13,45 +13,45 @@ ENGLISH ｜ [中文](./README.zh-CN.md)
 
 <a href="https://www.producthunt.com/posts/meilisearch-ui?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-meilisearch&#0045;ui" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=373175&theme=light" alt="Meilisearch&#0045;UI - Pretty&#0044;&#0032;simple&#0032;and&#0032;fast&#0032;meilisearch&#0032;admin&#0032;dashboard | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" /></a>
 
-#### An open-source, pretty, simple and fast meilisearch admin dashboard UI for managing your meilisearch instances
+#### 一个开源、漂亮、简单、快速的Meilisearch管理仪表板UI，用于管理您的Meilisearch实例
 
-> [IMPORTANT] The main branch may be unstable or unavailable during development.
+> [重要] 在开发期间，主分支可能不稳定或不可用。
 >
-> Please use release instead of main branch to obtain a stable version app
+> 请使用 release 而不是 main 分支来获取稳定版本的应用程序
 
-## Features
+## 功能
 
-🚀 Indexes CRUD
+🚀 索引增删查改
 
-🔎 Search documents
+🔎 文档搜索
 
-💪 Documents management
+💪 文档管理
 
-🛠️️ Index settings
+🛠️️ 索引设置
 
-⚓ Multiple instances management
+⚓ 多实例管理
 
-🔒 Data is stored inside your browser
+🔒 数据存储在您的浏览器中
 
-📦 Docker image support
+📦 Docker镜像支持
 
-🎱 Singleton mode support (easy to integrate with your own apps)
+🎱 单例模式支持（可以轻松与您自己的应用程序集成）
 
-🌐 I18n support (en, zh)
+🌐 国际化支持 (en, zh)
 
-## Quick start
+## 快速开始
 
-> ⚠️ This app have not achieved responsive design totally, so mind that only use this app on desktop to gain better experience.
+> ⚠️ 这个应用程序没有完全实现响应式设计，所以请注意只在桌面上使用这个应用程序，以获得更好的体验。
 
-### CORS settings
+### 跨域设置
 
-✅ Remember update CORS settings in your instance server for this ui domain before using.
+✅ 请记住在使用此APP之前更新实例服务器中的CORS设置。
 
-Because this app use meilisearch official JS client to call your meilisearch instance, you need to manually configure CORS settings in your web server to make sure ui panel can access your instance server with api calls.
+因为这个应用程序使用 Meilisearch 官方的JS客户端来调用你的 meilisearch 实例，你需要在你的web服务器中手动配置CORS设置，以确保UI面板可以通过 http api 调用访问你的实例服务器。
 
-Add your ui panel deployment domain to your instance server cors list.
+将UI面板部署域名添加到实例服务器cors列表中。
 
-ex:
+Nginx 示例:
 
 ```conf
 # ... other configurations
@@ -59,11 +59,11 @@ ex:
 # ... other configurations
 ```
 
-[Learn how to configure CORS settings in your web server](https://enable-cors.org/)
+[了解如何在你的web服务器配置CORS](https://enable-cors.org/)
 
-### Online use
+### 在线使用
 
-There is a live demo 👉 [meilisearch-ui](https://meilisearch-ui.riccox.com), deploy on Vercel.
+这里有一个线上使用 Vercel 部署的示例 👉 [meilisearch-ui](https://meilisearch-ui.riccox.com).
 
 ### Docker
 
@@ -73,38 +73,37 @@ docker pull riccoxie/meilisearch-ui:latest
 docker run -d --restart=always --name="meilisearch-ui" -p <your-port>:24900 riccoxie/meilisearch-ui:latest
 ```
 
-### Deploy on Vercel
+### 使用 Vercel 部署
 
-You can deploy this app to the cloud
-with [Vercel](https://vercel.com?utm_source=github&utm_medium=readme)
+您可以将此应用程序部署到云中，通过[Vercel](https://vercel.com?utm_source=github&utm_medium=readme)
 
-Just one click the button below to deploy this app automatically
+只需点击下面的按钮即可自动部署此应用程序
 
 [![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Friccox%2Fmeilisearch-ui&project-name=meilisearch-ui)
 
-## Configures
+## 配置
 
-### Base Path
+### 基本路径 Base Path
 
-See this [issue](https://github.com/riccox/meilisearch-ui/issues/40).
+参考这个[问题](https://github.com/riccox/meilisearch-ui/issues/40).
 
-You can configure the base path of this app by setting the `BASE_PATH` environment variable.
+你可以通过设置`BASE_PATH`环境变量来配置基本路径。
 
-For example, if you want to deploy this app to the `/meilisearch-ui` path, you can set the `BASE_PATH` environment variable to `/meilisearch-ui`.
+例如，如果你想将这个应用程序部署到`/meilissearch-ui`路径，你可以将`BASE_PATH `环境变量设置为`/meilissearch-ui`。
 
 ```sh
 docker run -d --restart=always --name="meilisearch-ui" -p <your-port>:24900 -e BASE_PATH="/meilisearch-ui" riccoxie/meilisearch-ui:latest
 ```
 
-### Singleton mode
+### 单实例模式 Singleton mode
 
-See this [issue](https://github.com/riccox/meilisearch-ui/issues/43).
+参考这个[问题](https://github.com/riccox/meilisearch-ui/issues/43).
 
-If you want to use this app with only one meilisearch instance, you can enable the singleton mode by below config.
+如果你想在这个应用中只使用一个meilisearch实例，你可以通过下面的配置启用单例模式。
 
-Then you will directly jump to the instance page when you open this app.
+然后，当你打开这个应用程序时，你将直接跳转到实例页面。
 
-Just need to start this app with some env variables like below.
+只需要像下面这样用一些环境变量启动这个应用程序。
 
 ```sh
 VITE_SINGLETON_MODE=true
@@ -112,13 +111,13 @@ VITE_SINGLETON_HOST=http://localhost:27700
 VITE_SINGLETON_API_KEY=your-api-key
 ```
 
-- `VITE_SINGLETON_MODE` tell this app to enable singleton mode.
-- `VITE_SINGLETON_HOST` is the meilisearch host url.
-- `VITE_SINGLETON_API_KEY` is the meilisearch master key.
+- `VITE_SINGLETON_MODE` 用于启用单例模式。
+- `VITE_SINGLETON_HOST` 是 Meilisearch 实例的主机URL。
+- `VITE_SINGLETON_API_KEY` 是 Meilisearch 实例的 Master Key。
 
-## Development
+## 开发
 
-> Install [pnpm](https://pnpm.io/installation) first.
+> 先安装 [pnpm](https://pnpm.io/installation).
 
 ```sh
 git clone git@github.com:riccox/meilisearch-ui.git
@@ -130,7 +129,7 @@ pnpm install
 pnpm dev
 ```
 
-## Built with ♥
+## 共同构建 ♥
 
 - Meilisearch
 - Tanstack
