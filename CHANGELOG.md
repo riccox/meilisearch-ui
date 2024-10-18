@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.9.1](https://github.com/riccox/meilisearch-ui/compare/v0.9.0...v0.9.1) (2024-10-18)
+
+
+### Performance Improvements
+
+* gh-149 index list item add createdAt & updatedAt time. ([9a3dca2](https://github.com/riccox/meilisearch-ui/commit/9a3dca2b501dbbd239f53402e6a7b7a68c075ae9))
+
 ## [0.9.0](https://github.com/riccox/meilisearch-ui/compare/v0.8.0...v0.9.0) (2024-10-18)
 
 
