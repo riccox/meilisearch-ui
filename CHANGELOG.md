@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.9.2](https://github.com/riccox/meilisearch-ui/compare/v0.9.1...v0.9.2) (2024-10-19)
+
+
+### Bug Fixes
+
+* gh-110 ERR_SSL_PROTOCOL_ERROR when using IP host. ([d1c9b19](https://github.com/riccox/meilisearch-ui/commit/d1c9b19b738d82dd755b39ff7a01f903cd842660))
+
 ## [0.9.1](https://github.com/riccox/meilisearch-ui/compare/v0.9.0...v0.9.1) (2024-10-18)
 
 
