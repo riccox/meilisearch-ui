@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.9.3](https://github.com/riccox/meilisearch-ui/compare/v0.9.2...v0.9.3) (2024-10-23)
+
+
+### Bug Fixes
+
+* should not render tanstack router devtool in production ([#155](https://github.com/riccox/meilisearch-ui/issues/155)) ([acac580](https://github.com/riccox/meilisearch-ui/commit/acac580191aeb5f59081b166282ba1a5de291080))
+
 ## [0.9.2](https://github.com/riccox/meilisearch-ui/compare/v0.9.1...v0.9.2) (2024-10-19)
 
 
