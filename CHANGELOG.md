@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.9.4](https://github.com/riccox/meilisearch-ui/compare/v0.9.3...v0.9.4) (2024-10-24)
+
+
+### Bug Fixes
+
+* index setting danger zone button text (gh-158) ([74c6238](https://github.com/riccox/meilisearch-ui/commit/74c6238efe7bd58de87f59020876dc4da2b11e8a))
+
 ## [0.9.3](https://github.com/riccox/meilisearch-ui/compare/v0.9.2...v0.9.3) (2024-10-23)
 
 
