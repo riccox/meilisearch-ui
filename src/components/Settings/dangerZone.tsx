@@ -77,7 +77,7 @@ export const DangerZone: FC<{
                 });
               }}
             >
-              {t('all_documents_delete.label')}
+              {t('index_delete.label')}
             </Button>
             <Button
               variant="solid"
@@ -102,7 +102,7 @@ export const DangerZone: FC<{
                 });
               }}
             >
-              {t('index_delete.label')}
+              {t('all_documents_delete.label')}
             </Button>
           </div>
         </div>
