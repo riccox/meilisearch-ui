@@ -48,7 +48,7 @@ export const validateKeysRouteAvailable = (apiKey?: string): null | WarningPageD
  * check is singleton mode
  */
 export const isSingletonMode = (): boolean => {
-  return import.meta.env.VITE_SINGLETON_MODE === 'true';
+  return String(import.meta.env.VITE_SINGLETON_MODE) === 'true';
 };
 /**
  * get singleton mode config
