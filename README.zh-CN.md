@@ -15,8 +15,8 @@
 
 #### 一个开源、漂亮、简单、快速的Meilisearch管理仪表板UI，用于管理您的Meilisearch实例
 
-> [重要] 在开发期间，主分支可能不稳定或不可用。
->
+> [!IMPORTANT]
+> 在开发期间，主分支可能不稳定或不可用。
 > 请使用 release 而不是 main 分支来获取稳定版本的应用程序
 
 ## 功能
@@ -41,7 +41,8 @@
 
 ## 快速开始
 
-> ⚠️ 这个应用程序没有完全实现响应式设计，所以请注意只在桌面上使用这个应用程序，以获得更好的体验。
+> [!WARNING]
+> 这个应用程序没有完全实现响应式设计，所以请注意只在桌面上使用这个应用程序，以获得更好的体验。
 
 ### 跨域设置
 
@@ -99,24 +100,60 @@ docker run -d --restart=always --name="meilisearch-ui" -p <your-port>:24900 -e B
 
 参考这个[问题](https://github.com/riccox/meilisearch-ui/issues/43).
 
-如果你想在这个应用中只使用一个meilisearch实例，你可以通过下面的配置启用单例模式。
+如果你想在这个应用中只使用一个 Meilisearch 实例，你可以通过下面的步骤启用单例模式。
 
-然后，当你打开这个应用程序时，你将直接跳转到实例页面。
-
-只需要像下面这样用一些环境变量启动这个应用程序。
+克隆此仓库，运行以下命令：
 
 ```sh
+git clone git@github.com:riccox/meilisearch-ui.git --depth=1
+```
+
+进入仓库根目录：
+
+```sh
+cd meilisearch-ui
+```
+
+安装依赖：
+
+```sh
+pnpm install
+```
+
+并在此仓库的根目录中创建一个 `.env.local` 文件，并将以下内容复制到文件中：
+
+```
 VITE_SINGLETON_MODE=true
-VITE_SINGLETON_HOST=http://localhost:27700
+VITE_SINGLETON_HOST=your-meilisearch-host
 VITE_SINGLETON_API_KEY=your-api-key
 ```
+
+> [!CAUTION]
+> **安全风险**
+>
+> 参考这个[问题](https://github.com/riccox/meilisearch-ui/issues/161).
+>
+> `.env.local` 文件仅限本地，你应该在你的 `.gitignore` 中添加。以避免它们被git记录。
+>
+> 同时，任何通过此方式暴露的变量最终都会出现在客户端包中，因此应该尽量避免使用此方式，使用单实例模式打包时需要谨慎判断你部署该应用的网络环境，建议在可信的内部网络环境中部署。
 
 - `VITE_SINGLETON_MODE` 用于启用单例模式。
 - `VITE_SINGLETON_HOST` 是 Meilisearch 实例的主机URL。
 - `VITE_SINGLETON_API_KEY` 是 Meilisearch 实例的 Master Key。
 
+下一步，构建应用:
+
+```sh
+pnpm build
+```
+
+构建完成后，你将在根目录找到 `dist` 目录，这是一个SPA应用打包后的目录，可以将其部署到任何服务器上。
+
+然后，当你打开这个应用程序时，你将直接跳转到实例页面。
+
 ## 开发
 
+> [!NOTE]
 > 先安装 [pnpm](https://pnpm.io/installation).
 
 ```sh
