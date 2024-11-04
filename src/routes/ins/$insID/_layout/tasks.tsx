@@ -98,6 +98,10 @@ const Page = () => {
       dataIndex: 'duration',
       width: 200,
       render: (_, item) => {
+        if (!item.duration) {
+          return '-';
+        }
+
         return `${getDuration(item.duration, 'millisecond')}ms`;
       },
     },
