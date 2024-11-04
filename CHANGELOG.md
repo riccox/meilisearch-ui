@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.9.6](https://github.com/riccox/meilisearch-ui/compare/v0.9.5...v0.9.6) (2024-11-04)
+
+
+### Bug Fixes
+
+* doc update not work gh-162. ([7879821](https://github.com/riccox/meilisearch-ui/commit/78798217f257dae1db727e169e7b3b7e12fcf688))
+* SINGLETON_MODE usage approach. ([958205d](https://github.com/riccox/meilisearch-ui/commit/958205d0b33829abda4fc5d84c8e081b35c43c79))
+
 ## [0.9.5](https://github.com/riccox/meilisearch-ui/compare/v0.9.4...v0.9.5) (2024-11-04)
 
 
