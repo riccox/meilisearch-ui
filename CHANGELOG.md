@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.9.5](https://github.com/riccox/meilisearch-ui/compare/v0.9.4...v0.9.5) (2024-11-04)
+
+
+### Bug Fixes
+
+* fatal error for enqueued/processing tasks when duration is null. ([#164](https://github.com/riccox/meilisearch-ui/issues/164)) ([26fdd6e](https://github.com/riccox/meilisearch-ui/commit/26fdd6e01d7e3621395ddd071bad9d2c52ea22d2))
+
 ## [0.9.4](https://github.com/riccox/meilisearch-ui/compare/v0.9.3...v0.9.4) (2024-10-24)
 
 
