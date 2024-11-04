@@ -6,10 +6,10 @@ import { useCallback, useMemo, useState } from 'react';
 import MonacoEditor from '@monaco-editor/react';
 import { useTranslation } from 'react-i18next';
 import { JSONItem } from './JSONItem';
-import { Table, TableProps } from '@arco-design/web-react';
+import { Table, TableProps, Modal } from '@arco-design/web-react';
 import { GridItem } from './GridItem';
 import { Button } from '@arco-design/web-react';
-import { Image, Modal } from '@douyinfe/semi-ui';
+import { Image } from '@douyinfe/semi-ui';
 import _ from 'lodash';
 import { Copyable } from '../Copyable';
 import { getTimeText, isValidDateTime, isValidImgUrl } from '@/utils/text';
@@ -53,7 +53,6 @@ export const ValueDisplay = ({
       onClick={() => {
         Modal.info({
           title: name,
-          centered: true,
           content: (
             <div className="grid gap-2">
               <Copyable className="overflow-scroll whitespace-pre-wrap text-balance break-words">{str}</Copyable>
@@ -74,10 +73,11 @@ export const ValueDisplay = ({
   );
 };
 
-export const DocumentList = ({ docs = [], refetchDocs, type = 'json', currentIndex }: Props) => {
+export const DocumentList = ({ docs = [], type = 'json', currentIndex }: Props) => {
   const { t } = useTranslation('document');
   const client = useMeiliClient();
   const [editingDocument, setEditingDocument] = useState<Doc>();
+  const [editingDocModalVisible, setEditingDocModalVisible] = useState<boolean>(false);
   const currentInstance = useCurrentInstance();
 
   const indexSettingsQuery = useQuery({
@@ -92,13 +92,11 @@ export const DocumentList = ({ docs = [], refetchDocs, type = 'json', currentInd
   }, [indexSettingsQuery.data]);
 
   const editDocumentMutation = useMutation({
-    mutationFn: async ({ indexId, docs }: { indexId: string; docs: object[] }) => {
-      return await client.index(indexId).updateDocuments(docs);
+    mutationFn: async ({ docs }: { docs: object[] }) => {
+      return await currentIndex.updateDocuments(docs);
     },
-
     onSuccess: (t) => {
       showTaskSubmitNotification(t);
-      refetchDocs();
     },
     onError: (error) => {
       console.error(error);
@@ -110,10 +108,8 @@ export const DocumentList = ({ docs = [], refetchDocs, type = 'json', currentInd
     mutationFn: async ({ indexId, docId }: { indexId: string; docId: string[] | number[] }) => {
       return await client.index(indexId).deleteDocuments(docId);
     },
-
     onSuccess: (t) => {
       showTaskSubmitNotification(t);
-      refetchDocs();
     },
     onError: (error: Error) => {
       console.error(error);
@@ -128,7 +124,6 @@ export const DocumentList = ({ docs = [], refetchDocs, type = 'json', currentInd
       if (pk) {
         Modal.confirm({
           title: t('delete_document'),
-          centered: true,
           content: (
             <p
               dangerouslySetInnerHTML={{
@@ -159,134 +154,156 @@ export const DocumentList = ({ docs = [], refetchDocs, type = 'json', currentInd
     []
   );
 
-  const onClickDocumentUpdate = useCallback(
-    (doc: Doc) => {
-      const pk = doc.primaryKey;
-      console.debug('onClickDocumentUpdate', 'pk', pk);
-      if (pk) {
-        Modal.confirm({
-          title: t('edit_document'),
-          centered: true,
-          size: 'large',
-          content: (
-            <div className={`border rounded-xl p-2`}>
-              <MonacoEditor
-                language="json"
-                className="h-80"
-                defaultValue={JSON.stringify(doc?.content ?? {}, null, 2)}
-                options={{
-                  automaticLayout: true,
-                  lineDecorationsWidth: 1,
-                }}
-                onChange={onEditDocumentJsonEditorUpdate}
-              ></MonacoEditor>
-            </div>
-          ),
-          okText: t('submit'),
-          cancelText: t('cancel'),
-          onOk: () => {
-            if (editingDocument) {
-              editDocumentMutation.mutate({ indexId: editingDocument.indexId, docs: [editingDocument.content] });
-            }
-          },
-        });
-      }
-    },
-    [editDocumentMutation, editingDocument, onEditDocumentJsonEditorUpdate, t]
-  );
+  const onClickDocumentUpdate = useCallback((doc: Doc) => {
+    const pk = doc.primaryKey;
+    console.debug('onClickDocumentUpdate', 'pk', pk);
+    if (pk) {
+      setEditingDocument(doc);
+      setEditingDocModalVisible(true);
+    }
+  }, []);
 
   return useMemo(
-    () =>
-      type === 'table' ? (
-        <div>
-          <Table
-            columns={([
-              ...new Set(
-                docs.reduce(
-                  (keys, obj) => {
-                    return keys.concat(Object.keys(obj.content));
-                  },
-                  [docs[0].primaryKey]
-                )
-              ),
-            ].map((i) => ({
-              title: (
-                <div className="flex items-center gap-1">
-                  <p>{i}</p>
-                  {indexSettings && <AttrTags attr={i} indexSettings={indexSettings} />}
-                </div>
-              ),
-              dataIndex: i,
-              width: '15rem',
-              ellipsis: true,
-              render(_col, item) {
-                return <ValueDisplay name={i} value={item[i]} dateParser={false} />;
-              },
-            })) as TableProps['columns'])!.concat([
-              {
-                title: t('common:actions'),
-                fixed: 'right',
-                align: 'center',
-                width: '8rem',
-                render: (_col, _record, index) => (
-                  <div className={`flex items-center gap-2`}>
-                    <Button
-                      type="secondary"
-                      size="mini"
-                      status="warning"
-                      onClick={() => onClickDocumentUpdate(docs[index])}
-                    >
-                      {t('common:update')}
-                    </Button>
-                    <Button
-                      type="secondary"
-                      size="mini"
-                      status="danger"
-                      onClick={() => onClickDocumentDel(docs[index])}
-                    >
-                      {t('common:delete')}
-                    </Button>
+    () => (
+      <>
+        <Modal
+          visible={editingDocModalVisible}
+          confirmLoading={editDocumentMutation.isPending}
+          title={t('edit_document')}
+          okText={t('submit')}
+          cancelText={t('cancel')}
+          simple={false}
+          className="!w-1/2"
+          onOk={() => {
+            console.debug('submit doc update', editingDocument);
+            if (editingDocument) {
+              editDocumentMutation
+                .mutateAsync({
+                  docs: [editingDocument.content],
+                })
+                .then(() => {
+                  setEditingDocModalVisible(false);
+                });
+            }
+          }}
+          onCancel={() => setEditingDocModalVisible(false)}
+        >
+          <div className={`border rounded-xl p-2`}>
+            <MonacoEditor
+              language="json"
+              className="h-80"
+              defaultValue={JSON.stringify(editingDocument?.content ?? {}, null, 2)}
+              options={{
+                automaticLayout: true,
+                lineDecorationsWidth: 1,
+              }}
+              onChange={onEditDocumentJsonEditorUpdate}
+            ></MonacoEditor>
+          </div>
+        </Modal>
+        {type === 'table' ? (
+          <div>
+            <Table
+              columns={([
+                ...new Set(
+                  docs.reduce(
+                    (keys, obj) => {
+                      return keys.concat(Object.keys(obj.content));
+                    },
+                    [docs[0].primaryKey]
+                  )
+                ),
+              ].map((i) => ({
+                title: (
+                  <div className="flex items-center gap-1">
+                    <p>{i}</p>
+                    {indexSettings && <AttrTags attr={i} indexSettings={indexSettings} />}
                   </div>
                 ),
-              },
-            ])}
-            data={docs.map((d) => ({ ...d.content }))}
-            stripe
-            hover
-            virtualized
-            pagination={false}
-            size="small"
-            scroll={{ x: true, y: true }}
-          />
-        </div>
-      ) : type === 'grid' ? (
-        <div className="grid grid-cols-3 laptop:grid-cols-4 gap-3">
-          {docs.map((d, i) => {
-            return (
-              <GridItem
-                doc={d}
-                key={i}
-                indexSettings={indexSettings}
-                onClickDocumentDel={onClickDocumentDel}
-                onClickDocumentUpdate={onClickDocumentUpdate}
-              />
-            );
-          })}
-        </div>
-      ) : (
-        <>
-          {docs.map((d, i) => {
-            return (
-              <JSONItem
-                doc={d}
-                key={i}
-                onClickDocumentDel={onClickDocumentDel}
-                onClickDocumentUpdate={onClickDocumentUpdate}
-              />
-            );
-          })}
-        </>
-      ),
-    [docs, indexSettings, onClickDocumentDel, onClickDocumentUpdate, t, type]
+                dataIndex: i,
+                width: '15rem',
+                ellipsis: true,
+                render(_col, item) {
+                  return <ValueDisplay name={i} value={item[i]} dateParser={false} />;
+                },
+              })) as TableProps['columns'])!.concat([
+                {
+                  title: t('common:actions'),
+                  fixed: 'right',
+                  align: 'center',
+                  width: '8rem',
+                  render: (_col, _record, index) => (
+                    <div className={`flex items-center gap-2`}>
+                      <Button
+                        type="secondary"
+                        size="mini"
+                        status="warning"
+                        onClick={() => onClickDocumentUpdate(docs[index])}
+                      >
+                        {t('common:update')}
+                      </Button>
+                      <Button
+                        type="secondary"
+                        size="mini"
+                        status="danger"
+                        onClick={() => onClickDocumentDel(docs[index])}
+                      >
+                        {t('common:delete')}
+                      </Button>
+                    </div>
+                  ),
+                },
+              ])}
+              data={docs.map((d) => ({ ...d.content }))}
+              stripe
+              hover
+              virtualized
+              pagination={false}
+              size="small"
+              scroll={{ x: true, y: true }}
+            />
+          </div>
+        ) : type === 'grid' ? (
+          <div className="grid grid-cols-3 laptop:grid-cols-4 gap-3">
+            {docs.map((d, i) => {
+              return (
+                <GridItem
+                  doc={d}
+                  key={i}
+                  indexSettings={indexSettings}
+                  onClickDocumentDel={onClickDocumentDel}
+                  onClickDocumentUpdate={onClickDocumentUpdate}
+                />
+              );
+            })}
+          </div>
+        ) : (
+          <>
+            {docs.map((d, i) => {
+              return (
+                <JSONItem
+                  doc={d}
+                  key={i}
+                  onClickDocumentDel={onClickDocumentDel}
+                  onClickDocumentUpdate={onClickDocumentUpdate}
+                />
+              );
+            })}
+          </>
+        )}
+      </>
+    ),
+    [
+      docs,
+      editDocumentMutation,
+      editingDocModalVisible,
+      editingDocument,
+      indexSettings,
+      onClickDocumentDel,
+      onClickDocumentUpdate,
+      onEditDocumentJsonEditorUpdate,
+      t,
+      type,
+    ]
   );
 };
