@@ -16,6 +16,7 @@ import { exportToJSON } from '@/utils/file';
 import { z } from 'zod';
 import { EmptyArea } from '@/components/EmptyArea';
 import _ from 'lodash';
+import { cn } from '@/lib/cn';
 
 const emptySearchResult = {
   hits: [],
@@ -188,7 +189,7 @@ export const Page = () => {
           </div>
         </div>
         {/* Doc List */}
-        <div className={`flex flex-col gap-4 overflow-scroll`}>
+        <div className={cn(`flex flex-col gap-4`, listType === 'table' ? 'overflow-y-scroll' : 'overflow-scroll')}>
           {searchDocumentsQuery.isFetching ? (
             <div className={`flex-1 flex justify-center items-center`}>
               <Loader />

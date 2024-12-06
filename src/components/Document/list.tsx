@@ -260,7 +260,7 @@ export const DocumentList = ({ docs = [], type = 'json', currentIndex }: Props) 
               virtualized
               pagination={false}
               size="small"
-              scroll={{ x: true, y: true }}
+              scroll={{ x: true }}
             />
           </div>
         ) : type === 'grid' ? (

@@ -17,7 +17,7 @@ const Page = () => {
   const fieldDistribution: FieldDistribution = stats?.indexes[currentIndex.index.uid].fieldDistribution ?? {};
 
   return (
-    <div className="grid grid-cols-6 h-full overflow-scroll">
+    <div className="grid grid-cols-6 h-full overflow-y-scroll">
       <main className="p-4 laptop:col-start-2 laptop:-col-end-2 col-start-1 -col-end-1 flex flex-col gap-4">
         <div className="flex flex-col gap-4 px-1">
           <Statistic
