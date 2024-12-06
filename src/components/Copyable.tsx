@@ -1,9 +1,9 @@
 'use client';
 import { FC } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Typography } from '@douyinfe/semi-ui';
+import { Typography } from '@arco-design/web-react';
 import { toast } from 'sonner';
-import { IconCopy } from '@tabler/icons-react';
+import { cn } from '@/lib/cn';
 interface Props {
   children: string;
   className?: string;
@@ -14,12 +14,12 @@ export const Copyable: FC<Props> = ({ className = '', children }) => {
 
   return (
     <Typography.Paragraph
-      className={className}
+      className={cn('!mb-0', className)}
       copyable={{
-        onCopy: () => toast.success(t('common:copied')),
-        icon: <IconCopy size={'0.95em'} className=" text-current" />,
-        copyTip: t('common:copy'),
-        successTip: '✅',
+        onCopy: () => {
+          toast.success(t('common:copied'));
+        },
+        text: children,
       }}
     >
       {children}

@@ -55,15 +55,27 @@ i18n
 
 export default i18n;
 
-import zh_CN from '@douyinfe/semi-ui/lib/es/locale/source/zh_CN';
-import en_US from '@douyinfe/semi-ui/lib/es/locale/source/en_US';
+import semi_zh_CN from '@douyinfe/semi-ui/lib/es/locale/source/zh_CN';
+import semi_en_US from '@douyinfe/semi-ui/lib/es/locale/source/en_US';
 
 export const lang2SemiLocale = (lang?: SUPPORTED_LANGUAGE) => {
   switch (lang) {
     case 'zh':
-      return zh_CN;
+      return semi_zh_CN;
     default:
-      return en_US;
+      return semi_en_US;
+  }
+};
+
+import arco_zh_CN from '@arco-design/web-react/es/locale/zh-CN';
+import arco_en_US from '@arco-design/web-react/es/locale/en-US';
+
+export const lang2ArcoLocale = (lang?: SUPPORTED_LANGUAGE) => {
+  switch (lang) {
+    case 'zh':
+      return arco_zh_CN;
+    default:
+      return arco_en_US;
   }
 };
 
