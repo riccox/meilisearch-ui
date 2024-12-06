@@ -25,13 +25,6 @@ export type BaseDocItemProps = {
 };
 export type ListType = 'json' | 'table' | 'grid';
 
-interface Props {
-  currentIndex: Index;
-  type?: ListType;
-  docs?: Doc[];
-  refetchDocs: () => void;
-}
-
 export const ValueDisplay = ({
   name,
   value,
@@ -72,6 +65,13 @@ export const ValueDisplay = ({
     </div>
   );
 };
+
+interface Props {
+  currentIndex: Index;
+  type?: ListType;
+  docs?: Doc[];
+  refetchDocs: () => void;
+}
 
 export const DocumentList = ({ docs = [], type = 'json', currentIndex }: Props) => {
   const { t } = useTranslation('document');

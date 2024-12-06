@@ -32,6 +32,7 @@ const searchSchema = z
     filter: z.string().optional().default(''),
     sort: z.string().optional().default(''),
     listType: z.enum(['json', 'table', 'grid']).optional().default('json'),
+    showRankingScore: z.coerce.boolean().optional().default(false),
   })
   .optional();
 
@@ -95,6 +96,7 @@ export const Page = () => {
         offset,
         filter,
         sort = '',
+        showRankingScore,
       } = { ...searchForm.values, ...(debouncedSearchFormValue as typeof searchForm.values) };
       // prevent app error from request param invalid
       if (searchForm.validate().hasErrors) return emptySearchResult;
@@ -111,6 +113,7 @@ export const Page = () => {
           offset,
           filter,
           sort: sortExpressions.map((v) => v.trim()),
+          showRankingScore,
         });
         // clear error message if results are running normally
         setSearchFormError(null);

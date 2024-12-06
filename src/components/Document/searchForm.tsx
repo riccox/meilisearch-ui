@@ -16,6 +16,7 @@ type Props = {
     filter: string;
     sort: string;
     indexId?: string;
+    showRankingScore: boolean;
   }>;
   searchFormError: string | null;
   onFormSubmit: () => void;
@@ -115,6 +116,14 @@ export const SearchForm = ({
 
           {/* right btn group */}
           <div className={`ml-auto mt-auto flex gap-x-4 items-center`}>
+            <Tooltip position="bottom" content={t('search.form.showRankingScore.tip')}>
+              <div className="flex items-center gap-2">
+                <label className="text-sm" defaultChecked={false}>
+                  {t('search.form.showRankingScore.label')}
+                </label>{' '}
+                <Switch {...searchForm.getInputProps('showRankingScore')} />
+              </div>
+            </Tooltip>
             <Tooltip position="bottom" content={t('search.form.autoRefresh.tip')}>
               <div className="flex items-center gap-2">
                 <label className="text-sm" defaultChecked={false}>

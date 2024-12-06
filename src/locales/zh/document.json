@@ -31,6 +31,10 @@
       "autoRefresh": {
         "label": "自动刷新",
         "tip": "开启后将(每7s、筛选条件变化时、网络环境变化时)自动刷新搜索结果，此选项会提高QPS，付费实例请留意!"
+      },
+      "showRankingScore": {
+        "label": "显示排名分数",
+        "tip": "此选项仅在支持 showRankingScore 参数的实例（> v1.3.0）上有效，开启后将在返回的搜索结果中出现 _rankingScore 字段，请参考官方文档了解此参数的含义"
       }
     },
     "results": {

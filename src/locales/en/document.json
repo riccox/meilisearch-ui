@@ -31,6 +31,10 @@
       "autoRefresh": {
         "label": "Auto Refresh",
         "tip": "After turning it on, the search results will be automatically refreshed (every 7 seconds, when filter conditions change, when the network environment changes). This option will increase QPS. Please pay attention to paid instances!"
+      },
+      "showRankingScore": {
+        "label": "Show Ranking Score",
+        "tip": "This option is only support showRankingScore parameters instance (> v1.3.0) effectively, the _rankingScore field will appear in the returned search results when enabled, please refer to the official document for the meaning of this parameter"
       }
     },
     "results": {
