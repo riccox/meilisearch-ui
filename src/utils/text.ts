@@ -97,7 +97,7 @@ export function isValidHttpUrl(str: string): boolean {
 export function isValidImgUrl(str: string): boolean {
   try {
     const url = new URL(str);
-    return (url.protocol === 'http:' || url.protocol === 'https:') && /\.(jpg|jpeg|png|gif|webp)$/.test(url.pathname);
+    return (url.protocol === 'http:' || url.protocol === 'https:') && /\.(jpg|jpeg|png|gif|webp)$/i.test(url.pathname);
   } catch {
     return false;
   }
