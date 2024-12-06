@@ -15,6 +15,7 @@ import { Button, Radio, RadioGroup } from '@douyinfe/semi-ui';
 import { exportToJSON } from '@/utils/file';
 import { z } from 'zod';
 import { EmptyArea } from '@/components/EmptyArea';
+import _ from 'lodash';
 
 const emptySearchResult = {
   hits: [],
@@ -22,19 +23,22 @@ const emptySearchResult = {
   processingTimeMs: 0,
 };
 
-const searchSchema = z.object({
-  q: z.string().optional().default(''),
-  limit: z.number().positive().optional().default(20),
-  offset: z.number().nonnegative().optional().default(0),
-  filter: z.string().optional().default(''),
-  sort: z.string().optional().default(''),
-});
+const searchSchema = z
+  .object({
+    q: z.string().optional().default(''),
+    limit: z.number().positive().optional().default(20),
+    offset: z.number().nonnegative().optional().default(0),
+    filter: z.string().optional().default(''),
+    sort: z.string().optional().default(''),
+    listType: z.enum(['json', 'table', 'grid']).optional().default('json'),
+  })
+  .optional();
 
 export const Page = () => {
   const navigate = useNavigate({ from: Route.fullPath });
   const searchParams = Route.useSearch();
   const { t } = useTranslation('document');
-  const [listType, setListType] = useState<ListType>('json');
+  const [listType, setListType] = useState<ListType>(searchParams?.listType || 'json');
   const [searchAutoRefresh, setSearchAutoRefresh] = useState<boolean>(false);
   const [searchFormError, setSearchFormError] = useState<string | null>(null);
   const client = useMeiliClient();
@@ -48,7 +52,7 @@ export const Page = () => {
 
   const searchForm = useForm({
     initialValues: {
-      ...searchParams,
+      ..._.omit(searchParams, ['listType']),
     },
     validate: {
       limit: (value: number) => (value < 500 ? null : t('search.form.limit.validation_error')),
@@ -60,9 +64,10 @@ export const Page = () => {
     navigate({
       search: () => ({
         ...searchForm.values,
+        listType,
       }),
     });
-  }, [navigate, searchForm.values]);
+  }, [navigate, searchForm.values, listType]);
 
   const indexPrimaryKeyQuery = useQuery({
     queryKey: ['indexPrimaryKey', host, indexClient?.uid],
