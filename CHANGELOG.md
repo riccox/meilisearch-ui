@@ -1,5 +1,26 @@
 # Changelog
 
+## [0.10.0](https://github.com/riccox/meilisearch-ui/compare/v0.9.6...v0.10.0) (2024-12-06)
+
+
+### Features
+
+* docs search form add showRankingScore switch. gh-176 ([f6bb8a1](https://github.com/riccox/meilisearch-ui/commit/f6bb8a14c42760ab1494a31e098eac0352e735dc))
+
+
+### Bug Fixes
+
+* add offset & limit number value limit in search docs filter. gh-173 gh-174 ([0032c63](https://github.com/riccox/meilisearch-ui/commit/0032c637819cdd1f754aa0222364346cc69d1cee))
+* copyable component not work. gh-170 ([c20b6ee](https://github.com/riccox/meilisearch-ui/commit/c20b6eee015c9848e305004b08fa8bb31c6e1537))
+* document image url value insensitive gh-169. ([63da243](https://github.com/riccox/meilisearch-ui/commit/63da2434c1c0acb152a3ac98103d1f705caf50ef))
+* remove useless scrollbar in docs list. gh-175 ([9d903a1](https://github.com/riccox/meilisearch-ui/commit/9d903a1723f734ebb4f60d1f3258b7acafaabce8))
+
+
+### Performance Improvements
+
+* index setting json editor height use vh unit. gh-168 ([49efc50](https://github.com/riccox/meilisearch-ui/commit/49efc50b97e2038353bbad785f73726775f71fc0))
+* maintain list type in docs list page gh-172. ([effbc9b](https://github.com/riccox/meilisearch-ui/commit/effbc9b9d5119bfccad25793a5147c3263fd3ed2))
+
 ## [0.9.6](https://github.com/riccox/meilisearch-ui/compare/v0.9.5...v0.9.6) (2024-11-04)
 
 
