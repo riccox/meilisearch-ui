@@ -97,8 +97,21 @@ export const SearchForm = ({
           </Tooltip>
         </div>
         <div className={`flex items-stretch gap-4`}>
-          <NumberInput radius="md" label={t('search.form.limit.label')} {...searchForm.getInputProps('limit')} />
-          <NumberInput radius="md" label={t('search.form.offset.label')} {...searchForm.getInputProps('offset')} />
+          <NumberInput
+            radius="md"
+            label={t('search.form.limit.label')}
+            {...searchForm.getInputProps('limit')}
+            min={1}
+            allowDecimal={false}
+            allowNegative={false}
+          />
+          <NumberInput
+            radius="md"
+            label={t('search.form.offset.label')}
+            {...searchForm.getInputProps('offset')}
+            allowDecimal={false}
+            allowNegative={false}
+          />
 
           {/* right btn group */}
           <div className={`ml-auto mt-auto flex gap-x-4 items-center`}>
