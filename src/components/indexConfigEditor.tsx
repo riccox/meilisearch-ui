@@ -138,7 +138,7 @@ export const IndexConfigEditor: FC<{
         </div>
         <MonacoEditor
           language="json"
-          className={cn('h-[30rem]', !isSettingsEditing && 'opacity-50')}
+          className={cn('h-[70vh]', !isSettingsEditing && 'opacity-50')}
           defaultValue={JSON.stringify(indexSettingDisplayData, null, 2)}
           options={{
             automaticLayout: true,
