@@ -74,6 +74,16 @@ docker pull riccoxie/meilisearch-ui:latest
 docker run -d --restart=always --name="meilisearch-ui" -p <your-port>:24900 riccoxie/meilisearch-ui:latest
 ```
 
+#### 轻量版镜像
+
+由于适配自定义路径等功能，主镜像体积会成为部分使用者的负担。如果你只需要使用这个应用程序的基本功能，你可以使用`lite`变体镜像，它只包含了必要的构建物，体积相对于主镜像来说非常小。
+
+具体镜像变体请参考[镜像版本列表](https://hub.docker.com/r/riccoxie/meilisearch-ui/tags)
+
+lite 镜像不支持以下功能：
+
+- 自定义路径
+
 ### 使用 Vercel 部署
 
 您可以将此应用程序部署到云中，通过[Vercel](https://vercel.com?utm_source=github&utm_medium=readme)
@@ -95,6 +105,10 @@ docker run -d --restart=always --name="meilisearch-ui" -p <your-port>:24900 ricc
 ```sh
 docker run -d --restart=always --name="meilisearch-ui" -p <your-port>:24900 -e BASE_PATH="/meilisearch-ui" riccoxie/meilisearch-ui:latest
 ```
+
+> [!WARNING]
+>
+> 请注意，如果你要使用自定义基础路径到功能，请使用完整版镜像，而不要使用`lite`变体镜像，具体请参考[问题](https://github.com/riccox/meilisearch-ui/issues/178).
 
 ### 单实例模式 Singleton mode
 
@@ -129,6 +143,7 @@ VITE_SINGLETON_API_KEY=your-api-key
 ```
 
 > [!CAUTION]
+>
 > **安全风险**
 >
 > 参考这个[问题](https://github.com/riccox/meilisearch-ui/issues/161).

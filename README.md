@@ -74,6 +74,16 @@ docker pull riccoxie/meilisearch-ui:latest
 docker run -d --restart=always --name="meilisearch-ui" -p <your-port>:24900 riccoxie/meilisearch-ui:latest
 ```
 
+#### Lightweight mirror image
+
+Due to functions such as adapting custom paths, the main image size will become a burden for some users. If you only need to use the basic functionality of the application, you can use the `lite` variant image, which contains only the necessary constructs and is very small compared to the main image.
+
+For specific image variants, please refer to [Image version list](https://hub.docker.com/r/riccoxie/meilisearch-ui/tags)
+
+lite images do not support the following features:
+
+- Custom path
+
 ### Deploy on Vercel
 
 You can deploy this app to the cloud
@@ -96,6 +106,10 @@ For example, if you want to deploy this app to the `/meilisearch-ui` path, you c
 ```sh
 docker run -d --restart=always --name="meilisearch-ui" -p <your-port>:24900 -e BASE_PATH="/meilisearch-ui" riccoxie/meilisearch-ui:latest
 ```
+
+> [!WARNING]
+>
+> Please note that if you want to use a custom base path to the function, please use the full version image instead of the `lite` variant image. Please refer to [this issue](https://github.com/riccox/meilisearch-ui/issues/178) for details.
 
 ### Singleton mode
 
@@ -130,6 +144,7 @@ VITE_SINGLETON_API_KEY=your-api-key
 ```
 
 > [!CAUTION]
+>
 > **Security Risk**
 >
 > See this [issue](https://github.com/riccox/meilisearch-ui/issues/161).
