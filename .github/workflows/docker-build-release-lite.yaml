@@ -27,6 +27,8 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: ${{ env.REGISTRY_IMAGE }}
+          flavor: |
+            latest=false
           tags: |
             type=raw,value=lite
             type=semver,pattern=v{{version}}-lite
@@ -81,6 +83,8 @@ jobs:
         uses: docker/metadata-action@v5
         with:
           images: ${{ env.REGISTRY_IMAGE }}
+          flavor: |
+            latest=false
           tags: |
             type=raw,value=lite
             type=semver,pattern=v{{version}}-lite
