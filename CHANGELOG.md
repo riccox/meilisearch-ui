@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.10.1](https://github.com/riccox/meilisearch-ui/compare/v0.10.0...v0.10.1) (2025-01-13)
+
+
+### Bug Fixes
+
+* BASE_PATH by build variant image tag "lite". ([21d2ce1](https://github.com/riccox/meilisearch-ui/commit/21d2ce1d1c44042d15aa3a3cbefccdbe1a9e2ca6))
+* task list load more on scroll bottom. gh-181 ([c6e5641](https://github.com/riccox/meilisearch-ui/commit/c6e5641ea1b5b834fa0a0f205afbd6c54d7bb564))
+
+
+### Performance Improvements
+
+* add instance DB size to index sidebar. gh-180 ([86207b8](https://github.com/riccox/meilisearch-ui/commit/86207b84ee8157c0f59b6442bce335872ce382b3))
+
 ## [0.10.0](https://github.com/riccox/meilisearch-ui/compare/v0.9.6...v0.10.0) (2024-12-06)
 
 
