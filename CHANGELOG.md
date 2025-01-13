@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.10.2](https://github.com/riccox/meilisearch-ui/compare/v0.10.1...v0.10.2) (2025-01-13)
+
+
+### Continuous Integration
+
+* lite builder push latest tag unexpectedly. ([36f02ae](https://github.com/riccox/meilisearch-ui/commit/36f02ae0b37c75ef6f5615503d6f5a817aaf2b6c))
+
 ## [0.10.1](https://github.com/riccox/meilisearch-ui/compare/v0.10.0...v0.10.1) (2025-01-13)
 
 
