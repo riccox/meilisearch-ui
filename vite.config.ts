@@ -27,7 +27,7 @@ export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
   console.debug('print current base path', env.BASE_PATH);
   return {
-    base: env.BASE_PATH || '',
+    base: env.BASE_PATH || '/',
     plugins: [
       tsconfigPaths({ root: './' }),
       react(),
@@ -71,11 +71,6 @@ export default defineConfig(({ mode }) => {
             }
           },
         },
-      },
-    },
-    experimental: {
-      renderBuiltUrl() {
-          return { relative: true };
       },
     },
   };
