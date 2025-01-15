@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.10.3](https://github.com/riccox/meilisearch-ui/compare/v0.10.2...v0.10.3) (2025-01-15)
+
+
+### Bug Fixes
+
+* resource load error cause by relative path. gh-185 ([c8700bd](https://github.com/riccox/meilisearch-ui/commit/c8700bdbfe0b210bfd2e3eb6acf8622e57f067c7))
+
 ## [0.10.2](https://github.com/riccox/meilisearch-ui/compare/v0.10.1...v0.10.2) (2025-01-13)
 
 
