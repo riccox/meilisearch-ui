@@ -12,6 +12,7 @@ import { createFileRoute, redirect } from '@tanstack/react-router';
 import { Button } from '@douyinfe/semi-ui';
 import { InsFormModal } from '@/components/instanceFormModal';
 import { TimeAgo } from '@/components/timeago';
+import { ExportImportInstances } from '@/components/ExportImportInstances';
 
 const instanceCardClassName = `col-span-1 h-28 rounded-lg`;
 
@@ -175,6 +176,7 @@ function Dashboard() {
             </div>
           </InsFormModal>
         </div>
+        <ExportImportInstances />
       </div>
       <Footer className={`!text-white`} />
     </div>

@@ -6,5 +6,7 @@
       "title": "Remove this instance",
       "tip": "Are you sure you want to remove this instance"
     }
-  }
+  },
+  "export": "Export",
+  "import": "Import"
 }
