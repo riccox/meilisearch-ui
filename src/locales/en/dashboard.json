@@ -7,6 +7,13 @@
       "tip": "Are you sure you want to remove this instance"
     }
   },
-  "export": "Export",
-  "import": "Import"
+  "settings": {
+    "export": "Export instances",
+    "import": "Import instances",
+    "danger_zone": "Danger zone",
+    "remove": {
+      "title": "Remove all instances",
+      "tip": "Are you sure you want to remove all instances?"
+    }
+  }
 }

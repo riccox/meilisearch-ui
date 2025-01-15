@@ -25,6 +25,13 @@
       "tip": "你真的希望移除这个实例"
     }
   },
-  "export": "出口",
-  "import": "进口"
+  "settings": {
+    "export": "导出",
+    "import": "导入",
+    "danger_zone": "危险区域",
+    "remove": {
+      "title": "移除所有实例",
+      "tip": "您确实要删除所有实例吗？"
+    }
+  }
 }

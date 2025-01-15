@@ -12,7 +12,7 @@ import { createFileRoute, redirect } from '@tanstack/react-router';
 import { Button } from '@douyinfe/semi-ui';
 import { InsFormModal } from '@/components/instanceFormModal';
 import { TimeAgo } from '@/components/timeago';
-import { ExportImportInstances } from '@/components/ExportImportInstances';
+import { DashboardSettingsButton } from '@/components/DashboardSettingsButton';
 
 const instanceCardClassName = `col-span-1 h-28 rounded-lg`;
 
@@ -163,6 +163,7 @@ function Dashboard() {
       <div className={`w-1/2 2xl:w-1/4 h-2/3 flex flex-col justify-center items-center gap-y-10`}>
         <Logo className="size-20" />
         <p className={`text-primary-100 font-bold xl:text-3xl text-xl w-screen text-center`}>{t('slogan')}</p>
+        <DashboardSettingsButton />
         <div className={`grid grid-cols-1 gap-y-3 w-full p-1  overflow-y-scroll`}>
           {instancesList}
           <InsFormModal type="create">
@@ -176,7 +177,6 @@ function Dashboard() {
             </div>
           </InsFormModal>
         </div>
-        <ExportImportInstances />
       </div>
       <Footer className={`!text-white`} />
     </div>

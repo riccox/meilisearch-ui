@@ -1,0 +1,150 @@
+import { useCallback, useRef } from 'react';
+import { Instance, useAppStore } from '@/store';
+import { useTranslation } from 'react-i18next';
+import { IconFileExport, IconFileImport, IconSettings, IconTrash } from '@tabler/icons-react';
+import { Menu, ActionIcon } from '@mantine/core';
+import { modals } from '@mantine/modals';
+import { Button } from '@douyinfe/semi-ui';
+
+
+export const DashboardSettingsButton = () => {
+
+    const { t } = useTranslation('dashboard');
+    const instances = useAppStore((state) => state.instances);
+    const addInstance = useAppStore((state) => state.addInstance);
+    const removeAllInstances = useAppStore((state) => state.removeAllInstances);
+    const importInstancesFileInputRef = useRef<HTMLInputElement>(null);
+
+    const onClickExportInstances = () => {
+        if (instances.length > 0) {
+            const jsonString = JSON.stringify(instances, null, 2);
+            const blob = new Blob([jsonString], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `export-meilisearch-ui.json`;
+
+            document.body.appendChild(a);
+            a.click();
+
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+    }
+
+    const onClickImportInstances = () => {
+        if (importInstancesFileInputRef.current) {
+            importInstancesFileInputRef.current.click();
+        }
+    }
+
+    const handleImportInstancesFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            try {
+                const content = e.target?.result;
+                if (content) {
+                    const parsed = JSON.parse(content as string);
+
+                    if (isValidInstanceArray(parsed)) {
+                        parsed.forEach(ins => {
+                            const _ins = { ...ins, id: 0 };
+                            addInstance(ins);
+                        });
+                    }
+                }
+            } catch (err: any) {
+            }
+            finally {
+                event.target.value = "";
+            }
+        };
+
+        reader.readAsText(file);
+    }
+
+    const isValidInstanceArray = (data: any): data is Instance[] => {
+        if (!Array.isArray(data)) return false;
+
+        return data.every(
+            (item) =>
+                typeof item.id === "number" &&
+                typeof item.name === "string" &&
+                typeof item.host === "string" &&
+                (item.apiKey === undefined || typeof item.apiKey === "string") &&
+                (item.updatedTime === undefined || !isNaN(new Date(item.updatedTime).getTime()))
+        );
+    }
+
+    const onClickRemoveAllInstances = useCallback(() => {
+        const modalId = 'removeAllInstancesModal';
+        modals.open({
+            modalId,
+            title: t('settings.remove.title'),
+            centered: true,
+            children: (
+                <div className="flex flex-col gap-6">
+                    <p>
+                        {t('settings.remove.tip')}
+                    </p>
+                    <div className="flex gap-3">
+                        <Button
+                            block
+                            theme="solid"
+                            type="danger"
+                            onClick={() => {
+                                removeAllInstances();
+                                modals.close(modalId);
+                            }}
+                        >
+                            {t('confirm')}
+                        </Button>
+                        <Button
+                            block
+                            theme="solid"
+                            type="secondary"
+                            onClick={() => {
+                                modals.close(modalId);
+                            }}
+                        >
+                            {t('cancel')}
+                        </Button>
+                    </div>
+                </div>
+            ),
+        });
+    }, [removeAllInstances, t]
+    )
+
+    return (
+        <div className="w-full flex justify-end" style={{ marginBottom: "-2.2rem" }}>
+            <input type="file" accept=".json" ref={importInstancesFileInputRef} style={{ display: 'none' }} onChange={handleImportInstancesFileUpload} id="import-instances" />
+            <Menu shadow="md" width={200}>
+                <Menu.Target>
+                    <ActionIcon variant="default" aria-label="Settings">
+                        <IconSettings style={{ width: '70%', height: '70%' }} stroke={1.5} />
+                    </ActionIcon>
+                </Menu.Target>
+
+                <Menu.Dropdown>
+                    <Menu.Item leftSection={<IconFileExport size={14} />} disabled={!(instances.length > 0)} onClick={onClickExportInstances}>
+                        {t('settings.export')}
+                    </Menu.Item>
+                    <Menu.Item leftSection={<IconFileImport size={14} />} onClick={onClickImportInstances}>
+                        {t('settings.import')}
+                    </Menu.Item>
+
+                    <Menu.Divider />
+
+                    <Menu.Label>{t('settings.danger_zone')}</Menu.Label>
+                    <Menu.Item leftSection={<IconTrash size={14} />} color="red" disabled={!(instances.length > 0)} onClick={onClickRemoveAllInstances}>
+                        {t('settings.remove.title')}
+                    </Menu.Item>
+                </Menu.Dropdown>
+            </Menu>
+        </div>
+    );
+}
