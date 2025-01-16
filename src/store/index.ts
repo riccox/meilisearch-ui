@@ -28,6 +28,7 @@ interface State {
   addInstance: (cfg: Omit<Instance, 'updatedTime' | 'id'>) => void;
   editInstance: (id: number, cfg: Omit<Instance, 'updatedTime' | 'id'>) => void;
   removeInstance: (id: number) => void;
+  removeAllInstances: () => void;
 }
 
 export const useAppStore = create<State>()(
@@ -67,6 +68,12 @@ export const useAppStore = create<State>()(
               if (index !== -1) state.instances.splice(index, 1);
             })
           ),
+        removeAllInstances: () =>
+          set(
+            produce((state: State) => {
+              state.instances = [];
+            })
+          )
       }),
       {
         name: 'meilisearch-ui-store',
