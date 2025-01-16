@@ -99,11 +99,11 @@ export const DashboardSettingsButton: FC<Props> = ({ className = '' }) => {
     )
 
     return (
-        <div className={cn(className)}>
+        <div className={cn('p-2',className)}>
             <input type="file" accept=".json" ref={importInstancesFileInputRef} style={{ display: 'none' }} onChange={handleImportInstancesFileUpload} id="import-instances" />
             <Menu shadow="md" width={200}>
                 <Menu.Target>
-                    <IconSettings className={'text-white w-4 h-4'} />
+                    <IconSettings className={'text-white w-5 h-5 cursor-pointer'} />
                 </Menu.Target>
 
                 <Menu.Dropdown>
