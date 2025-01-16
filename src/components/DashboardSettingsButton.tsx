@@ -3,11 +3,16 @@ import { Instance, useAppStore } from '@/store';
 import { useTranslation } from 'react-i18next';
 import { IconFileExport, IconFileImport, IconSettings, IconTrash } from '@tabler/icons-react';
 import { Menu, ActionIcon } from '@mantine/core';
-import { modals } from '@mantine/modals';
 import { Button } from '@douyinfe/semi-ui';
+import { Modal } from '@arco-design/web-react';
+import { cn } from '@/lib/cn';
+import type { FC } from 'react';
 
+interface Props {
+  className?: string;
+}
 
-export const DashboardSettingsButton = () => {
+export const DashboardSettingsButton: FC<Props> = ({ className = '' }) => {
 
     const { t } = useTranslation('dashboard');
     const instances = useAppStore((state) => state.instances);
@@ -80,47 +85,21 @@ export const DashboardSettingsButton = () => {
     }
 
     const onClickRemoveAllInstances = useCallback(() => {
-        const modalId = 'removeAllInstancesModal';
-        modals.open({
-            modalId,
+        Modal.confirm({
             title: t('settings.remove.title'),
             centered: true,
-            children: (
-                <div className="flex flex-col gap-6">
-                    <p>
-                        {t('settings.remove.tip')}
-                    </p>
-                    <div className="flex gap-3">
-                        <Button
-                            block
-                            theme="solid"
-                            type="danger"
-                            onClick={() => {
-                                removeAllInstances();
-                                modals.close(modalId);
-                            }}
-                        >
-                            {t('confirm')}
-                        </Button>
-                        <Button
-                            block
-                            theme="solid"
-                            type="secondary"
-                            onClick={() => {
-                                modals.close(modalId);
-                            }}
-                        >
-                            {t('cancel')}
-                        </Button>
-                    </div>
-                </div>
-            ),
+            content:  t('settings.remove.tip'),
+            onOk: async () => {
+                return removeAllInstances();
+            },
+            okText: t('confirm'),
+            cancelText: t('cancel'),
         });
     }, [removeAllInstances, t]
     )
 
     return (
-        <div className="w-full flex justify-end" style={{ marginBottom: "-2.2rem" }}>
+        <div className={cn(className)}>
             <input type="file" accept=".json" ref={importInstancesFileInputRef} style={{ display: 'none' }} onChange={handleImportInstancesFileUpload} id="import-instances" />
             <Menu shadow="md" width={200}>
                 <Menu.Target>
