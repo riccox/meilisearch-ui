@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.11.1](https://github.com/riccox/meilisearch-ui/compare/v0.11.0...v0.11.1) (2025-01-16)
+
+
+### Bug Fixes
+
+* document editor remain previous value after close. ([4c2824f](https://github.com/riccox/meilisearch-ui/commit/4c2824f58bd0befb7174590ec7618c12b962118f))
+
 ## [0.11.0](https://github.com/riccox/meilisearch-ui/compare/v0.10.3...v0.11.0) (2025-01-16)
 
 
