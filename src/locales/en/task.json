@@ -1,46 +1,46 @@
 {
-  "duration": "Duration",
-  "enqueued_at": "Enqueued At",
-  "started_at": "Started At",
-  "finished_at": "Finished At",
-  "search": {
-    "placeholder": "Search tasks"
-  },
-  "filter": {
-    "index": {
-      "placeholder": "Filter Index UID"
-    },
-    "enqueuedAt": {
-      "label": "Enqueued At"
-    },
-    "type": {
-      "placeholder": "Filter Task Type"
-    },
-    "status": {
-      "placeholder": "Filter Task Status"
-    }
-  },
-  "type": {
-    "documentAdditionOrUpdate": "Document Addition Or Update",
-    "documentDeletion": "Document Deletion",
-    "dumpCreation": "Dump Creation",
-    "indexCreation": "Index Creation",
-    "indexDeletion": "Index Deletion",
-    "indexSwap": "Index Swap",
-    "indexUpdate": "Index Update",
-    "settingsUpdate": "Settings Update",
-    "snapshotCreation": "Snapshot Creation",
-    "taskCancelation": "Task Cancelation",
-    "taskDeletion": "Task Deletion"
-  },
-  "status": {
-    "succeeded": "✅ Succeeded",
-    "processing": "⚡ Processing",
-    "failed": "❌ Failed",
-    "enqueued": "🔀 Enqueued",
-    "canceled": "🚫 Canceled"
-  },
-  "detail": {
-    "title": "Task Detail"
-  }
+	"duration": "Duration",
+	"enqueued_at": "Enqueued At",
+	"started_at": "Started At",
+	"finished_at": "Finished At",
+	"search": {
+		"placeholder": "Search tasks"
+	},
+	"filter": {
+		"index": {
+			"placeholder": "Filter Index UID"
+		},
+		"enqueuedAt": {
+			"label": "Enqueued At"
+		},
+		"type": {
+			"placeholder": "Filter Task Type"
+		},
+		"status": {
+			"placeholder": "Filter Task Status"
+		}
+	},
+	"type": {
+		"documentAdditionOrUpdate": "Document Addition Or Update",
+		"documentDeletion": "Document Deletion",
+		"dumpCreation": "Dump Creation",
+		"indexCreation": "Index Creation",
+		"indexDeletion": "Index Deletion",
+		"indexSwap": "Index Swap",
+		"indexUpdate": "Index Update",
+		"settingsUpdate": "Settings Update",
+		"snapshotCreation": "Snapshot Creation",
+		"taskCancelation": "Task Cancelation",
+		"taskDeletion": "Task Deletion"
+	},
+	"status": {
+		"succeeded": "✅ Succeeded",
+		"processing": "⚡ Processing",
+		"failed": "❌ Failed",
+		"enqueued": "🔀 Enqueued",
+		"canceled": "🚫 Canceled"
+	},
+	"detail": {
+		"title": "Task Detail"
+	}
 }

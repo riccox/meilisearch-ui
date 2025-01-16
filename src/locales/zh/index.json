@@ -1,40 +1,40 @@
 {
-  "fieldDistribution": {
-    "label": "字段分布",
-    "tip": "仅展示前十个字段，按分布排序",
-    "subtitle": "点我转到有关 Field Distribution 的官方文档"
-  },
-  "count": "文档计数",
-  "indexing": "索引中",
-  "indexing_tip": "此索引正在为文档编制索引，设置与搜索结果现在可能显示不正确!",
-  "index_delete": {
-    "dialog": {
-      "content": "您正在<strong>删除索引{{uid}}</strong>。\n此操作非常重要，需要您确认。\n请点击以下按钮之一继续。",
-      "title": "请确认您的操作"
-    },
-    "label": "删除此索引"
-  },
-  "all_documents_delete": {
-    "dialog": {
-      "content": "您正在<strong>删除索引{{uid}}的所有文档</strong>。\n此操作非常重要，需要您确认。\n请点击以下按钮之一继续。",
-      "title": "请确认您的操作"
-    },
-    "label": "删除所有文档"
-  },
-  "primaryKey": "主键",
-  "not_found": "未找到索引",
-  "setting": {
-    "index": {
-      "config": {
-        "label": "索引配置"
-      },
-      "danger_zone": "危险区"
-    },
-    "filterableAttributes": "可筛选属性",
-    "searchableAttributes": "可搜索属性",
-    "sortableAttributes": "可排序属性"
-  },
-  "search": {
-    "tip": "此处仅搜索本页所展示的数据，这是因为 Meilisearch 并未提供对索引列表的搜索接口！"
-  }
+	"fieldDistribution": {
+		"label": "字段分布",
+		"tip": "仅展示前十个字段，按分布排序",
+		"subtitle": "点我转到有关 Field Distribution 的官方文档"
+	},
+	"count": "文档计数",
+	"indexing": "索引中",
+	"indexing_tip": "此索引正在为文档编制索引，设置与搜索结果现在可能显示不正确!",
+	"index_delete": {
+		"dialog": {
+			"content": "您正在<strong>删除索引{{uid}}</strong>。\n此操作非常重要，需要您确认。\n请点击以下按钮之一继续。",
+			"title": "请确认您的操作"
+		},
+		"label": "删除此索引"
+	},
+	"all_documents_delete": {
+		"dialog": {
+			"content": "您正在<strong>删除索引{{uid}}的所有文档</strong>。\n此操作非常重要，需要您确认。\n请点击以下按钮之一继续。",
+			"title": "请确认您的操作"
+		},
+		"label": "删除所有文档"
+	},
+	"primaryKey": "主键",
+	"not_found": "未找到索引",
+	"setting": {
+		"index": {
+			"config": {
+				"label": "索引配置"
+			},
+			"danger_zone": "危险区"
+		},
+		"filterableAttributes": "可筛选属性",
+		"searchableAttributes": "可搜索属性",
+		"sortableAttributes": "可排序属性"
+	},
+	"search": {
+		"tip": "此处仅搜索本页所展示的数据，这是因为 Meilisearch 并未提供对索引列表的搜索接口！"
+	}
 }

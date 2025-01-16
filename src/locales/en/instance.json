@@ -1,55 +1,55 @@
 {
-  "host": "Host",
-  "status": {
-    "label": "Status",
-    "available": "Available"
-  },
-  "version": {
-    "label": "Meilisearch Version"
-  },
-  "db_size": "Instance DB Size",
-  "meili_version": "Meili Version",
-  "connection_failed": "Connection fail, go check your config! 🤥",
-  "create_index": {
-    "form": {
-      "primaryKey": {
-        "label": "Primary Key",
-        "placeholder": "Primary key of the requested index",
-        "tip": "[DOCS] It uniquely identifies each document in an index, ensuring that it is impossible to have two exactly identical documents present in the same index."
-      },
-      "uid": {
-        "placeholder": "uid of the requested index",
-        "tip": "[DOCS] Once defined, the uid cannot be changed, and you cannot create another index with the same uid.",
-        "validation_error": "The uid is the unique identifier of an index. It is set when creating the index and must be an integer or string containing only alphanumeric characters a-z A-Z 0-9, hyphens - and underscores _."
-      }
-    },
-    "label": "Create Index"
-  },
-  "dump": {
-    "dialog": {
-      "tip": "Are you sure you want to start a new dump for instance {{name}}?",
-      "title": "Create a new dump"
-    }
-  },
-  "no_master_key_error": "Meilisearch is running without a master key.\nTo access this API endpoint, you must have set a master key at launch.",
-  "singleton_cfg_not_found": "Singleton mode detected! Connection fail!\nRunning with invalid instance config, you must have set correct instance env config before launch.",
-  "not_found": "Instance not found",
-  "form": {
-    "title": {
-      "create": "Add a new instance",
-      "edit": "Edit instance"
-    },
-    "name": {
-      "label": "Name",
-      "placeholder": "name your instance, should be different from others"
-    },
-    "host": {
-      "label": "Host",
-      "tip": "Remember enable CORS in your instance server for this ui domain first"
-    },
-    "api_key": {
-      "label": "API Key",
-      "tip": "Don't care! Your instance config will only be store in your local browser"
-    }
-  }
+	"host": "Host",
+	"status": {
+		"label": "Status",
+		"available": "Available"
+	},
+	"version": {
+		"label": "Meilisearch Version"
+	},
+	"db_size": "Instance DB Size",
+	"meili_version": "Meili Version",
+	"connection_failed": "Connection fail, go check your config! 🤥",
+	"create_index": {
+		"form": {
+			"primaryKey": {
+				"label": "Primary Key",
+				"placeholder": "Primary key of the requested index",
+				"tip": "[DOCS] It uniquely identifies each document in an index, ensuring that it is impossible to have two exactly identical documents present in the same index."
+			},
+			"uid": {
+				"placeholder": "uid of the requested index",
+				"tip": "[DOCS] Once defined, the uid cannot be changed, and you cannot create another index with the same uid.",
+				"validation_error": "The uid is the unique identifier of an index. It is set when creating the index and must be an integer or string containing only alphanumeric characters a-z A-Z 0-9, hyphens - and underscores _."
+			}
+		},
+		"label": "Create Index"
+	},
+	"dump": {
+		"dialog": {
+			"tip": "Are you sure you want to start a new dump for instance {{name}}?",
+			"title": "Create a new dump"
+		}
+	},
+	"no_master_key_error": "Meilisearch is running without a master key.\nTo access this API endpoint, you must have set a master key at launch.",
+	"singleton_cfg_not_found": "Singleton mode detected! Connection fail!\nRunning with invalid instance config, you must have set correct instance env config before launch.",
+	"not_found": "Instance not found",
+	"form": {
+		"title": {
+			"create": "Add a new instance",
+			"edit": "Edit instance"
+		},
+		"name": {
+			"label": "Name",
+			"placeholder": "name your instance, should be different from others"
+		},
+		"host": {
+			"label": "Host",
+			"tip": "Remember enable CORS in your instance server for this ui domain first"
+		},
+		"api_key": {
+			"label": "API Key",
+			"tip": "Don't care! Your instance config will only be store in your local browser"
+		}
+	}
 }

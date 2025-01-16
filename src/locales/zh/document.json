@@ -1,52 +1,52 @@
 {
-  "upload_documents": "上传文档",
-  "delete_document": "删除文档",
-  "delete": {
-    "tip": "是否确实要<strong>删除索引 {{indexId}} 中这个主键为 {{primaryKey}} 的文档</strong>?",
-    "require_primaryKey": "文档删除需要索引 {{indexId}} 中存在有效的primaryKey"
-  },
-  "edit_document": "编辑文档",
-  "search": {
-    "form": {
-      "limit": {
-        "label": "限制结果数",
-        "validation_error": "为了此面板的性能，限制此搜索结果数（＜500）"
-      },
-      "indexId": {
-        "placeholder": "输入目标索引id"
-      },
-      "q": {
-        "placeholder": "输入搜索词..."
-      },
-      "filter": {
-        "label": "过滤器"
-      },
-      "offset": {
-        "label": "偏移"
-      },
-      "sort": {
-        "label": "排序",
-        "tip": "使用半角逗号（','）分隔多个排序表达式"
-      },
-      "autoRefresh": {
-        "label": "自动刷新",
-        "tip": "开启后将(每7s、筛选条件变化时、网络环境变化时)自动刷新搜索结果，此选项会提高QPS，付费实例请留意!"
-      },
-      "showRankingScore": {
-        "label": "显示排名分数",
-        "tip": "此选项仅在支持 showRankingScore 参数的实例（> v1.3.0）上有效，开启后将在返回的搜索结果中出现 _rankingScore 字段，请参考官方文档了解此参数的含义"
-      }
-    },
-    "results": {
-      "label": "搜索结果",
-      "download": "下载搜索结果",
-      "type": {
-        "json": "JSON",
-        "table": "表格",
-        "grid": "网格"
-      },
-      "total_hits": "总计返回 {{estimatedTotalHits}} 条结果",
-      "processing_time": "用时 {{processingTimeMs}} ms"
-    }
-  }
+	"upload_documents": "上传文档",
+	"delete_document": "删除文档",
+	"delete": {
+		"tip": "是否确实要<strong>删除索引 {{indexId}} 中这个主键为 {{primaryKey}} 的文档</strong>?",
+		"require_primaryKey": "文档删除需要索引 {{indexId}} 中存在有效的primaryKey"
+	},
+	"edit_document": "编辑文档",
+	"search": {
+		"form": {
+			"limit": {
+				"label": "限制结果数",
+				"validation_error": "为了此面板的性能，限制此搜索结果数（＜500）"
+			},
+			"indexId": {
+				"placeholder": "输入目标索引id"
+			},
+			"q": {
+				"placeholder": "输入搜索词..."
+			},
+			"filter": {
+				"label": "过滤器"
+			},
+			"offset": {
+				"label": "偏移"
+			},
+			"sort": {
+				"label": "排序",
+				"tip": "使用半角逗号（','）分隔多个排序表达式"
+			},
+			"autoRefresh": {
+				"label": "自动刷新",
+				"tip": "开启后将(每7s、筛选条件变化时、网络环境变化时)自动刷新搜索结果，此选项会提高QPS，付费实例请留意!"
+			},
+			"showRankingScore": {
+				"label": "显示排名分数",
+				"tip": "此选项仅在支持 showRankingScore 参数的实例（> v1.3.0）上有效，开启后将在返回的搜索结果中出现 _rankingScore 字段，请参考官方文档了解此参数的含义"
+			}
+		},
+		"results": {
+			"label": "搜索结果",
+			"download": "下载搜索结果",
+			"type": {
+				"json": "JSON",
+				"table": "表格",
+				"grid": "网格"
+			},
+			"total_hits": "总计返回 {{estimatedTotalHits}} 条结果",
+			"processing_time": "用时 {{processingTimeMs}} ms"
+		}
+	}
 }

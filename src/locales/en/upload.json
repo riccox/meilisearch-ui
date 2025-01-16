@@ -1,13 +1,13 @@
 {
-  "clipboard_json_pasted": "Clipboard JSON pasted",
-  "title": "Upload documents into Index",
-  "input_by_editor": "Input by editor",
-  "manually_type_in": "Manually type in",
-  "click_to_paste_clipboard_content_if_it_is_valid_json": "Click to paste clipboard content (if it is valid JSON)",
-  "import_json_file": "Import json file",
-  "for_large_documents": "For large documents",
-  "release_to_upload_documents": "Release to Upload Documents",
-  "drag_and_drop_a_file_here": "Drag & Drop A {{- type}} File Here",
-  "browse_file": "Browse File",
-  "documents_json_array_requirement": "Added documents should be JSON Array whose length > 0"
+	"clipboard_json_pasted": "Clipboard JSON pasted",
+	"title": "Upload documents into Index",
+	"input_by_editor": "Input by editor",
+	"manually_type_in": "Manually type in",
+	"click_to_paste_clipboard_content_if_it_is_valid_json": "Click to paste clipboard content (if it is valid JSON)",
+	"import_json_file": "Import json file",
+	"for_large_documents": "For large documents",
+	"release_to_upload_documents": "Release to Upload Documents",
+	"drag_and_drop_a_file_here": "Drag & Drop A {{- type}} File Here",
+	"browse_file": "Browse File",
+	"documents_json_array_requirement": "Added documents should be JSON Array whose length > 0"
 }

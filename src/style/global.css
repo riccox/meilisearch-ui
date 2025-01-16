@@ -3,104 +3,105 @@
 @tailwind utilities;
 
 @layer base {
-  :root {
-    font-size: 17px;
-    font-synthesis: none;
-    @apply font-mono selection:bg-primary-200 selection:bg-opacity-50;
+	:root {
+		font-size: 17px;
+		font-synthesis: none;
+		@apply font-mono selection:bg-primary-200 selection:bg-opacity-50;
 
-    text-rendering: optimizeLegibility;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    -webkit-text-size-adjust: 100%;
+		text-rendering: optimizeLegibility;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+		-webkit-text-size-adjust: 100%;
 
-    scroll-behavior: smooth;
-  }
+		scroll-behavior: smooth;
+	}
 
-  /* make body fill full page */
-  html {
-    @apply w-screen h-screen;
-  }
+	/* make body fill full page */
+	html {
+		@apply w-screen h-screen;
+	}
 
-  body {
-    @apply h-full w-full m-0 p-0 border-0 align-baseline  !important;
-    @apply transition-colors duration-300 ease-in-out;
-    min-width: 320px;
-    min-height: 100vh;
-  }
+	body {
+		@apply h-full w-full m-0 p-0 border-0 align-baseline  !important;
+		@apply transition-colors duration-300 ease-in-out;
+		min-width: 320px;
+		min-height: 100vh;
+	}
 }
 
 @layer components {
-  .full-page {
-    @apply flex flex-col w-screen h-screen overflow-hidden !important;
-  }
+	.full-page {
+		@apply flex flex-col w-screen h-screen overflow-hidden !important;
+	}
 
-  .fill {
-    @apply w-full h-full;
-  }
+	.fill {
+		@apply w-full h-full;
+	}
 
-  .fullscreen {
-    @apply w-screen h-screen;
-  }
+	.fullscreen {
+		@apply w-screen h-screen;
+	}
 
-  a {
-    @apply hover:underline hover:cursor-pointer;
-    font-weight: 500;
-    text-decoration: inherit;
-  }
+	a {
+		@apply hover:underline hover:cursor-pointer;
+		font-weight: 500;
+		text-decoration: inherit;
+	}
 
-  .logo {
-    will-change: filter;
-  }
+	.logo {
+		will-change: filter;
+	}
 
-  .logo:hover {
-    filter: drop-shadow(0 0 2rem #646cffaa);
-  }
+	.logo:hover {
+		filter: drop-shadow(0 0 2rem #646cffaa);
+	}
 }
 
 @layer utilities {
-  .remove-scroll-bar::-webkit-scrollbar {
-    /* Hide scrollbar for Chrome, Safari and Opera */
-    display: none !important;
-  }
+	.remove-scroll-bar::-webkit-scrollbar {
+		/* Hide scrollbar for Chrome, Safari and Opera */
+		display: none !important;
+	}
 
-  .remove-scroll-bar::-webkit-scrollbar {
-    -ms-overflow-style: none !important; /* IE and Edge */
-    scrollbar-width: none !important; /* Firefox */
-  }
+	.remove-scroll-bar::-webkit-scrollbar {
+		-ms-overflow-style: none !important; /* IE and Edge */
+		scrollbar-width: none !important; /* Firefox */
+	}
 
-  .bg-night {
-    @apply bg-secondary-800;
-  }
+	.bg-night {
+		@apply bg-secondary-800;
+	}
 
-  .bg-mount {
-    @apply bg-secondary-800;
-    @apply bg-fixed bg-cover;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 900'%3E%3Cpolygon fill='%23ff5caa' points='957 450 539 900 1396 900'/%3E%3Cpolygon fill='%23ff4e62' points='957 450 872.9 900 1396 900'/%3E%3Cpolygon fill='%23f55cb8' points='-60 900 398 662 816 900'/%3E%3Cpolygon fill='%23f9377d' points='337 900 398 662 816 900'/%3E%3Cpolygon fill='%23e75fc5' points='1203 546 1552 900 876 900'/%3E%3Cpolygon fill='%23e82c9a' points='1203 546 1552 900 1162 900'/%3E%3Cpolygon fill='%23d763d1' points='641 695 886 900 367 900'/%3E%3Cpolygon fill='%23ca34b6' points='587 900 641 695 886 900'/%3E%3Cpolygon fill='%23c468dd' points='1710 900 1401 632 1096 900'/%3E%3Cpolygon fill='%239d45d0' points='1710 900 1401 632 1365 900'/%3E%3Cpolygon fill='%23ad6de7' points='1210 900 971 687 725 900'/%3E%3Cpolygon fill='%234f55e3' points='943 900 1210 900 971 687'/%3E%3C/svg%3E");
-  }
+	.bg-mount {
+		@apply bg-secondary-800;
+		@apply bg-fixed bg-cover;
+		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 900'%3E%3Cpolygon fill='%23ff5caa' points='957 450 539 900 1396 900'/%3E%3Cpolygon fill='%23ff4e62' points='957 450 872.9 900 1396 900'/%3E%3Cpolygon fill='%23f55cb8' points='-60 900 398 662 816 900'/%3E%3Cpolygon fill='%23f9377d' points='337 900 398 662 816 900'/%3E%3Cpolygon fill='%23e75fc5' points='1203 546 1552 900 876 900'/%3E%3Cpolygon fill='%23e82c9a' points='1203 546 1552 900 1162 900'/%3E%3Cpolygon fill='%23d763d1' points='641 695 886 900 367 900'/%3E%3Cpolygon fill='%23ca34b6' points='587 900 641 695 886 900'/%3E%3Cpolygon fill='%23c468dd' points='1710 900 1401 632 1096 900'/%3E%3Cpolygon fill='%239d45d0' points='1710 900 1401 632 1365 900'/%3E%3Cpolygon fill='%23ad6de7' points='1210 900 971 687 725 900'/%3E%3Cpolygon fill='%234f55e3' points='943 900 1210 900 971 687'/%3E%3C/svg%3E");
+	}
 
-  /* rainbow rotate animated ring border */
-  .rainbow-ring-rotate {
-    @apply z-0 overflow-hidden relative;
-    @apply bg-gradient-to-br from-primary-400 via-primary-500 to-primary-600 !important;
-  }
+	/* rainbow rotate animated ring border */
+	.rainbow-ring-rotate {
+		@apply z-0 overflow-hidden relative;
+		@apply bg-gradient-to-br from-primary-400 via-primary-500 to-primary-600 !important;
+	}
 
-  @keyframes rainbow-ring-rotate {
-    100% {
-      transform: rotate(1turn);
-    }
-  }
+	@keyframes rainbow-ring-rotate {
+		100% {
+			transform: rotate(1turn);
+		}
+	}
 
-  .rainbow-ring-rotate::before {
-    content: '';
-    width: 200%;
-    height: 200%;
-    @apply absolute -z-20 -left-1/2 -top-1/2 bg-primary-100 bg-no-repeat;
-    background-image: linear-gradient(#3f5efb, #fc466b), linear-gradient(#833ab4, #fd1d1d, #fcb045);
-    animation: rainbow-ring-rotate 4s linear infinite;
-  }
+	.rainbow-ring-rotate::before {
+		content: "";
+		width: 200%;
+		height: 200%;
+		@apply absolute -z-20 -left-1/2 -top-1/2 bg-primary-100 bg-no-repeat;
+		background-image: linear-gradient(#3f5efb, #fc466b),
+			linear-gradient(#833ab4, #fd1d1d, #fcb045);
+		animation: rainbow-ring-rotate 4s linear infinite;
+	}
 
-  .rainbow-ring-rotate::after {
-    content: '';
-    @apply -z-10 absolute inset-1 bg-white rounded;
-  }
+	.rainbow-ring-rotate::after {
+		content: "";
+		@apply -z-10 absolute inset-1 bg-white rounded;
+	}
 }

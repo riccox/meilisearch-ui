@@ -1,40 +1,40 @@
 {
-  "fieldDistribution": {
-    "label": "Field Distribution",
-    "tip": "Only the first 10 fields are shown, sorted by distribution",
-    "subtitle": "Click me to go for official docs about “Field Distribution”"
-  },
-  "count": "Count",
-  "indexing": "Indexing",
-  "indexing_tip": "This index is indexing documents, setting & search results may be incorrect now!",
-  "all_documents_delete": {
-    "dialog": {
-      "content": "You are <strong>deleting all documents</strong> of index <strong>{{uid}}</strong>.\nThis action is so important that you are required to confirm it.\nPlease click one of these buttons to proceed.",
-      "title": "Please confirm your action"
-    },
-    "label": "Delete All Documents"
-  },
-  "index_delete": {
-    "dialog": {
-      "content": "You are <strong>deleting index {{uid}}</strong>.\nThis action is so important that you are required to confirm it.\nPlease click one of these buttons to proceed.",
-      "title": "Please confirm your action"
-    },
-    "label": "Delete This Index"
-  },
-  "primaryKey": "Primary Key",
-  "not_found": "Index Not Found",
-  "setting": {
-    "index": {
-      "config": {
-        "label": "Index Configuration"
-      },
-      "danger_zone": "Danger Zone"
-    },
-    "filterableAttributes": "Filterable Attributes",
-    "searchableAttributes": "Searchable Attributes",
-    "sortableAttributes": "Sortable Attributes"
-  },
-  "search": {
-    "tip": "Only the data presented on this page is searched here because Meilisearch does not provide a search interface for index lists!"
-  }
+	"fieldDistribution": {
+		"label": "Field Distribution",
+		"tip": "Only the first 10 fields are shown, sorted by distribution",
+		"subtitle": "Click me to go for official docs about “Field Distribution”"
+	},
+	"count": "Count",
+	"indexing": "Indexing",
+	"indexing_tip": "This index is indexing documents, setting & search results may be incorrect now!",
+	"all_documents_delete": {
+		"dialog": {
+			"content": "You are <strong>deleting all documents</strong> of index <strong>{{uid}}</strong>.\nThis action is so important that you are required to confirm it.\nPlease click one of these buttons to proceed.",
+			"title": "Please confirm your action"
+		},
+		"label": "Delete All Documents"
+	},
+	"index_delete": {
+		"dialog": {
+			"content": "You are <strong>deleting index {{uid}}</strong>.\nThis action is so important that you are required to confirm it.\nPlease click one of these buttons to proceed.",
+			"title": "Please confirm your action"
+		},
+		"label": "Delete This Index"
+	},
+	"primaryKey": "Primary Key",
+	"not_found": "Index Not Found",
+	"setting": {
+		"index": {
+			"config": {
+				"label": "Index Configuration"
+			},
+			"danger_zone": "Danger Zone"
+		},
+		"filterableAttributes": "Filterable Attributes",
+		"searchableAttributes": "Searchable Attributes",
+		"sortableAttributes": "Sortable Attributes"
+	},
+	"search": {
+		"tip": "Only the data presented on this page is searched here because Meilisearch does not provide a search interface for index lists!"
+	}
 }

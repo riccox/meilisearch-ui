@@ -1,13 +1,13 @@
 {
-  "clipboard_json_pasted": "剪切板 JSON 已粘贴",
-  "title": "上传文档至索引",
-  "input_by_editor": "通过编辑器输入",
-  "manually_type_in": "手动输入",
-  "click_to_paste_clipboard_content_if_it_is_valid_json": "单击以粘贴剪贴板内容（如果是有效的JSON）",
-  "import_json_file": "导入 JSON 文件",
-  "for_large_documents": "适用大型文档",
-  "release_to_upload_documents": "释放以上载文档",
-  "drag_and_drop_a_file_here": "将 {{- type}} 文件拖放到此处",
-  "browse_file": "浏览文件",
-  "documents_json_array_requirement": "添加的文档应该是长度 > 0的JSON数组"
+	"clipboard_json_pasted": "剪切板 JSON 已粘贴",
+	"title": "上传文档至索引",
+	"input_by_editor": "通过编辑器输入",
+	"manually_type_in": "手动输入",
+	"click_to_paste_clipboard_content_if_it_is_valid_json": "单击以粘贴剪贴板内容（如果是有效的JSON）",
+	"import_json_file": "导入 JSON 文件",
+	"for_large_documents": "适用大型文档",
+	"release_to_upload_documents": "释放以上载文档",
+	"drag_and_drop_a_file_here": "将 {{- type}} 文件拖放到此处",
+	"browse_file": "浏览文件",
+	"documents_json_array_requirement": "添加的文档应该是长度 > 0的JSON数组"
 }

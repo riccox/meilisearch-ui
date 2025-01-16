@@ -1,46 +1,46 @@
 {
-  "duration": "用时",
-  "enqueued_at": "入列于",
-  "started_at": "开始于",
-  "finished_at": "结束于",
-  "search": {
-    "placeholder": "搜索任务"
-  },
-  "filter": {
-    "index": {
-      "placeholder": "过滤索引UID"
-    },
-    "enqueuedAt": {
-      "label": "入列时间"
-    },
-    "type": {
-      "placeholder": "过滤任务类型"
-    },
-    "status": {
-      "placeholder": "过滤任务状态"
-    }
-  },
-  "type": {
-    "documentAdditionOrUpdate": "文档新增或更新",
-    "documentDeletion": "文档移除",
-    "dumpCreation": "转储创建",
-    "indexCreation": "索引创建",
-    "indexDeletion": "索引移除",
-    "indexSwap": "索引互换",
-    "indexUpdate": "索引更新",
-    "settingsUpdate": "设置更新",
-    "snapshotCreation": "快照创建",
-    "taskCancelation": "任务取消",
-    "taskDeletion": "任务移除"
-  },
-  "status": {
-    "succeeded": "✅ 已成功",
-    "processing": "⚡ 处理中",
-    "failed": "❌ 失败了",
-    "enqueued": "🔀 已入列",
-    "canceled": "🚫 已取消"
-  },
-  "detail": {
-    "title": "任务详情"
-  }
+	"duration": "用时",
+	"enqueued_at": "入列于",
+	"started_at": "开始于",
+	"finished_at": "结束于",
+	"search": {
+		"placeholder": "搜索任务"
+	},
+	"filter": {
+		"index": {
+			"placeholder": "过滤索引UID"
+		},
+		"enqueuedAt": {
+			"label": "入列时间"
+		},
+		"type": {
+			"placeholder": "过滤任务类型"
+		},
+		"status": {
+			"placeholder": "过滤任务状态"
+		}
+	},
+	"type": {
+		"documentAdditionOrUpdate": "文档新增或更新",
+		"documentDeletion": "文档移除",
+		"dumpCreation": "转储创建",
+		"indexCreation": "索引创建",
+		"indexDeletion": "索引移除",
+		"indexSwap": "索引互换",
+		"indexUpdate": "索引更新",
+		"settingsUpdate": "设置更新",
+		"snapshotCreation": "快照创建",
+		"taskCancelation": "任务取消",
+		"taskDeletion": "任务移除"
+	},
+	"status": {
+		"succeeded": "✅ 已成功",
+		"processing": "⚡ 处理中",
+		"failed": "❌ 失败了",
+		"enqueued": "🔀 已入列",
+		"canceled": "🚫 已取消"
+	},
+	"detail": {
+		"title": "任务详情"
+	}
 }

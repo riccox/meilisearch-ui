@@ -1,5 +1,5 @@
 {
-  "powered_by": "技术支持",
-  "meilisearchJSInUse": "正在使用的 Meilisearch JS SDK 版本",
-  "meilisearchVersionTip": "请注意关注该SDK版本与你正在使用的 Meilisearch 实例版本的适配性以获得良好的使用体验"
+	"powered_by": "技术支持",
+	"meilisearchJSInUse": "正在使用的 Meilisearch JS SDK 版本",
+	"meilisearchVersionTip": "请注意关注该SDK版本与你正在使用的 Meilisearch 实例版本的适配性以获得良好的使用体验"
 }

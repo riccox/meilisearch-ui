@@ -1,1 +1,1 @@
-export { AppFallback } from './AppFallback';
+export { AppFallback } from "./AppFallback";

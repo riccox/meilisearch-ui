@@ -3,13 +3,13 @@
  *
  * PNPM 定制Semi DSM 替换 Plugin
  */
-import FS from 'fs';
-import Path from 'path';
+import FS from "node:fs";
+import Path from "node:path";
 
-import { pathToFileURL } from 'url';
+import { pathToFileURL } from "node:url";
 
-import pkg from 'sass';
-import { platform } from 'os';
+import { platform } from "node:os";
+import pkg from "sass";
 const { compileString, Logger } = pkg;
 
 /**
@@ -29,16 +29,18 @@ const { compileString, Logger } = pkg;
  */
 export default function SemiPlugin({ theme, options = {} }) {
   return {
-    name: 'semi-theme',
-    enforce: 'post',
+    name: "semi-theme",
+    enforce: "post",
     load(id) {
       const filePath = normalizePath(id);
       if (options.include) {
         options.include = normalizePath(options.include);
       }
       // https://github.com/DouyinFE/semi-design/blob/main/packages/semi-webpack/src/semi-webpack-plugin.ts#L83
-      if (/@douyinfe\/semi-(ui|icons|foundation)\/lib\/.+\.css$/.test(filePath)) {
-        const scssFilePath = filePath.replace(/\.css$/, '.scss');
+      if (
+        /@douyinfe\/semi-(ui|icons|foundation)\/lib\/.+\.css$/.test(filePath)
+      ) {
+        const scssFilePath = filePath.replace(/\.css$/, ".scss");
 
         // 目前只有 name
         // https://github.com/DouyinFE/semi-design/blob/04d17a72846dfb5452801a556b6e01f9b0e8eb9d/packages/semi-webpack/src/semi-webpack-plugin.ts#L23
@@ -55,21 +57,25 @@ export default function SemiPlugin({ theme, options = {} }) {
             importers: [
               {
                 findFileUrl(url) {
-                  if (url.startsWith('~')) {
-                    const key = '/node_modules/';
+                  if (url.startsWith("~")) {
+                    const key = "/node_modules/";
                     return new URL(
                       url.substring(1),
                       pathToFileURL(
                         scssFilePath.substring(
                           0,
-                          (url.startsWith('~@semi-bot') ? scssFilePath.indexOf(key) : scssFilePath.lastIndexOf(key)) +
-                            key.length
+                          (url.startsWith("~@semi-bot")
+                            ? scssFilePath.indexOf(key)
+                            : scssFilePath.lastIndexOf(key)) + key.length
                         )
                       )
                     );
                   }
 
-                  const filePath = Path.resolve(Path.dirname(scssFilePath), url);
+                  const filePath = Path.resolve(
+                    Path.dirname(scssFilePath),
+                    url
+                  );
 
                   if (FS.existsSync(filePath)) {
                     return pathToFileURL(filePath);
@@ -89,9 +95,9 @@ export default function SemiPlugin({ theme, options = {} }) {
 
 // copy from https://github.com/DouyinFE/semi-design/blob/main/packages/semi-webpack/src/semi-theme-loader.ts
 function loader(source, options) {
-  let fileStr = source.toString('utf8');
+  let fileStr = source.toString("utf8");
 
-  const theme = options.name || '@douyinfe/semi-theme-default';
+  const theme = options.name || "@douyinfe/semi-theme-default";
   // always inject
   const scssVarStr = `@import "~${theme}/scss/index.scss";\n`;
   // inject once
@@ -102,10 +108,10 @@ function loader(source, options) {
   try {
     require.resolve(`${theme}/scss/animation.scss`);
   } catch (e) {
-    animationStr = ''; // fallback to empty string
+    animationStr = ""; // fallback to empty string
   }
 
-  const shouldInject = fileStr.includes('semi-base');
+  const shouldInject = fileStr.includes("semi-base");
 
   let componentVariables;
 
@@ -114,7 +120,7 @@ function loader(source, options) {
   } catch (e) {}
 
   if (options.include || options.variables || componentVariables) {
-    let localImport = '';
+    let localImport = "";
     if (componentVariables) {
       localImport += `\n@import "~${theme}/scss/local.scss";`;
     }
@@ -125,34 +131,37 @@ function loader(source, options) {
       localImport += `\n${options.variables}`;
     }
     try {
-      const regex = /(@import '.\/variables.scss';?|@import ".\/variables.scss";?)/g;
+      const regex =
+        /(@import '.\/variables.scss';?|@import ".\/variables.scss";?)/g;
       const fileSplit = fileStr.split(regex).filter((item) => Boolean(item));
       if (fileSplit.length > 1) {
         fileSplit.splice(fileSplit.length - 1, 0, localImport);
-        fileStr = fileSplit.join('');
+        fileStr = fileSplit.join("");
       }
     } catch (error) {}
   }
 
   // inject prefix
-  const prefixCls = options.prefixCls || 'semi';
+  const prefixCls = options.prefixCls || "semi";
 
   const prefixClsStr = `$prefix: '${prefixCls}';\n`;
 
   if (shouldInject) {
     return `${animationStr}${cssVarStr}${scssVarStr}${prefixClsStr}${fileStr}`;
-  } else {
-    return `${scssVarStr}${prefixClsStr}${fileStr}`;
   }
+  return `${scssVarStr}${prefixClsStr}${fileStr}`;
 }
 
 // copy from https://github.com/DouyinFE/semi-design/blob/main/packages/semi-webpack/src/semi-webpack-plugin.ts#L136
 function convertMapToString(map) {
-  return Object.keys(map).reduce(function (prev, curr) {
-    return prev + `${curr}: ${map[curr]};\n`;
-  }, '');
+  return Object.keys(map).reduce(
+    (prev, curr) => `${prev}${curr}: ${map[curr]};\n`,
+    ""
+  );
 }
 
 function normalizePath(id) {
-  return Path.posix.normalize(platform() === 'win32' ? id.replace(/\\/g, '/') : id);
+  return Path.posix.normalize(
+    platform() === "win32" ? id.replace(/\\/g, "/") : id
+  );
 }

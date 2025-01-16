@@ -1,11 +1,11 @@
-import { Index } from 'meilisearch';
+import type { Index } from "meilisearch";
 
 export type IndexSettingComponentProps = {
-  className?: string;
-  host?: string;
-  client: Index;
+	className?: string;
+	host?: string;
+	client: Index;
 };
 
 export type IndexSettingConfigComponentProps = IndexSettingComponentProps & {
-  toggleLoading: (bool: boolean) => void;
+	toggleLoading: (bool: boolean) => void;
 };

@@ -1,47 +1,47 @@
 {
-  "props": {
-    "key": "Key",
-    "indexes": "Indexes",
-    "actions": "Actions"
-  },
-  "form": {
-    "title": {
-      "create": "Create Key",
-      "edit": "Update Key"
-    },
-    "uid": {
-      "placeholder": "leave empty to generate a random uid by meilisearch"
-    },
-    "name": {
-      "placeholder": "name your key"
-    },
-    "description": {
-      "placeholder": "add optional description for your key"
-    },
-    "indexes": {
-      "placeholder": "select permitted indexes",
-      "tip": "Leave this option empty means all indexes permitted"
-    },
-    "actions": {
-      "placeholder": "select permitted actions",
-      "tip": "Leave this option empty means all actions permitted"
-    },
-    "expiresAt": {
-      "invalid": "Invalid Expire Time",
-      "placeholder": "!!UTC!! time and format must be YYYY-MM-DD HH:mm:ss",
-      "tip": "Leave this option empty means this key never expires"
-    }
-  },
-  "delete": {
-    "title": "Delete this key",
-    "tip": "Are you sure you want to delete this key?"
-  },
-  "create": {
-    "title": "Add new key",
-    "fail": "Creation fail, go check tasks! 🤥",
-    "submit": "Create this key"
-  },
-  "search": {
-    "placeholder": "Search keys"
-  }
+	"props": {
+		"key": "Key",
+		"indexes": "Indexes",
+		"actions": "Actions"
+	},
+	"form": {
+		"title": {
+			"create": "Create Key",
+			"edit": "Update Key"
+		},
+		"uid": {
+			"placeholder": "leave empty to generate a random uid by meilisearch"
+		},
+		"name": {
+			"placeholder": "name your key"
+		},
+		"description": {
+			"placeholder": "add optional description for your key"
+		},
+		"indexes": {
+			"placeholder": "select permitted indexes",
+			"tip": "Leave this option empty means all indexes permitted"
+		},
+		"actions": {
+			"placeholder": "select permitted actions",
+			"tip": "Leave this option empty means all actions permitted"
+		},
+		"expiresAt": {
+			"invalid": "Invalid Expire Time",
+			"placeholder": "!!UTC!! time and format must be YYYY-MM-DD HH:mm:ss",
+			"tip": "Leave this option empty means this key never expires"
+		}
+	},
+	"delete": {
+		"title": "Delete this key",
+		"tip": "Are you sure you want to delete this key?"
+	},
+	"create": {
+		"title": "Add new key",
+		"fail": "Creation fail, go check tasks! 🤥",
+		"submit": "Create this key"
+	},
+	"search": {
+		"placeholder": "Search keys"
+	}
 }

@@ -1,5 +1,5 @@
 {
-  "powered_by": "Powered by",
-  "meilisearchJSInUse": "Meilisearch JS SDK version in use",
-  "meilisearchVersionTip": "Please pay attention to the compatibility of this SDK version with the Meilisearch instance version you are using for a good experience"
+	"powered_by": "Powered by",
+	"meilisearchJSInUse": "Meilisearch JS SDK version in use",
+	"meilisearchVersionTip": "Please pay attention to the compatibility of this SDK version with the Meilisearch instance version you are using for a good experience"
 }

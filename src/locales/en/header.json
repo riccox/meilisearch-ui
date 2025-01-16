@@ -1,7 +1,7 @@
 {
-  "home": "Home",
-  "support": "Support",
-  "meilisearch_docs": "Meilisearch Docs",
-  "issues": "Issues",
-  "open_source": "Open Source"
+	"home": "Home",
+	"support": "Support",
+	"meilisearch_docs": "Meilisearch Docs",
+	"issues": "Issues",
+	"open_source": "Open Source"
 }

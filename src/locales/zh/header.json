@@ -1,7 +1,7 @@
 {
-  "home": "主页",
-  "support": "支持",
-  "meilisearch_docs": "Meilisearch 文档",
-  "issues": "报告问题",
-  "open_source": "开源"
+	"home": "主页",
+	"support": "支持",
+	"meilisearch_docs": "Meilisearch 文档",
+	"issues": "报告问题",
+	"open_source": "开源"
 }
