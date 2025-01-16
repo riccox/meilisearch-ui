@@ -167,6 +167,8 @@ export const DocumentList = ({ docs = [], type = 'json', currentIndex }: Props) 
     () => (
       <>
         <Modal
+          // destroy DOM after close, otherwise the JSON editor will remain previously edited content
+          unmountOnExit
           visible={editingDocModalVisible}
           confirmLoading={editDocumentMutation.isPending}
           title={t('edit_document')}
