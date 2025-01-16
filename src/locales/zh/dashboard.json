@@ -26,9 +26,9 @@
     }
   },
   "settings": {
-    "export": "导出",
-    "import": "导入",
-    "danger_zone": "危险区域",
+    "export": "导出实例",
+    "import": "导入实例",
+    "danger_zone": "危险区",
     "remove": {
       "title": "移除所有实例",
       "tip": "您确实要删除所有实例吗？"
