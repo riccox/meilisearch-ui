@@ -291,8 +291,6 @@ export const KeyForm: FC<Props> = ({
 								zIndex={5000}
 								value={field.value ?? dayjs().toDate()}
 								onChange={(dv, dvs) => {
-									console.log(dv, dvs);
-
 									form.setValue("expiresAt", dv as Date);
 								}}
 								type="dateTime"

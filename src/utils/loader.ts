@@ -4,7 +4,7 @@ const RequestLoaderID = "request-loader";
 let RequestLoaderTimeoutId: NodeJS.Timeout[] = [];
 
 export const showRequestLoader = () => {
-	console.log("show loader");
+	console.debug("show loader");
 
 	const tid = setTimeout(() => {
 		// pull current tid from queue

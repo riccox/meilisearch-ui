@@ -41,7 +41,7 @@ export const IndexPrimaryKey = ({ afterMutation }: Props) => {
 				task = await currentIndex.index.update({
 					primaryKey: values.primaryKey,
 				});
-				console.info(task);
+				console.debug(task);
 				if (!_.isEmpty(task)) {
 					showTaskSubmitNotification(task);
 					afterMutation();

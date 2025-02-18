@@ -45,7 +45,7 @@ export const CreateIndexButton = ({ afterMutation }: Props) => {
 			task = await client.createIndex(values.uid, {
 				primaryKey: values.primaryKey,
 			});
-			console.info(task);
+			console.debug(task);
 			if (!_.isEmpty(task)) {
 				showTaskSubmitNotification(task);
 				afterMutation();
