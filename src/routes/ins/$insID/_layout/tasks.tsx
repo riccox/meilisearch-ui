@@ -1,3 +1,4 @@
+import { JsonEditor } from "@/components/JsonEditor";
 import { LoaderPage } from "@/components/loader";
 import { TimeAgo } from "@/components/timeago";
 import { useCurrentInstance } from "@/hooks/useCurrentInstance";
@@ -173,15 +174,13 @@ const Page = () => {
 									centered: true,
 									footer: null,
 									content: (
-										<div className="flex justify-center items-center p-4 pb-6">
-											<ReactJson
-												name={false}
-												displayDataTypes={false}
-												displayObjectSize={false}
-												enableClipboard={false}
-												src={record}
-												collapsed={3}
-												collapseStringsAfterLength={50}
+										<div className="flex justify-center items-center p-2 pl-0 pb-6">
+											<JsonEditor
+												lineNumbers={false}
+												className="max-h-[80vh] overflow-scroll"
+												defaultValue={JSON.stringify(record, null, 2)}
+												readonly
+												onChange={() => {}}
 											/>
 										</div>
 									),

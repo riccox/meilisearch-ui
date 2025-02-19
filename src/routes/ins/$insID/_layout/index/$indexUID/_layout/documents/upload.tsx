@@ -1,3 +1,4 @@
+import { JsonEditor } from "@/components/JsonEditor";
 import { LoaderPage } from "@/components/loader";
 import { useCurrentIndex } from "@/hooks/useCurrentIndex";
 import { useCurrentInstance } from "@/hooks/useCurrentInstance";
@@ -12,7 +13,6 @@ import { toast } from "@/utils/toast";
 import { Tooltip } from "@arco-design/web-react";
 import { Tag } from "@douyinfe/semi-ui";
 import { useForm } from "@mantine/form";
-import MonacoEditor from "@monaco-editor/react";
 import { Button } from "@nextui-org/react";
 import { IconCopy } from "@tabler/icons-react";
 import { useMutation } from "@tanstack/react-query";
@@ -22,6 +22,7 @@ import type { EnqueuedTask } from "meilisearch";
 import {
 	type DragEventHandler,
 	useCallback,
+	useEffect,
 	useMemo,
 	useRef,
 	useState,
@@ -34,8 +35,6 @@ const UploadDoc = () => {
 	const [dragAreaState, setDragAreaState] = useState<
 		"leave" | "over" | "uploading"
 	>("leave");
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	const editorRef = useRef<any>(null);
 	const currentInstance = useCurrentInstance();
 	const client = useMeiliClient();
 	const currentIndex = useCurrentIndex(client);
@@ -44,26 +43,38 @@ const UploadDoc = () => {
 	const apiKey = currentInstance?.apiKey;
 
 	const addDocumentsForm = useForm<{
-		documents: object[] | File;
+		documents: string | File;
 	}>({
 		initialValues: {
-			documents: [],
+			documents: "[]",
 		},
 		validate: {
-			documents: (value: object[] | File) => {
-				if (value instanceof File ? value.size > 0 : value.length > 0) {
+			documents: (value: string | File) => {
+				let msg: string;
+				if (value instanceof File && value.size > 0) {
 					return null;
 				}
-				const msg = t("documents_json_array_requirement");
-				toast.error(msg);
+				msg = t("documents_json_array_requirement");
+
+				if (typeof value === "string") {
+					try {
+						if (JSON.parse(value).length !== 0) {
+							return null;
+						}
+					} catch (e) {
+						// is not a valid json, so we need to throw a tip.
+						msg = t("invalid_json_string");
+					}
+				}
 				return msg;
 			},
 		},
 	});
 
 	const addDocumentsMutation = useMutation({
-		mutationFn: async (variables: object[] | File) => {
+		mutationFn: async (variables: string | File) => {
 			const url = new URL(`/indexes/${currentIndex.index.uid}/documents`, host);
+
 			const response = await fetch(url, {
 				method: "POST",
 				headers: {
@@ -71,10 +82,7 @@ const UploadDoc = () => {
 					"Content-Type": "application/json",
 					Authorization: apiKey ? `Bearer ${apiKey}` : "",
 				},
-				body:
-					variables instanceof File
-						? (variables as File)
-						: JSON.stringify(variables),
+				body: variables instanceof File ? (variables as File) : variables,
 			});
 			const task = (await response.json()) as EnqueuedTask;
 			console.debug("addDocumentsMutation", "response", task);
@@ -114,20 +122,15 @@ const UploadDoc = () => {
 			const arr = _.isArray(json) ? json : _.isObject(json) ? [json] : [];
 			console.debug("onAddDocumentsByEditorClick paste clipboard", arr, json);
 			if (arr.length > 0) {
-				if (editorRef) {
-					editorRef.current.setValue(JSON.stringify(arr, null, 2));
-					toast.success(t("clipboard_json_pasted"));
-				}
+				addDocumentsForm.setFieldValue("documents", JSON.stringify(arr));
+				toast.success(t("clipboard_json_pasted"));
 			}
 		}
-	}, [t]);
+	}, [t, addDocumentsForm]);
 
-	const onAddDocumentsSubmit = useCallback(
-		async (val: typeof addDocumentsForm.values) => {
-			await addDocumentsMutation.mutate(val.documents);
-		},
-		[addDocumentsMutation],
-	);
+	const onAddDocumentsSubmit = useCallback(async () => {
+		await addDocumentsMutation.mutate(addDocumentsForm.values.documents);
+	}, [addDocumentsMutation, addDocumentsForm]);
 
 	const onImportAreaClick = useCallback(async () => {
 		if (dragAreaState === "uploading") return;
@@ -140,12 +143,13 @@ const UploadDoc = () => {
 					// @ts-ignore
 					const jsonFile = ev.target?.files[0] as File;
 					console.debug("onImportAreaClick", "file-change", jsonFile);
-					await onAddDocumentsSubmit({ documents: jsonFile });
+					addDocumentsForm.setFieldValue("documents", jsonFile);
+					await onAddDocumentsSubmit();
 				},
 				false,
 			);
 		}
-	}, [dragAreaState, onAddDocumentsSubmit]);
+	}, [dragAreaState, onAddDocumentsSubmit, addDocumentsForm]);
 
 	const onImportAreaDrop: DragEventHandler<HTMLDivElement> = useCallback(
 		async (ev) => {
@@ -153,15 +157,10 @@ const UploadDoc = () => {
 			if (dragAreaState === "uploading") return;
 			const jsonFile = ev.dataTransfer.files[0] as File;
 			console.debug("onImportAreaDrop", "drop", jsonFile);
-			await onAddDocumentsSubmit({ documents: jsonFile });
+			addDocumentsForm.setFieldValue("documents", jsonFile);
+			await onAddDocumentsSubmit();
 		},
-		[dragAreaState, onAddDocumentsSubmit],
-	);
-
-	const onAddDocumentsJsonEditorUpdate = useCallback(
-		(value = "[]") =>
-			addDocumentsForm.setFieldValue("documents", JSON.parse(value)),
-		[addDocumentsForm],
+		[dragAreaState, onAddDocumentsSubmit, addDocumentsForm],
 	);
 
 	return useMemo(
@@ -171,7 +170,7 @@ const UploadDoc = () => {
         flex flex-col items-stretch rounded-3xl gap-4`}
 			>
 				<div className={"flex-1 flex gap-4 p-4 overflow-hidden"}>
-					<div className={"flex-1 flex flex-col gap-4"}>
+					<div className={"flex-1 flex flex-col gap-4 max-w-1/2"}>
 						<div className="flex items-center gap-2">
 							<span>{t("input_by_editor")}</span>
 							<Tag size="small">{t("manually_type_in")}</Tag>
@@ -188,32 +187,27 @@ const UploadDoc = () => {
 								/>
 							</Tooltip>
 						</div>
+						{addDocumentsForm.errors.documents &&
+							typeof addDocumentsForm.values.documents === "string" && (
+								<p className="text-red-500 text-sm">
+									{addDocumentsForm.errors.documents}
+								</p>
+							)}
 						<form
-							className={"flex-1 flex flex-col gap-y-4 overflow-hidden"}
+							className={"flex-1 flex flex-col gap-y-4 w-full overflow-hidden"}
 							onSubmit={addDocumentsForm.onSubmit(onAddDocumentsSubmit)}
 						>
-							<div className={"border rounded-xl p-2 overflow-scroll"}>
-								<MonacoEditor
-									language="json"
-									className="h-[32rem]"
-									defaultValue={JSON.stringify(
-										addDocumentsForm.values.documents,
-										null,
-										2,
-									)}
-									options={{
-										automaticLayout: true,
-										lineDecorationsWidth: 1,
-									}}
-									onChange={onAddDocumentsJsonEditorUpdate}
-									onMount={(editor) => {
-										console.debug(
-											"editorDidMount",
-											editor,
-											editor.getValue(),
-											editor.getModel(),
-										);
-										editorRef.current = editor;
+							<div className={"border rounded-xl p-2 w-full overflow-scroll"}>
+								<JsonEditor
+									className="h-[32rem] w-full"
+									value={
+										typeof addDocumentsForm.values.documents === "string"
+											? addDocumentsForm.values.documents
+											: JSON.stringify([], null, 2)
+									}
+									onChange={(value) => {
+										addDocumentsForm.setFieldValue("documents", value);
+										addDocumentsForm.validate();
 									}}
 								/>
 							</div>
@@ -227,6 +221,12 @@ const UploadDoc = () => {
 							<span className="pr-2">{t("import_json_file")}</span>
 							<Tag size="small">{t("for_large_documents")}</Tag>
 						</div>
+						{addDocumentsForm.errors.documents &&
+							addDocumentsForm.values.documents instanceof File && (
+								<p className="text-red-500 text-sm">
+									{addDocumentsForm.errors.documents}
+								</p>
+							)}
 						<div
 							className={cn(
 								"flex-1 flex flex-col justify-center items-center gap-4",
@@ -296,14 +296,13 @@ const UploadDoc = () => {
 			</div>
 		),
 		[
-			addDocumentsForm,
 			dragAreaState,
-			onAddDocumentsJsonEditorUpdate,
 			onAddDocumentsSubmit,
 			onImportAreaClick,
 			onImportAreaDrop,
 			pasteClipboardJSON,
 			t,
+			addDocumentsForm,
 		],
 	);
 };

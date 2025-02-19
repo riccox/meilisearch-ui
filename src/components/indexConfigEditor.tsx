@@ -3,7 +3,6 @@ import { useMeiliClient } from "@/hooks/useMeiliClient";
 import { cn } from "@/lib/cn";
 import { hiddenRequestLoader, showRequestLoader } from "@/utils/loader";
 import { showTaskSubmitNotification } from "@/utils/text";
-import MonacoEditor from "@monaco-editor/react";
 import { Button } from "@nextui-org/react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import type { Settings } from "meilisearch";
@@ -16,6 +15,7 @@ import {
 	useState,
 } from "react";
 import { useTranslation } from "react-i18next";
+import { JsonEditor } from "./JsonEditor";
 
 export const IndexConfigEditor: FC<{
 	className?: string;
@@ -24,27 +24,24 @@ export const IndexConfigEditor: FC<{
 	const client = useMeiliClient();
 	const currentIndex = useCurrentIndex(client);
 
-	// eslint-disable-next-line @typescript-eslint/no-explicit-any
-	const editorRef = useRef<any>(null);
 	const [isSettingsEditing, setIsSettingsEditing] = useState<boolean>(false);
 
 	const onClickEditSettings = useCallback(() => {
 		setIsSettingsEditing(true);
 	}, []);
 
-	const [indexSettingDisplayData, setIndexSettingDisplayData] =
+	const [indexSettingInitialData, setIndexSettingInitialData] =
 		useState<Settings>({});
-	const [indexSettingInputData, setIndexSettingInputData] = useState<Settings>(
-		indexSettingDisplayData,
+	const [indexSettingEditorData, setIndexSettingEditorData] = useState<string>(
+		JSON.stringify(indexSettingInitialData, null, 2),
 	);
 
 	const resetSettings = useCallback(
 		(data: Settings = {}) => {
 			setIsSettingsEditing(false);
-			setIndexSettingDisplayData(data);
+			setIndexSettingInitialData(data);
 			if (!isSettingsEditing) {
-				setIndexSettingInputData(data);
-				editorRef.current?.setValue(JSON.stringify(data, null, 2));
+				setIndexSettingEditorData(JSON.stringify(data, null, 2));
 			}
 		},
 		[isSettingsEditing],
@@ -75,8 +72,7 @@ export const IndexConfigEditor: FC<{
 	]);
 
 	const onSettingJsonEditorUpdate = useCallback(
-		(value?: string) =>
-			value && setIndexSettingInputData(JSON.parse(value) as Settings),
+		(value?: string) => value && setIndexSettingEditorData(value),
 		[],
 	);
 
@@ -97,8 +93,9 @@ export const IndexConfigEditor: FC<{
 
 	const onSaveSettings = useCallback(() => {
 		setIsSettingsEditing(false);
-		indexSettingInputData && settingsMutation.mutate(indexSettingInputData);
-	}, [indexSettingInputData, settingsMutation]);
+		indexSettingEditorData &&
+			settingsMutation.mutate(JSON.parse(indexSettingEditorData));
+	}, [indexSettingEditorData, settingsMutation]);
 
 	const isLoading = useMemo(() => {
 		return (
@@ -167,19 +164,11 @@ export const IndexConfigEditor: FC<{
 						</Button>
 					)}
 				</div>
-				<MonacoEditor
-					language="json"
+				<JsonEditor
 					className={cn("h-[70vh]", !isSettingsEditing && "opacity-50")}
-					defaultValue={JSON.stringify(indexSettingDisplayData, null, 2)}
-					options={{
-						automaticLayout: true,
-						lineDecorationsWidth: 1,
-						readOnly: !isSettingsEditing,
-					}}
+					value={indexSettingEditorData}
+					readonly={!isSettingsEditing}
 					onChange={onSettingJsonEditorUpdate}
-					onMount={(ed) => {
-						editorRef.current = ed;
-					}}
 				/>
 			</div>
 		),
@@ -188,7 +177,7 @@ export const IndexConfigEditor: FC<{
 			t,
 			isSettingsEditing,
 			isLoading,
-			indexSettingDisplayData,
+			indexSettingEditorData,
 			onSettingJsonEditorUpdate,
 			onClickEditSettings,
 			onSaveSettings,

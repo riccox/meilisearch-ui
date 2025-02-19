@@ -10,7 +10,6 @@ import { toast } from "@/utils/toast";
 import { Modal, Table, type TableProps } from "@arco-design/web-react";
 import { Button } from "@arco-design/web-react";
 import { Image } from "@douyinfe/semi-ui";
-import MonacoEditor from "@monaco-editor/react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import _ from "lodash";
 import type { Index } from "meilisearch";
@@ -20,6 +19,7 @@ import { Copyable } from "../Copyable";
 import { AttrTags } from "./AttrTags";
 import { GridItem } from "./GridItem";
 import { JSONItem } from "./JSONItem";
+import { JsonEditor } from "../JsonEditor";
 
 export type Doc = {
 	indexId: string;
@@ -92,7 +92,7 @@ export const DocumentList = ({
 }: Props) => {
 	const { t } = useTranslation("document");
 	const client = useMeiliClient();
-	const [editingDocument, setEditingDocument] = useState<Doc>();
+	const [editingDocument, setEditingDocument] = useState<string>();
 	const [editingDocModalVisible, setEditingDocModalVisible] =
 		useState<boolean>(false);
 	const currentInstance = useCurrentInstance();
@@ -176,16 +176,16 @@ export const DocumentList = ({
 	);
 
 	const onEditDocumentJsonEditorUpdate = useCallback(
-		(value = "[]") =>
-			setEditingDocument((prev) => ({ ...prev!, content: JSON.parse(value) })),
+		(value = "[]") => setEditingDocument(value),
 		[],
 	);
 
 	const onClickDocumentUpdate = useCallback((doc: Doc) => {
 		const pk = doc.primaryKey;
 		console.debug("onClickDocumentUpdate", "pk", pk);
+		console.debug("onClickDocumentUpdate", "doc", doc.content);
 		if (pk) {
-			setEditingDocument(doc);
+			setEditingDocument(JSON.stringify(doc.content));
 			setEditingDocModalVisible(true);
 		}
 	}, []);
@@ -195,7 +195,7 @@ export const DocumentList = ({
 			<>
 				<Modal
 					// destroy DOM after close, otherwise the JSON editor will remain previously edited content
-					unmountOnExit
+					// unmountOnExit
 					visible={editingDocModalVisible}
 					confirmLoading={editDocumentMutation.isPending}
 					title={t("edit_document")}
@@ -208,7 +208,7 @@ export const DocumentList = ({
 						if (editingDocument) {
 							editDocumentMutation
 								.mutateAsync({
-									docs: [editingDocument.content],
+									docs: [JSON.parse(editingDocument)],
 								})
 								.then(() => {
 									setEditingDocModalVisible(false);
@@ -218,18 +218,13 @@ export const DocumentList = ({
 					onCancel={() => setEditingDocModalVisible(false)}
 				>
 					<div className={"border rounded-xl p-2"}>
-						<MonacoEditor
-							language="json"
+						<JsonEditor
 							className="h-80"
-							defaultValue={JSON.stringify(
-								editingDocument?.content ?? {},
-								null,
-								2,
-							)}
-							options={{
-								automaticLayout: true,
-								lineDecorationsWidth: 1,
-							}}
+							defaultValue={
+								editingDocument
+									? JSON.stringify(JSON.parse(editingDocument), null, 2)
+									: "{}"
+							}
 							onChange={onEditDocumentJsonEditorUpdate}
 						/>
 					</div>
