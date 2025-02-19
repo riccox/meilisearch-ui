@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.11.2](https://github.com/riccox/meilisearch-ui/compare/v0.11.1...v0.11.2) (2025-02-19)
+
+
+### Bug Fixes
+
+* JSON editor use CodeMirror. ([26c7c4d](https://github.com/riccox/meilisearch-ui/commit/26c7c4d79fa5d627cf3d56fb74fccead1e1c8d40))
+
+
+### Performance Improvements
+
+* debug log level. ([193cac2](https://github.com/riccox/meilisearch-ui/commit/193cac2d6cff3aa2a92ba049b4100644b0e0c609))
+* update loader style. ([ae265a5](https://github.com/riccox/meilisearch-ui/commit/ae265a52e5fe11fa8ebcd583e1921af83c0726b4))
+
 ## [0.11.1](https://github.com/riccox/meilisearch-ui/compare/v0.11.0...v0.11.1) (2025-01-16)
 
 
