@@ -1,27 +1,36 @@
 import { cn } from "@/lib/cn";
 import type { FC } from "react";
-import cls from "../style/loader.module.css";
+import { lineSpinner } from "ldrs";
+
+lineSpinner.register();
 
 type Props = {
 	className?: string;
 };
 
+declare module "react" {
+	namespace JSX {
+		interface IntrinsicElements {
+			"l-line-spinner": {
+				size?: string | number;
+				color?: string | number;
+				speed?: string | number;
+				stroke?: string | number;
+				className?: string;
+			};
+		}
+	}
+}
+
 export const Loader: FC<Props> = ({ className }) => {
 	return (
-		<div className={cn(cls.loader, className, "")}>
-			<div />
-			<div />
-			<div />
-			<div />
-			<div />
-			<div />
-			<div />
-			<div />
-			<div />
-			<div />
-			<div />
-			<div />
-		</div>
+		<l-line-spinner
+			className={className}
+			size="42"
+			stroke="4"
+			speed="1"
+			color="#121212"
+		/>
 	);
 };
 
