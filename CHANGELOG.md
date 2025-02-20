@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.11.3](https://github.com/riccox/meilisearch-ui/compare/v0.11.2...v0.11.3) (2025-02-20)
+
+
+### Bug Fixes
+
+* update doc editor broken. gh-192 ([712f594](https://github.com/riccox/meilisearch-ui/commit/712f594a9ee1a3c8eccd135337111552184c09bb))
+* upload json docs file. gh-197 ([2037e2c](https://github.com/riccox/meilisearch-ui/commit/2037e2c709b09343916ac6ce80e50d2ab25a8f83))
+
 ## [0.11.2](https://github.com/riccox/meilisearch-ui/compare/v0.11.1...v0.11.2) (2025-02-19)
 
 
