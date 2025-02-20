@@ -92,7 +92,8 @@ export const DocumentList = ({
 }: Props) => {
 	const { t } = useTranslation("document");
 	const client = useMeiliClient();
-	const [editingDocument, setEditingDocument] = useState<string>();
+	const [editingDocument, setEditingDocument] = useState<Doc>();
+	const [updateDocEditorData, setUpdateDocEditorData] = useState<string>();
 	const [editingDocModalVisible, setEditingDocModalVisible] =
 		useState<boolean>(false);
 	const currentInstance = useCurrentInstance();
@@ -176,7 +177,7 @@ export const DocumentList = ({
 	);
 
 	const onEditDocumentJsonEditorUpdate = useCallback(
-		(value = "[]") => setEditingDocument(value),
+		(value = "[]") => setUpdateDocEditorData(value),
 		[],
 	);
 
@@ -185,7 +186,7 @@ export const DocumentList = ({
 		console.debug("onClickDocumentUpdate", "pk", pk);
 		console.debug("onClickDocumentUpdate", "doc", doc.content);
 		if (pk) {
-			setEditingDocument(JSON.stringify(doc.content));
+			setEditingDocument(doc);
 			setEditingDocModalVisible(true);
 		}
 	}, []);
@@ -204,11 +205,15 @@ export const DocumentList = ({
 					simple={false}
 					className="!w-1/2"
 					onOk={() => {
-						console.debug("submit doc update", editingDocument);
-						if (editingDocument) {
+						console.debug(
+							"submit doc update",
+							editingDocument,
+							updateDocEditorData,
+						);
+						if (editingDocument && updateDocEditorData) {
 							editDocumentMutation
 								.mutateAsync({
-									docs: [JSON.parse(editingDocument)],
+									docs: [JSON.parse(updateDocEditorData)],
 								})
 								.then(() => {
 									setEditingDocModalVisible(false);
@@ -221,8 +226,8 @@ export const DocumentList = ({
 						<JsonEditor
 							className="h-80"
 							defaultValue={
-								editingDocument
-									? JSON.stringify(JSON.parse(editingDocument), null, 2)
+								editingDocument?.content
+									? JSON.stringify(editingDocument.content, null, 2)
 									: "{}"
 							}
 							onChange={onEditDocumentJsonEditorUpdate}
@@ -336,6 +341,7 @@ export const DocumentList = ({
 			editDocumentMutation,
 			editingDocModalVisible,
 			editingDocument,
+			updateDocEditorData,
 			indexSettings,
 			onClickDocumentDel,
 			onClickDocumentUpdate,
