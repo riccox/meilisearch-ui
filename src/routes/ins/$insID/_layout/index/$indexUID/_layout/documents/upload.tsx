@@ -19,14 +19,7 @@ import { useMutation } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
 import _ from "lodash";
 import type { EnqueuedTask } from "meilisearch";
-import {
-	type DragEventHandler,
-	useCallback,
-	useEffect,
-	useMemo,
-	useRef,
-	useState,
-} from "react";
+import { type DragEventHandler, useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 const UploadDoc = () => {
@@ -43,30 +36,21 @@ const UploadDoc = () => {
 	const apiKey = currentInstance?.apiKey;
 
 	const addDocumentsForm = useForm<{
-		documents: string | File;
+		editorContent: string;
 	}>({
 		initialValues: {
-			documents: "[]",
+			editorContent: "[]",
 		},
 		validate: {
-			documents: (value: string | File) => {
-				let msg: string;
-				if (value instanceof File && value.size > 0) {
-					return null;
-				}
-				msg = t("documents_json_array_requirement");
-
-				if (typeof value === "string") {
-					try {
-						if (JSON.parse(value).length !== 0) {
-							return null;
-						}
-					} catch (e) {
-						// is not a valid json, so we need to throw a tip.
-						msg = t("invalid_json_string");
+			editorContent: (value: string) => {
+				try {
+					if (JSON.parse(value).length !== 0) {
+						return null;
 					}
+				} catch (e) {
+					// is not a valid json, so we need to throw a tip.
+					return t("invalid_json_string");
 				}
-				return msg;
 			},
 		},
 	});
@@ -74,7 +58,10 @@ const UploadDoc = () => {
 	const addDocumentsMutation = useMutation({
 		mutationFn: async (variables: string | File) => {
 			const url = new URL(`/indexes/${currentIndex.index.uid}/documents`, host);
-
+			console.debug("addDocumentsMutation", {
+				url,
+				variables,
+			});
 			const response = await fetch(url, {
 				method: "POST",
 				headers: {
@@ -82,7 +69,7 @@ const UploadDoc = () => {
 					"Content-Type": "application/json",
 					Authorization: apiKey ? `Bearer ${apiKey}` : "",
 				},
-				body: variables instanceof File ? (variables as File) : variables,
+				body: variables,
 			});
 			const task = (await response.json()) as EnqueuedTask;
 			console.debug("addDocumentsMutation", "response", task);
@@ -122,34 +109,53 @@ const UploadDoc = () => {
 			const arr = _.isArray(json) ? json : _.isObject(json) ? [json] : [];
 			console.debug("onAddDocumentsByEditorClick paste clipboard", arr, json);
 			if (arr.length > 0) {
-				addDocumentsForm.setFieldValue("documents", JSON.stringify(arr));
+				addDocumentsForm.setFieldValue(
+					"editorContent",
+					JSON.stringify(arr, null, 2),
+				);
 				toast.success(t("clipboard_json_pasted"));
 			}
 		}
 	}, [t, addDocumentsForm]);
 
-	const onAddDocumentsSubmit = useCallback(async () => {
-		await addDocumentsMutation.mutate(addDocumentsForm.values.documents);
+	const onEditorSubmit = useCallback(async () => {
+		addDocumentsMutation.mutate(addDocumentsForm.values.editorContent);
 	}, [addDocumentsMutation, addDocumentsForm]);
+	const onFileSubmit = useCallback(
+		async (file: File) => {
+			if (!file || !(file.size > 0)) {
+				toast.error(t("documents_json_array_requirement"));
+				return;
+			}
+			addDocumentsMutation.mutate(file);
+		},
+		[addDocumentsMutation, t],
+	);
 
 	const onImportAreaClick = useCallback(async () => {
 		if (dragAreaState === "uploading") return;
 		const fileElem = document.getElementById("documents-json-file-selector");
 		if (fileElem) {
-			fileElem.click();
-			await fileElem.addEventListener(
-				"change",
-				async (ev) => {
-					// @ts-ignore
-					const jsonFile = ev.target?.files[0] as File;
-					console.debug("onImportAreaClick", "file-change", jsonFile);
-					addDocumentsForm.setFieldValue("documents", jsonFile);
-					await onAddDocumentsSubmit();
-				},
-				false,
-			);
+			const handleFileChange = async (ev: Event) => {
+				const input = ev.target as HTMLInputElement;
+				const jsonFile = input.files?.[0];
+				if (!jsonFile) return;
+
+				console.debug("onImportAreaClick", "file-change", jsonFile);
+				await onFileSubmit(jsonFile);
+				// reset input value to trigger change event again
+				input.value = "";
+			};
+
+			// remove old event listener to prevent multiple calls
+			const input = fileElem as HTMLInputElement;
+			input.removeEventListener("change", handleFileChange);
+			// add new event listener
+			input.addEventListener("change", handleFileChange);
+
+			input.click();
 		}
-	}, [dragAreaState, onAddDocumentsSubmit, addDocumentsForm]);
+	}, [dragAreaState, onFileSubmit]);
 
 	const onImportAreaDrop: DragEventHandler<HTMLDivElement> = useCallback(
 		async (ev) => {
@@ -157,10 +163,9 @@ const UploadDoc = () => {
 			if (dragAreaState === "uploading") return;
 			const jsonFile = ev.dataTransfer.files[0] as File;
 			console.debug("onImportAreaDrop", "drop", jsonFile);
-			addDocumentsForm.setFieldValue("documents", jsonFile);
-			await onAddDocumentsSubmit();
+			await onFileSubmit(jsonFile);
 		},
-		[dragAreaState, onAddDocumentsSubmit, addDocumentsForm],
+		[dragAreaState, onFileSubmit],
 	);
 
 	return useMemo(
@@ -187,26 +192,21 @@ const UploadDoc = () => {
 								/>
 							</Tooltip>
 						</div>
-						{addDocumentsForm.errors.documents &&
-							typeof addDocumentsForm.values.documents === "string" && (
-								<p className="text-red-500 text-sm">
-									{addDocumentsForm.errors.documents}
-								</p>
-							)}
+						{addDocumentsForm.errors.editorContent && (
+							<p className="text-red-500 text-sm">
+								{addDocumentsForm.errors.editorContent}
+							</p>
+						)}
 						<form
 							className={"flex-1 flex flex-col gap-y-4 w-full overflow-hidden"}
-							onSubmit={addDocumentsForm.onSubmit(onAddDocumentsSubmit)}
+							onSubmit={addDocumentsForm.onSubmit(onEditorSubmit)}
 						>
 							<div className={"border rounded-xl p-2 w-full overflow-scroll"}>
 								<JsonEditor
 									className="h-[32rem] w-full"
-									value={
-										typeof addDocumentsForm.values.documents === "string"
-											? addDocumentsForm.values.documents
-											: JSON.stringify([], null, 2)
-									}
+									value={addDocumentsForm.values.editorContent}
 									onChange={(value) => {
-										addDocumentsForm.setFieldValue("documents", value);
+										addDocumentsForm.setFieldValue("editorContent", value);
 										addDocumentsForm.validate();
 									}}
 								/>
@@ -221,12 +221,6 @@ const UploadDoc = () => {
 							<span className="pr-2">{t("import_json_file")}</span>
 							<Tag size="small">{t("for_large_documents")}</Tag>
 						</div>
-						{addDocumentsForm.errors.documents &&
-							addDocumentsForm.values.documents instanceof File && (
-								<p className="text-red-500 text-sm">
-									{addDocumentsForm.errors.documents}
-								</p>
-							)}
 						<div
 							className={cn(
 								"flex-1 flex flex-col justify-center items-center gap-4",
@@ -278,6 +272,7 @@ const UploadDoc = () => {
 											: "default"
 								}
 								disabled={dragAreaState === "uploading"}
+								onClick={() => onImportAreaClick()}
 							>
 								{t("browse_file")}
 							</Button>
@@ -297,7 +292,7 @@ const UploadDoc = () => {
 		),
 		[
 			dragAreaState,
-			onAddDocumentsSubmit,
+			onEditorSubmit,
 			onImportAreaClick,
 			onImportAreaDrop,
 			pasteClipboardJSON,
