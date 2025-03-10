@@ -1,15 +1,16 @@
 import { useCurrentInstance } from "@/hooks/useCurrentInstance";
 import { useMeiliClient } from "@/hooks/useMeiliClient";
 import {
+	isValidJSON,
 	showTaskErrorNotification,
 	showTaskSubmitNotification,
 	stringifyJsonPretty,
 } from "@/utils/text";
 import { getTimeText, isValidDateTime, isValidImgUrl } from "@/utils/text";
 import { toast } from "@/utils/toast";
-import { Modal, Table, type TableProps } from "@arco-design/web-react";
+import { Table, type TableProps } from "@arco-design/web-react";
 import { Button } from "@arco-design/web-react";
-import { Image } from "@douyinfe/semi-ui";
+import { Image, Radio, RadioGroup, Modal } from "@douyinfe/semi-ui";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import _ from "lodash";
 import type { Index } from "meilisearch";
@@ -20,6 +21,8 @@ import { AttrTags } from "./AttrTags";
 import { GridItem } from "./GridItem";
 import { JSONItem } from "./JSONItem";
 import { JsonEditor } from "../JsonEditor";
+import { MdOutlineRawOn } from "react-icons/md";
+import { BsStars } from "react-icons/bs";
 
 export type Doc = {
 	indexId: string;
@@ -32,6 +35,64 @@ export type BaseDocItemProps = {
 	onClickDocumentDel: (doc: Doc) => void;
 };
 export type ListType = "json" | "table" | "grid";
+
+// used in Modal to display the detailed value of a document field
+const ValueContent = ({ str }: { str: string }) => {
+	const [prettify, setIsPrettify] = useState(false);
+
+	const isImg = isValidImgUrl(str);
+
+	const isDateTime = isValidDateTime(str);
+
+	const isJSON = isValidJSON(str);
+
+	const canBePrettify = isImg || isDateTime || isJSON;
+
+	return (
+		<div className="grid gap-2">
+			<div className="w-full flex justify-end">
+				<RadioGroup
+					type="button"
+					defaultValue={1}
+					disabled={!canBePrettify}
+					onChange={(ev) => setIsPrettify(ev.target.value === 2)}
+				>
+					<Radio value={1}>
+						<MdOutlineRawOn className="text-md scale-150" />
+					</Radio>
+					<Radio value={2}>
+						<BsStars className="text-md" />
+					</Radio>
+				</RadioGroup>
+			</div>
+			{prettify ? (
+				isImg ? (
+					<Image width={"100%"} src={str} />
+				) : isDateTime ? (
+					<Copyable className="overflow-scroll whitespace-pre-wrap text-balance break-words">
+						{getTimeText(isValidDateTime(str) as Date)}
+					</Copyable>
+				) : isJSON ? (
+					<JsonEditor
+						lineNumbers={false}
+						className="max-h-[65vh] flex-1 overflow-scroll"
+						defaultValue={JSON.stringify(JSON.parse(str), null, 2)}
+						readonly
+						onChange={() => {}}
+					/>
+				) : (
+					<Copyable className="overflow-scroll whitespace-pre-wrap text-balance break-words">
+						{str}
+					</Copyable>
+				)
+			) : (
+				<Copyable className="overflow-scroll whitespace-pre-wrap text-balance break-words">
+					{str}
+				</Copyable>
+			)}
+		</div>
+	);
+};
 
 export const ValueDisplay = ({
 	name,
@@ -54,14 +115,9 @@ export const ValueDisplay = ({
 			onClick={() => {
 				Modal.info({
 					title: name,
-					content: (
-						<div className="grid gap-2">
-							<Copyable className="overflow-scroll whitespace-pre-wrap text-balance break-words">
-								{str}
-							</Copyable>
-							{isValidImgUrl(str) && <Image width={"100%"} src={str} />}
-						</div>
-					),
+					centered: true,
+					size: "large",
+					content: <ValueContent str={str} />,
 				});
 			}}
 		>
