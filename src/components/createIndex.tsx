@@ -61,7 +61,7 @@ export const CreateIndexButton = ({ afterMutation }: Props) => {
 			<Button
 				size="sm"
 				color="primary"
-				onClick={() => {
+				onPress={() => {
 					showDialog();
 				}}
 			>

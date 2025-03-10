@@ -33,7 +33,7 @@ export const useCurrentIndex = (client: MeiliSearch) => {
 			toast.error(`${t("not_found")} 🤥`);
 			history.back();
 		}
-	}, [history, query.data, query.isFetched, i18n.resolvedLanguage, t]);
+	}, [history, query.data, query.isFetched, t]);
 
 	return { index: query.data, ready, query };
 };

@@ -174,7 +174,7 @@ const Page = () => {
 				<div className="flex items-center gap-2">
 					<Button
 						size="sm"
-						onClick={() => {
+						onPress={() => {
 							Modal.info({
 								title: t("common:detail"),
 								centered: true,
@@ -204,7 +204,7 @@ const Page = () => {
 					<Button
 						size="sm"
 						variant="flat"
-						onClick={() => {
+						onPress={() => {
 							updateFormState({ visible: true, type: "edit", editing: record });
 						}}
 					>
@@ -213,7 +213,7 @@ const Page = () => {
 					<Button
 						color="warning"
 						size="sm"
-						onClick={() => {
+						onPress={() => {
 							onClickDelKey(record);
 						}}
 						variant="flat"
@@ -233,7 +233,7 @@ const Page = () => {
 						variant="solid"
 						color="primary"
 						size="sm"
-						onClick={() => {
+						onPress={() => {
 							updateFormState({ visible: true, type: "create" });
 						}}
 					>

@@ -60,7 +60,7 @@ export const DangerZone: FC<{
 							variant="solid"
 							color="danger"
 							size="sm"
-							onClick={() => {
+							onPress={() => {
 								Modal.confirm({
 									title: t("index_delete.dialog.title"),
 									centered: true,
@@ -87,7 +87,7 @@ export const DangerZone: FC<{
 							variant="solid"
 							color="danger"
 							size="sm"
-							onClick={() => {
+							onPress={() => {
 								return Modal.confirm({
 									title: t("all_documents_delete.dialog.title"),
 									centered: true,

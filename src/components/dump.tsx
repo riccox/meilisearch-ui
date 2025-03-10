@@ -27,7 +27,7 @@ export const DumpButton = () => {
 	}, [client, currentInstance.name, t]);
 
 	return (
-		<Button onClick={onClickDump} color="default" variant="light" size="sm">
+		<Button onPress={onClickDump} color="default" variant="light" size="sm">
 			<div className="i-lucide:archive-restore w-1em h-1em" />
 			Dump
 		</Button>

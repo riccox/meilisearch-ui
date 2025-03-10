@@ -8,7 +8,7 @@
     "build": "vite build",
     "build:safe": "tsc && vite build",
     "preview": "vite preview",
-    "lint": "eslint"
+    "lint": "biome lint"
   },
   "repository": "https://github.com/riccox/meilisearch-ui",
   "homepage": "https://github.com/riccox/meilisearch-ui#readme",

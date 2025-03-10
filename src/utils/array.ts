@@ -3,19 +3,21 @@ export const arrayMove = <T = unknown>(
 	old_index: number,
 	new_index: number,
 ): T[] => {
-	while (old_index < 0) {
-		old_index += arr.length;
+	let oldIndex = old_index;
+	let newIndex = new_index;
+	while (oldIndex < 0) {
+		oldIndex += arr.length;
 	}
-	while (new_index < 0) {
-		new_index += arr.length;
+	while (newIndex < 0) {
+		newIndex += arr.length;
 	}
-	if (new_index >= arr.length) {
-		let k = new_index - arr.length + 1;
+	if (newIndex >= arr.length) {
+		let k = newIndex - arr.length + 1;
 		while (k--) {
 			// @ts-ignore
 			arr.push(undefined);
 		}
 	}
-	arr.splice(new_index, 0, arr.splice(old_index, 1)[0]);
+	arr.splice(newIndex, 0, arr.splice(oldIndex, 1)[0]);
 	return arr;
 };

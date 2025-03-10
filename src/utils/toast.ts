@@ -1,7 +1,6 @@
 import type React from "react";
 import { toast as sonner } from "sonner";
 
-// eslint-disable-next-line @typescript-eslint/no-namespace
 export namespace Toast {
 	export type ID = string | number;
 	export type Content = string | React.ReactNode;
@@ -38,7 +37,7 @@ const loading = <T>(
 		success: "Success",
 		error: "Error",
 		...params,
-	});
+	}) as Toast.ID;
 };
 const remove = (id?: Toast.ID) => sonner.dismiss(id);
 

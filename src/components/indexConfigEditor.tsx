@@ -130,7 +130,7 @@ export const IndexConfigEditor: FC<{
 							variant="flat"
 							size="sm"
 							color="primary"
-							onClick={() => {
+							onPress={() => {
 								onClickEditSettings();
 							}}
 							isLoading={isLoading}
@@ -143,7 +143,7 @@ export const IndexConfigEditor: FC<{
 							variant="flat"
 							size="sm"
 							color="success"
-							onClick={() => {
+							onPress={() => {
 								onSaveSettings();
 							}}
 							isLoading={isLoading}
@@ -156,7 +156,7 @@ export const IndexConfigEditor: FC<{
 							variant="flat"
 							size="sm"
 							color="default"
-							onClick={() => {
+							onPress={() => {
 								resetSettings();
 							}}
 						>
