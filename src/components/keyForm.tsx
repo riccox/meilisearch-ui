@@ -2,7 +2,6 @@
 import { useIndexes } from "@/hooks/useIndexes";
 import { useMeiliClient } from "@/hooks/useMeiliClient";
 import { cn } from "@/lib/cn";
-import { getTimeText } from "@/utils/text";
 import { DatePicker, Input, Select } from "@douyinfe/semi-ui";
 import { Button, Tooltip } from "@nextui-org/react";
 import dayjs from "dayjs";
@@ -48,19 +47,17 @@ export const KeyForm: FC<Props> = ({
 				case "create":
 					await client.createKey({
 						...values,
+						uid: values.uid || undefined,
 						indexes: _.isEmpty(values.indexes) ? ["*"] : values.indexes,
 						actions: _.isEmpty(values.actions) ? ["*"] : values.actions,
-						// ignore type error for legacy version compatible
-						// @ts-ignore
-						expiresAt: _.isEmpty(values.expiresAt)
-							? null
-							: getTimeText(values.expiresAt, {
-									format: "YYYY-MM-DD HH:mm:ss+00:00",
-								}),
+						expiresAt: values.expiresAt || null,
 					});
 					break;
 				case "edit":
-					await client.updateKey(editing!.uid, { ...values });
+					await client.updateKey(editing!.uid, {
+						name: values.name,
+						description: values.description,
+					});
 					break;
 			}
 			setIsSubmitLoading(false);
@@ -70,12 +67,11 @@ export const KeyForm: FC<Props> = ({
 	);
 
 	return (
-		<form
+		<div
 			className={cn(
 				className,
 				"flex flex-col gap-y-6 w-full p-4 bg-white flex-1 rounded-t-6",
 			)}
-			onSubmit={form.handleSubmit(onSubmit)}
 		>
 			<p className={"text-center font-semibold text-lg"}>
 				{t(`form.title.${formType}`)}
@@ -289,25 +285,33 @@ export const KeyForm: FC<Props> = ({
 								className="w-full"
 								position="top"
 								zIndex={5000}
-								value={field.value ?? dayjs().toDate()}
-								onChange={(dv, dvs) => {
-									form.setValue("expiresAt", dv as Date);
+								value={field.value ?? undefined}
+								onChange={(dv, _dvs) => {
+									if (dv) {
+										form.setValue("expiresAt", dv as Date);
+									} else {
+										form.setValue("expiresAt", null);
+									}
 								}}
 								type="dateTime"
+								showClear
 							/>
 						</label>
 					)}
 				/>
 			</Tooltip>
 			<Button
-				type="submit"
 				variant="solid"
 				size="sm"
 				color="primary"
 				disabled={isSubmitLoading}
+				onPress={() => {
+					console.debug("onSubmit", form.getValues());
+					onSubmit(form.getValues());
+				}}
 			>
 				{t("common:submit")}
 			</Button>
-		</form>
+		</div>
 	);
 };
