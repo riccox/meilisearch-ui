@@ -1,12 +1,14 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, type UseQueryResult } from "@tanstack/react-query";
 import type { MeiliSearch, Stats, Version } from "meilisearch";
 import { useEffect, useState } from "react";
 import { useCurrentInstance } from "./useCurrentInstance";
 
+export type InstanceStats = Stats & { version: Version };
+
 export const useInstanceStats = (client: MeiliSearch) => {
 	const currentInstance = useCurrentInstance();
 	const host = currentInstance?.host;
-	const [stats, setStats] = useState<Stats & { version: Version }>();
+	const [stats, setStats] = useState<InstanceStats>();
 
 	const query = useQuery({
 		queryKey: ["stats", host],
@@ -27,5 +29,5 @@ export const useInstanceStats = (client: MeiliSearch) => {
 		}
 	}, [query.data, query.error, query.isError, query.isSuccess]);
 
-	return stats;
+	return [stats, query] as [InstanceStats, UseQueryResult<InstanceStats>];
 };

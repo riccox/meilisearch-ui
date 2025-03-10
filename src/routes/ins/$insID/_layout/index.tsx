@@ -23,7 +23,7 @@ function InsDash() {
 	const { t } = useTranslation("instance");
 	const currentInstance = useCurrentInstance();
 	const client = useMeiliClient();
-	const stats = useInstanceStats(client);
+	const [stats] = useInstanceStats(client);
 	const isHealth = useInstanceHealth(client);
 
 	const insDescriptionsData = useMemo(() => {

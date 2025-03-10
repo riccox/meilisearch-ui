@@ -26,7 +26,7 @@ function IndexDash() {
 	const { t } = useTranslation("index");
 	const client = useMeiliClient();
 	const currentIndex = useCurrentIndex(client);
-	const stats = useInstanceStats(client);
+	const [stats] = useInstanceStats(client);
 
 	console.debug("index dash page building", currentIndex);
 
@@ -68,6 +68,7 @@ function IndexDash() {
 						}
 					/>
 					<div className="flex flex-col gap-3 items-stretch">
+						{/* @ts-expect-error  type fix */}
 						<Link to="" from="/ins/$insID/index/$indexUID">
 							<Button fullWidth variant="light" size="sm">
 								<div className="flex justify-start items-center w-full gap-2">

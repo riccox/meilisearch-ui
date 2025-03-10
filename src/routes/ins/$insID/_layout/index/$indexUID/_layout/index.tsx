@@ -12,7 +12,7 @@ const Page = () => {
 	const { t } = useTranslation("index");
 	const client = useMeiliClient();
 	const currentIndex = useCurrentIndex(client);
-	const stats = useInstanceStats(client);
+	const [stats] = useInstanceStats(client);
 
 	const fieldDistribution: FieldDistribution =
 		stats?.indexes[currentIndex.index.uid].fieldDistribution ?? {};
