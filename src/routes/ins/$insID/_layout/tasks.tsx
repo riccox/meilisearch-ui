@@ -108,7 +108,13 @@ const Page = () => {
 				dataIndex: "indexUid",
 				render: (val) =>
 					val ? (
-						<Link to={`/ins/${currentInstance.id}/index/${val}`}>{val}</Link>
+						<Link
+							// "/ins/$insID/index/$indexUID" type fix
+							// @ts-expect-error
+							to={`/ins/${String(currentInstance.id)}/index/${String(val)}`}
+						>
+							{val}
+						</Link>
 					) : (
 						"-"
 					),
@@ -168,16 +174,17 @@ const Page = () => {
 					<div className="flex justify-center items-center gap-2">
 						<Button
 							size="sm"
-							onClick={() => {
+							onPress={() => {
 								Modal.info({
 									title: t("common:detail"),
 									centered: true,
 									footer: null,
+									size: "large",
 									content: (
 										<div className="flex justify-center items-center p-2 pl-0 pb-6">
 											<JsonEditor
 												lineNumbers={false}
-												className="max-h-[80vh] overflow-scroll"
+												className="max-h-[80vh] flex-1 overflow-scroll"
 												defaultValue={JSON.stringify(record, null, 2)}
 												readonly
 												onChange={() => {}}
