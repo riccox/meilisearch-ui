@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.11.4](https://github.com/riccox/meilisearch-ui/compare/v0.11.3...v0.11.4) (2025-03-10)
+
+
+### Bug Fixes
+
+* key form request. gh-199 ([76b7f88](https://github.com/riccox/meilisearch-ui/commit/76b7f88e664fa458b8a2802a64c620341479e8e4))
+* possible errors caused by deps upgrades. ([1287e1d](https://github.com/riccox/meilisearch-ui/commit/1287e1da992f27b91dce7e346e8c3006ff109426))
+
+
+### Performance Improvements
+
+* document field value display support auto-parse. ([fdc93b2](https://github.com/riccox/meilisearch-ui/commit/fdc93b288d9d75c7b9e06434778753312d12362b))
+* expand task details popup. gh-201 ([bd51827](https://github.com/riccox/meilisearch-ui/commit/bd518276fca3d479c8769a6b183d2047c739c95c))
+* use stats index data for better index search logic. gh-202 ([0073cc1](https://github.com/riccox/meilisearch-ui/commit/0073cc1183a585345c43ed20c9bcb874c6b2bfff))
+
 ## [0.11.3](https://github.com/riccox/meilisearch-ui/compare/v0.11.2...v0.11.3) (2025-02-20)
 
 
