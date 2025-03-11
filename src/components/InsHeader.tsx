@@ -16,7 +16,7 @@ export const Header = () => {
 				<Link
 					href={"https://docs.meilisearch.com"}
 					target={"_blank"}
-					className={"!inline-flex items-center !no-underline"}
+					className={"!inline-flex items-center !no-underline !text-sky-500"}
 					icon={<IconBook2 size={"1.5em"} />}
 				>
 					{t("meilisearch_docs")}
@@ -24,7 +24,7 @@ export const Header = () => {
 				<Link
 					href={"https://github.com/riccox/meilisearch-ui/issues"}
 					target={"_blank"}
-					className={"!inline-flex items-center !no-underline"}
+					className={"!inline-flex items-center !no-underline !text-sky-500"}
 					icon={<IconBug size={"1.5em"} />}
 				>
 					{t("issues")}
@@ -32,7 +32,7 @@ export const Header = () => {
 				<Link
 					href={"https://github.com/riccox/meilisearch-ui"}
 					target={"_blank"}
-					className={"!inline-flex items-center !no-underline"}
+					className={"!inline-flex items-center !no-underline !text-sky-500"}
 					icon={<IconBrandGithub size={"1.5em"} />}
 				>
 					{t("open_source")}
