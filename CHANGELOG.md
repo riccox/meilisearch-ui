@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.11.5](https://github.com/riccox/meilisearch-ui/compare/v0.11.4...v0.11.5) (2025-03-11)
+
+
+### Bug Fixes
+
+* document field detail modal btn i18n text. ([9d23f5b](https://github.com/riccox/meilisearch-ui/commit/9d23f5b0973bf5fbc4085db8997b0899302fc0fd))
+* index list search tip text. ([22ade67](https://github.com/riccox/meilisearch-ui/commit/22ade6775be2a81752165fa66d4c592d938cea1f))
+
+
+### Performance Improvements
+
+* header link color. ([51ac339](https://github.com/riccox/meilisearch-ui/commit/51ac3395a7bff0ee48e36588ef4519d3f83585d3))
+
 ## [0.11.4](https://github.com/riccox/meilisearch-ui/compare/v0.11.3...v0.11.4) (2025-03-10)
 
 
