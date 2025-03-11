@@ -20,6 +20,7 @@ type Props = {
 
 export const UIProvider: FC<Props> = ({ children }) => {
 	const { i18n } = useTranslation();
+	console.debug("ui provider i18n.resolvedLanguage", i18n.resolvedLanguage);
 	return (
 		<LocaleProvider
 			locale={lang2SemiLocale(i18n.resolvedLanguage as SUPPORTED_LANGUAGE)}

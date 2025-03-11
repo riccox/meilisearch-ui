@@ -118,6 +118,8 @@ export const ValueDisplay = ({
 					centered: true,
 					size: "large",
 					content: <ValueContent str={str} />,
+					// use a empty div as footer to hide the default btn footer and maintain the padding height for the content
+					footer: <div />,
 				});
 			}}
 		>
