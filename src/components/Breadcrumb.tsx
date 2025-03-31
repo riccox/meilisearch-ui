@@ -46,7 +46,7 @@ export const DashBreadcrumb = () => {
 	return (
 		<Breadcrumbs color="primary" variant="light">
 			{!isSingletonMode() && (
-				<BreadcrumbItem href=`${baseUrl}`>
+				<BreadcrumbItem href={`${baseUrl}`}>
 					🏠
 				</BreadcrumbItem>
 			)}
