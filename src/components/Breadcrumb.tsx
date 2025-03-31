@@ -41,15 +41,17 @@ export const DashBreadcrumb = () => {
 		state.instances.find((i) => i.id === Number.parseInt(insRoute.insID)),
 	);
 
+	const baseUrl = import.meta.env.BASE_URL ?? "/";
+
 	return (
 		<Breadcrumbs color="primary" variant="light">
 			{!isSingletonMode() && (
-				<BreadcrumbItem href={import.meta.env.BASE_URL ?? "/"}>
+				<BreadcrumbItem href=`${baseUrl}`>
 					🏠
 				</BreadcrumbItem>
 			)}
 			{insRoute && (
-				<BreadcrumbItem href={`/ins/${insRoute.insID}`}>
+				<BreadcrumbItem href={`${baseUrl}/ins/${insRoute.insID}`}>
 					{isSingletonMode()
 						? "🏠"
 						: `#${insRoute.insID} ${t("common:instance")} ${currentInstance?.name}`}
@@ -57,32 +59,32 @@ export const DashBreadcrumb = () => {
 			)}
 			{insKeysRoute && (
 				<BreadcrumbItem
-					href={`/ins/${insRoute.insID}/keys`}
+					href={`${baseUrl}/ins/${insRoute.insID}/keys`}
 				>{`${t("common:keys")}`}</BreadcrumbItem>
 			)}
 			{insTasksRoute && (
 				<BreadcrumbItem
-					href={`/ins/${insRoute.insID}/tasks`}
+					href={`${baseUrl}/ins/${insRoute.insID}/tasks`}
 				>{`${t("common:tasks")}`}</BreadcrumbItem>
 			)}
 			{indexRoute && (
 				<BreadcrumbItem
-					href={`/ins/${insRoute.insID}/index/${indexRoute.indexUID}`}
+					href={`${baseUrl}/ins/${insRoute.insID}/index/${indexRoute.indexUID}`}
 				>{`${t("common:indexes")}: ${indexRoute.indexUID}`}</BreadcrumbItem>
 			)}
 			{indexDocsRoute && (
 				<BreadcrumbItem
-					href={`/ins/${insRoute.insID}/index/${indexRoute.indexUID}/documents`}
+					href={`${baseUrl}/ins/${insRoute.insID}/index/${indexRoute.indexUID}/documents`}
 				>{`${t("documents")}`}</BreadcrumbItem>
 			)}
 			{indexDocsUploadRoute && (
 				<BreadcrumbItem
-					href={`/ins/${insRoute.insID}/index/${indexRoute.indexUID}/documents/upload`}
+					href={`${baseUrl}/ins/${insRoute.insID}/index/${indexRoute.indexUID}/documents/upload`}
 				>{`${t("upload:title")}`}</BreadcrumbItem>
 			)}
 			{indexSettingRoute && (
 				<BreadcrumbItem
-					href={`/ins/${insRoute.insID}/index/${indexRoute.indexUID}/setting`}
+					href={`${baseUrl}/ins/${insRoute.insID}/index/${indexRoute.indexUID}/setting`}
 				>{`${t("settings")}`}</BreadcrumbItem>
 			)}
 		</Breadcrumbs>
