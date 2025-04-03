@@ -41,12 +41,12 @@ export const DashBreadcrumb = () => {
 		state.instances.find((i) => i.id === Number.parseInt(insRoute.insID)),
 	);
 
-	const baseUrl = import.meta.env.BASE_URL ?? "/";
+	const baseUrl = import.meta.env.BASE_URL ?? "";
 
 	return (
 		<Breadcrumbs color="primary" variant="light">
 			{!isSingletonMode() && (
-				<BreadcrumbItem href={`${baseUrl}`}>
+				<BreadcrumbItem href={`${baseUrl || "/"}`}>
 					🏠
 				</BreadcrumbItem>
 			)}
