@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.11.6](https://github.com/riccox/meilisearch-ui/compare/v0.11.5...v0.11.6) (2025-04-03)
+
+
+### Bug Fixes
+
+* links of breadcrumbs do not respect BASE_URL ([#210](https://github.com/riccox/meilisearch-ui/issues/210)) ([cb8b5ef](https://github.com/riccox/meilisearch-ui/commit/cb8b5ef085a1a26ad802680db2b858bde960a2ff))
+
 ## [0.11.5](https://github.com/riccox/meilisearch-ui/compare/v0.11.4...v0.11.5) (2025-03-11)
 
 
