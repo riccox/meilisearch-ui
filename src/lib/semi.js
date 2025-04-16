@@ -9,7 +9,7 @@ import Path from "node:path";
 import { pathToFileURL } from "node:url";
 
 import { platform } from "node:os";
-import pkg from "sass";
+import * as pkg from "sass";
 const { compileString, Logger } = pkg;
 
 /**
