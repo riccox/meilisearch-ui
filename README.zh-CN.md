@@ -71,7 +71,7 @@ Nginx 示例:
 ```sh
 docker pull riccoxie/meilisearch-ui:latest
 
-docker run -d --restart=always --name="meilisearch-ui" -p <your-port>:24900 riccoxie/meilisearch-ui:latest
+docker run -d --restart=on-failure:5 --name="meilisearch-ui" -p <your-port>:24900 riccoxie/meilisearch-ui:latest
 ```
 
 #### 轻量版镜像
@@ -103,7 +103,7 @@ lite 镜像不支持以下功能：
 例如，如果你想将这个应用程序部署到`/meilissearch-ui`路径，你可以将`BASE_PATH `环境变量设置为`/meilissearch-ui`。
 
 ```sh
-docker run -d --restart=always --name="meilisearch-ui" -p <your-port>:24900 -e BASE_PATH="/meilisearch-ui" riccoxie/meilisearch-ui:latest
+docker run -d --restart=on-failure:5 --name="meilisearch-ui" -p <your-port>:24900 -e BASE_PATH="/meilisearch-ui" riccoxie/meilisearch-ui:latest
 ```
 
 > [!WARNING]

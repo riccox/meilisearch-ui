@@ -71,7 +71,7 @@ There is a live demo 👉 [meilisearch-ui](https://meilisearch-ui.riccox.com), d
 ```sh
 docker pull riccoxie/meilisearch-ui:latest
 
-docker run -d --restart=always --name="meilisearch-ui" -p <your-port>:24900 riccoxie/meilisearch-ui:latest
+docker run -d --restart=on-failure:5 --name="meilisearch-ui" -p <your-port>:24900 riccoxie/meilisearch-ui:latest
 ```
 
 #### Lightweight mirror image
@@ -104,7 +104,7 @@ You can configure the base path of this app by setting the `BASE_PATH` environme
 For example, if you want to deploy this app to the `/meilisearch-ui` path, you can set the `BASE_PATH` environment variable to `/meilisearch-ui`.
 
 ```sh
-docker run -d --restart=always --name="meilisearch-ui" -p <your-port>:24900 -e BASE_PATH="/meilisearch-ui" riccoxie/meilisearch-ui:latest
+docker run -d --restart=on-failure:5 --name="meilisearch-ui" -p <your-port>:24900 -e BASE_PATH="/meilisearch-ui" riccoxie/meilisearch-ui:latest
 ```
 
 > [!WARNING]
