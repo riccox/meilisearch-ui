@@ -1,0 +1,21 @@
+{
+  "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json",
+  "packages": {
+    ".": {
+      "release-type": "node",
+      "package-name": "meilisearch-ui",
+      "pull-request-title-pattern": "chore(release): v${version}",
+      "changelog-sections": [
+        { "type": "feat", "section": "Features", "hidden": false },
+        { "type": "fix", "section": "Bug Fixes", "hidden": false },
+        { "type": "chore", "section": "Miscellaneous", "hidden": false },
+        { "type": "docs", "section": "Documentation", "hidden": false }
+      ],
+      "draft": false,
+      "prerelease": false,
+      "initial-version": "0.11.6",
+      "include-v-in-tag": true,
+      "include-component-in-tag": false
+    }
+  }
+}
