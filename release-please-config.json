@@ -1,0 +1,9 @@
+{
+  "packages": {
+    ".": {
+      "release-type": "node",
+      "package-name": "meilisearch-ui",
+      "pull-request-title-pattern": "chore(release): v${version}"
+    }
+  }
+}
