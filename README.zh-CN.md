@@ -116,25 +116,25 @@ docker run -d --restart=on-failure:5 --name="meilisearch-ui" -p <your-port>:2490
 
 如果你想在这个应用中只使用一个 Meilisearch 实例，你可以通过下面的步骤启用单例模式。
 
-克隆此仓库，运行以下命令：
+1.克隆此仓库，运行以下命令：
 
 ```sh
 git clone git@github.com:riccox/meilisearch-ui.git --depth=1
 ```
 
-进入仓库根目录：
+2.进入仓库根目录：
 
 ```sh
 cd meilisearch-ui
 ```
 
-安装依赖：
+3.安装依赖：
 
 ```sh
 pnpm install
 ```
 
-并在此仓库的根目录中创建一个 `.env.local` 文件，并将以下内容复制到文件中：
+4.并在此仓库的根目录中创建一个 `.env.local` 文件，并将以下内容复制到文件中：
 
 ```
 VITE_SINGLETON_MODE=true
@@ -156,13 +156,19 @@ VITE_SINGLETON_API_KEY=your-api-key
 - `VITE_SINGLETON_HOST` 是 Meilisearch 实例的主机URL。
 - `VITE_SINGLETON_API_KEY` 是 Meilisearch 实例的 Master Key。
 
-下一步，构建应用:
+5.下一步，构建应用:
 
 ```sh
 pnpm build
 ```
 
 构建完成后，你将在根目录找到 `dist` 目录，这是一个SPA应用打包后的目录，可以将其部署到任何服务器上。
+
+如下命令能够在本地启动一个以`dist`作为根目录的静态网站服务，可预览打包后的单实例应用:
+
+```sh
+pnpm dlx serve dist
+```
 
 然后，当你打开这个应用程序时，你将直接跳转到实例页面。
 
