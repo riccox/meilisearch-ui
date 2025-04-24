@@ -117,25 +117,25 @@ See this [issue](https://github.com/riccox/meilisearch-ui/issues/43).
 
 If you want to use this app with only one meilisearch instance, you can enable the singleton mode by below steps.
 
-Clone this repo
+1.Clone this repo
 
 ```sh
 git clone git@github.com:riccox/meilisearch-ui.git --depth=1
 ```
 
-Go into root dir of repo
+2.Go into root dir of repo
 
 ```sh
 cd meilisearch-ui
 ```
 
-install dependencies
+3.install dependencies
 
 ```sh
 pnpm install
 ```
 
-create `.env.local` file at root dir of repo, input following config codes below
+4.create `.env.local` file at root dir of repo, input following config codes below
 
 ```
 VITE_SINGLETON_MODE=true
@@ -157,13 +157,19 @@ VITE_SINGLETON_API_KEY=your-api-key
 - `VITE_SINGLETON_HOST` is the meilisearch host url.
 - `VITE_SINGLETON_API_KEY` is the meilisearch master key.
 
-Next, build the singleton app.
+5.Next, build the singleton app.
 
 ```sh
 pnpm build
 ```
 
 Once the build is complete, you will find the `dist` directory in the root directory, which is a packaged SPA application directory that can be deployed to any server.
+
+The following command can start a static website service with `dist` as the root directory locally, and you can preview the packaged singleton mode application:
+
+```sh
+pnpm dlx serve dist
+```
 
 Then you will directly jump to the instance page when you open this app.
 
