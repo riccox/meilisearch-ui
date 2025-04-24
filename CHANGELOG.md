@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.11.7](https://github.com/riccox/meilisearch-ui/compare/v0.11.6...v0.11.7) (2025-04-24)
+
+
+### Documentation
+
+* add singleton mode usage steps and local preview command in README. ([852a533](https://github.com/riccox/meilisearch-ui/commit/852a533311f0f25f8a1e63a74ae5535330e2dfda))
+* improve Docker restart strategy in README examples. gh-212 ([4e962d0](https://github.com/riccox/meilisearch-ui/commit/4e962d0cd7cac02c4e40f2f74338af3db5e5e68b))
+
 ## [0.11.6](https://github.com/riccox/meilisearch-ui/compare/v0.11.5...v0.11.6) (2025-04-03)
 
 
