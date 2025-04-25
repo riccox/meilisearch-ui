@@ -115,7 +115,31 @@ docker run -d --restart=on-failure:5 --name="meilisearch-ui" -p <your-port>:2490
 
 See this [issue](https://github.com/riccox/meilisearch-ui/issues/43).
 
-If you want to use this app with only one meilisearch instance, you can enable the singleton mode by below steps.
+If you want to use this app with only one meilisearch instance, you can enable the singleton mode in two ways:
+
+#### Using Docker (Recommended)
+
+Configure singleton mode using environment variables:
+
+```sh
+docker run -d --restart=on-failure:5 \
+  --name="meilisearch-ui" \
+  -p <your-port>:24900 \
+  -e SINGLETON_MODE=true \
+  -e SINGLETON_HOST=your-meilisearch-host \
+  -e SINGLETON_API_KEY=your-api-key \
+  riccoxie/meilisearch-ui:latest
+```
+
+> [!CAUTION]
+>
+> **Security Note**
+>
+> Any singleton mode relevant env variables exposed in this way will eventually appear in the client package, so you should try to avoid using this method. When using singleton mode packaging, you need to carefully judge the network environment in which you deploy the application, and it is recommended to deploy in a trusted internal network environment.
+
+#### Build from Source
+
+If you need more customization, you can build from source following these steps:
 
 1.Clone this repo
 
@@ -135,7 +159,7 @@ cd meilisearch-ui
 pnpm install
 ```
 
-4.create `.env.local` file at root dir of repo, input following config codes below
+4.create `.env.local` file at root dir of repo, add the following configuration:
 
 ```
 VITE_SINGLETON_MODE=true
@@ -149,15 +173,11 @@ VITE_SINGLETON_API_KEY=your-api-key
 >
 > See this [issue](https://github.com/riccox/meilisearch-ui/issues/161).
 >
-> `.env.local` file is local only and you should add it in your `.gitignore` to prevent them from being recorded by git.
+> `.env.local` file is local only and you should add it in your `.gitignore` to prevent it from being recorded by git.
 >
 > At the same time, any variables exposed in this way will eventually appear in the client package, so you should try to avoid using this method. When using singleton mode packaging, you need to carefully judge the network environment in which you deploy the application, and it is recommended to deploy in a trusted internal network environment.
 
-- `VITE_SINGLETON_MODE` tell this app to enable singleton mode.
-- `VITE_SINGLETON_HOST` is the meilisearch host url.
-- `VITE_SINGLETON_API_KEY` is the meilisearch master key.
-
-5.Next, build the singleton app.
+5.Build the app
 
 ```sh
 pnpm build
@@ -165,13 +185,13 @@ pnpm build
 
 Once the build is complete, you will find the `dist` directory in the root directory, which is a packaged SPA application directory that can be deployed to any server.
 
-The following command can start a static website service with `dist` as the root directory locally, and you can preview the packaged singleton mode application:
+You can preview the packaged singleton mode application locally using the following command:
 
 ```sh
 pnpm dlx serve dist
 ```
 
-Then you will directly jump to the instance page when you open this app.
+Regardless of which method you use, when you open the app, you will be directly redirected to the instance page.
 
 ## Development
 

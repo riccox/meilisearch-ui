@@ -114,9 +114,33 @@ docker run -d --restart=on-failure:5 --name="meilisearch-ui" -p <your-port>:2490
 
 参考这个[问题](https://github.com/riccox/meilisearch-ui/issues/43).
 
-如果你想在这个应用中只使用一个 Meilisearch 实例，你可以通过下面的步骤启用单例模式。
+如果你想在这个应用中只使用一个 Meilisearch 实例，你可以通过以下两种方式启用单例模式：
 
-1.克隆此仓库，运行以下命令：
+#### 使用 Docker（推荐）
+
+使用环境变量来配置单实例模式：
+
+```sh
+docker run -d --restart=on-failure:5 \
+  --name="meilisearch-ui" \
+  -p <your-port>:24900 \
+  -e SINGLETON_MODE=true \
+  -e SINGLETON_HOST=your-meilisearch-host \
+  -e SINGLETON_API_KEY=your-api-key \
+  riccoxie/meilisearch-ui:latest
+```
+
+> [!CAUTION]
+>
+> **安全提示**
+>
+> 通过此方式暴露的单实例模式相关的环境变量最终都会出现在客户端包中，因此应该尽量避免使用此方式。使用单实例模式打包时需要谨慎判断你部署该应用的网络环境，建议在可信的内部网络环境中部署。
+
+#### 自行编译
+
+如果你需要自定义更多配置，可以通过以下步骤自行编译：
+
+1.克隆此仓库：
 
 ```sh
 git clone git@github.com:riccox/meilisearch-ui.git --depth=1
@@ -134,7 +158,7 @@ cd meilisearch-ui
 pnpm install
 ```
 
-4.并在此仓库的根目录中创建一个 `.env.local` 文件，并将以下内容复制到文件中：
+4.在仓库根目录创建 `.env.local` 文件，添加以下配置：
 
 ```
 VITE_SINGLETON_MODE=true
@@ -148,29 +172,25 @@ VITE_SINGLETON_API_KEY=your-api-key
 >
 > 参考这个[问题](https://github.com/riccox/meilisearch-ui/issues/161).
 >
-> `.env.local` 文件仅限本地，你应该在你的 `.gitignore` 中添加。以避免它们被git记录。
+> `.env.local` 文件仅限本地，你应该在你的 `.gitignore` 中添加它以避免被git记录。
 >
-> 同时，任何通过此方式暴露的变量最终都会出现在客户端包中，因此应该尽量避免使用此方式，使用单实例模式打包时需要谨慎判断你部署该应用的网络环境，建议在可信的内部网络环境中部署。
+> 同时，任何通过此方式暴露的变量最终都会出现在客户端包中，因此应该尽量避免使用此方式。使用单实例模式打包时需要谨慎判断你部署该应用的网络环境，建议在可信的内部网络环境中部署。
 
-- `VITE_SINGLETON_MODE` 用于启用单例模式。
-- `VITE_SINGLETON_HOST` 是 Meilisearch 实例的主机URL。
-- `VITE_SINGLETON_API_KEY` 是 Meilisearch 实例的 Master Key。
-
-5.下一步，构建应用:
+5.构建应用：
 
 ```sh
 pnpm build
 ```
 
-构建完成后，你将在根目录找到 `dist` 目录，这是一个SPA应用打包后的目录，可以将其部署到任何服务器上。
+构建完成后，你将在根目录找到 `dist` 目录，这是一个打包后的SPA应用目录，可以将其部署到任何服务器上。
 
-如下命令能够在本地启动一个以`dist`作为根目录的静态网站服务，可预览打包后的单实例应用:
+你可以使用以下命令在本地预览打包后的单实例应用：
 
 ```sh
 pnpm dlx serve dist
 ```
 
-然后，当你打开这个应用程序时，你将直接跳转到实例页面。
+无论使用哪种方式，当你打开应用时，都会直接跳转到实例页面。
 
 ## 开发
 
