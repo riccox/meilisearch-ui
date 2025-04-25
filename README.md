@@ -13,7 +13,7 @@ ENGLISH ｜ [中文](./README.zh-CN.md)
 
 <a href="https://www.producthunt.com/posts/meilisearch-ui?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-meilisearch&#0045;ui" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=373175&theme=light" alt="Meilisearch&#0045;UI - Pretty&#0044;&#0032;simple&#0032;and&#0032;fast&#0032;meilisearch&#0032;admin&#0032;dashboard | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" /></a>
 
-#### An open-source, pretty, simple and fast meilisearch admin dashboard UI for managing your meilisearch instances
+An open-source, pretty, simple and fast meilisearch admin dashboard UI for managing your meilisearch instances
 
 > [!IMPORTANT]
 > The main branch may be unstable or unavailable during development.
@@ -210,34 +210,49 @@ pnpm dev
 
 ## Built with ♥
 
-- Meilisearch
-- Tanstack
-- React v18
-- Arco design
-- Semi UI
-- Mantine UI
-- Next UI
-- Radix UI
-- Tabler Icon
-- Lucide Icon
-- Monaco Editor for react
-- TypeScript
-- Vite
-- Zustand
-- TailwindCSS
-- React Error Boundary
-- Prettier
-- Fuse.js
-- Echarts
-- Lodash.js
-- Immer
-- Ahooks
-- Framer motion
-- react-json-view
-- Dayjs
-- I18Next
-- UnoCSS
-- qs
-- Sonner
-- Vaul
-- Zod
+### Core Dependencies
+- [Meilisearch](https://github.com/meilisearch/meilisearch) - Search engine
+- [React](https://reactjs.org/) v18 - UI library
+- [TypeScript](https://www.typescriptlang.org/) - Type safety
+- [Vite](https://vitejs.dev/) - Build tool
+
+### UI Frameworks & Components
+- [Arco Design](https://arco.design/) - Enterprise design system by ByteDance
+- [Semi UI](https://semi.design/) - Design system by TikTok Frontend Team
+- [Mantine UI](https://mantine.dev/) - Modern React components library
+- [Next UI](https://nextui.org/) - Beautiful React UI library
+- [Radix UI](https://www.radix-ui.com/) - Unstyled, accessible components
+- [TailwindCSS](https://tailwindcss.com/) - Utility-first CSS framework
+- [UnoCSS](https://unocss.dev/) - Instant atomic CSS engine
+
+### State Management & Data Handling
+- [TanStack Query](https://tanstack.com/query/latest) - Powerful async state management
+- [TanStack Router](https://tanstack.com/router/latest) - Type-safe routing
+- [Zustand](https://zustand-demo.pmnd.rs/) - Simple state management
+- [Immer](https://immerjs.github.io/immer/) - Immutable state handling
+- [Zod](https://zod.dev/) - TypeScript-first schema validation
+
+### Internationalization & Forms
+- [i18next](https://www.i18next.com/) - Internationalization framework
+- [React Hook Form](https://react-hook-form.com/) - High-performance forms
+- [React Error Boundary](https://github.com/bvaughn/react-error-boundary) - Error handling
+
+### Utilities & Enhancements
+- [Lodash](https://lodash.com/) - Utility library
+- [Day.js](https://day.js.org/) - Lightweight date handling
+- [Fuse.js](https://fusejs.io/) - Fuzzy search library
+- [ECharts](https://echarts.apache.org/) - Visualization library
+- [ahooks](https://ahooks.js.org/) - React Hooks library
+
+### Development Tools
+- [Biome](https://biomejs.dev/) - Code formatting and linting
+- [ESLint](https://eslint.org/) - Code quality tool
+- [Prettier](https://prettier.io/) - Code formatter
+
+### UI Enhancements
+- [Framer Motion](https://www.framer.com/motion/) - Animation library
+- [Lucide Icons](https://lucide.dev/) - Icon library
+- [Tabler Icons](https://tabler-icons.io/) - Icon library
+- [Monaco Editor](https://microsoft.github.io/monaco-editor/) - Code editor
+- [Sonner](https://sonner.emilkowal.ski/) - Toast notifications
+- [Vaul](https://vaul.emilkowal.ski/) - Drawer component

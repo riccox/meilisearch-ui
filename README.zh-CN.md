@@ -13,7 +13,7 @@
 
 <a href="https://www.producthunt.com/posts/meilisearch-ui?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-meilisearch&#0045;ui" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=373175&theme=light" alt="Meilisearch&#0045;UI - Pretty&#0044;&#0032;simple&#0032;and&#0032;fast&#0032;meilisearch&#0032;admin&#0032;dashboard | Product Hunt" style="width: 250px; height: 54px;" width="250" height="54" /></a>
 
-#### 一个开源、漂亮、简单、快速的Meilisearch管理仪表板UI，用于管理您的Meilisearch实例
+一个开源、漂亮、简单、快速的Meilisearch管理仪表板UI，用于管理您的Meilisearch实例
 
 > [!IMPORTANT]
 > 在开发期间，主分支可能不稳定或不可用。
@@ -209,34 +209,49 @@ pnpm dev
 
 ## 共同构建 ♥
 
-- Meilisearch
-- Tanstack
-- React v18
-- Arco design
-- Semi UI
-- Mantine UI
-- Next UI
-- Radix UI
-- Tabler Icon
-- Lucide Icon
-- Monaco Editor for react
-- TypeScript
-- Vite
-- Zustand
-- TailwindCSS
-- React Error Boundary
-- Prettier
-- Fuse.js
-- Echarts
-- Lodash.js
-- Immer
-- Ahooks
-- Framer motion
-- react-json-view
-- Dayjs
-- I18Next
-- UnoCSS
-- qs
-- Sonner
-- Vaul
-- Zod
+### 核心依赖
+- [Meilisearch](https://github.com/meilisearch/meilisearch) - 搜索引擎
+- [React](https://reactjs.org/) v18 - 用户界面库
+- [TypeScript](https://www.typescriptlang.org/) - 类型安全
+- [Vite](https://vitejs.dev/) - 构建工具
+
+### UI 框架和组件
+- [Arco Design](https://arco.design/) - 字节跳动出品的企业级设计系统
+- [Semi UI](https://semi.design/) - 抖音前端团队的设计系统
+- [Mantine UI](https://mantine.dev/) - 现代 React 组件库
+- [Next UI](https://nextui.org/) - 美观的 React UI 库
+- [Radix UI](https://www.radix-ui.com/) - 无样式、可访问的组件
+- [TailwindCSS](https://tailwindcss.com/) - 实用优先的 CSS 框架
+- [UnoCSS](https://unocss.dev/) - 即时原子 CSS 引擎
+
+### 状态管理和数据处理
+- [TanStack Query](https://tanstack.com/query/latest) - 强大的异步状态管理
+- [TanStack Router](https://tanstack.com/router/latest) - 类型安全的路由
+- [Zustand](https://zustand-demo.pmnd.rs/) - 简单的状态管理
+- [Immer](https://immerjs.github.io/immer/) - 不可变状态处理
+- [Zod](https://zod.dev/) - TypeScript 优先的模式验证
+
+### 国际化和表单
+- [i18next](https://www.i18next.com/) - 国际化框架
+- [React Hook Form](https://react-hook-form.com/) - 高性能表单
+- [React Error Boundary](https://github.com/bvaughn/react-error-boundary) - 错误边界处理
+
+### 工具和功能增强
+- [Lodash](https://lodash.com/) - 实用工具库
+- [Day.js](https://day.js.org/) - 轻量级日期处理
+- [Fuse.js](https://fusejs.io/) - 模糊搜索库
+- [ECharts](https://echarts.apache.org/) - 可视化图表库
+- [ahooks](https://ahooks.js.org/) - React Hooks 库
+
+### 开发工具
+- [Biome](https://biomejs.dev/) - 代码格式化和检查
+- [ESLint](https://eslint.org/) - 代码质量工具
+- [Prettier](https://prettier.io/) - 代码格式化
+
+### UI 增强
+- [Framer Motion](https://www.framer.com/motion/) - 动画库
+- [Lucide Icons](https://lucide.dev/) - 图标库
+- [Tabler Icons](https://tabler-icons.io/) - 图标库
+- [Monaco Editor](https://microsoft.github.io/monaco-editor/) - 代码编辑器
+- [Sonner](https://sonner.emilkowal.ski/) - Toast 通知
+- [Vaul](https://vaul.emilkowal.ski/) - 抽屉组件
