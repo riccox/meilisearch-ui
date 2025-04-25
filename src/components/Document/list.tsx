@@ -8,13 +8,13 @@ import {
 } from "@/utils/text";
 import { getTimeText, isValidDateTime, isValidImgUrl } from "@/utils/text";
 import { toast } from "@/utils/toast";
-import { Table, type TableProps } from "@arco-design/web-react";
+import { Table } from "@douyinfe/semi-ui";
 import { Button } from "@arco-design/web-react";
 import { Image, Radio, RadioGroup, Modal } from "@douyinfe/semi-ui";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import _ from "lodash";
 import type { Index } from "meilisearch";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useMemo, useState, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Copyable } from "../Copyable";
 import { AttrTags } from "./AttrTags";
@@ -23,6 +23,10 @@ import { JSONItem } from "./JSONItem";
 import { JsonEditor } from "../JsonEditor";
 import { MdOutlineRawOn } from "react-icons/md";
 import { BsStars } from "react-icons/bs";
+import type {
+	ColumnProps,
+	ColumnRenderReturnType,
+} from "@douyinfe/semi-ui/lib/es/table";
 
 export type Doc = {
 	indexId: string;
@@ -155,6 +159,8 @@ export const DocumentList = ({
 	const [editingDocModalVisible, setEditingDocModalVisible] =
 		useState<boolean>(false);
 	const currentInstance = useCurrentInstance();
+	const tableContainerRef = useRef<HTMLDivElement>(null);
+	const [tableScrollY, setTableScrollY] = useState(475); // default fallback
 
 	const indexSettingsQuery = useQuery({
 		queryKey: ["indexSettings", currentInstance.host, currentIndex.uid],
@@ -249,6 +255,28 @@ export const DocumentList = ({
 		}
 	}, []);
 
+	const updateTableScrollY = useCallback(() => {
+		if (tableContainerRef.current) {
+			const containerHeight = tableContainerRef.current.clientHeight;
+			const offset = 40; // table header height offset
+			setTableScrollY(
+				containerHeight - offset > 100 ? containerHeight - offset : 100,
+			);
+		}
+	}, []);
+
+	useEffect(() => {
+		updateTableScrollY();
+		window.addEventListener("resize", updateTableScrollY);
+		return () => window.removeEventListener("resize", updateTableScrollY);
+	}, [updateTableScrollY]);
+
+	useEffect(() => {
+		if (type === "table") {
+			updateTableScrollY();
+		}
+	}, [type, updateTableScrollY]);
+
 	return useMemo(
 		() => (
 			<>
@@ -293,10 +321,13 @@ export const DocumentList = ({
 					</div>
 				</Modal>
 				{type === "table" ? (
-					<div>
-						<Table
-							columns={(
-								[
+					<>
+						<div
+							ref={tableContainerRef}
+							className={"rounded border overflow-hidden flex-1 h-full"}
+						>
+							<Table
+								columns={[
 									...new Set(
 										docs.reduce(
 											(keys, obj) => {
@@ -305,65 +336,74 @@ export const DocumentList = ({
 											[docs[0].primaryKey],
 										),
 									),
-								].map((i) => ({
-									title: (
-										<div className="flex items-center gap-1">
-											<p>{i}</p>
-											{indexSettings && (
-												<AttrTags attr={i} indexSettings={indexSettings} />
-											)}
-										</div>
-									),
-									dataIndex: i,
-									width: "15rem",
-									ellipsis: true,
-									render(_col, item) {
-										return (
-											<ValueDisplay
-												name={i}
-												value={item[i]}
-												dateParser={false}
-											/>
-										);
-									},
-								})) as TableProps["columns"]
-							)?.concat([
-								{
-									title: t("common:actions"),
-									fixed: "right",
-									align: "center",
-									width: "8rem",
-									render: (_col, _record, index) => (
-										<div className={"flex items-center gap-2"}>
-											<Button
-												type="secondary"
-												size="mini"
-												status="warning"
-												onClick={() => onClickDocumentUpdate(docs[index])}
-											>
-												{t("common:update")}
-											</Button>
-											<Button
-												type="secondary"
-												size="mini"
-												status="danger"
-												onClick={() => onClickDocumentDel(docs[index])}
-											>
-												{t("common:delete")}
-											</Button>
-										</div>
-									),
-								},
-							])}
-							data={docs.map((d) => ({ ...d.content }))}
-							stripe
-							hover
-							virtualized
-							pagination={false}
-							size="small"
-							scroll={{ x: true }}
-						/>
-					</div>
+								]
+									.map(
+										(i) =>
+											({
+												title: (
+													<div className="flex items-center gap-1">
+														<p>{i}</p>
+														{indexSettings && (
+															<AttrTags
+																attr={i}
+																indexSettings={indexSettings}
+															/>
+														)}
+													</div>
+												),
+												dataIndex: i,
+												width: "15rem",
+												ellipsis: true,
+												render(_col, item) {
+													return (
+														<ValueDisplay
+															name={i}
+															value={item[i]}
+															dateParser={false}
+														/>
+													);
+												},
+											}) as ColumnProps,
+									)
+									?.concat([
+										{
+											title: t("common:actions"),
+											fixed: "right",
+											align: "center",
+											width: "9rem",
+											render: (_col, _record, index) => (
+												<div className={"flex items-center gap-2"}>
+													<Button
+														type="secondary"
+														size="mini"
+														status="warning"
+														onClick={() => onClickDocumentUpdate(docs[index])}
+													>
+														{t("common:update")}
+													</Button>
+													<Button
+														type="secondary"
+														size="mini"
+														status="danger"
+														onClick={() => onClickDocumentDel(docs[index])}
+													>
+														{t("common:delete")}
+													</Button>
+												</div>
+											),
+										},
+									])}
+								dataSource={docs.map((d) => ({ ...d.content }))}
+								virtualized
+								pagination={false}
+								size="small"
+								sticky
+								style={{ width: "100%", margin: "0 auto" }}
+								scroll={{ y: tableScrollY }}
+								bordered={false}
+							/>
+						</div>
+					</>
 				) : type === "grid" ? (
 					<div className="grid grid-cols-3 laptop:grid-cols-4 gap-3">
 						{docs.map((d, i) => {
@@ -406,6 +446,7 @@ export const DocumentList = ({
 			onEditDocumentJsonEditorUpdate,
 			t,
 			type,
+			tableScrollY,
 		],
 	);
 };

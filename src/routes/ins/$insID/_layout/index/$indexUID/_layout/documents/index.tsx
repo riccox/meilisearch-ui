@@ -229,8 +229,10 @@ export const Page = () => {
 				{/* Doc List */}
 				<div
 					className={cn(
-						"flex flex-col gap-4",
-						listType === "table" ? "overflow-y-scroll" : "overflow-scroll",
+						listType !== "table" && "flex flex-col gap-4",
+						listType === "table"
+							? "flex-1 overflow-hidden h-full flex flex-col"
+							: "overflow-scroll",
 					)}
 				>
 					{searchDocumentsQuery.isFetching ? (
