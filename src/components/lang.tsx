@@ -1,5 +1,6 @@
 "use client";
 import { cn } from "@/lib/cn";
+import { useAppStore } from "@/store";
 import dayjs from "dayjs";
 import _ from "lodash";
 import { type FC, useEffect } from "react";
@@ -17,18 +18,20 @@ interface Props {
 
 export const LangSelector: FC<Props> = ({ className = "" }) => {
 	const { i18n } = useTranslation();
+	const { language, setLanguage } = useAppStore();
+
 	useEffect(() => {
-		dayjs.locale(
-			locale2DayjsLocale(i18n.resolvedLanguage as SUPPORTED_LANGUAGE),
-		);
-	}, [i18n.resolvedLanguage]);
+		dayjs.locale(locale2DayjsLocale(language));
+	}, [language]);
+
 	return (
 		<select
-			value={i18n.resolvedLanguage}
+			value={language}
 			className={cn(className, "w-fit outline-none bg-transparent")}
 			onChange={(ev) => {
 				const l = ev.target.value as SUPPORTED_LANGUAGE;
 				i18n.changeLanguage(l);
+				setLanguage(l);
 			}}
 		>
 			{_.entries(SUPPORTED_LANGUAGE_LOCALIZED).map(([k, v]) => (

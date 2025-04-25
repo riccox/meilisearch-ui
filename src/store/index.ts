@@ -2,6 +2,9 @@ import { produce } from "immer";
 import _ from "lodash";
 import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
+import type { SUPPORTED_LANGUAGE } from "@/utils/i18n";
+
+const defaultLanguage: SUPPORTED_LANGUAGE = "en";
 
 export interface WarningPageData {
 	prompt: string;
@@ -24,11 +27,13 @@ export const defaultInstance: Omit<Instance, "id"> = {
 interface State {
 	warningPageData?: WarningPageData;
 	instances: Instance[];
+	language: SUPPORTED_LANGUAGE;
 	setWarningPageData: (data?: WarningPageData) => void;
 	addInstance: (cfg: Omit<Instance, "updatedTime" | "id">) => void;
 	editInstance: (id: number, cfg: Omit<Instance, "updatedTime" | "id">) => void;
 	removeInstance: (id: number) => void;
 	removeAllInstances: () => void;
+	setLanguage: (lang: SUPPORTED_LANGUAGE) => void;
 }
 
 export const useAppStore = create<State>()(
@@ -36,6 +41,7 @@ export const useAppStore = create<State>()(
 		persist(
 			(set, get) => ({
 				instances: [],
+				language: defaultLanguage,
 				setWarningPageData: (data?: WarningPageData) =>
 					set(
 						produce((state: State) => {
@@ -77,6 +83,12 @@ export const useAppStore = create<State>()(
 					set(
 						produce((state: State) => {
 							state.instances = [];
+						}),
+					),
+				setLanguage: (lang) =>
+					set(
+						produce((state: State) => {
+							state.language = lang;
 						}),
 					),
 			}),
