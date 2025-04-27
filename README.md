@@ -83,6 +83,7 @@ For specific image variants, please refer to [Image version list](https://hub.do
 lite images do not support the following features:
 
 - Custom path
+- Singleton mode
 
 ### Deploy on Vercel
 

@@ -83,6 +83,7 @@ docker run -d --restart=on-failure:5 --name="meilisearch-ui" -p <your-port>:2490
 lite 镜像不支持以下功能：
 
 - 自定义路径
+- 单实例模式
 
 ### 使用 Vercel 部署
 
