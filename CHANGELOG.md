@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.12.0](https://github.com/riccox/meilisearch-ui/compare/v0.11.7...v0.12.0) (2025-04-27)
+
+
+### Features
+
+* updated the cmd.sh script to support singleton environment variables. ([8c409bc](https://github.com/riccox/meilisearch-ui/commit/8c409bc9b639157ab17c616879e0206b202a923d))
+
+
+### Performance Improvements
+
+* language selection integrate status management. gh-216 ([04191b6](https://github.com/riccox/meilisearch-ui/commit/04191b6ad8f1e4af952ef4fc4dc0f04967b8dd8e))
+* Optimized scrolling behavior of table header for table views. gh-217 ([3753d5b](https://github.com/riccox/meilisearch-ui/commit/3753d5bbeffc84be0b07a480283d287e692830c2))
+
 ## [0.11.7](https://github.com/riccox/meilisearch-ui/compare/v0.11.6...v0.11.7) (2025-04-24)
 
 
