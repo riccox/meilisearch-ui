@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.12.1](https://github.com/riccox/meilisearch-ui/compare/v0.12.0...v0.12.1) (2025-05-06)
+
+
+### Bug Fixes
+
+* config allow custom host names or reverse proxy domain names by env. gh-220 ([8f98708](https://github.com/riccox/meilisearch-ui/commit/8f987089f04cbdf325a2b219aee8883bddbd691e))
+
 ## [0.12.0](https://github.com/riccox/meilisearch-ui/compare/v0.11.7...v0.12.0) (2025-04-27)
 
 
