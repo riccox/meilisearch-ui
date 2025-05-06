@@ -194,6 +194,22 @@ pnpm dlx serve dist
 
 Regardless of which method you use, when you open the app, you will be directly redirected to the instance page.
 
+## FAQ
+
+### How to allow custom hostnames or reverse proxy domains?
+
+By default, all hosts are allowed and no extra configuration is needed.
+
+Only if you want to restrict allowed hostnames, you can set the optional environment variable `ALLOWED_HOSTS`. For example:
+
+```sh
+ALLOWED_HOSTS=demo.ddev.site,another.domain.com
+```
+
+If you have no special requirements, you do not need to set this variable.
+
+> **Note:** The `ALLOWED_HOSTS` variable is only available in the full version image. The lite image does not support this feature.
+
 ## Development
 
 > [!NOTE]

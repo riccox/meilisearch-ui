@@ -24,6 +24,8 @@ function gitHashPlugin(): Plugin {
 }
 
 export default defineConfig(({ mode }) => {
+	// Set the third parameter to "" to load all environment variables,
+	// regardless of whether they exist or not 'VITE_' prefix.
 	const env = loadEnv(mode, process.cwd(), "");
 	env.BASE_PATH && console.debug("Using custom base path:", env.BASE_PATH);
 	return {
@@ -46,11 +48,8 @@ export default defineConfig(({ mode }) => {
 		server: {
 			host: true,
 			port: 24900,
-		},
-		preview: {
-			host: true,
-			port: 24900,
 			strictPort: true,
+			allowedHosts: env.ALLOWED_HOSTS?.split(",") || true,
 		},
 		css: {
 			modules: {
