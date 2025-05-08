@@ -51,6 +51,12 @@ export default defineConfig(({ mode }) => {
 			strictPort: true,
 			allowedHosts: env.ALLOWED_HOSTS?.split(",") || true,
 		},
+		preview: {
+			host: true,
+			port: 24900,
+			strictPort: true,
+			allowedHosts: env.ALLOWED_HOSTS?.split(",") || true,
+		},
 		css: {
 			modules: {
 				localsConvention: "camelCaseOnly",

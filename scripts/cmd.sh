@@ -16,6 +16,8 @@ if [ ! -z "$SINGLETON_MODE" ]; then
   fi
 fi
 
-echo Custom base path: $BASE_PATH
+if [ ! -z "$BASE_PATH" ]; then
+  echo "Custom base path: $BASE_PATH"
+fi
 pnpm run build
 pnpm run preview
