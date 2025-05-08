@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.12.2](https://github.com/riccox/meilisearch-ui/compare/v0.12.1...v0.12.2) (2025-05-08)
+
+
+### Bug Fixes
+
+* Vite preview config. ([9b89733](https://github.com/riccox/meilisearch-ui/commit/9b8973323587b0ce4d822a72b2642a14c42d8a88))
+
 ## [0.12.1](https://github.com/riccox/meilisearch-ui/compare/v0.12.0...v0.12.1) (2025-05-06)
 
 
