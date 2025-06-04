@@ -1,3 +1,4 @@
+import { CountUp } from "@/components/countUp";
 import { JsonEditor } from "@/components/JsonEditor";
 import { LoaderPage } from "@/components/loader";
 import { TimeAgo } from "@/components/timeago";
@@ -136,6 +137,9 @@ const Page = () => {
 				width: 200,
 				render: (_, item) => {
 					if (!item.duration) {
+						if (item.status === "processing" || item.status === "enqueued") {
+							return <CountUp start={item.startedAt || item.enqueuedAt} />;
+						}
 						return "-";
 					}
 
@@ -163,6 +167,9 @@ const Page = () => {
 				dataIndex: "finishedAt",
 				width: 220,
 				render: (_, item) => {
+					if (item.status === "processing" || item.status === "enqueued") {
+						return "-";
+					}
 					return <TimeAgo date={item.finishedAt} />;
 				},
 			},
