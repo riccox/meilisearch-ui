@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.12.3](https://github.com/riccox/meilisearch-ui/compare/v0.12.2...v0.12.3) (2025-06-04)
+
+
+### Bug Fixes
+
+* **task:** finishedAt field display wrong value for processing & enqueued tasks. ([3a9c28c](https://github.com/riccox/meilisearch-ui/commit/3a9c28c719dacb251eccdbafa4a9e5fed30f1c30))
+
+
+### Performance Improvements
+
+* **task:** add CountUp component for displaying elapsed time of "Duration". ([3a9c28c](https://github.com/riccox/meilisearch-ui/commit/3a9c28c719dacb251eccdbafa4a9e5fed30f1c30))
+
 ## [0.12.2](https://github.com/riccox/meilisearch-ui/compare/v0.12.1...v0.12.2) (2025-05-08)
 
 
