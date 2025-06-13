@@ -272,7 +272,7 @@ export const KeyForm: FC<Props> = ({
 								return true;
 							}
 							form.setError("expiresAt", {
-								message: t("form.expireAt.invalid"),
+								message: t("form.expiresAt.invalid"),
 							});
 							return false;
 						},
