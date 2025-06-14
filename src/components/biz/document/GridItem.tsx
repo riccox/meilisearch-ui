@@ -3,7 +3,7 @@ import { Descriptions } from "@douyinfe/semi-ui";
 import type { Settings } from "meilisearch";
 import { useTranslation } from "react-i18next";
 import { AttrTags } from "./AttrTags";
-import { type BaseDocItemProps, ValueDisplay } from "./list";
+import { type BaseDocItemProps, ValueDisplay } from "./List";
 
 export const GridItem = ({
 	doc,

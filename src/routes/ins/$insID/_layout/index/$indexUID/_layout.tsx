@@ -1,8 +1,8 @@
-import { Copyable } from "@/components/Copyable";
-import { IndexPrimaryKey } from "@/components/indexPrimaryKey";
-import { LoaderPage } from "@/components/loader";
-import { TimeAgo } from "@/components/timeago";
-import { TitleWithUnderline } from "@/components/title";
+import { Copyable } from "@/components/common/Copyable";
+import { IndexPrimaryKey } from "@/components/biz/IndexPrimaryKey";
+import { LoaderPage } from "@/components/common/Loader";
+import { TimeAgo } from "@/components/common/Timeago";
+import { TitleWithUnderline } from "@/components/common/Title";
 import { useCurrentIndex } from "@/hooks/useCurrentIndex";
 import { useInstanceStats } from "@/hooks/useInstanceStats";
 import { useMeiliClient } from "@/hooks/useMeiliClient";

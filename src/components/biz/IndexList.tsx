@@ -13,9 +13,9 @@ import type { MeiliSearch } from "meilisearch";
 import { type FC, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useImmer } from "use-immer";
-import { EmptyArea } from "./EmptyArea";
-import { CreateIndexButton } from "./createIndex";
-import { LoaderPage } from "./loader";
+import { EmptyArea } from "../common/empty";
+import { LoaderPage } from "../common/Loader";
+import { CreateIndexButton } from "./CreateIndex";
 
 interface Props {
 	className?: string;

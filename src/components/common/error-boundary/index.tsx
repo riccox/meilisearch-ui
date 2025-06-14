@@ -1,8 +1,7 @@
 import type { FC, ReactNode } from "react";
 import { ErrorBoundary } from "react-error-boundary";
-
-import { AppFallback } from "./Fallback";
-import type { ErrorFallbackProps } from "./Fallback/ErrorFallbackProps";
+import { AppFallback } from "./fallback/AppFallback";
+import type { ErrorFallbackProps } from "./fallback/AppFallback";
 
 type ErrorBoundaryProps = {
 	children: ReactNode;

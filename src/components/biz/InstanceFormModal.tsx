@@ -9,7 +9,7 @@ import { type FC, type ReactNode, useCallback, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { Drawer } from "vaul";
-import { Footer } from "./Footer";
+import { Footer } from "../common/footer";
 
 interface Props {
 	className?: string;

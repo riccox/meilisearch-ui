@@ -10,7 +10,7 @@ import { useNavigate } from "@tanstack/react-router";
 import { type FC, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 
-export const DangerZone: FC<{
+export const DangerArea: FC<{
 	afterMutation: () => void;
 }> = ({ afterMutation }) => {
 	const { t } = useTranslation("index");

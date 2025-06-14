@@ -1,5 +1,5 @@
-import { Footer } from "@/components/Footer";
-import { Logo } from "@/components/Logo";
+import { Footer } from "@/components/common/footer";
+import { Logo } from "@/components/common/logo";
 import { Button } from "@mantine/core";
 import { useRouter } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";

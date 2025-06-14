@@ -1,7 +1,7 @@
-import { Copyright } from "@/components/Footer/Copyright";
+import { Copyright } from "@/components/common/footer/Copyright";
 import { cn } from "@/lib/cn";
 import type { FC } from "react";
-import { LangSelector } from "../lang";
+import { LangSelector } from "../Lang";
 import { Singleton } from "./Singleton";
 import { Version } from "./Version";
 

@@ -1,5 +1,5 @@
-import { Header } from "@/components/InsHeader";
-import { LoaderPage } from "@/components/loader";
+import { Header } from "@/components/biz/InsHeader";
+import { LoaderPage } from "@/components/common/Loader";
 import { Outlet, createFileRoute } from "@tanstack/react-router";
 
 function InsLayout() {

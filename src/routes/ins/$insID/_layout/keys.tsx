@@ -1,6 +1,6 @@
-import { KeyForm } from "@/components/keyForm";
-import { LoaderPage } from "@/components/loader";
-import { TimeAgo } from "@/components/timeago";
+import { KeyForm } from "@/components/biz/KeyForm";
+import { LoaderPage } from "@/components/common/Loader";
+import { TimeAgo } from "@/components/common/Timeago";
 import { useCurrentInstance } from "@/hooks/useCurrentInstance";
 import { useMeiliClient } from "@/hooks/useMeiliClient";
 import { hiddenRequestLoader, showRequestLoader } from "@/lib/loader";

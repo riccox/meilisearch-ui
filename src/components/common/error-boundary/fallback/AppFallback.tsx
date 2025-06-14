@@ -1,7 +1,11 @@
 import type { FC } from "react";
 
 import { useTranslation } from "react-i18next";
-import type { ErrorFallbackProps } from "./ErrorFallbackProps";
+
+export type ErrorFallbackProps = {
+	error: Error;
+	resetErrorBoundary: () => void;
+};
 
 const handleReload = () => {
 	window.location.assign(window.location.origin);

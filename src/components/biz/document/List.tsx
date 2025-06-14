@@ -15,17 +15,14 @@ import _ from "lodash";
 import type { Index } from "meilisearch";
 import { useCallback, useMemo, useState, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { Copyable } from "../Copyable";
+import { Copyable } from "../../common/Copyable";
 import { AttrTags } from "./AttrTags";
 import { GridItem } from "./GridItem";
 import { JSONItem } from "./JSONItem";
-import { JsonEditor } from "../JsonEditor";
+import { JsonEditor } from "../../common/JsonEditor";
 import { MdOutlineRawOn } from "react-icons/md";
 import { BsStars } from "react-icons/bs";
-import type {
-	ColumnProps,
-	ColumnRenderReturnType,
-} from "@douyinfe/semi-ui/lib/es/table";
+import type { ColumnProps } from "@douyinfe/semi-ui/lib/es/table";
 
 export type Doc = {
 	indexId: string;

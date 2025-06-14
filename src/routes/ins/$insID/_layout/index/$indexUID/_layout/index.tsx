@@ -1,4 +1,4 @@
-import { LoaderPage } from "@/components/loader";
+import { LoaderPage } from "@/components/common/Loader";
 import { useCurrentIndex } from "@/hooks/useCurrentIndex";
 import { useInstanceStats } from "@/hooks/useInstanceStats";
 import { useMeiliClient } from "@/hooks/useMeiliClient";

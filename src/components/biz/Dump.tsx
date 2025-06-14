@@ -1,6 +1,6 @@
 import { useCurrentInstance } from "@/hooks/useCurrentInstance";
 import { useMeiliClient } from "@/hooks/useMeiliClient";
-import { showTaskSubmitNotification } from "@/utils/text";
+import { showTaskSubmitNotification } from "@/lib/toast";
 import { Modal } from "@douyinfe/semi-ui";
 import { Button } from "@nextui-org/react";
 import { useCallback } from "react";

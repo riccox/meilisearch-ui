@@ -1,7 +1,7 @@
 "use client";
 import clsx from "clsx";
 import { type FC, type ReactNode, Suspense } from "react";
-import { Loader } from "./loader";
+import { Loader } from "./Loader";
 interface Props {
 	className?: string;
 	children: ReactNode;

@@ -8,9 +8,9 @@ import { AppProvider } from "@/providers";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { RouterProvider, createRouter } from "@tanstack/react-router";
-import { NotFound } from "./components/404";
-import { Logo } from "./components/Logo";
-import { Loader } from "./components/loader";
+import { NotFound } from "./components/biz/404";
+import { Logo } from "./components/common/logo";
+import { Loader } from "./components/common/Loader";
 // Import the generated route tree
 import { routeTree } from "./routeTree.gen";
 

@@ -1,7 +1,7 @@
 import { Button } from "@arco-design/web-react";
 import { useTranslation } from "react-i18next";
 import ReactJson from "react-json-view";
-import type { BaseDocItemProps } from "./list";
+import type { BaseDocItemProps } from "./List";
 
 export const JSONItem = ({
 	doc,

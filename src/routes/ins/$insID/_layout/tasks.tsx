@@ -1,7 +1,7 @@
-import { CountUp } from "@/components/countUp";
-import { JsonEditor } from "@/components/JsonEditor";
-import { LoaderPage } from "@/components/loader";
-import { TimeAgo } from "@/components/timeago";
+import { CountUp } from "@/components/common/CountUp";
+import { JsonEditor } from "@/components/common/JsonEditor";
+import { LoaderPage } from "@/components/common/Loader";
+import { TimeAgo } from "@/components/common/Timeago";
 import { useCurrentInstance } from "@/hooks/useCurrentInstance";
 import { useMeiliClient } from "@/hooks/useMeiliClient";
 import { hiddenRequestLoader, showRequestLoader } from "@/lib/loader";

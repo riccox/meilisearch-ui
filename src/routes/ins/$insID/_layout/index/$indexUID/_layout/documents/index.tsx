@@ -1,8 +1,8 @@
-import { DocumentList, type ListType } from "@/components/Document/list";
-import { SearchForm } from "@/components/Document/searchForm";
-import { EmptyArea } from "@/components/EmptyArea";
-import { LoaderPage } from "@/components/loader";
-import { Loader } from "@/components/loader";
+import { DocumentList, type ListType } from "@/components/biz/document/List";
+import { SearchForm } from "@/components/biz/document/SearchForm";
+import { EmptyArea } from "@/components/common/empty";
+import { LoaderPage } from "@/components/common/Loader";
+import { Loader } from "@/components/common/Loader";
 import { useCurrentIndex } from "@/hooks/useCurrentIndex";
 import { useCurrentInstance } from "@/hooks/useCurrentInstance";
 import { useMeiliClient } from "@/hooks/useMeiliClient";

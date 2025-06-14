@@ -1,8 +1,8 @@
-import { DashboardSettingsButton } from "@/components/DashboardSettingsButton";
-import { Footer } from "@/components/Footer";
-import { Logo } from "@/components/Logo";
-import { InsFormModal } from "@/components/instanceFormModal";
-import { TimeAgo } from "@/components/timeago";
+import { DashboardSettingsButton } from "@/components/biz/DashboardSettingsButton";
+import { Footer } from "@/components/common/footer";
+import { Logo } from "@/components/common/logo";
+import { InsFormModal } from "@/components/biz/InstanceFormModal";
+import { TimeAgo } from "@/components/common/Timeago";
 import { useNavigatePreCheck } from "@/hooks/useRoutePreCheck";
 import { type Instance, useAppStore } from "@/store";
 import {

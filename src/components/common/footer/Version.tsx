@@ -1,7 +1,7 @@
 import { Tooltip } from "@douyinfe/semi-ui";
 import type { FC } from "react";
 import { useTranslation } from "react-i18next";
-import packageJson from "../../../package.json";
+import packageJson from "../../../../package.json";
 const appVersion = packageJson.version;
 const meilisearchJSVersion = packageJson.dependencies.meilisearch.replace(
 	/[^\d.]/g,

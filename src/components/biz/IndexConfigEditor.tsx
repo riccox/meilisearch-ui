@@ -8,7 +8,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import type { Settings } from "meilisearch";
 import { type FC, useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { JsonEditor } from "./JsonEditor";
+import { JsonEditor } from "../common/JsonEditor";
 
 export const IndexConfigEditor: FC<{
 	className?: string;

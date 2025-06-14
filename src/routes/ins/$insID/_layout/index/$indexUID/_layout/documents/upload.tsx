@@ -1,5 +1,5 @@
-import { JsonEditor } from "@/components/JsonEditor";
-import { LoaderPage } from "@/components/loader";
+import { JsonEditor } from "@/components/common/JsonEditor";
+import { LoaderPage } from "@/components/common/Loader";
 import { useCurrentIndex } from "@/hooks/useCurrentIndex";
 import { useCurrentInstance } from "@/hooks/useCurrentInstance";
 import { useMeiliClient } from "@/hooks/useMeiliClient";

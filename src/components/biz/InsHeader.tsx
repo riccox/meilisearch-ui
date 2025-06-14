@@ -1,9 +1,9 @@
 import { Link } from "@arco-design/web-react";
 import { IconBook2, IconBrandGithub, IconBug } from "@tabler/icons-react";
 import { useTranslation } from "react-i18next";
-import { DashBreadcrumb } from "./Breadcrumb";
-import { Logo } from "./Logo";
-import { LangSelector } from "./lang";
+import { DashBreadcrumb } from "../common/Breadcrumb";
+import { Logo } from "../common/logo";
+import { LangSelector } from "../common/Lang";
 
 export const Header = () => {
 	const { t } = useTranslation("header");

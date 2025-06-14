@@ -7,7 +7,7 @@ import _ from "lodash";
 import type { EnqueuedTask } from "meilisearch";
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Copyable } from "./Copyable";
+import { Copyable } from "../common/Copyable";
 
 type Props = {
 	afterMutation: () => void;
