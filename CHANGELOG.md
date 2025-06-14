@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.12.4](https://github.com/riccox/meilisearch-ui/compare/v0.12.3...v0.12.4) (2025-06-14)
+
+
+### Bug Fixes
+
+* incorrect i18n key in keyForm "expiresAt" field. ([#228](https://github.com/riccox/meilisearch-ui/issues/228)) ([7a0c3d6](https://github.com/riccox/meilisearch-ui/commit/7a0c3d68fd65c16c1fa55f2c947f4ffc59102496))
+
 ## [0.12.3](https://github.com/riccox/meilisearch-ui/compare/v0.12.2...v0.12.3) (2025-06-04)
 
 
