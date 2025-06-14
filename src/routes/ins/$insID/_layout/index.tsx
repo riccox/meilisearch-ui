@@ -10,7 +10,7 @@ import { useCurrentInstance } from "@/hooks/useCurrentInstance";
 import { useInstanceHealth } from "@/hooks/useInstanceHealth";
 import { useInstanceStats } from "@/hooks/useInstanceStats";
 import { useMeiliClient } from "@/hooks/useMeiliClient";
-import { isSingletonMode } from "@/utils/conn";
+import { isSingletonMode } from "@/lib/conn";
 import { Tooltip } from "@arco-design/web-react";
 import { Descriptions, Skeleton, Tag } from "@douyinfe/semi-ui";
 import { Button } from "@nextui-org/react";

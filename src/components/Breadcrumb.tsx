@@ -1,5 +1,5 @@
 import { useAppStore } from "@/store";
-import { isSingletonMode } from "@/utils/conn";
+import { isSingletonMode } from "@/lib/conn";
 import { BreadcrumbItem, Breadcrumbs } from "@nextui-org/react";
 import { useMatchRoute } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
@@ -41,14 +41,13 @@ export const DashBreadcrumb = () => {
 		state.instances.find((i) => i.id === Number.parseInt(insRoute.insID)),
 	);
 
-	const baseUrl = import.meta.env.BASE_URL === "/" ? "" : (import.meta.env.BASE_URL ?? "");
+	const baseUrl =
+		import.meta.env.BASE_URL === "/" ? "" : (import.meta.env.BASE_URL ?? "");
 
 	return (
 		<Breadcrumbs color="primary" variant="light">
 			{!isSingletonMode() && (
-				<BreadcrumbItem href={`${baseUrl || "/"}`}>
-					🏠
-				</BreadcrumbItem>
+				<BreadcrumbItem href={`${baseUrl || "/"}`}>🏠</BreadcrumbItem>
 			)}
 			{insRoute && (
 				<BreadcrumbItem href={`${baseUrl}/ins/${insRoute.insID}`}>

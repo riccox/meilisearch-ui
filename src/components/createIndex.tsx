@@ -1,6 +1,5 @@
 import { useMeiliClient } from "@/hooks/useMeiliClient";
-import { showTaskSubmitNotification } from "@/utils/text";
-import { toast } from "@/utils/toast";
+import { toast, showTaskSubmitNotification } from "@/lib/toast";
 import { Input, Modal, Tooltip } from "@douyinfe/semi-ui";
 import { useForm } from "@mantine/form";
 import { Button } from "@nextui-org/react";

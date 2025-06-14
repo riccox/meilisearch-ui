@@ -4,12 +4,12 @@ import { useCurrentIndex } from "@/hooks/useCurrentIndex";
 import { useCurrentInstance } from "@/hooks/useCurrentInstance";
 import { useMeiliClient } from "@/hooks/useMeiliClient";
 import { cn } from "@/lib/cn";
-import { hiddenRequestLoader, showRequestLoader } from "@/utils/loader";
+import { hiddenRequestLoader, showRequestLoader } from "@/lib/loader";
 import {
-	showTaskErrorNotification,
+	toast,
 	showTaskSubmitNotification,
-} from "@/utils/text";
-import { toast } from "@/utils/toast";
+	showTaskErrorNotification,
+} from "@/lib/toast";
 import { Tooltip } from "@arco-design/web-react";
 import { Tag } from "@douyinfe/semi-ui";
 import { useForm } from "@mantine/form";

@@ -8,7 +8,7 @@ import {
 	type SUPPORTED_LANGUAGE,
 	lang2ArcoLocale,
 	lang2SemiLocale,
-} from "@/utils/i18n";
+} from "@/lib/i18n";
 import { ConfigProvider } from "@arco-design/web-react";
 import { LocaleProvider } from "@douyinfe/semi-ui";
 import { NextUIProvider } from "@nextui-org/react";

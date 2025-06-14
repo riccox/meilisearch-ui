@@ -9,7 +9,7 @@ import {
 	isSingletonMode,
 	testConnection,
 	validateKeysRouteAvailable,
-} from "@/utils/conn";
+} from "@/lib/conn";
 import { Button } from "@douyinfe/semi-ui";
 import { ActionIcon, Tooltip } from "@mantine/core";
 import { modals } from "@mantine/modals";

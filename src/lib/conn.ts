@@ -2,7 +2,7 @@ import type { Instance, WarningPageData } from "@/store";
 import {
 	hiddenConnectionTestLoader,
 	showConnectionTestLoader,
-} from "@/utils/loader";
+} from "@/lib/loader";
 import _ from "lodash";
 import { type Config, MeiliSearch, type Stats } from "meilisearch";
 import i18n from "./i18n";

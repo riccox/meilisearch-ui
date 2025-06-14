@@ -1,4 +1,4 @@
-import { isSingletonMode } from "@/utils/conn";
+import { isSingletonMode } from "@/lib/conn";
 import { Tag } from "@douyinfe/semi-ui";
 import type { FC } from "react";
 import { useTranslation } from "react-i18next";

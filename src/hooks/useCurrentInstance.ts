@@ -1,9 +1,9 @@
 import { type Instance, useAppStore } from "@/store";
-import { getSingletonCfg, isSingletonMode } from "@/utils/conn";
+import { getSingletonCfg, isSingletonMode } from "@/lib/conn";
 import { useParams } from "@tanstack/react-router";
 import _ from "lodash";
 import { useTranslation } from "react-i18next";
-import { toast } from "../utils/toast";
+import { toast } from "../lib/toast";
 
 export const useCurrentInstance = () => {
 	const { t } = useTranslation("instance");

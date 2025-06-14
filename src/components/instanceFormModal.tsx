@@ -2,7 +2,7 @@
 import { useCurrentInstance } from "@/hooks/useCurrentInstance";
 import { cn } from "@/lib/cn";
 import { type Instance, defaultInstance, useAppStore } from "@/store";
-import { testConnection } from "@/utils/conn";
+import { testConnection } from "@/lib/conn";
 import { Button, Input, Tooltip } from "@nextui-org/react";
 import _ from "lodash";
 import { type FC, type ReactNode, useCallback, useState } from "react";

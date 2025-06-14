@@ -9,7 +9,7 @@ import {
 	type SUPPORTED_LANGUAGE,
 	SUPPORTED_LANGUAGE_LOCALIZED,
 	locale2DayjsLocale,
-} from "../utils/i18n";
+} from "@/lib/i18n";
 import "dayjs/locale/zh-cn";
 
 interface Props {

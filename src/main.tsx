@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import "virtual:uno.css";
 import "./style/global.css";
 import "@arco-themes/react-meilisearch/css/arco.css";
-import "./utils/i18n";
+import "./lib/i18n";
 import { AppProvider } from "@/providers";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";

@@ -8,7 +8,7 @@
   },
   "files": {
     "ignoreUnknown": false,
-    "ignore": []
+    "ignore": ["src/assets/movies.json"]
   },
   "formatter": {
     "enabled": true,

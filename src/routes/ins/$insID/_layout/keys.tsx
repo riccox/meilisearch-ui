@@ -3,7 +3,7 @@ import { LoaderPage } from "@/components/loader";
 import { TimeAgo } from "@/components/timeago";
 import { useCurrentInstance } from "@/hooks/useCurrentInstance";
 import { useMeiliClient } from "@/hooks/useMeiliClient";
-import { hiddenRequestLoader, showRequestLoader } from "@/utils/loader";
+import { hiddenRequestLoader, showRequestLoader } from "@/lib/loader";
 import { getTimeText } from "@/utils/text";
 import {
 	Descriptions,

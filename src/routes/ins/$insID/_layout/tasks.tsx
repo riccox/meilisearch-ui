@@ -4,7 +4,7 @@ import { LoaderPage } from "@/components/loader";
 import { TimeAgo } from "@/components/timeago";
 import { useCurrentInstance } from "@/hooks/useCurrentInstance";
 import { useMeiliClient } from "@/hooks/useMeiliClient";
-import { hiddenRequestLoader, showRequestLoader } from "@/utils/loader";
+import { hiddenRequestLoader, showRequestLoader } from "@/lib/loader";
 import { getDuration } from "@/utils/text";
 import { Modal, Select, Table, TagInput } from "@douyinfe/semi-ui";
 import type { ColumnProps } from "@douyinfe/semi-ui/lib/es/table";

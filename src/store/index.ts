@@ -2,7 +2,7 @@ import { produce } from "immer";
 import _ from "lodash";
 import { create } from "zustand";
 import { devtools, persist } from "zustand/middleware";
-import type { SUPPORTED_LANGUAGE } from "@/utils/i18n";
+import type { SUPPORTED_LANGUAGE } from "@/lib/i18n";
 
 const defaultLanguage: SUPPORTED_LANGUAGE = "en";
 

@@ -1,19 +1,12 @@
 import { useCurrentIndex } from "@/hooks/useCurrentIndex";
 import { useMeiliClient } from "@/hooks/useMeiliClient";
 import { cn } from "@/lib/cn";
-import { hiddenRequestLoader, showRequestLoader } from "@/utils/loader";
-import { showTaskSubmitNotification } from "@/utils/text";
+import { hiddenRequestLoader, showRequestLoader } from "@/lib/loader";
+import { showTaskSubmitNotification } from "@/lib/toast";
 import { Button } from "@nextui-org/react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import type { Settings } from "meilisearch";
-import {
-	type FC,
-	useCallback,
-	useEffect,
-	useMemo,
-	useRef,
-	useState,
-} from "react";
+import { type FC, useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { JsonEditor } from "./JsonEditor";
 

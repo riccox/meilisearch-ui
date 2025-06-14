@@ -1,8 +1,8 @@
 import { useCurrentIndex } from "@/hooks/useCurrentIndex";
 import { useCurrentInstance } from "@/hooks/useCurrentInstance";
 import { useMeiliClient } from "@/hooks/useMeiliClient";
-import { hiddenRequestLoader, showRequestLoader } from "@/utils/loader";
-import { showTaskSubmitNotification } from "@/utils/text";
+import { hiddenRequestLoader, showRequestLoader } from "@/lib/loader";
+import { showTaskSubmitNotification } from "@/lib/toast";
 import { Modal } from "@douyinfe/semi-ui";
 import { Button } from "@nextui-org/react";
 import { useMutation } from "@tanstack/react-query";

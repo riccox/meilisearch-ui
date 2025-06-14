@@ -2,49 +2,15 @@ import dayjs from "dayjs";
 import duration from "dayjs/plugin/duration";
 import relativeTime from "dayjs/plugin/relativeTime";
 import type { EnqueuedTask } from "meilisearch";
-import { toast } from "./toast";
 dayjs.extend(relativeTime);
 dayjs.extend(duration);
 
+// get task submit message
 export const getTaskSubmitMessage = (task: EnqueuedTask): string => {
 	return `Task submit ${task.status}, task uid ${task.taskUid} 🚀`;
 };
 
-enum TaskStatus {
-	TASK_SUCCEEDED = "succeeded",
-	TASK_PROCESSING = "processing",
-	TASK_FAILED = "failed",
-	TASK_ENQUEUED = "enqueued",
-	TASK_CANCEL = "canceled",
-}
-
-const TaskStatusToast: Record<
-	TaskStatus,
-	(typeof toast)["success"] | (typeof toast)["info"] | (typeof toast)["error"]
-> = {
-	[TaskStatus.TASK_SUCCEEDED]: toast.success,
-	[TaskStatus.TASK_ENQUEUED]: toast.info,
-	[TaskStatus.TASK_FAILED]: toast.error,
-	[TaskStatus.TASK_PROCESSING]: toast.info,
-	[TaskStatus.TASK_CANCEL]: toast.info,
-};
-export const TaskThemes: Record<TaskStatus, string> = {
-	[TaskStatus.TASK_SUCCEEDED]: "success",
-	[TaskStatus.TASK_ENQUEUED]: "warn",
-	[TaskStatus.TASK_FAILED]: "danger",
-	[TaskStatus.TASK_PROCESSING]: "secondary",
-	[TaskStatus.TASK_CANCEL]: "info",
-};
-
-export const showTaskSubmitNotification = (task: EnqueuedTask): void => {
-	TaskStatusToast[task.status](getTaskSubmitMessage(task));
-};
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const showTaskErrorNotification = (err: any): void => {
-	TaskStatusToast.failed(`Task Fail: ${err.toString()}`);
-};
-
+// get time text (default format: YYYY-MM-DD HH:mm:ss.SSS)
 export const getTimeText = (
 	date: dayjs.ConfigType,
 	{
@@ -61,10 +27,12 @@ export const getTimeText = (
 	return dayjs(date).format(format);
 };
 
+// get time ago
 export const getTimeAgo = (date: dayjs.ConfigType): string => {
 	return dayjs(date).fromNow();
 };
 
+// get duration
 export const getDuration = (
 	date: string,
 	unit: duration.DurationUnitType,
@@ -72,10 +40,15 @@ export const getDuration = (
 	return dayjs.duration(date).get(unit).toPrecision(5).toString();
 };
 
+// stringify json pretty
 export const stringifyJsonPretty = (json?: string | object | null) => {
 	return JSON.stringify(json, undefined, 2);
 };
 
+/*
+ * check if the string is a valid date time
+ * if the string is a unix timestamp, it will be converted to a date
+ */
 export function isValidDateTime(str: string): Date | false {
 	if (dayjs(str).isValid()) {
 		if (/^\d+$/g.test(str) && str.length < 13) {
@@ -87,6 +60,7 @@ export function isValidDateTime(str: string): Date | false {
 	return false;
 }
 
+// check if the string is a valid http url
 export function isValidHttpUrl(str: string): boolean {
 	try {
 		const url = new URL(str);
@@ -96,6 +70,7 @@ export function isValidHttpUrl(str: string): boolean {
 	}
 }
 
+// check if the string is a valid image url
 export function isValidImgUrl(str: string): boolean {
 	try {
 		const url = new URL(str);
@@ -108,6 +83,7 @@ export function isValidImgUrl(str: string): boolean {
 	}
 }
 
+// check if the string is a valid json
 export function isValidJSON(str: string): boolean {
 	try {
 		JSON.parse(str);

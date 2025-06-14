@@ -1,10 +1,10 @@
 import { useAppStore } from "@/store";
-import { isSingletonMode } from "@/utils/conn";
+import { isSingletonMode } from "@/lib/conn";
 import _ from "lodash";
 import { MeiliSearch } from "meilisearch";
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { toast } from "../utils/toast";
+import { toast } from "../lib/toast";
 import { useCurrentInstance } from "./useCurrentInstance";
 
 export const useMeiliClient = () => {
