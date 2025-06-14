@@ -33,6 +33,9 @@ const searchSchema = z
 		sort: z.string(),
 		listType: z.enum(["json", "table", "grid"]),
 		showRankingScore: z.coerce.boolean(),
+		enableHybrid: z.boolean(),
+		hybridEmbedder: z.string(),
+		hybridSemanticRatio: z.number().min(0).max(1).default(0.5),
 	})
 	.partial();
 
@@ -42,6 +45,9 @@ export const Page = () => {
 		listType: "json",
 		showRankingScore: false,
 		limit: 20,
+		enableHybrid: false,
+		hybridEmbedder: "",
+		hybridSemanticRatio: 0.5,
 	}) as Required<ReturnType<typeof searchSchema.parse>>;
 	const { t } = useTranslation("document");
 	const [listType, setListType] = useState<ListType>(
@@ -66,18 +72,15 @@ export const Page = () => {
 			limit: (value: number) => {
 				return value < 500 ? null : t("search.form.limit.validation_error");
 			},
+			hybridEmbedder: (value: string, values) => {
+				return values.enableHybrid
+					? value.length > 0
+						? null
+						: t("search.form.hybrid.embedder_required")
+					: null;
+			},
 		},
 	});
-
-	useEffect(() => {
-		// update search params when form values changed
-		navigate({
-			search: () => ({
-				...searchForm.values,
-				listType,
-			}),
-		});
-	}, [navigate, searchForm.values, listType]);
 
 	const indexPrimaryKeyQuery = useQuery({
 		queryKey: ["indexPrimaryKey", host, indexClient?.uid],
@@ -93,6 +96,16 @@ export const Page = () => {
 		wait: 450,
 	});
 
+	useEffect(() => {
+		// update search params when form values changed
+		navigate({
+			search: () => ({
+				...debouncedSearchFormValue,
+				listType,
+			}),
+		});
+	}, [navigate, listType, debouncedSearchFormValue]);
+
 	const searchDocumentsQuery = useQuery({
 		queryKey: ["searchDocuments", host, indexClient?.uid],
 		refetchInterval: searchAutoRefresh ? 7000 : false,
@@ -107,6 +120,9 @@ export const Page = () => {
 				filter,
 				sort = "",
 				showRankingScore,
+				enableHybrid,
+				hybridEmbedder,
+				hybridSemanticRatio,
 			} = {
 				...searchForm.values,
 				...(debouncedSearchFormValue as typeof searchForm.values),
@@ -129,6 +145,12 @@ export const Page = () => {
 					filter,
 					sort: sortExpressions.map((v) => v.trim()),
 					showRankingScore,
+					hybrid: enableHybrid
+						? {
+								embedder: hybridEmbedder,
+								semanticRatio: hybridSemanticRatio,
+							}
+						: undefined,
 				});
 				// clear error message if results are running normally
 				setSearchFormError(null);

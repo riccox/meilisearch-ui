@@ -1,4 +1,13 @@
-import { Switch, Tooltip } from "@douyinfe/semi-ui";
+import {
+	Switch,
+	Tooltip,
+	Modal,
+	Form,
+	Input,
+	Slider,
+	Tag,
+	Banner,
+} from "@douyinfe/semi-ui";
 import { NumberInput, TextInput } from "@mantine/core";
 import type { UseFormReturnType } from "@mantine/form";
 import { Button } from "@nextui-org/react";
@@ -9,7 +18,7 @@ import {
 	IconSearch,
 } from "@tabler/icons-react";
 import clsx from "clsx";
-import { useMemo } from "react";
+import { useMemo, useState, useCallback } from "react";
 import { useTranslation } from "react-i18next";
 
 type Props = {
@@ -22,6 +31,9 @@ type Props = {
 		sort: string;
 		indexId?: string;
 		showRankingScore: boolean;
+		enableHybrid: boolean;
+		hybridEmbedder: string;
+		hybridSemanticRatio: number;
 	}>;
 	searchFormError: string | null;
 	onFormSubmit: () => void;
@@ -40,39 +52,17 @@ export const SearchForm = ({
 	onAutoRefreshChange,
 }: Props) => {
 	const { t } = useTranslation("document");
+	const [hybridModalVisible, setHybridModalVisible] = useState(false);
 
 	return useMemo(
 		() => (
 			<form className={"flex flex-col gap-2 "} onSubmit={onFormSubmit}>
-				<div
-					className={clsx(
-						"prompt danger ghost xs",
-						!searchFormError && "hidden",
-					)}
-				>
-					<div className="icon">
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							className="icon icon-tabler icon-tabler-alert-triangle"
-							width={18}
-							height={18}
-							viewBox="0 0 24 24"
-							strokeWidth={2}
-							stroke="currentColor"
-							fill="none"
-							strokeLinecap="round"
-							strokeLinejoin="round"
-						>
-							<path stroke="none" d="M0 0h24v24H0z" fill="none" />
-							<path d="M10.24 3.957l-8.422 14.06a1.989 1.989 0 0 0 1.7 2.983h16.845a1.989 1.989 0 0 0 1.7 -2.983l-8.423 -14.06a1.989 1.989 0 0 0 -3.4 0z" />
-							<path d="M12 9v4" />
-							<path d="M12 17h.01" />
-						</svg>
-					</div>
-					<div className="content">
-						<p>{searchFormError}</p>
-					</div>
-				</div>
+				<Banner
+					type="warning"
+					className={clsx(!searchFormError && "hidden")}
+					description={searchFormError}
+					closeIcon={null}
+				/>
 				{indexIdEnable && (
 					<TextInput
 						leftSection={<IconAlignBoxLeftMiddle size={16} />}
@@ -151,12 +141,88 @@ export const SearchForm = ({
 								/>
 							</div>
 						</Tooltip>
+						<div className="flex items-center gap-2">
+							<Button
+								type="button"
+								color={"default"}
+								variant="light"
+								size="sm"
+								onPress={() => setHybridModalVisible(true)}
+							>
+								{t("search.form.hybrid.label")}
+								{searchForm.values.enableHybrid ? (
+									<Tag color="green" size="small" type="solid">
+										ON
+									</Tag>
+								) : (
+									<Tag color="red" size="small" type="solid">
+										OFF
+									</Tag>
+								)}
+							</Button>
+						</div>
 						{/* submit btn */}
 						<Button type={"submit"} size={"sm"} color={"primary"}>
 							{submitBtnText}
 						</Button>
 					</div>
 				</div>
+				<Modal
+					visible={hybridModalVisible}
+					title={t("search.form.hybrid.label")}
+					onOk={() => {
+						if (searchForm.values.enableHybrid) {
+							if (
+								searchForm.validateField("hybridEmbedder").hasError ||
+								searchForm.validateField("hybridSemanticRatio").hasError
+							) {
+								return;
+							}
+						}
+						setHybridModalVisible(false);
+					}}
+					okText={t("common:confirm")}
+					closeOnEsc
+					onCancel={() => setHybridModalVisible(false)}
+					hasCancel={false}
+				>
+					<Form className="space-y-4">
+						<label className="grid gap-2">
+							{t("common:enable")}
+							<Switch
+								checked={searchForm.values.enableHybrid}
+								onChange={(v) => searchForm.setFieldValue("enableHybrid", v)}
+							/>
+						</label>
+						<label className="grid gap-2">
+							{t("search.form.hybrid.embedder")}
+							<Input
+								disabled={!searchForm.values.enableHybrid}
+								{...searchForm.getInputProps("hybridEmbedder")}
+							/>
+							{searchForm.values.enableHybrid &&
+								searchForm.errors.hybridEmbedder && (
+									<p className="text-sm text-red-500">
+										{searchForm.errors.hybridEmbedder}
+									</p>
+								)}
+						</label>
+						<label className="grid gap-2">
+							{t("search.form.hybrid.semanticRatio")}
+							<Slider
+								min={0}
+								max={1}
+								step={0.01}
+								value={searchForm.values.hybridSemanticRatio}
+								onChange={(v) =>
+									searchForm.setFieldValue("hybridSemanticRatio", v as number)
+								}
+								marks={{ 0: "0", 0.5: "0.5", 1: "1" }}
+								disabled={!searchForm.values.enableHybrid}
+							/>
+						</label>
+					</Form>
+				</Modal>
 			</form>
 		),
 		[
@@ -168,6 +234,7 @@ export const SearchForm = ({
 			isFetching,
 			submitBtnText,
 			onAutoRefreshChange,
+			hybridModalVisible,
 		],
 	);
 };
