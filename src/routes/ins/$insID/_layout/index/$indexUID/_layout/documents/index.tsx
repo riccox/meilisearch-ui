@@ -1,14 +1,15 @@
-import { DocumentList, type ListType } from "@/components/biz/document/List";
-import { SearchForm } from "@/components/biz/document/SearchForm";
-import { EmptyArea } from "@/components/common/empty";
+import type { ListType } from "@/components/biz/document/List";
+import {
+	emptySearchResult,
+	searchPageParamsSchema,
+	type SearchFormValue,
+} from "@/components/block/document/search";
+import { Result } from "@/components/block/document/search/Result";
+import { SearchBar } from "@/components/block/document/search/SearchBar";
 import { LoaderPage } from "@/components/common/Loader";
-import { Loader } from "@/components/common/Loader";
 import { useCurrentIndex } from "@/hooks/useCurrentIndex";
 import { useCurrentInstance } from "@/hooks/useCurrentInstance";
 import { useMeiliClient } from "@/hooks/useMeiliClient";
-import { cn } from "@/lib/cn";
-import { exportToJSON } from "@/utils/file";
-import { Button, Radio, RadioGroup } from "@douyinfe/semi-ui";
 import { useForm } from "@mantine/form";
 import { useQuery } from "@tanstack/react-query";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
@@ -16,45 +17,10 @@ import useDebounce from "ahooks/lib/useDebounce";
 import _ from "lodash";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { z } from "zod";
-
-const emptySearchResult = {
-	hits: [],
-	estimatedTotalHits: 0,
-	processingTimeMs: 0,
-};
-
-const searchSchema = z
-	.object({
-		q: z.string(),
-		limit: z.number().positive(),
-		offset: z.number().nonnegative(),
-		filter: z.string(),
-		sort: z.string(),
-		listType: z.enum(["json", "table", "grid"]),
-		showRankingScore: z.coerce.boolean(),
-		enableHybrid: z.boolean(),
-		hybridEmbedder: z.string(),
-		hybridSemanticRatio: z.number().min(0).max(1).default(0.5),
-	})
-	.partial();
 
 export const Page = () => {
 	const navigate = useNavigate({ from: Route.fullPath });
-	const searchParams = _.defaults(Route.useSearch(), {
-		listType: "json",
-		showRankingScore: false,
-		limit: 20,
-		enableHybrid: false,
-		hybridEmbedder: "",
-		hybridSemanticRatio: 0.5,
-	}) as Required<ReturnType<typeof searchSchema.parse>>;
 	const { t } = useTranslation("document");
-	const [listType, setListType] = useState<ListType>(
-		searchParams?.listType || "json",
-	);
-	const [searchAutoRefresh, setSearchAutoRefresh] = useState<boolean>(false);
-	const [searchFormError, setSearchFormError] = useState<string | null>(null);
 	const client = useMeiliClient();
 	const currentIndex = useCurrentIndex(client);
 	const currentInstance = useCurrentInstance();
@@ -64,7 +30,25 @@ export const Page = () => {
 		return currentIndex ? client.index(currentIndex.index.uid) : undefined;
 	}, [client, currentIndex]);
 
-	const searchForm = useForm({
+	const searchParams: Required<
+		ReturnType<typeof searchPageParamsSchema.parse>
+	> = _.defaults(Route.useSearch(), {
+		q: "",
+		offset: 0,
+		limit: 20,
+		filter: "",
+		sort: "",
+		listType: "json",
+		showRankingScore: false,
+		enableHybrid: false,
+		hybridEmbedder: "",
+		hybridSemanticRatio: 0.5,
+	});
+
+	const [searchAutoRefresh, setSearchAutoRefresh] = useState<boolean>(false);
+
+	const [searchFormError, setSearchFormError] = useState<string | null>(null);
+	const searchForm = useForm<SearchFormValue>({
 		initialValues: {
 			..._.omit(searchParams, ["listType"]),
 		},
@@ -95,6 +79,7 @@ export const Page = () => {
 	const debouncedSearchFormValue = useDebounce(searchForm.values, {
 		wait: 450,
 	});
+	const [listType, setListType] = useState<ListType>(searchParams.listType);
 
 	useEffect(() => {
 		// update search params when form values changed
@@ -187,97 +172,25 @@ export const Page = () => {
 	return useMemo(
 		() => (
 			<div className={"h-full flex flex-col p-4 gap-4 overflow-hidden"}>
-				{/* Search bar */}
-				<div
-					className={`rounded-lg ${searchDocumentsQuery.isFetching ? "rainbow-ring-rotate" : ""}`}
-				>
-					<div className={"rounded-lg p-4 border"}>
-						<SearchForm
-							onAutoRefreshChange={(v) => setSearchAutoRefresh(v)}
-							isFetching={searchDocumentsQuery.isFetching}
-							searchForm={searchForm}
-							searchFormError={searchFormError}
-							onFormSubmit={searchForm.onSubmit(onSearchSubmit)}
-							submitBtnText={t("common:search")}
-						/>
-					</div>
-				</div>
+				<SearchBar
+					isLoading={searchDocumentsQuery.isFetching}
+					onAutoRefreshChange={setSearchAutoRefresh}
+					searchForm={searchForm}
+					searchFormError={searchFormError}
+					onSearchSubmit={onSearchSubmit}
+				/>
 				<div className="h-px w-full bg-neutral-200 scale-x-150" />
-				<div className={"flex gap-4 items-center"}>
-					<p className={"font-extrabold text-2xl"}>
-						{t("search.results.label")}
-					</p>
-					<RadioGroup
-						type="button"
-						buttonSize="middle"
-						defaultValue={listType}
-						onChange={(e) => setListType(e.target.value)}
-					>
-						<Radio value={"json"}>JSON</Radio>
-						<Radio value={"table"}>{t("search.results.type.table")}</Radio>
-						<Radio value={"grid"}>{t("search.results.type.grid")}</Radio>
-					</RadioGroup>
-					<div
-						className={
-							"ml-auto flex items-center gap-3 px-4 font-light text-xs text-neutral-500"
-						}
-					>
-						<Button
-							type="secondary"
-							size="small"
-							onClick={() =>
-								exportToJSON(
-									searchDocumentsQuery.data?.hits || emptySearchResult.hits,
-									"search-results",
-								)
-							}
-						>
-							{t("search.results.download")}{" "}
-							{`(${searchDocumentsQuery.data?.hits.length || 0})`}
-						</Button>
-						<p>
-							{t("search.results.total_hits", {
-								estimatedTotalHits:
-									searchDocumentsQuery.data?.estimatedTotalHits,
-							})}
-						</p>
-						<p>
-							{t("search.results.processing_time", {
-								processingTimeMs: searchDocumentsQuery.data?.processingTimeMs,
-							})}
-						</p>
-					</div>
-				</div>
-				{/* Doc List */}
-				<div
-					className={cn(
-						listType !== "table" && "flex flex-col gap-4",
-						listType === "table"
-							? "flex-1 overflow-hidden h-full flex flex-col"
-							: "overflow-scroll",
-					)}
-				>
-					{searchDocumentsQuery.isFetching ? (
-						<div className={"flex-1 flex justify-center items-center"}>
-							<Loader />
-						</div>
-					) : (searchDocumentsQuery.data?.hits.length || 0) > 0 ? (
-						<DocumentList
-							currentIndex={currentIndex.index}
-							type={listType}
-							docs={searchDocumentsQuery.data?.hits.map((i) => ({
-								indexId: currentIndex.index.uid,
-								content: i,
-								primaryKey: indexPrimaryKeyQuery.data!,
-							}))}
-							refetchDocs={searchDocumentsQuery.refetch}
-						/>
-					) : (
-						<div className="scale-75">
-							<EmptyArea />
-						</div>
-					)}
-				</div>
+				<Result
+					initialListType={searchParams.listType}
+					totalHits={searchDocumentsQuery.data?.estimatedTotalHits || 0}
+					processingTimeMs={searchDocumentsQuery.data?.processingTimeMs || 0}
+					list={searchDocumentsQuery.data?.hits || []}
+					isLoading={searchDocumentsQuery.isFetching}
+					onListTypeChange={setListType}
+					refetchDocs={searchDocumentsQuery.refetch}
+					currentIndex={currentIndex.index}
+					indexPrimaryKey={indexPrimaryKeyQuery.data!}
+				/>
 			</div>
 		),
 		[
@@ -289,10 +202,9 @@ export const Page = () => {
 			searchForm,
 			searchFormError,
 			onSearchSubmit,
-			t,
-			listType,
 			currentIndex,
 			indexPrimaryKeyQuery.data,
+			searchParams.listType,
 		],
 	);
 };
@@ -302,5 +214,5 @@ export const Route = createFileRoute(
 )({
 	component: Page,
 	pendingComponent: LoaderPage,
-	validateSearch: searchSchema,
+	validateSearch: searchPageParamsSchema,
 });
