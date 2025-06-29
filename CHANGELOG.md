@@ -1,5 +1,22 @@
 # Changelog
 
+## [0.13.0](https://github.com/riccox/meilisearch-ui/compare/v0.12.4...v0.13.0) (2025-06-29)
+
+
+### Features
+
+* **search:** add hybrid search functionality with modal configuration. ([75afdcf](https://github.com/riccox/meilisearch-ui/commit/75afdcf736fc2313f5fb016cb69a6cdc99a8a527))
+
+
+### Bug Fixes
+
+* task duration parse. gh-231 ([ca8e627](https://github.com/riccox/meilisearch-ui/commit/ca8e627391edde3baf78e046c9e31ad6827e2c85))
+
+
+### Performance Improvements
+
+* task list field display. ([ca8e627](https://github.com/riccox/meilisearch-ui/commit/ca8e627391edde3baf78e046c9e31ad6827e2c85))
+
 ## [0.12.4](https://github.com/riccox/meilisearch-ui/compare/v0.12.3...v0.12.4) (2025-06-14)
 
 
