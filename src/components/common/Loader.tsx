@@ -6,6 +6,7 @@ lineSpinner.register();
 
 type Props = {
 	className?: string;
+	size?: "sm" | "md" | "lg";
 };
 
 declare module "react" {
@@ -22,12 +23,12 @@ declare module "react" {
 	}
 }
 
-export const Loader: FC<Props> = ({ className }) => {
+export const Loader: FC<Props> = ({ className, size = "md" }) => {
 	return (
 		<l-line-spinner
 			className={className}
-			size="42"
-			stroke="4"
+			size={size === "sm" ? "16" : size === "md" ? "42" : "60"}
+			stroke={size === "sm" ? "1" : size === "md" ? "4" : "6"}
 			speed="1"
 			color="#121212"
 		/>

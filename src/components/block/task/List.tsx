@@ -1,5 +1,5 @@
 import type { Task } from "meilisearch";
-import { getDuration } from "@/utils/text";
+import { getDuration, getDurationMs } from "@/utils/text";
 import { Modal, Table } from "@douyinfe/semi-ui";
 import type { ColumnProps } from "@douyinfe/semi-ui/lib/es/table";
 import { Button } from "@nextui-org/react";
@@ -9,6 +9,7 @@ import { TimeAgo } from "@/components/common/Timeago";
 import { CountUp } from "@/components/common/CountUp";
 import { JsonEditor } from "@/components/common/JsonEditor";
 import { Link } from "@tanstack/react-router";
+import { Loader } from "@/components/common/Loader";
 
 export const TaskList: FC<{
 	fetchNextPage: () => void;
@@ -43,13 +44,13 @@ export const TaskList: FC<{
 			{
 				title: t("common:type"),
 				dataIndex: "type",
-				render: (_) => t(`type.${_}`),
+				render: (_) => <p className="break-all">{t(`type.${_}`)}</p>,
 			},
 			{
 				title: t("common:status"),
 				dataIndex: "status",
 				width: 120,
-				render: (_) => t(`status.${_}`),
+				render: (_) => <p className="whitespace-nowrap">{t(`status.${_}`)}</p>,
 			},
 			{
 				title: t("duration"),
@@ -58,12 +59,21 @@ export const TaskList: FC<{
 				render: (_, item) => {
 					if (!item.duration) {
 						if (item.status === "processing" || item.status === "enqueued") {
-							return <CountUp start={item.startedAt || item.enqueuedAt} />;
+							return (
+								<div className="flex items-center gap-2">
+									<Loader size="sm" />
+									<CountUp start={item.startedAt || item.enqueuedAt} />
+								</div>
+							);
 						}
 						return "-";
 					}
 
-					return `${getDuration(item.duration, "millisecond")}ms`;
+					return (
+						<p title={`${getDurationMs(item.duration)}ms`}>
+							{getDuration(item.duration)}
+						</p>
+					);
 				},
 			},
 			{

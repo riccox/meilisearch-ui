@@ -33,11 +33,12 @@ export const getTimeAgo = (date: dayjs.ConfigType): string => {
 };
 
 // get duration
-export const getDuration = (
-	date: string,
-	unit: duration.DurationUnitType,
-): string => {
-	return dayjs.duration(date).get(unit).toPrecision(5).toString();
+export const getDuration = (date: string): string => {
+	return dayjs.duration(date).humanize();
+};
+
+export const getDurationMs = (date: string): string => {
+	return dayjs.duration(date).asMilliseconds().toString();
 };
 
 // stringify json pretty
