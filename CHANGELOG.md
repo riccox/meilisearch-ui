@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.13.1](https://github.com/riccox/meilisearch-ui/compare/v0.13.0...v0.13.1) (2025-07-01)
+
+
+### Bug Fixes
+
+* docs table height. gh-233 ([25f912f](https://github.com/riccox/meilisearch-ui/commit/25f912fd265f3e504767235f194e1af6ed9f48ae))
+
+
+### Performance Improvements
+
+* **search:** enhance SearchForm with auto-complete embedders. ([dbf20d4](https://github.com/riccox/meilisearch-ui/commit/dbf20d4a247db92d64e4f0d222318fceed85aa25))
+
 ## [0.13.0](https://github.com/riccox/meilisearch-ui/compare/v0.12.4...v0.13.0) (2025-06-29)
 
 
