@@ -41,7 +41,7 @@ export const Result: FC<Props> = ({
 	}, [listType, onListTypeChange]);
 
 	return (
-		<div className="flex flex-col gap-4">
+		<div className="flex flex-col gap-4 flex-1">
 			<div className={"flex gap-4 items-center"}>
 				<p className={"font-extrabold text-2xl"}>{t("search.results.label")}</p>
 				<RadioGroup
