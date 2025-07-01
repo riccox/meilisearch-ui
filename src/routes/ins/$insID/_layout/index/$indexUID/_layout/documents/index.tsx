@@ -178,6 +178,8 @@ export const Page = () => {
 					searchForm={searchForm}
 					searchFormError={searchFormError}
 					onSearchSubmit={onSearchSubmit}
+					currentIndex={currentIndex.index}
+					currentInstanceHost={currentInstance.host}
 				/>
 				<div className="h-px w-full bg-neutral-200 scale-x-150" />
 				<Result
@@ -205,6 +207,7 @@ export const Page = () => {
 			currentIndex,
 			indexPrimaryKeyQuery.data,
 			searchParams.listType,
+			currentInstance.host,
 		],
 	);
 };

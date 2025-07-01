@@ -7,6 +7,7 @@ import {
 	Slider,
 	Tag,
 	Banner,
+	AutoComplete,
 } from "@douyinfe/semi-ui";
 import { NumberInput, TextInput } from "@mantine/core";
 import type { UseFormReturnType } from "@mantine/form";
@@ -40,6 +41,7 @@ type Props = {
 	onAutoRefreshChange: (value: boolean) => void;
 	submitBtnText: string;
 	indexIdEnable?: boolean;
+	embedders: string[];
 };
 
 export const SearchForm = ({
@@ -50,6 +52,7 @@ export const SearchForm = ({
 	indexIdEnable = false,
 	isFetching,
 	onAutoRefreshChange,
+	embedders,
 }: Props) => {
 	const { t } = useTranslation("document");
 	const [hybridModalVisible, setHybridModalVisible] = useState(false);
@@ -196,9 +199,12 @@ export const SearchForm = ({
 						</label>
 						<label className="grid gap-2">
 							{t("search.form.hybrid.embedder")}
-							<Input
+							<AutoComplete
+								data={embedders}
+								showClear
 								disabled={!searchForm.values.enableHybrid}
 								{...searchForm.getInputProps("hybridEmbedder")}
+								style={{ width: "100%" }}
 							/>
 							{searchForm.values.enableHybrid &&
 								searchForm.errors.hybridEmbedder && (
@@ -235,6 +241,7 @@ export const SearchForm = ({
 			submitBtnText,
 			onAutoRefreshChange,
 			hybridModalVisible,
+			embedders,
 		],
 	);
 };
