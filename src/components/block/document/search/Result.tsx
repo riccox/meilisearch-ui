@@ -41,7 +41,7 @@ export const Result: FC<Props> = ({
 	}, [listType, onListTypeChange]);
 
 	return (
-		<div className="flex flex-col gap-4 flex-1">
+		<div className="flex flex-col gap-4 flex-1 overflow-hidden">
 			<div className={"flex gap-4 items-center"}>
 				<p className={"font-extrabold text-2xl"}>{t("search.results.label")}</p>
 				<RadioGroup
@@ -83,8 +83,9 @@ export const Result: FC<Props> = ({
 				className={cn(
 					listType !== "table" && "flex flex-col gap-4",
 					listType === "table"
-						? "flex-1 overflow-hidden h-full flex flex-col"
+						? "overflow-hidden h-full flex flex-col"
 						: "overflow-scroll",
+					"flex-1",
 				)}
 			>
 				{isLoading ? (
