@@ -1,5 +1,18 @@
 # Changelog
 
+## [0.13.2](https://github.com/riccox/meilisearch-ui/compare/v0.13.1...v0.13.2) (2025-07-03)
+
+
+### Bug Fixes
+
+* **search:** JSON and Grid views are not scrollable. gh-235 ([3b5347b](https://github.com/riccox/meilisearch-ui/commit/3b5347be43871871394c1e6e2c47eec532691520))
+* site logo SVG file. ([a7e40b6](https://github.com/riccox/meilisearch-ui/commit/a7e40b64b97b36ddfe750b339bf549ffdfe9d25d))
+
+
+### Performance Improvements
+
+* **search:** add sortable fields to sort input for auto-complete. gh-236 ([f3c9270](https://github.com/riccox/meilisearch-ui/commit/f3c9270c760ea5998f8abd8b4ba0422503ce7723))
+
 ## [0.13.1](https://github.com/riccox/meilisearch-ui/compare/v0.13.0...v0.13.1) (2025-07-01)
 
 
