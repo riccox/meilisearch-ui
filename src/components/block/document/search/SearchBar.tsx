@@ -43,11 +43,6 @@ export const SearchBar: FC<Props> = ({
 		return indexSettingsQuery.isLoading;
 	}, [indexSettingsQuery.isLoading]);
 
-	console.log(
-		indexSettingsQuery.data?.embedders,
-		Object.keys(indexSettingsQuery.data?.embedders ?? {}),
-	);
-
 	return (
 		<Skeleton
 			loading={loading}
@@ -61,6 +56,7 @@ export const SearchBar: FC<Props> = ({
 						embedders={
 							Object.keys(indexSettingsQuery.data?.embedders ?? {}) || []
 						}
+						sortableFields={indexSettingsQuery.data?.sortableAttributes ?? []}
 						onAutoRefreshChange={onAutoRefreshChange}
 						isFetching={isLoading}
 						searchForm={searchForm}

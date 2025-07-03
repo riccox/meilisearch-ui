@@ -3,11 +3,12 @@ import {
 	Tooltip,
 	Modal,
 	Form,
-	Input,
+	Dropdown,
 	Slider,
 	Tag,
 	Banner,
 	AutoComplete,
+	Button as SemiButton,
 } from "@douyinfe/semi-ui";
 import { NumberInput, TextInput } from "@mantine/core";
 import type { UseFormReturnType } from "@mantine/form";
@@ -17,6 +18,8 @@ import {
 	IconArrowsSort,
 	IconFilter,
 	IconSearch,
+	IconArrowUp,
+	IconArrowDown,
 } from "@tabler/icons-react";
 import clsx from "clsx";
 import { useMemo, useState, useCallback } from "react";
@@ -42,6 +45,7 @@ type Props = {
 	submitBtnText: string;
 	indexIdEnable?: boolean;
 	embedders: string[];
+	sortableFields: string[];
 };
 
 export const SearchForm = ({
@@ -53,6 +57,7 @@ export const SearchForm = ({
 	isFetching,
 	onAutoRefreshChange,
 	embedders,
+	sortableFields,
 }: Props) => {
 	const { t } = useTranslation("document");
 	const [hybridModalVisible, setHybridModalVisible] = useState(false);
@@ -90,7 +95,59 @@ export const SearchForm = ({
 						radius="md"
 						{...searchForm.getInputProps("filter")}
 					/>
-					<Tooltip content={t("search.form.sort.tip")}>
+					<Dropdown
+						trigger={"hover"}
+						position={"bottomLeft"}
+						render={
+							<Dropdown.Menu>
+								<Dropdown.Title>{t("search.form.sort.tip")}</Dropdown.Title>
+								<Dropdown.Divider />
+								{sortableFields.map((field) => (
+									<Dropdown.Title key={field}>
+										<div className="flex justify-between items-center gap-2 w-full group">
+											{field}
+											<div className="flex items-center gap-0.5 opacity-0 group-hover:opacity-100">
+												<SemiButton
+													icon={<IconArrowUp size={16} color="green" />}
+													theme="borderless"
+													size="small"
+													aria-label="asc"
+													onClick={() => {
+														const shouldAddComma =
+															!searchForm.values.sort.trim().endsWith(",") &&
+															searchForm.values.sort.trim().length !== 0;
+														searchForm.setFieldValue(
+															"sort",
+															`${searchForm.values.sort.trim()}${
+																shouldAddComma ? ", " : ""
+															}${field}:asc`,
+														);
+													}}
+												/>
+												<SemiButton
+													icon={<IconArrowDown size={16} color="red" />}
+													theme="borderless"
+													size="small"
+													aria-label="desc"
+													onClick={() => {
+														const shouldAddComma =
+															!searchForm.values.sort.trim().endsWith(",") &&
+															searchForm.values.sort.trim().length !== 0;
+														searchForm.setFieldValue(
+															"sort",
+															`${searchForm.values.sort.trim()}${
+																shouldAddComma ? ", " : ""
+															}${field}:desc`,
+														);
+													}}
+												/>
+											</div>
+										</div>
+									</Dropdown.Title>
+								))}
+							</Dropdown.Menu>
+						}
+					>
 						<TextInput
 							className={"flex-1"}
 							label={t("search.form.sort.label")}
@@ -98,7 +155,7 @@ export const SearchForm = ({
 							radius="md"
 							{...searchForm.getInputProps("sort")}
 						/>
-					</Tooltip>
+					</Dropdown>
 				</div>
 				<div className={"flex items-stretch gap-4"}>
 					<NumberInput
@@ -242,6 +299,7 @@ export const SearchForm = ({
 			onAutoRefreshChange,
 			hybridModalVisible,
 			embedders,
+			sortableFields,
 		],
 	);
 };
