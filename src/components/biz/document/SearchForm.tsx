@@ -101,7 +101,7 @@ export const SearchForm = ({
 						render={
 							<Dropdown.Menu>
 								<Dropdown.Title>{t("search.form.sort.tip")}</Dropdown.Title>
-								<Dropdown.Divider />
+								{sortableFields.length > 0 && <Dropdown.Divider />}
 								{sortableFields.map((field) => (
 									<Dropdown.Title key={field}>
 										<div className="flex justify-between items-center gap-2 w-full group">
