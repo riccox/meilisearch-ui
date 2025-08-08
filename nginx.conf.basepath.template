@@ -1,0 +1,33 @@
+events {
+}
+http {
+
+  include mime.types;
+  sendfile on;
+
+  server {
+    listen 24900;
+    listen [::]:24900;
+    server_name localhost;
+
+    root /usr/share/nginx/html;
+
+    # Add trailing slash to BASE_PATH if it's missing
+    rewrite ^${BASE_PATH}$ ${BASE_PATH}/ permanent;
+
+    location ${BASE_PATH}/ {
+      alias /usr/share/nginx/html/;
+      try_files $uri $uri/ /index.html;
+    }
+
+    # Redirect from root to BASE_PATH
+    location = / {
+        return 302 http://$http_host${BASE_PATH}/;
+    }
+
+    error_page 500 502 503 504 /50x.html;
+    location = /50x.html {
+      root /usr/share/nginx/html;
+    }
+  }
+}

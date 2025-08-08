@@ -15,9 +15,19 @@ RUN pnpm install
 RUN npm run build
 
 # -------
-FROM nginx
+FROM nginx:stable-alpine AS final
+
+# Install dependencies for injecting the BASE_PATH into config
+RUN apk add --no-cache gettext sed
 
 COPY --from=build /opt/meilisearch-ui/dist /usr/share/nginx/html
-COPY nginx.conf /etc/nginx/nginx.conf
+COPY nginx.conf.root.template nginx.conf.basepath.template /etc/nginx/templates/
+COPY docker-entrypoint.sh /docker-entrypoint.sh
 
+RUN chmod +x /docker-entrypoint.sh
+
+# Default to root
+ENV BASE_PATH=""
 EXPOSE 24900
+
+CMD ["/docker-entrypoint.sh"]
