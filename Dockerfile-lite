@@ -21,7 +21,8 @@ FROM nginx:stable-alpine AS final
 RUN apk add --no-cache gettext sed
 
 COPY --from=build /opt/meilisearch-ui/dist /usr/share/nginx/html
-COPY nginx.conf.root.template nginx.conf.basepath.template /etc/nginx/templates/
+COPY nginx.conf /etc/nginx/nginx.conf
+COPY nginx.basepath.conf.template /etc/nginx/templates/
 COPY docker-entrypoint.sh /docker-entrypoint.sh
 
 RUN chmod +x /docker-entrypoint.sh

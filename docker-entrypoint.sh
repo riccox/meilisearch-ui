@@ -14,16 +14,10 @@ find /usr/share/nginx/html -type f \( -name "*.js" -o -name "*.css" -o -name "*.
   sed -i -e "s|MEILI_UI_REPLACE_BASE_PATH/|${FINAL_REPLACE_PATH}|g" \
          -e "s|MEILI_UI_REPLACE_BASE_PATH|${FINAL_REPLACE_PATH%/}|g" {} +
 
-if [ -z "$BASE_PATH" ]; then
-  # Use the root template
-  TEMPLATE_FILE=/etc/nginx/templates/nginx.conf.root.template
-else
-  # Use the basepath template
-  TEMPLATE_FILE=/etc/nginx/templates/nginx.conf.basepath.template
+if [ -n "$BASE_PATH" ]; then
+  # Generate nginx.conf using basepath template
+  envsubst '${BASE_PATH}' < /etc/nginx/templates/nginx.basepath.conf.template > /etc/nginx/nginx.conf
 fi
-
-# Generate nginx.conf from template
-envsubst '${BASE_PATH}' < "$TEMPLATE_FILE" > /etc/nginx/nginx.conf
 
 # Start nginx in foreground
 exec nginx -g 'daemon off;'
