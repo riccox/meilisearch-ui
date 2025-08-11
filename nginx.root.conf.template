@@ -1,11 +1,4 @@
-events {
-}
-http {
-
-  include mime.types;
-  sendfile on;
-
-  server {
+server {
     listen 24900;
     listen [::]:24900;
     server_name localhost;
@@ -25,5 +18,3 @@ http {
       root /usr/share/nginx/html;
     }
   }
-
-}
