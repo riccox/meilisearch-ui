@@ -29,11 +29,8 @@ export const useMeiliClient = () => {
 			} else {
 				setWarningPageData({ prompt: t("instance:singleton_cfg_not_found") });
 				// do not use useNavigate, because maybe in first render
-				if (import.meta.env.BASE_URL !== "/") {
-					window.location.assign(`${import.meta.env.BASE_URL || ""}/warning`);
-				} else {
-					window.location.assign("/warning");
-				}
+				const baseUrl = (import.meta.env.BASE_URL ?? "").replace(/\/$/, "");
+				window.location.assign(`${baseUrl}/warning`);
 			}
 			return;
 		}
@@ -50,11 +47,8 @@ export const useMeiliClient = () => {
 			} else {
 				setWarningPageData({ prompt: t("instance:singleton_cfg_not_found") });
 				// do not use useNavigate, because maybe in first render
-				if (import.meta.env.BASE_URL !== "/") {
-					window.location.assign(`${import.meta.env.BASE_URL || ""}/warning`);
-				} else {
-					window.location.assign("/warning");
-				}
+				const baseUrl = (import.meta.env.BASE_URL ?? "").replace(/\/$/, "");
+				window.location.assign(`${baseUrl}/warning`);
 			}
 		}
 	}, [currentInstance, setWarningPageData, t]);

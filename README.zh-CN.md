@@ -82,7 +82,6 @@ docker run -d --restart=on-failure:5 --name="meilisearch-ui" -p <your-port>:2490
 
 lite 镜像不支持以下功能：
 
-- 自定义路径
 - 单实例模式
 
 ### 使用 Vercel 部署
@@ -107,9 +106,7 @@ lite 镜像不支持以下功能：
 docker run -d --restart=on-failure:5 --name="meilisearch-ui" -p <your-port>:24900 -e BASE_PATH="/meilisearch-ui" riccoxie/meilisearch-ui:latest
 ```
 
-> [!WARNING]
->
-> 请注意，如果你要使用自定义基础路径到功能，请使用完整版镜像，而不要使用`lite`变体镜像，具体请参考[问题](https://github.com/riccox/meilisearch-ui/issues/178).
+
 
 ### 单实例模式 Singleton mode
 
