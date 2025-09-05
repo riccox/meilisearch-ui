@@ -15,9 +15,22 @@ RUN pnpm install
 RUN npm run build
 
 # -------
-FROM nginx
+FROM nginx:stable-alpine AS final
 
 COPY --from=build /opt/meilisearch-ui/dist /usr/share/nginx/html
-COPY nginx.conf /etc/nginx/nginx.conf
 
+# Create a directory for our available templates
+RUN mkdir -p /etc/nginx/templates-available/
+
+# Copy in the templates and the entrypoint scripts
+COPY nginx.basepath.conf.template /etc/nginx/templates-available/
+COPY nginx.root.conf.template /etc/nginx/templates-available/
+COPY docker-entrypoint.d/15-prepare-templates.sh /docker-entrypoint.d/
+COPY docker-entrypoint.d/30-basepath-subst.sh /docker-entrypoint.d/
+
+# Make the scripts executable
+RUN chmod +x /docker-entrypoint.d/15-prepare-templates.sh /docker-entrypoint.d/30-basepath-subst.sh
+
+# Default to root
+ENV BASE_PATH=""
 EXPOSE 24900

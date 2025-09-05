@@ -41,8 +41,7 @@ export const DashBreadcrumb = () => {
 		state.instances.find((i) => i.id === Number.parseInt(insRoute.insID)),
 	);
 
-	const baseUrl =
-		import.meta.env.BASE_URL === "/" ? "" : (import.meta.env.BASE_URL ?? "");
+	const baseUrl = (import.meta.env.BASE_URL ?? "").replace(/\/$/, "");
 
 	return (
 		<Breadcrumbs color="primary" variant="light">

@@ -16,8 +16,11 @@ if [ ! -z "$SINGLETON_MODE" ]; then
   fi
 fi
 
-if [ ! -z "$BASE_PATH" ]; then
+export BASE_PATH="${BASE_PATH:-/}"
+
+if [ "$BASE_PATH" != "/" ]; then
   echo "Custom base path: $BASE_PATH"
 fi
+
 pnpm run build
 pnpm run preview
