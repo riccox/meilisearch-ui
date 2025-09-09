@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.14.0](https://github.com/riccox/meilisearch-ui/compare/v0.13.2...v0.14.0) (2025-09-09)
+
+
+### Features
+
+* **docker:** Add dynamic BASE_PATH support to lite image ([#245](https://github.com/riccox/meilisearch-ui/issues/245)) ([852d663](https://github.com/riccox/meilisearch-ui/commit/852d6635712d13516655499c16023f74308e2e3a))
+
 ## [0.13.2](https://github.com/riccox/meilisearch-ui/compare/v0.13.1...v0.13.2) (2025-07-03)
 
 
