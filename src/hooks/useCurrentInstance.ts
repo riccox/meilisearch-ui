@@ -1,17 +1,25 @@
-import { type Instance, useAppStore } from "@/store";
 import { getSingletonCfg, isSingletonMode } from "@/lib/conn";
+import { type Instance, useAppStore } from "@/store";
 import { useParams } from "@tanstack/react-router";
 import _ from "lodash";
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "../lib/toast";
 
 export const useCurrentInstance = () => {
 	const { t } = useTranslation("instance");
 	const { insID } = useParams({ strict: false }) as { insID: string };
-	let currentInstance = useAppStore((state) =>
-		state.instances.find((i) => i.id === Number.parseInt(insID || "1")),
-	);
+	const instances = useAppStore((state) => state.instances);
 	const setWarningPageData = useAppStore((state) => state.setWarningPageData);
+
+	const currentInstance = useMemo(() => {
+		if (!isSingletonMode()) {
+			return instances.find((i) => i.id === Number.parseInt(insID || "1")) as
+				| Instance
+				| undefined;
+		}
+		return getSingletonCfg() as Instance | undefined;
+	}, [instances, insID]);
 
 	if (!isSingletonMode()) {
 		if (currentInstance && _.isEmpty(currentInstance)) {
@@ -22,7 +30,8 @@ export const useCurrentInstance = () => {
 		}
 		return currentInstance as Instance;
 	}
-	currentInstance = getSingletonCfg() as Instance;
+
+	// singleton mode
 	if (!currentInstance) {
 		toast.error(`${t("not_found")} 🤥`);
 		console.debug("useCurrentInstance", "Singleton Instance lost");
