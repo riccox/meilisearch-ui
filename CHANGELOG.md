@@ -1,5 +1,14 @@
 # Changelog
 
+## [0.14.1](https://github.com/riccox/meilisearch-ui/compare/v0.14.0...v0.14.1) (2025-09-22)
+
+
+### Bug Fixes
+
+* **build:** update build scripts and add post-build script for BASE_PATH replacement in spa deployment. ([2d91a78](https://github.com/riccox/meilisearch-ui/commit/2d91a7896f79fb19835688b812c9479d285ebfbe))
+* renader loop in singleton mode. gh-250 ([9070437](https://github.com/riccox/meilisearch-ui/commit/90704370a3bf315ca73691c47fe15f9bf278ae00))
+* **search:** conditionally render dropdown divider in sort tip. ([852af69](https://github.com/riccox/meilisearch-ui/commit/852af69a962b4c5ea400b364e25961ce4fa263c3))
+
 ## [0.14.0](https://github.com/riccox/meilisearch-ui/compare/v0.13.2...v0.14.0) (2025-09-09)
 
 

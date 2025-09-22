@@ -100,7 +100,7 @@
 		"vite": "^6.2.1",
 		"vite-tsconfig-paths": "^5.1.4"
 	},
-	"version": "0.14.0",
+	"version": "0.14.1",
 	"main": "index.js",
 	"license": "Apache-2.0"
 }
